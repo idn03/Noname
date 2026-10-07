@@ -1,150 +1,49 @@
 # User Stories
 
-## Joining the Game
+## US-001 — Join Session
 
-### US-001 — Join Session
+**As a player,** I want to enter my name and join the Host's game so I can participate. **Acceptance:** I can enter a display name, appear in the lobby after joining, and the player list updates for others.
 
-**As a player,**  
-I want to enter my name and join the Host's game,  
-so that I can participate in the session.
+## US-002 — View Players
 
-**Acceptance Criteria**
-- The player can enter a display name.
-- The player appears in the lobby after joining.
-- Other connected players receive the updated player list.
+**As a player,** I want to see who joined so I know when the group is ready. **Acceptance:** The lobby lists connected players and updates when players join or leave.
 
-## Waiting Lobby
+## US-003 — Start Game
 
-### US-002 — View Players
+**As the Host,** I want to start the game so all connected players can begin. **Acceptance:** Only the Host can start; at least 6 players must be connected; all players are assigned to a team.
 
-**As a player,**  
-I want to see who has joined the game,  
-so that I know when the group is ready.
+## US-004 — View My Team
 
-**Acceptance Criteria**
-- Connected players are listed in the lobby.
-- The list updates when players join or leave.
+**As a player,** I want to know whether I am Wolf or Sheep so I understand my role. **Acceptance:** Every player belongs to exactly one team, and assignment is synchronized across clients.
 
-## Starting the Game
+## US-005 — Select Team Cards
 
-### US-003 — Start Game
+**As a team member,** I want to select cards for my team so we can prepare our strategy. **Acceptance:** The team has the correct number of slots, may select multiple cards from one category, and must fill every slot.
 
-**As the Host,**  
-I want to start the game,  
-so that all connected players can begin playing.
+## US-006 — Inspect Challenges
 
-**Acceptance Criteria**
-- Only the Host can start the game.
-- At least 6 players must be connected.
-- All players are assigned to a team.
+**As a Wolf player,** I want to inspect challenges by category so my team can choose attack cards strategically. **Acceptance:** Wolf can view the available pool; Sheep cannot access it.
 
-## Team Assignment
+## US-007 — Play Attack Card
 
-### US-004 — View My Team
+**As a Wolf player,** I want to reveal an unused team card to attack Sheep. **Acceptance:** Only unused Wolf cards may be selected; the category is revealed and its challenge becomes available.
 
-**As a player,**  
-I want to know whether I am Wolf or Sheep,  
-so that I understand my role in the game.
+## US-008 — Defend an Attack
 
-**Acceptance Criteria**
-- Every player belongs to exactly one team.
-- Team assignment is synchronized across clients.
+**As a Sheep player,** I want to use a matching category card to defend. **Acceptance:** The defense card must be unused and match the attack category; successful defense awards Sheep 1 point.
 
-## Selecting Cards
+## US-009 — Complete Challenge
 
-### US-005 — Select Team Cards
+**As a Sheep player,** I want to attempt the challenge after defending so my team can earn another point. **Acceptance:** The challenge matches the attack category; successful completion awards Sheep 1 additional point.
 
-**As a team member,**  
-I want to select cards for my team,  
-so that we can prepare our strategy.
+## US-010 — Track Score
 
-**Acceptance Criteria**
-- The team receives the correct number of card slots.
-- Multiple cards from the same category may be selected.
-- All slots must be filled before selection finishes.
+**As a player,** I want to see the current score. **Acceptance:** Scores update after each scoring event and all connected players receive the same score state.
 
-### US-006 — Inspect Challenges
+## US-011 — View Result
 
-**As a Wolf player,**  
-I want to inspect possible challenges for each category,  
-so that my team can strategically choose attack cards.
+**As a player,** I want to see the final result. **Acceptance:** The game ends after all rounds; final scores and the winner or draw are displayed.
 
-**Acceptance Criteria**
-- Wolf can view the available challenge pool.
-- Sheep cannot access this information.
+## US-012 — Cancel Session
 
-## Attacking
-
-### US-007 — Play Attack Card
-
-**As a Wolf player,**  
-I want my team to reveal an unused card,  
-so that we can attack Sheep during the current round.
-
-**Acceptance Criteria**
-- Only unused Wolf cards may be selected.
-- The selected card category is revealed.
-- The associated challenge becomes available.
-
-## Defending
-
-### US-008 — Defend an Attack
-
-**As a Sheep player,**  
-I want to use a matching category card,  
-so that my team can defend against Wolf.
-
-**Acceptance Criteria**
-- Only a card matching the attack category is valid.
-- The defending card must be unused.
-- Successful defense awards Sheep 1 point.
-
-## Completing Challenges
-
-### US-009 — Complete Challenge
-
-**As a Sheep player,**  
-I want to attempt the challenge after defending,  
-so that my team can earn an additional point.
-
-**Acceptance Criteria**
-- The challenge belongs to the attack category.
-- Successful completion awards Sheep 1 additional point.
-
-## Viewing Scores
-
-### US-010 — Track Score
-
-**As a player,**  
-I want to see the current score,  
-so that I know how both teams are performing.
-
-**Acceptance Criteria**
-- Scores update after each scoring event.
-- All connected players receive the same score state.
-
-## Finishing the Game
-
-### US-011 — View Result
-
-**As a player,**  
-I want to see the final result,  
-so that I know which team won.
-
-**Acceptance Criteria**
-- The game ends after all rounds are completed.
-- Final scores are displayed.
-- The winning team or draw result is displayed.
-
-## Cancelling the Game
-
-### US-012 — Cancel Session
-
-**As the Host,**  
-I want to cancel an active game,  
-so that the group can stop or restart the session.
-
-**Acceptance Criteria**
-- Only the Host can cancel the game.
-- Every connected client is notified.
-- The active game state is terminated.
+**As the Host,** I want to cancel an active game so the group can stop or restart. **Acceptance:** Only the Host can cancel; all connected clients are notified and active game state is terminated.
