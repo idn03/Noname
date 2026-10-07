@@ -20,8 +20,6 @@ documented separately:
 
 ## Language
 
-Use TypeScript for application code.
-
 Avoid JavaScript files unless required by external tooling.
 
 Enable and preserve strict TypeScript checks.
@@ -37,7 +35,6 @@ Use:
 - `PascalCase` for React components, classes, enums, and exported types.
 - `camelCase` for variables, functions, hooks, and object properties.
 - `UPPER_SNAKE_CASE` for global constants.
-- `kebab-case` for general file and directory names.
 
 React component files may use `PascalCase` when the file contains one primary component.
 
@@ -50,32 +47,6 @@ player-store.ts
 GameBoard.tsx
 PlayerCard.tsx
 ```
-
-## Functions
-
-Prefer small functions with one clear responsibility.
-
-Use descriptive verb-based names.
-
-Examples:
-
-```ts
-assignPlayersToTeams()
-validateAttack()
-calculateRoundScore()
-advanceTurn()
-```
-
-Avoid generic names such as:
-
-```ts
-handleData()
-process()
-doAction()
-manageGame()
-```
-
-Pure functions are preferred for game logic.
 
 ## Type Definitions
 
