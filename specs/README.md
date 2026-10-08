@@ -9,7 +9,7 @@ belong under `05-features/<feature>/`.
 
 - `00-context/` — product overview, shared terminology, and constraints.
 - `01-product/` — requirements, business rules, user stories, and quality needs.
-- `02-ux/` — application flow, navigation, screens, and design system.
+- `02-ux/` — application flow, navigation, pages and UI states, and design system.
 - `03-technical/` — application architecture, stack, project structure,
   security, and error handling.
   - [`03.1-conventions/coding-conventions.md`](03-technical/03.1-conventions/coding-conventions.md)
