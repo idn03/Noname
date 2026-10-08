@@ -2,10 +2,11 @@
 
 ## Entry and Lobby
 
-1. A player opens the Host's local game in a browser.
-2. A new player enters a display name and joins. A returning player with a valid session resumes their existing identity.
-3. The lobby shows connected players and the current player count. The Host can start when at least six players are connected; the session limit is ten identities.
-4. The Host starts the game. The server assigns every connected player, including the Host, to Wolf or Sheep and opens card selection.
+1. A player opens the Host's local game in a browser and sees a concise rules overview with options to read the Wolf or Sheep rules.
+2. The player may read either team explanation and return to Join.
+3. A new player enters a display name and joins. A returning player with a valid session resumes their existing identity.
+4. The lobby shows connected players and the current player count. The Host can start when at least six players are connected; the session limit is ten identities.
+5. The Host starts the game. The server assigns every connected player, including the Host, to Wolf or Sheep and opens card selection.
 
 ## Card Selection
 

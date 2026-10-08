@@ -2,7 +2,7 @@
 
 ## Join
 
-Provide a display-name field and a clear join action. Explain validation errors inline or in an accessible status message. A returning player with a valid session proceeds to their current game view without joining twice.
+Provide a display-name field and a clear join action. Include a concise overview of the game rules and two clearly labeled options to open the Wolf rules and Sheep rules. Each team rules page explains that team's objective, actions, and relevant scoring at a player-friendly level, without exposing session-specific private game information. Provide a clear way back to Join from either rules page. Explain validation errors inline or in an accessible status message. A returning player with a valid session proceeds to their current game view without joining twice.
 
 ## Lobby
 
