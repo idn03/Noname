@@ -4,7 +4,9 @@
 
 Authorize every state-changing command on the Host using the connection's server-controlled player identity, Host status, team membership, and current game phase. Validate authorization before invoking mutations. A rejected command leaves authoritative state unchanged.
 
-Players may act only for themselves and may use only cards assigned to their team and not already used. Gameplay actions must be permitted for the active phase, round, team, and turn. The Game Engine remains the final authority for game-rule validity.
+Players may act only for themselves. A player may select, replace, or remove only the card in their own slot while selection is open. Only the player who selected a Wolf card may reveal it, and only while it is unused and no other attack is active. A Sheep defense must use an unused matching-category card from the defending player's own slot. Gameplay actions must be permitted for the active phase, round, team, and turn. The Game Engine remains the final authority for game-rule validity.
+
+When more than one Sheep player can defend an attack, accept at most one valid defense; the first valid defense processed resolves that attack. Reject further defense actions for the resolved attack.
 
 ## Host Operations
 

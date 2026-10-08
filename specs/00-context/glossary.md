@@ -19,9 +19,9 @@ Use these terms consistently across the specifications and application.
 
 ## Cards and Challenges
 
-- **Card:** Playable object owned or selected by a team; belongs to one category.
+- **Card:** Playable object selected into a player's personal slot; belongs to that player, their team, and one category for the game.
 - **Card Category:** Thematic classification, such as music, travel, technology, geography, economy, or folklore.
-- **Card Slot:** Team position for one selected card; slot count depends on team size.
+- **Card Slot:** One player's position in their team's selection, holding one selected card; each team has one slot per member.
 - **Card Selection:** Phase in which teams choose cards for the game.
 - **Challenge:** Truth-or-Dare-style task associated with a category and presented when a matching card is played.
 

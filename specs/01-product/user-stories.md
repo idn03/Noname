@@ -16,9 +16,9 @@
 
 **As a player,** I want to know whether I am Wolf or Sheep so I understand my role. **Acceptance:** Every player belongs to exactly one team, and assignment is synchronized across clients.
 
-## US-005 — Select Team Cards
+## US-005 — Select Personal Card
 
-**As a team member,** I want to select cards for my team so we can prepare our strategy. **Acceptance:** The team has the correct number of slots, may select multiple cards from one category, and must fill every slot.
+**As a player,** I want to select, replace, or remove the card in my personal team slot so I can contribute to my team's strategy. **Acceptance:** Each player manages one slot, duplicate categories are allowed, and the game leaves selection only after every player has submitted a complete slot.
 
 ## US-006 — Inspect Challenges
 
@@ -26,11 +26,11 @@
 
 ## US-007 — Play Attack Card
 
-**As a Wolf player,** I want to reveal an unused team card to attack Sheep. **Acceptance:** Only unused Wolf cards may be selected; the category is revealed and its challenge becomes available.
+**As a Wolf player,** I want to reveal the unused card in my own slot to attack Sheep. **Acceptance:** Only the player who selected a card may reveal it; only one attack is active at a time; the category is revealed and its challenge becomes available.
 
 ## US-008 — Defend an Attack
 
-**As a Sheep player,** I want to use a matching category card to defend. **Acceptance:** The defense card must be unused and match the attack category; successful defense awards Sheep 1 point.
+**As a Sheep player,** I want to defend with a matching category card from my own slot and handle its challenge. **Acceptance:** The defense card must be unused and match the attack category; only one defense resolves an attack; successful defense awards Sheep 1 point.
 
 ## US-009 — Complete Challenge
 

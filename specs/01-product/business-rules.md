@@ -27,6 +27,7 @@
 ## Card Slot Rules
 
 - Each team receives one card slot per team member.
+- Each card slot belongs to the player assigned to it; a player selects and manages only their own slot.
 - Therefore, each team normally has between 3 and 5 card slots.
 - The number of game rounds is equal to the number of members on the team with fewer members.
 - Each team receives access to one more card category than its number of card slots.
@@ -44,21 +45,22 @@
 
 ## Card Selection Phase
 
-- Both teams select their cards before the first round begins.
+- Every player selects one card for their personal slot before the first round begins.
 - The selection duration in minutes equals the number of card slots.
-- Each team must fill all available card slots before the game can proceed.
-- A team may cancel or revise its selection while the Selection Phase remains active.
-- Pressing Done submits the team's complete selection and marks it ready; canceling a submitted selection clears it and makes the team unready again.
-- The game proceeds to the turn phase only after both teams have complete submitted selections. Once the phase advances, selections can no longer be changed.
-- Selected cards remain assigned to the team for the current game.
+- A player may replace or remove their selection while the Selection Phase remains active.
+- Pressing Done submits the player's selection and marks that slot ready. Removing or changing a submitted selection makes that slot unready until submitted again.
+- The game proceeds to the turn phase only after every player's slot has a complete submitted selection. Once the phase advances, selections can no longer be changed.
+- Each selected card remains associated with its selecting player and team for the current game.
 - A card may only be used once unless another rule explicitly states otherwise.
 
 ## Turn Rules
 
 - Wolf is the attacking team in V0.
 - Sheep is the defending team in V0.
-- Each round begins when Wolf reveals one unused selected card.
-- Sheep may defend using an unused card of the same category.
+- Each round begins when a Wolf player reveals an unused card from their own slot.
+- A Wolf player may reveal only a card they selected. The server permits only one active attack at a time.
+- A Sheep player may defend only with an unused card from their own slot that matches the attack category; that player handles the defense and corresponding challenge.
+- If multiple Sheep players hold unused cards of the matching category, the first valid defense accepted by the server handles the attack.
 - A Sheep card from another category cannot be used as a defense.
 - Once used, both attacking and defending cards are removed from the available card pool.
 
