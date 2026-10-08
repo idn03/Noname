@@ -16,7 +16,7 @@ relevant specifications. Do not expand the scope to another backlog stage.
 Run the Coordinator workflow for this backlog stage:
 
 ```bash
-bash implement-feature.sh "B-007 — Attack, Defense, and Challenges"
+bash scripts/implement-feature.sh "B-007 — Attack, Defense, and Challenges"
 ```
 
 The script starts the configured provider in this repository and asks the

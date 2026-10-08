@@ -16,7 +16,7 @@ relevant specifications. Do not expand the scope to another backlog stage.
 Run the Coordinator workflow for this backlog stage:
 
 ```bash
-bash implement-feature.sh "B-002 — Game Engine Foundation"
+bash scripts/implement-feature.sh "B-002 — Game Engine Foundation"
 ```
 
 The script starts the configured provider in this repository and asks the

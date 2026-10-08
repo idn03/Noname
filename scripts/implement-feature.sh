@@ -2,9 +2,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$SCRIPT_DIR"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 SPECS_DIR="$PROJECT_DIR/specs"
-source "$SCRIPT_DIR/scripts/lib/log.sh"
+source "$SCRIPT_DIR/lib/log.sh"
 PROMPT=""
 SCOPE=""
 MODEL="${NONAME_MODEL:-}"
@@ -13,7 +13,7 @@ DRY_RUN=0
 
 usage() {
   cat <<'USAGE'
-Usage: bash implement-feature.sh "<stage ID or feature request>" [options]
+Usage: bash scripts/implement-feature.sh "<stage ID or feature request>" [options]
 
 Options:
   --scope <spec-path>  Focus on a file or directory beneath specs/
@@ -29,6 +29,7 @@ if [[ $# -lt 1 || -z "$1" ]]; then
   usage >&2
   exit 2
 fi
+if [[ "$1" == -h || "$1" == --help ]]; then usage; exit 0; fi
 PROMPT="$1"
 shift
 while [[ $# -gt 0 ]]; do
@@ -74,7 +75,7 @@ if [[ -n "$SCOPE" ]]; then
   log OK 32 "Scope: specs/$SCOPE ($SPEC_COUNT Markdown document(s))"
 fi
 
-REQUEST="$(printf 'Implement this feature as a complete workflow stage:\n%s\n\nScope instruction: %s\n\n' "$PROMPT" "$SCOPE_INSTRUCTION"; cat "$SCRIPT_DIR/scripts/prompts/implement-feature.md")"
+REQUEST="$(printf 'Implement this feature as a complete workflow stage:\n%s\n\nScope instruction: %s\n\n' "$PROMPT" "$SCOPE_INSTRUCTION"; cat "$SCRIPT_DIR/prompts/implement-feature.md")"
 
 PROVIDER="${NONAME_PROVIDER:-codex}"
 case "$PROVIDER" in
