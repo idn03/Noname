@@ -10,7 +10,7 @@ When more than one Sheep player can defend an attack, accept at most one valid d
 
 ## Host Operations
 
-Only the server-designated Host may start or cancel the game. Starting requires the minimum player count and other game-start invariants. Host status grants session-management authority, not a gameplay advantage; the Host participates as a regular player.
+Only the server-designated Host may start or cancel the game or record the outcome of an active challenge. Starting requires the minimum player count and other game-start invariants. Challenge outcomes are human-determined by participating players or the Host; the Host records the result once for the active challenge. Host status grants session-management and outcome-recording authority, not a gameplay advantage; the Host participates as a regular player.
 
 ## Information Access
 

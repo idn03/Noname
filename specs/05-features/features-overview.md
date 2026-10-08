@@ -4,14 +4,14 @@ Noname V0 is a local multiplayer card game for 6–10 players. The Host runs the
 
 ## V0 Features
 
-- **Player identity and lobby:** Players join with a display name, see connected players, and wait for the Host to start. Identity is session-based; V0 has no player accounts.
-- **Host session management:** The Host starts a game when the minimum player count is met and can cancel the current session.
-- **Team assignment:** Starting the game assigns every player, including the Host, to Wolf or Sheep with balanced team sizes.
-- **Card selection:** Every player manages one personal card slot for their team. Players can edit an unsubmitted draft locally; Done submits their selection to the Host. A submitted selection can be replaced or removed while the Selection Phase remains active. The phase advances after every player has submitted a complete selection. Wolf can inspect the available challenges during selection; Sheep cannot see Wolf's selected cards before reveal.
-- **Turn gameplay:** Only the player who selected a Wolf card may flip it, with one active attack at a time. A Sheep player holding an unused card of the matching category handles the defense and corresponding challenge. If multiple Sheep players qualify, the first valid defense accepted by the server resolves the attack.
-- **Scoring and results:** The server applies the scoring rules, advances the finite set of rounds, and presents the final scores and winner or draw to all players.
-- **Realtime synchronization:** The Host server validates player actions and synchronizes lobby and game updates to connected clients. A browser refresh can recover from the running Host session.
-- **Static game content:** Categories and predefined challenges provide the content used for card selection and gameplay.
+- **Player identity and lobby:** Players join with a display name, see connected players, and wait for the Host to start. Identity is session-based; V0 has no player accounts. See [authentication](authentication/requirements.md).
+- **Host session management:** The Host starts a game when the minimum player count is met and can cancel the current session. See [session management](session-management/requirements.md).
+- **Team assignment:** Starting the game assigns every player, including the Host, to Wolf or Sheep with balanced team sizes. See [team assignment](team-assignment/requirements.md).
+- **Card selection:** Every player manages one personal card slot for their team. Players can edit an unsubmitted draft locally; Done submits their selection to the Host. A submitted selection can be replaced or removed while the Selection Phase remains active. The phase advances after every player has submitted a complete selection. Wolf can inspect the available challenges during selection; Sheep cannot see Wolf's selected cards before reveal. See [card selection](card-selection/requirements.md).
+- **Turn gameplay:** Only the player who selected a Wolf card may flip it, with one active attack at a time. A Sheep player holding an unused card of the matching category handles the defense and corresponding challenge. If multiple Sheep players qualify, the first valid defense accepted by the server resolves the attack; the Host records the challenge outcome. See [turn gameplay](turn-gameplay/requirements.md).
+- **Scoring and results:** The server applies the scoring rules, with the Host recording challenge outcomes, advances the finite set of rounds, and presents the final scores and winner or draw to all players. See [scoring and results](scoring-results/requirements.md).
+- **Realtime synchronization:** The Host server validates player actions and synchronizes lobby and game updates to connected clients. A browser refresh can recover from the running Host session. See [realtime synchronization](realtime-synchronization/requirements.md).
+- **Static game content:** Categories and predefined challenges provide the content used for card selection and gameplay. See [static game content](static-game-content/requirements.md).
 
 ## Feature Specifications
 

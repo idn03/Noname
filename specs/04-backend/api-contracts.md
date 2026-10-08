@@ -6,7 +6,7 @@ Socket.IO is the V0 real-time transport between browsers and the Host. Clients s
 
 ## Client Commands
 
-Commands cover joining with a display name, requesting the current session view, Host start and cancel actions, selecting, replacing, or removing the connected player's own card slot, revealing that player's own Wolf card, Sheep defense with that player's own matching card, and challenge completion. Each command identifies the requested operation and carries only the data needed for that operation. The server derives player identity from the connection session, never from a client-supplied player identifier.
+Commands cover joining with a display name, requesting the current session view, Host start and cancel actions, selecting, replacing, or removing the connected player's own card slot, revealing that player's own Wolf card, Sheep defense with that player's own matching card, and Host recording the outcome of the active challenge. Each command identifies the requested operation and carries only the data needed for that operation. The server derives player identity from the connection session, never from a client-supplied player identifier.
 
 Validate payload shape, bounds, enum values, session membership, authorization, and current game phase before mutation. Reject unknown events and stale or invalid actions without changing state. Clients cannot submit authoritative scores, teams, turns, ownership, phase, or challenge outcomes as trusted values.
 

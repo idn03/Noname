@@ -70,7 +70,7 @@
 - The selected challenge must belong to the attacking card's category.
 - The same challenge should not be repeated within the same game when alternatives are available.
 - If Sheep successfully matches the category, the challenge may be attempted.
-- Challenge completion is determined by the participating players or Host in V0.
+- Challenge completion is determined by the participating players or Host in V0; the Host records the outcome in the game.
 
 ## Scoring Rules
 

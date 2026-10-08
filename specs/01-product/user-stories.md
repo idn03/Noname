@@ -34,7 +34,7 @@
 
 ## US-009 — Complete Challenge
 
-**As a Sheep player,** I want to attempt the challenge after defending so my team can earn another point. **Acceptance:** The challenge matches the attack category; successful completion awards Sheep 1 additional point.
+**As a Sheep player,** I want to attempt the challenge after defending so my team can earn another point. **Acceptance:** The challenge matches the attack category; the Host records its outcome; successful completion awards Sheep 1 additional point.
 
 ## US-010 — Track Score
 
