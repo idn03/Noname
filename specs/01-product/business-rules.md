@@ -47,6 +47,9 @@
 - Both teams select their cards before the first round begins.
 - The selection duration in minutes equals the number of card slots.
 - Each team must fill all available card slots before the game can proceed.
+- A team may cancel or revise its selection while the Selection Phase remains active.
+- Pressing Done submits the team's complete selection and marks it ready; canceling a submitted selection clears it and makes the team unready again.
+- The game proceeds to the turn phase only after both teams have complete submitted selections. Once the phase advances, selections can no longer be changed.
 - Selected cards remain assigned to the team for the current game.
 - A card may only be used once unless another rule explicitly states otherwise.
 
