@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Sheep team sticker</title>
+  <circle cx="256" cy="256" r="235" fill="#000" stroke="#d8c9a8" stroke-width="10"/>
+  <circle cx="256" cy="256" r="211" fill="none" stroke="#722F37" stroke-width="5" stroke-dasharray="3 13"/>
+  <path d="M143 210c-28-5-39-31-28-52 9-16 28-21 44-12 5-34 33-52 61-43 17-28 49-31 70-12 23-18 54-9 65 17 29-2 48 20 43 47 24 13 29 40 12 61 18 23 10 51-17 61 5 29-19 52-46 43-15 26-45 32-67 14-25 18-55 8-67-18-26 4-48-14-47-40-30-10-40-40-23-66z" fill="#d8c9a8" stroke="#000" stroke-width="13" stroke-linejoin="round"/>
+  <path d="M153 197c-34-7-47-40-27-62 17-18 42-11 54 10m179 52c34-7 47-40 27-62-17-18-42-11-54 10" fill="none" stroke="#d8c9a8" stroke-width="23" stroke-linecap="round"/>
+  <path d="M153 197c-34-7-47-40-27-62 17-18 42-11 54 10m179 52c34-7 47-40 27-62-17-18-42-11-54 10" fill="none" stroke="#000" stroke-width="9" stroke-linecap="round"/>
+  <path d="M173 235c17-12 34-12 51 0m64 0c17-12 34-12 51 0" fill="none" stroke="#000" stroke-width="11" stroke-linecap="round"/>
+  <ellipse cx="199" cy="249" rx="9" ry="13" fill="#722F37"/><ellipse cx="313" cy="249" rx="9" ry="13" fill="#722F37"/>
+  <path d="M222 276q34-24 68 0l-8 42-26 23-26-23z" fill="#000" stroke="#000" stroke-width="8" stroke-linejoin="round"/>
+  <path d="m239 306 17 12 17-12m-36 43-21 23m62-23 21 23" fill="none" stroke="#d8c9a8" stroke-width="8" stroke-linecap="round"/>
+  <path d="M106 350l37-14m263 14-37-14M256 80v27" fill="none" stroke="#722F37" stroke-width="8" stroke-linecap="round"/>
+</svg>

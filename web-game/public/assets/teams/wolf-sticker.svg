@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Wolf team sticker</title>
+  <circle cx="256" cy="256" r="235" fill="#000" stroke="#d8c9a8" stroke-width="10"/>
+  <circle cx="256" cy="256" r="211" fill="none" stroke="#722F37" stroke-width="5" stroke-dasharray="3 13"/>
+  <path d="m112 166 43 23-13-92 89 53 25-46 25 46 89-53-13 92 43-23-27 128c-12 57-54 99-117 132-63-33-105-75-117-132z" fill="#d8c9a8" stroke="#000" stroke-width="13" stroke-linejoin="round"/>
+  <path d="m146 197 57 22 24 48-39-17-39 18-29-40zm220 0-57 22-24 48 39-17 39 18 29-40z" fill="#000"/>
+  <path d="m175 245 34 6-28 14zm162 0-34 6 28 14z" fill="#722F37"/>
+  <path d="m222 284 34 16 34-16-13 39-21 14-21-14z" fill="#000" stroke="#000" stroke-width="7" stroke-linejoin="round"/>
+  <path d="m239 337 17 14 17-14m-48 28 14 20m52-20-14 20M177 300l-23 29m181-29 23 29" fill="none" stroke="#000" stroke-width="9" stroke-linecap="round"/>
+  <path d="m101 350 37-14m273 14-37-14M256 75v25" fill="none" stroke="#722F37" stroke-width="8" stroke-linecap="round"/>
+</svg>
