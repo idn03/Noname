@@ -8,4 +8,7 @@ if [[ -z "$ROOT" || -z "$PROMPT" ]]; then
   exit 2
 fi
 command -v codex >/dev/null || { printf 'codex CLI is unavailable\n' >&2; exit 127; }
+if [[ -n "${NONAME_MODEL:-}" ]]; then
+  exec codex exec --model "$NONAME_MODEL" -C "$ROOT" "$PROMPT"
+fi
 exec codex exec -C "$ROOT" "$PROMPT"

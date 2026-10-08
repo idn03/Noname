@@ -7,6 +7,11 @@ sheet's command below to run the Coordinator through implementation, review,
 test, validation, bounded repair, and checkpoint. Codex is the default provider;
 prefix a command with `NONAME_PROVIDER=opencode` to use OpenCode.
 
+The stage command accepts optional `--scope <path>` to focus the agent on a
+specification beneath `specs/`, `--model <name>` to select a provider model,
+`--verbose` to print the full prompt, and `--dry-run` to inspect the request
+without starting a provider.
+
 ## Stage prompts
 
 - [B-001](b-001-application-foundation.md):
