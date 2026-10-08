@@ -12,11 +12,17 @@ Validate payload shape, bounds, enum values, session membership, authorization, 
 
 ## Server Updates
 
-Publish lobby presence and player-list changes, game phase transitions, each player's authorized game view, scoring changes, cancellation, and final results. Send a current authorized snapshot after connection or reconnection. Do not broadcast hidden team selections, unrevealed cards, or private challenge data to clients that may not see them.
+Publish lobby presence and player-list changes, game phase transitions, each player's authorized game view, scoring changes, cancellation, and final results. Send a current authorized snapshot after connection or reconnection. 
+
+Do not broadcast hidden team selections, unrevealed cards, or private challenge data to clients that may not see them.
 
 ## Errors
 
-Return expected failures using the stable error code and human-readable message contract in [error-handling.md](../03-technical/error-handling.md). Clients must branch on codes rather than message text. Unexpected failures use a generic client response and are logged on the Host. Never expose stack traces, SQL, filesystem paths, or raw exceptions.
+Return expected failures using the stable error code and human-readable message contract in [error-handling.md](../03-technical/error-handling.md). 
+
+Clients must branch on codes rather than message text. 
+
+Unexpected failures use a generic client response and are logged on the Host. Never expose stack traces, SQL, filesystem paths, or raw exceptions.
 
 ## Consistency
 
