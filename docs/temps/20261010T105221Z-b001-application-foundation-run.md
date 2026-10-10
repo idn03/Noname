@@ -39,10 +39,18 @@ resumable; it was not checkpointed. The original plan order is unchanged.
   IPv4 interface, honors `HOST`, and falls back to loopback. Final review passed.
 - A separate test configuration repair removed `--passWithNoTests` so an empty
   Vitest suite does not report success.
-- Online registry installation failed with `ENOTFOUND`; an offline install
-  failed with `ENOTCACHED` for `@playwright/test`. No lockfile or partial
-  `node_modules` tree was retained.
+- At the time of this run, online registry installation failed with
+  `ENOTFOUND`; offline installation failed with `ENOTCACHED` for
+  `@playwright/test`.
 
-Resume B-001 from the original approved plan when dependencies can be
-installed. Rerun test, build, and type checks; checkpoint only after all
-required gates pass. Do not renumber or reorder later stages.
+## Environment follow-up
+
+After the halted run, `npm ping` succeeded against `https://registry.npmjs.org/`
+and `npm install --no-audit --no-fund` completed successfully, adding 117
+packages and creating `package-lock.json`. Next.js, TypeScript, Vitest, and
+Playwright CLIs are now available. The failed or unavailable gate outcomes
+above are from the earlier run; rerun the required gates before checkpointing.
+
+Resume B-001 from the original approved plan now that dependencies are
+installed. Rerun tests, startup, build, and type checks; checkpoint only after
+all required gates pass. Do not renumber or reorder later stages.

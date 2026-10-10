@@ -66,6 +66,7 @@ Plan approval: the user reviewed and approved the full B-001 → B-010 plan in
 the conversation. B-001 has no dependencies and remains in its original
 position. This run added the foundation scaffold and a browser smoke test, then
 halted because required build, type, and test tools were unavailable. No stage
-checkpoint was created. Resume B-001 from the approved plan after dependencies
-are available; see `docs/temps/20261010T105221Z-b001-application-foundation-run.md`
-for the run evidence and repair history.
+checkpoint was created. Dependencies have since been installed successfully;
+the required gates still need to be rerun. See
+`docs/temps/20261010T105221Z-b001-application-foundation-run.md` for the run
+evidence and repair history.
