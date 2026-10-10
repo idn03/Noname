@@ -29,7 +29,7 @@ unchanged and the remaining plan continues at B-002.
 | Validate: `npm run lint` | Not configured | No lint script exists; not counted as pass. |
 | Startup | Pass | Playwright `webServer` started `npm run dev` on `127.0.0.1:3000`; the E2E request succeeded. |
 | Repository hygiene: `git diff --check` | Pass | Exit 0; validator reran successfully. |
-| Checkpoint | Pass | Stage-identifying B-001 checkpoint created after all required gates passed. |
+| Checkpoint | Pass | Commit `4428bd9` (`checkpoint: complete B-001 application foundation`) created after all required gates passed. |
 | Archive | Not attempted | Full B-001 → B-010 plan did not complete. |
 
 ## Repair history
