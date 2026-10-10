@@ -25,6 +25,7 @@ resumable; it was not checkpointed. The original plan order is unchanged.
 | Test: `npm run test:e2e` | Unavailable; fail gate | Exit 127, `playwright: command not found`. Tester added `tests/e2e/application-foundation.spec.ts`; it was not executable. No Vitest test file exists. |
 | Validate: `npm run typecheck` | Unavailable; fail gate | Exit 127, `tsc: command not found`. |
 | Validate: `npm run build` | Unavailable; fail gate | Exit 127, `next: command not found`. |
+| Startup: `npm run dev` | Unavailable | Exit 127 because runtime dependencies were missing. |
 | Validate: `npm run lint` | Not configured | Exit 1; no lint script exists. Not counted as pass. |
 | Repository hygiene: `git diff --check` | Pass | Exit 0. |
 | Checkpoint | Not attempted | Required build/test gates did not pass; no checkpoint commit created. |
@@ -38,10 +39,9 @@ resumable; it was not checkpointed. The original plan order is unchanged.
   IPv4 interface, honors `HOST`, and falls back to loopback. Final review passed.
 - A separate test configuration repair removed `--passWithNoTests` so an empty
   Vitest suite does not report success.
-- Online `npm install --no-audit --no-fund` stalled without output and was
-  interrupted (exit 130). An earlier offline install attempt failed with
-  `ENOTCACHED` for `@playwright/test`. No lockfile or partial `node_modules`
-  tree was retained.
+- Online registry installation failed with `ENOTFOUND`; an offline install
+  failed with `ENOTCACHED` for `@playwright/test`. No lockfile or partial
+  `node_modules` tree was retained.
 
 Resume B-001 from the original approved plan when dependencies can be
 installed. Rerun test, build, and type checks; checkpoint only after all

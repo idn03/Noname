@@ -48,9 +48,9 @@ gate evidence.
 ## Checklist
 
 - [x] Plan and dependencies are verified; this stage retains its original ID/order.
-- [ ] Relevant specs and repository rules were read before edits.
-- [ ] Implementation stayed within the scope above and reports changed paths.
-- [ ] Review passed with no critical or major findings.
+- [x] Relevant specs and repository rules were read before edits.
+- [x] Implementation stayed within the scope above and reports changed paths.
+- [x] Review passed with no critical or major findings.
 - [ ] Required tests passed with command and exit-status evidence.
 - [ ] Configured validation checks passed; none are skipped or unavailable.
 - [ ] Every repair attempt and outcome is recorded; budget was not exceeded.
