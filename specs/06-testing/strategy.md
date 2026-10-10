@@ -21,6 +21,9 @@ Verify that the Host and all connected browsers follow the product rules, keep o
 
 Each feature's `tests.md` lists its expected behaviors. Keep tests behavior-focused and avoid asserting private implementation details.
 
+For user-facing changes, verify that all rendered interface text and accessible
+names are Vietnamese, including dynamic states and error paths.
+
 Playwright CLI inspection supplements automated Playwright Test coverage. It
 does not replace deterministic unit, integration, or end-to-end tests. Record
 the CLI commands and evidence paths in the stage run record.
