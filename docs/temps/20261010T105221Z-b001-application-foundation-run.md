@@ -1,56 +1,68 @@
 # B-001 Application Foundation — Run Record
 
 - **Run status:** halted, resumable
-- **Plan:** approved original B-001 → B-010 order
+- **Plan:** original approved B-001 → B-010 order; unchanged
 - **Stage:** B-001, first in plan; no dependencies
 - **Completed:** 0/10 stages; B-001 gates remain incomplete
 - **Later stages attempted:** none
-- **Memory:** `specs/memory.md` is policy only; no existing implementation memory found
+- **Memory:** `specs/memory.md` is policy only; no implementation memory found
 
 ## Stage result
 
-The foundation source and configuration are present. Read-only review passed
-after two bounded security-binding repairs and one test-command repair. The
-tester added a Playwright smoke test for the home page. Required runtime gates
-could not execute because dependencies are absent. B-001 is failed and
-resumable; it was not checkpointed. The original plan order is unchanged.
+The foundation scaffold is present and remains within B-001 scope. The stage
+was resumed after dependencies were installed. Review passed after two bounded
+configuration repairs, and a Vitest rendering smoke test was added. Typecheck,
+build, unit test, and diff checks pass. Host startup and Playwright E2E cannot
+bind to loopback in this environment (`EPERM`), so required runtime evidence is
+unavailable. B-001 is halted and resumable; it was not checkpointed. The
+original plan order is unchanged.
 
-## Gate evidence
+## Current gate evidence
 
 | Phase/check | Result | Evidence |
 | --- | --- | --- |
-| Implement | Present; executable checks pending | TypeScript/Next app scaffold, Tailwind/shadcn config, Vitest/Playwright config, responsibility directories, Node Host with Socket.IO integration point. |
-| Review | Pass | Final reviewer confirmed private RFC1918 interface selection with `HOST` override and loopback fallback; `vitest run` no longer allows an empty suite to pass. No major findings. |
-| Test: `npm test` | Unavailable; fail gate | Exit 127, `vitest: command not found`. |
-| Test: `npm run test:e2e` | Unavailable; fail gate | Exit 127, `playwright: command not found`. Tester added `tests/e2e/application-foundation.spec.ts`; it was not executable. No Vitest test file exists. |
-| Validate: `npm run typecheck` | Unavailable; fail gate | Exit 127, `tsc: command not found`. |
-| Validate: `npm run build` | Unavailable; fail gate | Exit 127, `next: command not found`. |
-| Startup: `npm run dev` | Unavailable | Exit 127 because runtime dependencies were missing. |
-| Validate: `npm run lint` | Not configured | Exit 1; no lint script exists. Not counted as pass. |
-| Repository hygiene: `git diff --check` | Pass | Exit 0. |
-| Checkpoint | Not attempted | Required build/test gates did not pass; no checkpoint commit created. |
+| Implement | Pass | Existing TypeScript/Next/React/Tailwind/Zustand/Socket.IO scaffold, responsibility directories, Node Host integration, and test tooling. Implementer found no source changes necessary. |
+| Review | Pass | Read-only reviews passed after the Vitest discovery repair and Node import-hook startup repair; no critical or major findings. |
+| Test: `TMPDIR=/tmp npm test` | Pass | Exit 0; one Vitest file and one server-rendered home-page heading test. |
+| Test: `HOST=127.0.0.1 TMPDIR=/tmp npm run test:e2e` | Unavailable; fail gate | Exit 1; Playwright web server could not bind `127.0.0.1:3000` (`EPERM`), so browser assertions did not run. |
+| Validate: `HOST=127.0.0.1 TMPDIR=/tmp npm run typecheck` | Pass | Exit 0. Validator reran typecheck successfully. |
+| Validate: `HOST=127.0.0.1 TMPDIR=/tmp npm run build` | Pass | Exit 0; Next production build and static generation completed. |
+| Validate: `npm run lint` | Not configured | No lint script exists; not counted as pass. |
+| Startup: `HOST=127.0.0.1 TMPDIR=/tmp npm run dev` | Unavailable; fail gate | Exit 1; bind to loopback was denied (`EPERM`). Process stopped. |
+| Repository hygiene: `git diff --check` | Pass | Exit 0; validator reran successfully. |
+| Checkpoint | Not attempted | Host startup and E2E gates did not pass. |
 | Archive | Not attempted | Full B-001 → B-010 plan did not complete. |
 
-## Repairs and dependency attempts
+## Repair history
 
-- Security binding repair 1 changed the wildcard bind to loopback; review found
-  that this prevented default LAN access.
-- Security binding repair 2 selects the first sorted, non-internal RFC1918
-  IPv4 interface, honors `HOST`, and falls back to loopback. Final review passed.
-- A separate test configuration repair removed `--passWithNoTests` so an empty
-  Vitest suite does not report success.
-- At the time of this run, online registry installation failed with
-  `ENOTFOUND`; offline installation failed with `ENOTCACHED` for
-  `@playwright/test`.
+Earlier implementation repaired Host interface selection twice after review
+found wildcard/loopback binding defects, then removed Vitest's empty-suite
+success option. The initial run halted because dependencies were unavailable;
+afterward `npm install --no-audit --no-fund` succeeded and added 117 packages.
 
-## Environment follow-up
+On resumption:
 
-After the halted run, `npm ping` succeeded against `https://registry.npmjs.org/`
-and `npm install --no-audit --no-fund` completed successfully, adding 117
-packages and creating `package-lock.json`. Next.js, TypeScript, Vitest, and
-Playwright CLIs are now available. The failed or unavailable gate outcomes
-above are from the earlier run; rerun the required gates before checkpointing.
+1. Reviewer passed the existing implementation. Tester found Vitest collected
+   the Playwright spec. Repair 1 excluded `tests/e2e/**`; review found that this
+   replaced Vitest's default excludes.
+2. Repair 2 merged the E2E exclusion with `configDefaults.exclude`; review
+   passed. The subsequent Vitest run correctly reported no test files.
+3. Repair 3 changed `dev` and `start` to use `node --import tsx`, avoiding the
+   tsx CLI IPC pipe error. Review passed. Tester added
+   `tests/application-home.test.tsx`, and the Vitest run passed.
 
-Resume B-001 from the original approved plan now that dependencies are
-installed. Rerun tests, startup, build, and type checks; checkpoint only after
-all required gates pass. Do not renumber or reorder later stages.
+The E2E and startup failures persist after setting `TMPDIR=/tmp` and
+`HOST=127.0.0.1`. Direct `node --import tsx backend/server.ts` also could not
+bind the configured private address (`EPERM`). This environment restriction
+leaves required Host/browser evidence unavailable; it is not a pass. No repair
+attempt remains authorized or effective within this environment, so the run
+halts here and can resume with the original plan in an environment that permits
+local Host binding.
+
+## Changed paths
+
+- `package.json` — use Node's tsx import hook for `dev` and `start`.
+- `vitest.config.ts` — preserve default excludes and keep Playwright specs out
+  of Vitest discovery.
+- `tests/application-home.test.tsx` — verify the browser app home heading
+  renders.

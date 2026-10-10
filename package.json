@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx backend/server.ts",
+    "dev": "node --import tsx backend/server.ts",
     "build": "next build web-game",
-    "start": "tsx backend/server.ts",
+    "start": "node --import tsx backend/server.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
