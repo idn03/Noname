@@ -16,6 +16,14 @@ commands, outcomes, findings, and artifact paths in the run record. A UI check
 that is required but unavailable is not a pass. For non-UI stages, record why
 the browser review does not apply.
 
+When implementing a `web-game` interface, the screen implementer must read and
+apply the installed `design-taste-frontend` skill as scoped in
+agents/screen-implementer.md before editing. Record a Design Read and the
+selected design dials. Apply its anti-default guidance where suitable, without
+forcing marketing-page patterns onto gameplay UI or overriding product,
+accessibility, and gameplay-clarity requirements. The reviewer checks this
+rationale as part of the UI review.
+
 The tester checks relevant frontend and backend behavior for each cycle and
 may edit test files only. The reviewer and validator are read-only. If review,
 focused tests, or validation finds an issue, send the evidence to the

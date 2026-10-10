@@ -45,6 +45,11 @@ resume from completed checkpoints.
 - Every cycle reviews all changed and impacted frontend and backend behavior
   in scope, runs focused behavior checks, and reviews browser UI when the stage
   has a user-facing interface.
+- Before implementing a `web-game` interface, the screen implementer reads the
+  installed `design-taste-frontend` skill and records a Design Read and chosen
+  design dials. Apply suitable anti-default guidance without forcing
+  marketing-page patterns onto gameplay UI or overriding product, accessibility,
+  or gameplay-clarity requirements. Review that design reasoning with the UI.
 - UI review uses Playwright CLI evidence: snapshot, screenshot at relevant
   viewport sizes, console and request failures, and a relevant interaction.
   A required but unavailable browser check is not a pass. Record why UI review
