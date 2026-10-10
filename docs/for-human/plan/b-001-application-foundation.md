@@ -62,8 +62,8 @@ gate evidence.
 Record the implementation, review, test, validation, repair, and checkpoint
 results in the run record. The completion criterion is: The application builds, the test tools run, and the planned responsibility boundaries are in place.
 
-Current run status: halted before implementation because the full plan still
-requires human review and approval. B-001 has no dependencies and remains in
-its original position; no later stage was attempted. The project root has only
-empty `web-game/` directories, so implementation and quality-gate checklist
-items remain incomplete.
+Plan approval: the user reviewed and approved the full B-001 → B-010 plan in
+the conversation. B-001 has no dependencies and remains in its original
+position. The earlier halt was before implementation; resume this stage using
+the approved plan. The project root has only empty `web-game/` directories, so
+implementation and quality-gate checklist items remain incomplete.
