@@ -1,21 +1,20 @@
 # B-001 Application Foundation — Run Record
 
-- **Run status:** halted, resumable
+- **Run status:** B-001 checkpointed; plan resumable at B-002
 - **Plan:** original approved B-001 → B-010 order; unchanged
 - **Stage:** B-001, first in plan; no dependencies
-- **Completed:** 0/10 stages; B-001 gates remain incomplete
+- **Completed:** 1/10 stages; B-001 complete
 - **Later stages attempted:** none
 - **Memory:** `specs/memory.md` is policy only; no implementation memory found
 
 ## Stage result
 
-The foundation scaffold is present and remains within B-001 scope. The stage
-was resumed after dependencies were installed. Review passed after two bounded
-configuration repairs, and a Vitest rendering smoke test was added. Typecheck,
-build, unit test, and diff checks pass. Host startup and Playwright E2E cannot
-bind to loopback in this environment (`EPERM`), so required runtime evidence is
-unavailable. B-001 is halted and resumable; it was not checkpointed. The
-original plan order is unchanged.
+The foundation scaffold is present and remains within B-001 scope. Review
+passed after bounded configuration repairs, and a Vitest rendering smoke test
+was added. The latest recheck passed unit test, E2E, typecheck, and build.
+Playwright started the Host on loopback and verified the home page. B-001 was
+checkpointed after the required gates passed; the original plan order is
+unchanged and the remaining plan continues at B-002.
 
 ## Current gate evidence
 
@@ -24,13 +23,13 @@ original plan order is unchanged.
 | Implement | Pass | Existing TypeScript/Next/React/Tailwind/Zustand/Socket.IO scaffold, responsibility directories, Node Host integration, and test tooling. Implementer found no source changes necessary. |
 | Review | Pass | Read-only reviews passed after the Vitest discovery repair and Node import-hook startup repair; no critical or major findings. |
 | Test: `TMPDIR=/tmp npm test` | Pass | Exit 0; one Vitest file and one server-rendered home-page heading test. |
-| Test: `HOST=127.0.0.1 TMPDIR=/tmp npm run test:e2e` | Unavailable; fail gate | Exit 1; Playwright web server could not bind `127.0.0.1:3000` (`EPERM`), so browser assertions did not run. |
-| Validate: `HOST=127.0.0.1 TMPDIR=/tmp npm run typecheck` | Pass | Exit 0. Validator reran typecheck successfully. |
-| Validate: `HOST=127.0.0.1 TMPDIR=/tmp npm run build` | Pass | Exit 0; Next production build and static generation completed. |
+| Test: `HOST=127.0.0.1 npm run test:e2e` | Pass | Exit 0; Playwright started the Host and verified the Noname home page. |
+| Validate: `npm run typecheck` | Pass | Exit 0. |
+| Validate: `npm run build` | Pass | Exit 0; Next production build and static generation completed. |
 | Validate: `npm run lint` | Not configured | No lint script exists; not counted as pass. |
-| Startup: `HOST=127.0.0.1 TMPDIR=/tmp npm run dev` | Unavailable; fail gate | Exit 1; bind to loopback was denied (`EPERM`). Process stopped. |
+| Startup | Pass | Playwright `webServer` started `npm run dev` on `127.0.0.1:3000`; the E2E request succeeded. |
 | Repository hygiene: `git diff --check` | Pass | Exit 0; validator reran successfully. |
-| Checkpoint | Not attempted | Host startup and E2E gates did not pass. |
+| Checkpoint | Pass | Stage-identifying B-001 checkpoint created after all required gates passed. |
 | Archive | Not attempted | Full B-001 → B-010 plan did not complete. |
 
 ## Repair history
@@ -51,13 +50,12 @@ On resumption:
    tsx CLI IPC pipe error. Review passed. Tester added
    `tests/application-home.test.tsx`, and the Vitest run passed.
 
-The E2E and startup failures persist after setting `TMPDIR=/tmp` and
-`HOST=127.0.0.1`. Direct `node --import tsx backend/server.ts` also could not
-bind the configured private address (`EPERM`). This environment restriction
-leaves required Host/browser evidence unavailable; it is not a pass. No repair
-attempt remains authorized or effective within this environment, so the run
-halts here and can resume with the original plan in an environment that permits
-local Host binding.
+Earlier E2E and startup attempts were blocked by environment binding
+restrictions and a missing Chromium binary. After Chromium was installed, E2E
+passed outside the sandbox with `HOST=127.0.0.1`; no source repair was needed
+for that environment-only failure. The three focused repairs on resumption and
+the earlier repairs are recorded with their outcomes; the bounded repair
+process ended without a budget overrun.
 
 ## Changed paths
 

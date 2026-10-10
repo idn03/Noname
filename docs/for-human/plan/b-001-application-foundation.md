@@ -51,10 +51,10 @@ gate evidence.
 - [x] Relevant specs and repository rules were read before edits.
 - [x] Implementation stayed within the scope above and reports changed paths.
 - [x] Review passed with no critical or major findings.
-- [ ] Required tests passed with command and exit-status evidence.
-- [ ] Configured validation checks passed; none are skipped or unavailable.
-- [ ] Every repair attempt and outcome is recorded; budget was not exceeded.
-- [ ] Checkpoint identifies `B-001` and is created only after all gates pass.
+- [x] Required tests passed with command and exit-status evidence.
+- [x] Configured validation checks passed; none are skipped or unavailable.
+- [x] Every repair attempt and outcome is recorded; budget was not exceeded.
+- [x] Checkpoint identifies `B-001` and is created only after all gates pass.
 - [x] If halted, later stages were not attempted and cause/state are resumable.
 
 ## Completion evidence
@@ -64,9 +64,8 @@ results in the run record. The completion criterion is: The application builds, 
 
 Plan approval: the user reviewed and approved the full B-001 → B-010 plan in
 the conversation. B-001 has no dependencies and remains in its original
-position. This run added the foundation scaffold and a browser smoke test, then
-halted because required build, type, and test tools were unavailable. No stage
-checkpoint was created. Dependencies have since been installed successfully;
-the required gates still need to be rerun. See
+position. This run added the foundation scaffold and a browser smoke test.
+After dependencies and Chromium were installed, unit tests, E2E, typecheck, and
+build passed; the B-001 checkpoint was created after those gates. See
 `docs/temps/20261010T105221Z-b001-application-foundation-run.md` for the run
 evidence and repair history.
