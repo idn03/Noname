@@ -64,6 +64,8 @@ results in the run record. The completion criterion is: The application builds, 
 
 Plan approval: the user reviewed and approved the full B-001 → B-010 plan in
 the conversation. B-001 has no dependencies and remains in its original
-position. The earlier halt was before implementation; resume this stage using
-the approved plan. The project root has only empty `web-game/` directories, so
-implementation and quality-gate checklist items remain incomplete.
+position. This run added the foundation scaffold and a browser smoke test, then
+halted because required build, type, and test tools were unavailable. No stage
+checkpoint was created. Resume B-001 from the approved plan after dependencies
+are available; see `docs/temps/20261010T105221Z-b001-application-foundation-run.md`
+for the run evidence and repair history.
