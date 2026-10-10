@@ -10,6 +10,7 @@ SCOPE=""
 MODEL="${NONAME_MODEL:-}"
 VERBOSE=0
 DRY_RUN=0
+MAX_CYCLES=3
 
 usage() {
   cat <<'USAGE'
@@ -20,6 +21,7 @@ Options:
   --model <model>      Select a provider model
   --verbose            Show run configuration and full prompt
   --dry-run            Print the request without starting a provider
+                       (implementation/review loop is limited to 3 cycles)
 
 Provider selection: NONAME_PROVIDER=codex (default) or opencode
 USAGE
@@ -75,7 +77,7 @@ if [[ -n "$SCOPE" ]]; then
   log OK 32 "Scope: specs/$SCOPE ($SPEC_COUNT Markdown document(s))"
 fi
 
-REQUEST="$(printf 'Implement this feature as a complete workflow stage:\n%s\n\nScope instruction: %s\n\n' "$PROMPT" "$SCOPE_INSTRUCTION"; cat "$SCRIPT_DIR/prompts/implement-feature.md")"
+REQUEST="$(printf 'Implement this feature as a complete workflow stage:\n%s\n\nScope instruction: %s\nMaximum implementation/review cycles: %s (Cycle 1 includes the initial implementation).\n\n' "$PROMPT" "$SCOPE_INSTRUCTION" "$MAX_CYCLES"; cat "$SCRIPT_DIR/prompts/implement-feature.md")"
 
 PROVIDER="${NONAME_PROVIDER:-codex}"
 case "$PROVIDER" in
@@ -85,6 +87,7 @@ esac
 START_TIME="$(date +%s)"
 log INFO 36 'Feature implementation'
 log INFO 36 "Provider: $PROVIDER${MODEL:+ | Model: $MODEL}"
+log INFO 36 "Maximum implementation/review cycles: $MAX_CYCLES"
 if [[ "$VERBOSE" -eq 1 ]]; then
   printf '\nPrompt:\n%s\n' "$REQUEST"
 else

@@ -20,7 +20,12 @@ specifications define behavior. Provider output is evidence, not authority.
 - select the smallest suitable role: researcher, general worker, implementer,
   reviewer, tester, validator, archivist, or optional design validator;
 - enforce implement, review, test, and validate gates;
-- manage bounded repair attempts and preserve their results;
+- manage at most three implementation/review cycles per stage (Cycle 1 is the
+  initial implementation), including scoped frontend/backend logic review and
+  Playwright CLI UI review when applicable;
+- preserve each cycle's evidence and create a temporary recovery checkpoint
+  when Cycle 3 cannot satisfy required gates; update the task as blocked with
+  findings, remaining acceptance criteria, and a resume action;
 - serialize shared mutations and permit only safe isolated parallel work;
 - checkpoint completed stages and halt on unrecoverable failure;
 - resume from the original plan without renumbering or reordering;
@@ -36,7 +41,8 @@ checkpoints through repository interfaces.
 
 - planning finishes before implementation starts;
 - a dependent stage never starts before its dependencies pass;
-- an incomplete stage is never checkpointed;
+- an incomplete stage never receives a completion checkpoint; a temporary
+  recovery checkpoint may preserve it but cannot satisfy dependencies;
 - unavailable required evidence is a failure to satisfy the gate;
 - later stages are not attempted after an unrecoverable halt;
 - every halt identifies the stage, cause, and resumable state.

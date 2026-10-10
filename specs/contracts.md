@@ -36,11 +36,18 @@ Gate status is pass, fail, or unavailable. Only pass satisfies a required gate.
 
 ## Stage result
 
-A stage result contains stage identity, phase results, repair iterations,
-checkpoint result, and final status.
+A stage result contains stage identity, ordered implementation/review cycles,
+phase results, checkpoint result, and final status. Each cycle records its
+number (1–3), implementation result, frontend/backend scope review, browser UI
+evidence or a not-applicable reason, focused behavior checks, findings, and
+repair outcome.
 
 Final status is completed, failed, halted, or skipped. A completed stage has
-passing required gates and a successful checkpoint.
+passing required gates and a successful completion checkpoint. If the third
+cycle fails, the stage result records a temporary recovery checkpoint, blocked
+task status, failed gates, remaining acceptance criteria, findings, and next
+resume action. This checkpoint preserves work but does not complete the stage
+or satisfy dependencies.
 
 ## Run result
 

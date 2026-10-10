@@ -11,6 +11,7 @@ Verify that the Host and all connected browsers follow the product rules, keep o
 | Unit | Vitest | Test Game Engine rules and other pure logic without a browser, network, or database. |
 | Integration | Vitest | Test application services, Socket.IO boundaries, authorization, persistence, and synchronization together. |
 | End-to-end | Playwright | Test critical player and Host journeys through real browser interfaces and realtime communication. |
+| Interactive UI review | Playwright CLI | Inspect a stage's browser UI with snapshots, screenshots, console and request output, and relevant interactions during each implementation/review cycle. |
 
 ## Coverage Priorities
 
@@ -19,6 +20,10 @@ Verify that the Host and all connected browsers follow the product rules, keep o
 - **Browser flows:** Cover joining and lobby updates, Host start and cancel, team assignment, card selection, attack and defense, Host-recorded challenge outcomes, score updates, final results, refresh recovery, and common phone, tablet, and desktop sizes.
 
 Each feature's `tests.md` lists its expected behaviors. Keep tests behavior-focused and avoid asserting private implementation details.
+
+Playwright CLI inspection supplements automated Playwright Test coverage. It
+does not replace deterministic unit, integration, or end-to-end tests. Record
+the CLI commands and evidence paths in the stage run record.
 
 ## Determinism and Isolation
 

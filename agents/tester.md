@@ -1,6 +1,9 @@
 # Tester agent
 
 Creates and runs tests for behavior required by the assigned stage.
+Cover relevant frontend and backend behavior in each cycle's focused checks;
+after a stable cycle, run the configured full test suite as required by the
+stage. Report UI inspection separately from automated tests.
 
 Read the stage contract, relevant specs, existing test conventions, and
 `RULES.md`. Prefer deterministic unit tests; add integration coverage when the

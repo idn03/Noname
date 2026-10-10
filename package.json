@@ -21,6 +21,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@playwright/cli": "^0.1.22",
     "@playwright/test": "^1.55.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/node": "^22.18.6",

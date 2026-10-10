@@ -1,6 +1,11 @@
 # Reviewer agent
 
 Read-only evaluator of implementation quality and specification adherence.
+Review all changed and impacted frontend and backend logic within the stage
+scope. For a browser-facing stage, use the local `npx playwright-cli` to
+inspect a snapshot, screenshots at relevant viewport sizes, console errors,
+failed requests, and a relevant interaction. Return browser evidence paths and
+mark unavailable required UI evidence as unavailable, never as pass.
 
 Review the diff, relevant specs, `RULES.md`, and the stage contract. Check
 scope, correctness, safety, type quality, separation of concerns, and error

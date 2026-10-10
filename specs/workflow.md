@@ -40,10 +40,25 @@ resume from completed checkpoints.
 
 ## Repair
 
-- A failed review, test, or validation opens a bounded repair loop.
-- Each loop receives failure results and may change only relevant work.
-- The configured limit applies per stage and per failure class.
-- Exhausting a limit fails the stage.
+- A stage has at most three implementation/review cycles. Cycle 1 includes
+  initial implementation; later cycles repair issues found in earlier cycles.
+- Every cycle reviews all changed and impacted frontend and backend behavior
+  in scope, runs focused behavior checks, and reviews browser UI when the stage
+  has a user-facing interface.
+- UI review uses Playwright CLI evidence: snapshot, screenshot at relevant
+  viewport sizes, console and request failures, and a relevant interaction.
+  A required but unavailable browser check is not a pass. Record why UI review
+  is not applicable for stages without a browser interface.
+- Failed review, focused tests, or validation findings are sent to the
+  responsible implementer and consume the next cycle. Record cycle number,
+  findings, repairs, commands, outcomes, and evidence paths.
+- If Cycle 3 does not pass all required gates, create a temporary recovery
+  checkpoint and halt the stage. Update the run/task record with blocked status,
+  failed gates, remaining acceptance criteria, findings, and the next resume
+  action. Keep the stage incomplete and do not start dependent stages.
+- A temporary recovery checkpoint preserves work for resumption; it is not a
+  completion checkpoint, does not satisfy dependencies, and cannot mark the
+  stage completed. Completion checkpointing still requires every gate to pass.
 
 ## Quality gates
 
@@ -54,6 +69,9 @@ resume from completed checkpoints.
 ## Checkpoints and halting
 
 - A passing stage is checkpointed with a stage-identifying commit.
+- A failed stage at the cycle limit receives a separately identified temporary
+  recovery checkpoint. It preserves the worktree and task state but never
+  counts as a completed-stage checkpoint.
 - Checkpoint failure halts the run.
 - A failed stage halts the run; later stages are not attempted.
 - The result records the halt stage, cause, and recoverable state.
@@ -69,7 +87,9 @@ resume from completed checkpoints.
 ## Resumption
 
 - Resumption uses the original plan and checkpoint identity.
-- Completed stages are skipped only when their checkpoint is present.
+- Completed stages are skipped only when their completion checkpoint is present.
+- A temporary recovery checkpoint resumes the same incomplete stage and cycle
+  history; it never permits dependent stages to run.
 - The first incomplete stage is re-entered.
 - Resumption must not silently renumber or reorder stages.
 

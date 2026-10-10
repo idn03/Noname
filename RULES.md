@@ -28,10 +28,12 @@ repository.
 17. Keep Codex, OpenCode, and future provider behavior inside adapters.
 18. Plan before mutating the repository.
 19. Execute stages in dependency order and keep each stage single-concern.
-20. Require implementation, review, test, and validation before checkpointing.
+20. Require implementation, review, test, and validation before a completion
+    checkpoint; a temporary recovery checkpoint may preserve a halted stage.
 21. Use engine-derived evidence for quality gates; claims are not evidence.
 22. Keep repair loops bounded and record every iteration and outcome.
-23. Checkpoint only completed stages.
+23. Only completion checkpoints mark stages complete; label recovery checkpoints
+    separately and never use them to satisfy dependencies.
 24. Halt on unrecoverable failure and preserve resumable state.
 25. Serialize shared mutations; parallelize only isolated or read-only work.
 26. Never treat missing, skipped, or unavailable checks as passing.
