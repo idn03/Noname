@@ -26,7 +26,7 @@ export function startGame(
     return gameError("INVALID_INPUT", "Player identifiers must be unique.");
   }
   const prepared = prepareTeams(state.players.map((player) => ({ ...player })), random);
-  if (!prepared.ok) return prepared;
+  if (prepared.ok === false) return gameError(prepared.error.code, prepared.error.message);
   if (!isValidPreparation(state.players, prepared.value)) {
     return gameError("INVALID_ASSIGNMENT", "Game preparation returned an invalid player assignment.");
   }

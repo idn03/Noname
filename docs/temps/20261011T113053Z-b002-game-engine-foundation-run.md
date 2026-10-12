@@ -1,6 +1,6 @@
 # B-002 Game Engine Foundation — Run Record
 
-- **Run status:** Halted; B-002 incomplete after Cycle 3 validation failure.
+- **Run status:** B-002 complete after a resumed, user-authorized bounded repair.
 - **Plan:** Approved B-001 → B-010 plan; original order and IDs preserved.
 - **Dependency:** B-001 completion checkpoint `4428bd9` passed.
 - **Stage:** B-002, next in plan; no dependent stage was attempted.
@@ -64,3 +64,27 @@ configuration is otherwise unchanged.
   a completion checkpoint.
 
 Archival was not attempted because the full plan is incomplete.
+
+## Resumed repair and completion
+
+- **Authorization:** The user requested that the agent resume and complete the
+  repair. One additional bounded repair attempt was used for the recorded build
+  failure; no broader feature scope was added.
+- **Repair:** In `web-game/game/game-engine.ts`, use an explicit
+  `prepared.ok === false` discriminant check and map the preparation error into
+  the `GameResult<GameState>` result. This preserves its domain code/message
+  while type narrowing works with the TypeScript settings used by Next.js.
+- **Focused test:** `npx vitest run tests/game-engine.test.ts` — pass, exit 0;
+  1 file / 6 tests.
+- **Review:** Pass. The one-line repair retains the error code and message,
+  keeps state unchanged, and does not expand B-002 scope. No browser UI changed.
+- **Full unit suite:** `npm test` — pass, exit 0; 2 files / 7 tests.
+- **Typecheck:** `npm run typecheck` — pass, exit 0.
+- **Production build:** `npm run build` — pass, exit 0. Next.js added
+  `moduleResolution: node` to `web-game/tsconfig.json`; that generated edit was
+  removed after the build.
+- **Diff hygiene:** `git diff --check` — pass, exit 0.
+- **Lint:** Not configured in `package.json`; not a configured required check.
+- **Browser review:** Not applicable; no browser-facing interface changed.
+- **Checkpoint:** B-002 completion checkpoint is created after the gates pass.
+- **Final status:** B-002 complete. B-003 was not started.

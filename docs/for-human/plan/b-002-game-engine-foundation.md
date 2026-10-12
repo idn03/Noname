@@ -52,22 +52,19 @@ gate evidence.
 - [x] Implementation stayed within the scope above and reports changed paths.
 - [x] Review passed with no critical or major findings after bounded repair.
 - [x] Required focused and full unit tests passed with command and exit-status evidence.
-- [ ] Configured validation checks passed; none are skipped or unavailable.
+- [x] Configured validation checks passed; none are skipped or unavailable.
 - [x] Every repair attempt and outcome is recorded; budget was not exceeded.
-- [ ] Checkpoint identifies `B-002` and is created only after all gates pass.
+- [x] Checkpoint identifies `B-002` and is created only after all gates pass.
 - [x] If halted, later stages were not attempted and cause/state are resumable.
 
 ## Current run status
 
-**Blocked after Cycle 3.** Implementation, review, and tests pass, but
-`npm run build` fails on a TypeScript result-type mismatch in
-`web-game/game/game-engine.ts:29`. The temporary recovery checkpoint and full
-cycle evidence are recorded in
-`docs/temps/20261011T113053Z-b002-game-engine-foundation-run.md`. B-002 remains
-incomplete; dependent stages were not attempted. Resume from the recovery
-checkpoint, repair the reported build error within the authorized cycle policy,
-then rerun focused review/tests and all validation gates before completion
-checkpointing.
+**Complete after resumed repair.** The original Cycle 3 build failure was
+repaired under the user's request to resume with one additional bounded repair
+attempt. Review, focused tests, full tests, typecheck, build, and diff hygiene
+pass. The result and checkpoint are recorded in
+`docs/temps/20261011T113053Z-b002-game-engine-foundation-run.md`. Dependent
+stages were not attempted.
 
 ## Completion evidence
 
