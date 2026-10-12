@@ -33,6 +33,7 @@
 - `backend/server.ts` — initialize the local content store during Host startup.
 - `backend/db/schema.ts`, `backend/db/migrations/0000_static_game_content.sql` — category/challenge schema and initial migration.
 - `backend/db/database.ts`, `backend/db/content-repository.ts`, `backend/db/content-validation.ts`, `backend/db/seed-content.ts`, `backend/db/bundled-content.ts`, `backend/db/session-pool.ts` — database startup, versioned seed, validation, loading, and bounded subset preparation.
+- `backend/db/bundled-content.json` — bundled category and challenge data separated from its typed TypeScript import.
 - `package.json` — declares Drizzle and the local SQLite client; lockfile could not be regenerated.
 - `tests/static-game-content.test.ts` — seven focused behavior tests.
 - `docs/for-human/plan/b-003-static-game-content.md` — blocked status and resume pointer.
@@ -46,3 +47,33 @@
 - **Recovery checkpoint:** Created as commit `17afb4c` (`recovery checkpoint: preserve blocked B-003 static content`). This preserves the incomplete worktree and run state; it is not a completion checkpoint and cannot satisfy dependencies.
 - **Completion checkpoint:** Not created; B-003 remains incomplete and cannot satisfy B-006 or B-007 dependencies.
 - **Archival:** Not attempted because the full plan did not complete.
+
+## Resumption attempt (2026-10-12)
+
+The user requested completion of the remaining B-003 checklist. The prior
+three-cycle history and limit remain intact; this attempt could not proceed to
+dependency-backed database validation because registry access is still
+unavailable.
+
+| Gate | Command or source | Result |
+| --- | --- | --- |
+| Dependency retry | `npm install` | **Fail, exit 1.** `ENOTFOUND registry.npmjs.org` while fetching `@libsql/client`. |
+| Dependency cache | `npm cache ls @libsql/client drizzle-orm` | No cached packages were found. |
+| Focused tests | `npx vitest run tests/static-game-content.test.ts` | Pass, exit 0; 1 file / 7 tests. This also exercises loading the JSON-backed bundled catalog. |
+| Full tests | `npm test` | Pass, exit 0; 3 files / 14 tests. |
+| Typecheck | `npm run typecheck` | **Fail, exit 2.** The same unresolved Drizzle and libSQL modules prevent checking the database layer. |
+| Production build | `npm run build` | Pass, exit 0. Next.js added `moduleResolution: node` to `web-game/tsconfig.json`; the generated edit was removed. |
+| Diff hygiene | `git diff --check` | Pass, exit 0. |
+| Database integration | Migration, seed, load, malformed stored content | **Unavailable.** Required packages could not be installed. |
+
+Source review of the JSON split found that the typed wrapper preserves the
+existing `bundledContent` API; no new scope issue was found. The overall review
+gate remains failed because the lockfile is stale and the required database
+integration evidence is unavailable. No dependent stage was started and no
+completion checkpoint was created.
+
+**Next action:** When `registry.npmjs.org` resolves, run `npm install` to update
+the lockfile and install dependencies. Then rerun focused and full tests,
+typecheck, build, and database integration checks for migration, idempotent
+seeding, loading, and malformed stored content. Complete review and create the
+B-003 checkpoint only after all required gates pass.
