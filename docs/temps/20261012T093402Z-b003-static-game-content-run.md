@@ -43,6 +43,6 @@
 - **Cause:** Cycle 3 exhausted with required typecheck and independent review failing because the declared database dependencies are not installed and the lockfile is stale.
 - **Remaining acceptance:** Restore npm registry access; regenerate and verify `package-lock.json`; install dependencies; run focused tests, full tests, typecheck, production build, and database integration checks covering migration, idempotent seed, Drizzle loading, and malformed stored content. Resolve any findings within a newly authorized bounded repair allowance.
 - **Next resume action:** Resume B-003 from this worktree after npm registry access is available. Keep the original plan identity and stage number; do not begin B-004.
-- **Recovery checkpoint:** Not created. The workspace policy permits writes under the repository but denies writes to `.git`; an attempted Git index operation failed with `Operation not permitted`. The run record preserves resumable state, but it is not a Git checkpoint.
+- **Recovery checkpoint:** Created as commit `17afb4c` (`recovery checkpoint: preserve blocked B-003 static content`). This preserves the incomplete worktree and run state; it is not a completion checkpoint and cannot satisfy dependencies.
 - **Completion checkpoint:** Not created; B-003 remains incomplete and cannot satisfy B-006 or B-007 dependencies.
 - **Archival:** Not attempted because the full plan did not complete.
