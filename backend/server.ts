@@ -2,6 +2,7 @@ import { createServer } from 'node:http';
 import { networkInterfaces } from 'node:os';
 import next from 'next';
 import { Server } from 'socket.io';
+import { openContentDatabase } from './db/database';
 
 function isPrivateIpv4(address: string): boolean {
   const [first, second] = address.split('.').map(Number);
@@ -19,6 +20,7 @@ function findPrivateIpv4(): string | undefined {
 }
 
 const port = Number(process.env.PORT ?? 3000);
+const contentStore = await openContentDatabase();
 const hostname = process.env.HOST ?? findPrivateIpv4() ?? '127.0.0.1';
 const development = process.env.NODE_ENV !== 'production';
 const application = next({ dev: development, hostname, port, dir: 'web-game' });
@@ -33,6 +35,7 @@ const httpServer = createServer((request, response) => {
   });
 });
 const io = new Server(httpServer);
+httpServer.on('close', () => contentStore.client.close());
 
 io.on('connection', () => {
   // Socket event handlers are added with their owning feature stages.
