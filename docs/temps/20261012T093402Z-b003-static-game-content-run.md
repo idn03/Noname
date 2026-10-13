@@ -101,9 +101,10 @@ evidence are recorded below.
   applicable because no browser UI changed.
 - **Checkpoint attempt:** `git add` failed twice because Git could not create
   `.git/index.lock` (`Operation not permitted`). The repository environment
-  exposes `.git` as read-only. The completion commit was not created.
-- **Final status:** Required gates pass, but B-003 remains incomplete until a
-  stage-identifying completion checkpoint can be created. No dependent stage
-  was attempted.
-- **Next action:** Resume from this worktree when Git metadata is writable and
-  create the B-003 completion checkpoint; do not start B-004 before then.
+  exposes `.git` as read-only. The user then created completion checkpoint
+  `ad84cca` (`update: synchronize package-lock.json with new dependencies and
+  validate integration tests for B-003`), containing the lockfile, integration
+  tests, and updated stage records.
+- **Final status:** B-003 complete. No later stage has been attempted.
+- **Next stage:** B-004 — Player Identity and Lobby, per the approved backlog
+  order. Start it only after this B-003 completion checkpoint.

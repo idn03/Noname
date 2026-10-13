@@ -59,13 +59,12 @@ gate evidence.
 
 ## Current run status
 
-**Gates passed; checkpoint blocked.** The missing packages were installed and
-the lockfile synchronized. Review, unit and database integration tests,
-typecheck, production build, and diff hygiene pass. Creating the required
-completion commit failed because Git could not write `.git/index.lock`. B-003
-remains incomplete until its completion checkpoint is created. See
-`docs/temps/20261012T093402Z-b003-static-game-content-run.md` for gate evidence
-and the checkpoint recovery detail. No dependent stage was attempted.
+**Complete.** The missing packages were installed and the lockfile
+synchronized. Review, unit and database integration tests, typecheck,
+production build, and diff hygiene pass. Completion checkpoint `ad84cca`
+contains the B-003 changes. See
+`docs/temps/20261012T093402Z-b003-static-game-content-run.md` for gate evidence.
+No later stage has been attempted.
 
 ## Completion evidence
 
