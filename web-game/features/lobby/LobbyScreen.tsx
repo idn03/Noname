@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { io, type Socket } from 'socket.io-client';
 import { LOBBY_EVENTS, type LobbyErrorView, type LobbyView } from '../../../shared/lobby-contract';
 import LobbyNameForm from './LobbyNameForm';
@@ -25,6 +25,7 @@ export default function LobbyScreen() {
   const [pending, setPending] = useState(false);
   const [isLocalHost, setIsLocalHost] = useState(false);
   const [selfId, setSelfId] = useState('');
+  const credentialRejected = useRef(false);
 
   useEffect(() => {
     setIsLocalHost(['localhost', '127.0.0.1', '::1'].includes(window.location.hostname));
@@ -32,19 +33,36 @@ export default function LobbyScreen() {
     const connection = io({ auth: { credential } });
     setSocket(connection);
     connection.on('connect', () => setConnected(true));
-    connection.on('disconnect', () => { setConnected(false); setPending(false); });
+    connection.on('disconnect', () => {
+      setConnected(false);
+      setPending(false);
+      setError('Đã mất kết nối. Khi máy chủ hoạt động lại, hãy thử lại.');
+    });
     connection.on(LOBBY_EVENTS.identity, (playerId: string) => setSelfId(playerId));
     connection.on(LOBBY_EVENTS.state, (state: LobbyView) => {
       setLobby(state);
       setPending(false);
-      setError('');
+      if (credentialRejected.current) {
+        credentialRejected.current = false;
+        setError(state.phase === 'lobby'
+          ? 'Không thể khôi phục phiên chơi. Hãy nhập tên để tham gia phòng.'
+          : 'Phiên chơi đã hết hạn và trận đã bắt đầu. Không thể tham gia ván này.');
+      } else {
+        setError('');
+      }
     });
     connection.on(LOBBY_EVENTS.error, (issue: LobbyErrorView) => {
+      if (issue.code === 'INVALID_CREDENTIAL' || issue.code === 'NO_ACTIVE_SESSION') {
+        window.localStorage.removeItem(CREDENTIAL_KEY);
+        connection.auth = {};
+      }
+      credentialRejected.current = issue.code === 'INVALID_CREDENTIAL';
       setError(ERROR_TEXT[issue.code] ?? 'Đã xảy ra lỗi. Vui lòng thử lại.');
       setPending(false);
     });
     connection.on(LOBBY_EVENTS.credential, (value: string) => {
       window.localStorage.setItem(CREDENTIAL_KEY, value);
+      connection.auth = { credential: value };
     });
     return () => { connection.disconnect(); };
   }, []);
@@ -110,6 +128,7 @@ export default function LobbyScreen() {
             {player.isHost && <span className="host-label">Chủ phòng</span>}
             {!player.connected && <span className="offline-label">Đã ngắt kết nối</span>}
           </li>)}</ul>
+          {lobby.phase === 'started' && error && <p className="error-message" role="status">{error}</p>}
           {lobby.phase === 'lobby' && <>
             {!lobby.players.some((player) => player.id === selfId) && <LobbyNameForm label="Tên của bạn" action="Tham gia phòng" pendingAction="Đang tham gia…" helper="Từ 1 đến 24 ký tự. Tên có thể trùng với người khác." name={name} error={error} disabled={!connected || pending} onNameChange={setName} onSubmit={join} />}
             <p className="waiting-note">{lobby.players.some((player) => player.id === selfId && player.isHost) ? 'Phòng đã tạo. Chia sẻ địa chỉ máy chủ trong mạng nội bộ để mọi người tham gia.' : 'Đang chờ Host bắt đầu trò chơi.'}</p>

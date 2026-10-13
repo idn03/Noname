@@ -21,12 +21,15 @@ export function attachLobbyTransport(
         playerBySocket.set(socket.id, resumed.playerId);
         socketByPlayer.set(resumed.playerId, socket.id);
         socket.emit(LOBBY_EVENTS.identity, resumed.playerId);
-        socket.emit(LOBBY_EVENTS.state, resumed.lobby);
         io.emit(LOBBY_EVENTS.state, resumed.lobby);
-      }
+      } else respond(socket, undefined, 'INVALID_CREDENTIAL', 'Không thể khôi phục phiên chơi. Hãy nhập tên để tham gia.');
     }
+    if (session) socket.emit(LOBBY_EVENTS.state, session.view());
 
     socket.on(LOBBY_EVENTS.hostCreate, (request: LobbyRequest, reply?: (result: LobbyReply) => void) => {
+      if (playerBySocket.has(socket.id)) {
+        return respond(socket, reply, 'INVALID_REQUEST', 'Kết nối này đã có danh tính người chơi.');
+      }
       if (!isLoopbackAddress(socket.handshake.address)) {
         return respond(socket, reply, 'HOST_CREATION_LOCAL_ONLY', 'Chỉ có thể tạo phòng từ máy chủ trò chơi.');
       }
@@ -47,6 +50,9 @@ export function attachLobbyTransport(
     });
 
     socket.on(LOBBY_EVENTS.join, (request: LobbyRequest, reply?: (result: LobbyReply) => void) => {
+      if (playerBySocket.has(socket.id)) {
+        return respond(socket, reply, 'INVALID_REQUEST', 'Kết nối này đã có danh tính người chơi.');
+      }
       const activeSession = getSession();
       if (!activeSession) return respond(socket, reply, 'NO_ACTIVE_SESSION', 'Chưa có phòng đang hoạt động.');
       const result = activeSession.join(request?.name);
@@ -56,16 +62,20 @@ export function attachLobbyTransport(
       socket.emit(LOBBY_EVENTS.state, result.lobby);
       io.emit(LOBBY_EVENTS.state, result.lobby);
       reply?.({ ok: true, playerId: result.playerId });
-      socket.emit('player:credential', result.credential);
+      socket.emit(LOBBY_EVENTS.credential, result.credential);
     });
 
     socket.on(LOBBY_EVENTS.resume, (request: LobbyRequest) => {
+      if (playerBySocket.has(socket.id)) {
+        return respond(socket, undefined, 'INVALID_REQUEST', 'Kết nối này đã có danh tính người chơi.');
+      }
       const activeSession = getSession();
       const result = activeSession?.resume(request?.credential);
       if (!result) return respond(socket, undefined, activeSession ? 'INVALID_CREDENTIAL' : 'NO_ACTIVE_SESSION', 'Không thể khôi phục phiên chơi. Hãy nhập tên để tham gia.');
       playerBySocket.set(socket.id, result.playerId);
       socketByPlayer.set(result.playerId, socket.id);
       socket.emit(LOBBY_EVENTS.identity, result.playerId);
+      if (result.credential) socket.emit(LOBBY_EVENTS.credential, result.credential);
       io.emit(LOBBY_EVENTS.state, result.lobby);
     });
 

@@ -50,7 +50,9 @@ export class LobbySession {
     );
     if (!player) return undefined;
     player.connected = true;
-    return { playerId: player.id, lobby: this.view() };
+    const credential = randomBytes(32).toString('base64url');
+    player.credentialHash = this.hash(credential);
+    return { playerId: player.id, credential, lobby: this.view() };
   }
 
   disconnect(playerId: string): LobbyView {

@@ -6,10 +6,10 @@ import HomePage from '../web-game/app/page';
 Object.assign(globalThis, { React });
 
 describe('application home page', () => {
-  it('renders the Noname heading', () => {
+  it('renders the lobby heading', () => {
     const markup = renderToStaticMarkup(HomePage());
 
     expect(markup).toContain('<h1');
-    expect(markup).toContain('>Noname</h1>');
+    expect(markup).toContain('>Cùng vào phòng</h1>');
   });
 });

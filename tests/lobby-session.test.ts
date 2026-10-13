@@ -48,6 +48,10 @@ describe('player identity and lobby session', () => {
     expect(resumed?.playerId).toBe(joined.playerId);
     expect(resumed?.lobby.players).toHaveLength(2);
     expect(resumed?.lobby.players.find((player) => player.id === joined.playerId)?.connected).toBe(true);
+    expect(resumed?.credential).toBeDefined();
+    expect(lobby.resume(joined.credential)).toBeUndefined();
+    const refreshed = lobby.resume(resumed?.credential);
+    expect(refreshed?.playerId).toBe(joined.playerId);
     expect(lobby.resume('invalid-token')).toBeUndefined();
     expect(lobby.resume({ credential: joined.credential })).toBeUndefined();
   });
