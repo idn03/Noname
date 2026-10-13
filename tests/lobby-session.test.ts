@@ -1,0 +1,63 @@
+import { describe, expect, it } from 'vitest';
+import { LobbySession } from '../backend/lobby-session';
+import { parsePlayerName } from '../shared/lobby-contract';
+
+describe('player identity and lobby session', () => {
+  it('trims names and accepts only 1–24 visible characters without controls', () => {
+    expect(parsePlayerName('  Alice  ')).toBe('Alice');
+    expect(parsePlayerName('  ')).toBeUndefined();
+    expect(parsePlayerName('a'.repeat(25))).toBeUndefined();
+    expect(parsePlayerName('A\nB')).toBeUndefined();
+    expect(parsePlayerName(42)).toBeUndefined();
+    expect(parsePlayerName('😀'.repeat(24))).toBe('😀'.repeat(24));
+  });
+
+  it('gives duplicate display names distinct identities and credentials', () => {
+    const lobby = LobbySession.createForHost('Host');
+    const first = lobby.join('Sam');
+    const second = lobby.join('Sam');
+
+    expect(typeof first).not.toBe('string');
+    expect(typeof second).not.toBe('string');
+    if (typeof first === 'string' || typeof second === 'string') return;
+    expect(first.playerId).not.toBe(second.playerId);
+    expect(first.credential).not.toBe(second.credential);
+    expect(lobby.view().players.filter((player) => player.name === 'Sam')).toHaveLength(2);
+  });
+
+  it('counts the Host and disconnected identities toward the ten-player limit', () => {
+    const lobby = LobbySession.createForHost('Host');
+    lobby.connectHost();
+    const joined = Array.from({ length: 9 }, (_, index) => lobby.join(`P${index}`));
+    const first = joined[0];
+    if (typeof first === 'string') throw new Error('Expected first player to join');
+    lobby.disconnect(first.playerId);
+
+    expect(lobby.view().players).toHaveLength(10);
+    expect(lobby.view().players.find((player) => player.id === first.playerId)?.connected).toBe(false);
+    expect(lobby.join('Extra')).toBe('LOBBY_FULL');
+  });
+
+  it('reconnects the same identity without adding a participant', () => {
+    const lobby = LobbySession.createForHost('Host');
+    const joined = lobby.join('Guest');
+    if (typeof joined === 'string') throw new Error('Expected player to join');
+    lobby.disconnect(joined.playerId);
+
+    const resumed = lobby.resume(joined.credential);
+    expect(resumed?.playerId).toBe(joined.playerId);
+    expect(resumed?.lobby.players).toHaveLength(2);
+    expect(resumed?.lobby.players.find((player) => player.id === joined.playerId)?.connected).toBe(true);
+    expect(lobby.resume('invalid-token')).toBeUndefined();
+    expect(lobby.resume({ credential: joined.credential })).toBeUndefined();
+  });
+
+  it('rejects invalid names, preserves membership, and closes new admission after start', () => {
+    const lobby = LobbySession.createForHost('Host');
+    expect(lobby.join(' \t ')).toBe('INVALID_NAME');
+    expect(lobby.view().players).toHaveLength(1);
+    lobby.closeAdmission();
+    expect(lobby.join('Guest')).toBe('LOBBY_CLOSED');
+    expect(lobby.view().players).toHaveLength(1);
+  });
+});

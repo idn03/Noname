@@ -3,6 +3,8 @@ import { networkInterfaces } from 'node:os';
 import next from 'next';
 import { Server } from 'socket.io';
 import { openContentDatabase } from './db/database';
+import { attachLobbyTransport } from './lobby-transport';
+import type { LobbySession } from './lobby-session';
 
 function isPrivateIpv4(address: string): boolean {
   const [first, second] = address.split('.').map(Number);
@@ -36,10 +38,12 @@ const httpServer = createServer((request, response) => {
 });
 const io = new Server(httpServer);
 httpServer.on('close', () => contentStore.client.close());
+let activeLobby: LobbySession | undefined;
+attachLobbyTransport(io, () => activeLobby);
 
-io.on('connection', () => {
-  // Socket event handlers are added with their owning feature stages.
-});
+export function setActiveLobby(session: LobbySession | undefined): void {
+  activeLobby = session;
+}
 
 httpServer.listen(port, hostname, () => {
   console.info(`Host listening on http://${hostname}:${port}`);

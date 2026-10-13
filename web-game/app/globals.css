@@ -21,3 +21,44 @@ body {
   background: var(--black);
   color: var(--white);
 }
+
+.lobby-shell { min-height: 100dvh; background: radial-gradient(ellipse at 82% 18%, #241316 0, #000 42%); }
+.game-header { height: 68px; display: flex; align-items: center; gap: 12px; padding: 0 clamp(20px, 5vw, 72px); border-bottom: 1px solid #292929; font-size: 13px; font-weight: 700; letter-spacing: .16em; }
+.game-mark { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid var(--blood-red); color: #fff; font-family: Georgia, serif; font-size: 18px; letter-spacing: 0; }
+.lobby-content { width: min(100% - 40px, 680px); margin: 0 auto; padding: clamp(52px, 11vh, 112px) 0 48px; }
+.phase-label { margin: 0 0 14px; color: #bd858a; font-size: 11px; font-weight: 700; letter-spacing: .16em; }
+.lobby-content h1 { margin: 0; font-size: clamp(34px, 6vw, 52px); line-height: 1.08; letter-spacing: -.04em; }
+.intro { max-width: 48ch; margin: 16px 0 38px; color: #b5b5b5; line-height: 1.65; }
+.join-form { max-width: 560px; }
+.join-form label { display: block; margin-bottom: 9px; font-size: 14px; font-weight: 600; }
+.join-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+.join-row input { min-width: 0; height: 50px; padding: 0 14px; border: 1px solid #5a5a5a; border-radius: 4px; background: #111; color: #fff; font: inherit; }
+.join-row input:focus-visible, .join-row button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.join-row button { min-height: 50px; padding: 0 19px; border: 1px solid #8c424b; border-radius: 4px; background: var(--blood-red); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.join-row button:hover:not(:disabled) { background: #813740; }
+.join-row button:active:not(:disabled) { transform: translateY(1px); }
+.join-row button:disabled { cursor: wait; opacity: .65; }
+.helper { margin: 9px 0 0; color: #aaa; font-size: 13px; }
+.error-message { margin: 14px 0; color: #ffb6bd; font-size: 14px; }
+.roster { margin-top: 42px; }
+.roster-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid #414141; }
+.roster-heading h2 { margin: 0; font-size: 20px; }
+.roster-heading p { margin: 7px 0 0; color: #b5b5b5; font-size: 14px; }
+.connection-state { color: #ddd; font-size: 13px; }
+.connection-state.is-offline, .offline-label { color: #c9a1a4; }
+.roster ul { margin: 0; padding: 0; list-style: none; }
+.roster li { min-height: 58px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #292929; }
+.presence { flex: 0 0 9px; width: 9px; height: 9px; border: 1px solid #888; border-radius: 50%; }
+.presence.online { border-color: #b85c66; background: #b85c66; }
+.player-name { overflow-wrap: anywhere; }
+.host-label { padding: 4px 8px; border: 1px solid #5a5a5a; border-radius: 3px; color: #eee; font-size: 12px; }
+.offline-label { margin-left: auto; font-size: 12px; }
+.waiting-note { color: #aaa; font-size: 14px; }
+.connection-footer { display: flex; align-items: center; gap: 9px; margin-top: 48px; color: #999; font-size: 12px; }
+@media (max-width: 520px) {
+  .join-row { grid-template-columns: 1fr; }
+  .join-row button { width: 100%; }
+  .roster-heading { align-items: flex-start; flex-direction: column; }
+  .offline-label { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
