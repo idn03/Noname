@@ -1,6 +1,6 @@
 # B-003 Static Game Content — Run Record
 
-- **Run status:** Blocked at B-003 after the third implementation/review cycle.
+- **Run status:** B-003 gates pass; completion checkpoint blocked by Git index write denial.
 - **Plan:** Existing reviewed B-001 → B-010 plan; IDs, dependencies, scope, and order unchanged.
 - **Dependencies:** B-001 completion checkpoint `4428bd9`; B-002 completion checkpoint `a392792`.
 - **Stage:** B-003; dependent stages were not attempted.
@@ -19,14 +19,14 @@
 
 | Gate | Command or source | Result |
 | --- | --- | --- |
-| Full tests | `npm test` | Pass, exit 0; 3 files / 14 tests. |
-| Typecheck | `npm run typecheck` | **Fail, exit 2.** Cannot resolve `drizzle-orm`, `@libsql/client`, and their submodules; resulting implicit-any errors are also reported. |
+| Full tests | `npm test` | Pass after resumption, exit 0; 4 files / 16 tests. |
+| Typecheck | `npm run typecheck` | Pass after dependency installation, exit 0. |
 | Production build | `npm run build` | Pass, exit 0. Next.js added `moduleResolution: node` to `web-game/tsconfig.json`; that generated edit was removed. |
 | Diff hygiene | `git diff --check` | Pass, exit 0. |
-| Dependency installation | `npm install` / lockfile-only retry | **Unavailable.** Registry lookup returned `ENOTFOUND registry.npmjs.org`; `package-lock.json` remains unchanged while `package.json` declares `@libsql/client` and `drizzle-orm`. |
-| Database integration | Drizzle migration, seed, load | **Unavailable.** Dependencies could not be installed, so startup persistence behavior was not executed. |
+| Dependency installation | `npm install` | Initially unavailable due to `ENOTFOUND`; later succeeded. `package-lock.json` now records `@libsql/client` and `drizzle-orm`. |
+| Database integration | `npx vitest run tests/static-game-content.integration.test.ts` | Pass, exit 0; 1 file / 2 tests. Exercises migration, idempotent seed, Drizzle load, and rejection of malformed stored content using isolated file-backed SQLite databases. |
 | Browser review | Not applicable | No browser interface changed. |
-| Review | Independent B-003 Cycle 3 source review | Fail: lockfile drift and unavailable database integration evidence. |
+| Review | Independent read-only review of resumed diff | Pass within the B-003 backlog scope. The reviewer clarified that no-repeat challenge draws belong to B-007 and role-aware views belong to B-006/B-007; neither expands this stage's bounded-pool contract. |
 
 ## Changed paths
 
@@ -34,18 +34,19 @@
 - `backend/db/schema.ts`, `backend/db/migrations/0000_static_game_content.sql` — category/challenge schema and initial migration.
 - `backend/db/database.ts`, `backend/db/content-repository.ts`, `backend/db/content-validation.ts`, `backend/db/seed-content.ts`, `backend/db/bundled-content.ts`, `backend/db/session-pool.ts` — database startup, versioned seed, validation, loading, and bounded subset preparation.
 - `backend/db/bundled-content.json` — bundled category and challenge data separated from its typed TypeScript import.
-- `package.json` — declares Drizzle and the local SQLite client; lockfile could not be regenerated.
-- `tests/static-game-content.test.ts` — seven focused behavior tests.
+- `package.json`, `package-lock.json` — declare and lock Drizzle and the local SQLite client.
+- `tests/static-game-content.test.ts` — seven focused validation, catalog, and bounded subset tests.
+- `tests/static-game-content.integration.test.ts` — migration, seed/load, and malformed persisted content integration coverage.
 - `docs/for-human/plan/b-003-static-game-content.md` — blocked status and resume pointer.
 
-## Halt and resumption
+## Original halt and resumption
 
 - **Halt stage:** B-003.
-- **Cause:** Cycle 3 exhausted with required typecheck and independent review failing because the declared database dependencies are not installed and the lockfile is stale.
-- **Remaining acceptance:** Restore npm registry access; regenerate and verify `package-lock.json`; install dependencies; run focused tests, full tests, typecheck, production build, and database integration checks covering migration, idempotent seed, Drizzle loading, and malformed stored content. Resolve any findings within a newly authorized bounded repair allowance.
-- **Next resume action:** Resume B-003 from this worktree after npm registry access is available. Keep the original plan identity and stage number; do not begin B-004.
+- **Original cause:** Cycle 3 exhausted with typecheck and review blocked by absent dependencies and a stale lockfile.
+- **Original remaining acceptance:** Install dependencies, synchronize `package-lock.json`, and execute the required database integration checks.
+- **Resumption:** The user authorized continuing B-003 after Cycle 3. Original cycle history and plan identity were preserved; no dependent stage was started.
 - **Recovery checkpoint:** Created as commit `17afb4c` (`recovery checkpoint: preserve blocked B-003 static content`). This preserves the incomplete worktree and run state; it is not a completion checkpoint and cannot satisfy dependencies.
-- **Completion checkpoint:** Not created; B-003 remains incomplete and cannot satisfy B-006 or B-007 dependencies.
+- **At original halt:** No completion checkpoint had been created. The later B-003 completion checkpoint is recorded below.
 - **Archival:** Not attempted because the full plan did not complete.
 
 ## Resumption attempt (2026-10-12)
@@ -72,8 +73,37 @@ gate remains failed because the lockfile is stale and the required database
 integration evidence is unavailable. No dependent stage was started and no
 completion checkpoint was created.
 
-**Next action:** When `registry.npmjs.org` resolves, run `npm install` to update
-the lockfile and install dependencies. Then rerun focused and full tests,
-typecheck, build, and database integration checks for migration, idempotent
-seeding, loading, and malformed stored content. Complete review and create the
-B-003 checkpoint only after all required gates pass.
+The registry failure remained unresolved at the end of this attempt. The user
+later reported a successful `npm install`; that continuation and final gate
+evidence are recorded below.
+
+## Resumption validation (2026-10-13)
+
+- **Dependency installation:** User ran `npm install`; it added 18 packages.
+  `npm ls @libsql/client drizzle-orm --depth=0` passes with versions 0.15.15
+  and 0.44.7. The lockfile is synchronized; `npm ci --ignore-scripts --dry-run`
+  also passes.
+- **Integration tests:** Added file-backed temporary SQLite coverage for
+  migration, repeat seeding, content loading, and malformed persisted content.
+  The first in-memory fixture failed because its connection did not preserve
+  migration state across transaction connections; switching to an isolated
+  temporary database file resolved the fixture issue.
+- **Focused integration:** `npx vitest run tests/static-game-content.integration.test.ts` — pass, exit 0; 2 tests.
+- **Full tests:** `npm test` — pass, exit 0; 4 files / 16 tests.
+- **Typecheck:** `npm run typecheck` — pass, exit 0.
+- **Production build:** `npm run build` — pass, exit 0. Next.js added
+  `moduleResolution: node` to `web-game/tsconfig.json`; the generated edit was
+  removed after the build.
+- **Diff hygiene:** `git diff --check` — pass, exit 0.
+- **Review:** Pass after the reviewer mapped role-aware views to B-006/B-007
+  and no-repeat challenge draws to B-007, outside B-003's explicit stage scope.
+- **Validation:** Pass. Lint is not configured; browser review is not
+  applicable because no browser UI changed.
+- **Checkpoint attempt:** `git add` failed twice because Git could not create
+  `.git/index.lock` (`Operation not permitted`). The repository environment
+  exposes `.git` as read-only. The completion commit was not created.
+- **Final status:** Required gates pass, but B-003 remains incomplete until a
+  stage-identifying completion checkpoint can be created. No dependent stage
+  was attempted.
+- **Next action:** Resume from this worktree when Git metadata is writable and
+  create the B-003 completion checkpoint; do not start B-004 before then.
