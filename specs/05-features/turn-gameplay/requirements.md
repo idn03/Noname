@@ -10,3 +10,4 @@
 - **TURN-008 — Card Use:** A used attack or defense card cannot be used again during the game.
 - **TURN-009 — Challenge Variety:** Avoid repeating a challenge in the same game while alternatives remain.
 - **TURN-010 — Validation:** Invalid, stale, wrong-owner, or wrong-phase actions do not change game state.
+- **TURN-011 — Host Outcome Controls:** While a Sheep player is handling the active challenge, show the Host Thành Công and Thất Bại controls. Only the Host may record one outcome for that active challenge; reject duplicate, stale, or unauthorized outcomes without changing state.

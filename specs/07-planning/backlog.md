@@ -25,8 +25,8 @@ Backlog items are dependency-ordered implementation stages. Each stage has one c
 ### B-004 — Player Identity and Lobby
 
 - **Depends on:** B-001, B-002.
-- **Scope:** Join by display name, server-issued session identity, lobby presence, 10-participant capacity, disconnect handling, and refresh recovery.
-- **Complete when:** Valid players can join and reconnect to the running Host; invalid joins and identity claims are rejected safely.
+- **Scope:** Host session creation from the server machine's local browser using PLAY, join by display name, server-issued session identity, lobby presence, 10-participant capacity, disconnect handling, and refresh recovery.
+- **Complete when:** The local server runner can create a room and becomes its Host; valid players can join and reconnect; remote clients cannot create sessions or claim Host authority; invalid joins are rejected safely.
 
 ### B-005 — Host Controls and Team Assignment
 

@@ -36,8 +36,10 @@ export class LobbySession {
   connectHost(): LobbySessionView {
     const host = [...this.players.values()].find((player) => player.isHost);
     if (!host) throw new Error('Host identity is missing');
+    const credential = randomBytes(32).toString('base64url');
     host.connected = true;
-    return { playerId: host.id, lobby: this.view() };
+    host.credentialHash = this.hash(credential);
+    return { playerId: host.id, credential, lobby: this.view() };
   }
 
   resume(value: unknown): LobbySessionView | undefined {

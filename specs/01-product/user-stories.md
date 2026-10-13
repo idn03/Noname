@@ -47,3 +47,7 @@
 ## US-012 — Cancel Session
 
 **As the Host,** I want to cancel an active game so the group can stop or restart. **Acceptance:** Only the Host can cancel; all connected clients are notified and active game state is terminated.
+
+## US-013 — Create Room
+
+**As the person running the server,** I want to press PLAY on the local browser page to create a room and join as Host. **Acceptance:** The server assigns my Host identity; LAN players can join the room but cannot create it or claim Host authority.

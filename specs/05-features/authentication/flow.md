@@ -1,5 +1,12 @@
 # Player Identity and Join Flow
 
+## Host Creates a Session
+
+1. The person running the server opens the local browser page, enters a display name, and presses PLAY.
+2. The server accepts creation only from its local browser while no session is active, creates the session, and assigns the initiating player the Host identity and private credential.
+3. The Host appears in the lobby as a connected participant. The server publishes the lobby to connected clients.
+4. Other players on the LAN may join the active lobby by display name. They cannot create a session or claim Host authority.
+
 ## New Player
 
 1. The player opens the Host's game in a browser and submits a display name.

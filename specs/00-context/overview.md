@@ -79,7 +79,7 @@ All application components run on the Host machine:
 - Game engine.
 - Database.
 
-Players connect to the Host through the same LAN or Wi-Fi network using a web browser.
+The server listens for local Host control and LAN or Wi-Fi player connections. The Host creates the room from `http://127.0.0.1:3000`; players connect using the Host machine's LAN address.
 
 Internet deployment is not required for V0.
 

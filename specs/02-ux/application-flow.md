@@ -2,8 +2,8 @@
 
 ## Entry and Lobby
 
-1. A player opens the Host's local game in a browser and sees a concise rules overview with options to read the Wolf or Sheep rules.
-2. The player may read either team explanation and return to Join.
+1. The person running the server opens the local browser page, enters a display name, and presses PLAY to create the room; the server assigns that player as Host.
+2. Other players open the Host's LAN address, see a concise rules overview with options to read Wolf or Sheep rules, and return to Join.
 3. A new player enters a display name and joins. A returning player with a valid session resumes their existing identity.
 4. The lobby shows connected players and the current player count. The Host can start when at least six players are connected; the session limit is ten identities.
 5. The Host starts the game. The server assigns every connected player, including the Host, to Wolf or Sheep and opens card selection.

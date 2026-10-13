@@ -1,6 +1,7 @@
 # Session Management Requirements
 
 - **SES-001 — Single Session:** Support one active game session on the Host machine.
+- **SES-008 — Host Session Creation:** Create the active lobby only when the local player running the server presses PLAY. Reject creation from LAN clients and while another session is active.
 - **SES-002 — Lobby:** Keep the session in a lobby until the Host starts a game.
 - **SES-003 — Player Count:** Permit 6–10 players, including the Host. The Host can start only when at least 6 players are connected.
 - **SES-004 — Host Start:** Accept start requests only from the server-designated Host and only when game-start invariants hold.

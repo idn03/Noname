@@ -8,3 +8,4 @@
 - **CARD-006 — Challenge Visibility:** Wolf players may inspect available challenges during selection. Sheep clients do not receive Wolf selections before reveal.
 - **CARD-007 — Timer:** Set selection duration in minutes equal to the number of card slots. If time expires before all slots are submitted, keep the Selection Phase open until they are complete; do not auto-fill cards or bypass the completion gate.
 - **CARD-008 — Validation:** Reject selection commands from another player's slot, invalid categories, or the wrong phase without changing authoritative state.
+- **CARD-009 — Host Progress View:** Show the Host readiness and completion progress for both teams and all player slots without revealing private card choices.

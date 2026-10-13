@@ -1,11 +1,15 @@
 import type { Server, Socket } from 'socket.io';
-import { LOBBY_EVENTS, type LobbyErrorView } from '../shared/lobby-contract';
-import type { LobbySession } from './lobby-session';
+import { LOBBY_EVENTS, parsePlayerName, type LobbyErrorView } from '../shared/lobby-contract';
+import { LobbySession } from './lobby-session';
 
 interface LobbyRequest { name?: unknown; credential?: unknown }
-interface LobbyReply { ok: boolean; error?: LobbyErrorView }
+interface LobbyReply { ok: boolean; playerId?: string; error?: LobbyErrorView }
 
-export function attachLobbyTransport(io: Server, getSession: () => LobbySession | undefined): void {
+export function attachLobbyTransport(
+  io: Server,
+  getSession: () => LobbySession | undefined,
+  setSession: (session: LobbySession | undefined) => void,
+): void {
   const playerBySocket = new Map<string, string>();
   const socketByPlayer = new Map<string, string>();
   io.on('connection', (socket) => {
@@ -16,10 +20,31 @@ export function attachLobbyTransport(io: Server, getSession: () => LobbySession 
       if (resumed) {
         playerBySocket.set(socket.id, resumed.playerId);
         socketByPlayer.set(resumed.playerId, socket.id);
+        socket.emit(LOBBY_EVENTS.identity, resumed.playerId);
         socket.emit(LOBBY_EVENTS.state, resumed.lobby);
         io.emit(LOBBY_EVENTS.state, resumed.lobby);
       }
     }
+
+    socket.on(LOBBY_EVENTS.hostCreate, (request: LobbyRequest, reply?: (result: LobbyReply) => void) => {
+      if (!isLoopbackAddress(socket.handshake.address)) {
+        return respond(socket, reply, 'HOST_CREATION_LOCAL_ONLY', 'Chỉ có thể tạo phòng từ máy chủ trò chơi.');
+      }
+      if (getSession()) {
+        return respond(socket, reply, 'SESSION_ALREADY_ACTIVE', 'Đã có một phòng đang hoạt động.');
+      }
+      const name = parsePlayerName(request?.name);
+      if (!name) return respond(socket, reply, 'INVALID_NAME', messageFor('INVALID_NAME'));
+      const session = LobbySession.createForHost(name);
+      const host = session.connectHost();
+      setSession(session);
+      playerBySocket.set(socket.id, host.playerId);
+      socketByPlayer.set(host.playerId, socket.id);
+      socket.emit(LOBBY_EVENTS.identity, host.playerId);
+      socket.emit(LOBBY_EVENTS.credential, host.credential);
+      io.emit(LOBBY_EVENTS.state, host.lobby);
+      reply?.({ ok: true, playerId: host.playerId });
+    });
 
     socket.on(LOBBY_EVENTS.join, (request: LobbyRequest, reply?: (result: LobbyReply) => void) => {
       const activeSession = getSession();
@@ -30,7 +55,7 @@ export function attachLobbyTransport(io: Server, getSession: () => LobbySession 
       socketByPlayer.set(result.playerId, socket.id);
       socket.emit(LOBBY_EVENTS.state, result.lobby);
       io.emit(LOBBY_EVENTS.state, result.lobby);
-      reply?.({ ok: true });
+      reply?.({ ok: true, playerId: result.playerId });
       socket.emit('player:credential', result.credential);
     });
 
@@ -40,6 +65,7 @@ export function attachLobbyTransport(io: Server, getSession: () => LobbySession 
       if (!result) return respond(socket, undefined, activeSession ? 'INVALID_CREDENTIAL' : 'NO_ACTIVE_SESSION', 'Không thể khôi phục phiên chơi. Hãy nhập tên để tham gia.');
       playerBySocket.set(socket.id, result.playerId);
       socketByPlayer.set(result.playerId, socket.id);
+      socket.emit(LOBBY_EVENTS.identity, result.playerId);
       io.emit(LOBBY_EVENTS.state, result.lobby);
     });
 
@@ -55,9 +81,15 @@ export function attachLobbyTransport(io: Server, getSession: () => LobbySession 
   });
 }
 
+function isLoopbackAddress(address: string | undefined): boolean {
+  return address === '::1' || address === '127.0.0.1' || Boolean(address?.startsWith('::ffff:127.'));
+}
+
 function messageFor(code: string): string {
   if (code === 'INVALID_NAME') return 'Tên cần từ 1 đến 24 ký tự và không chứa ký tự điều khiển.';
   if (code === 'LOBBY_FULL') return 'Phòng đã đủ 10 người chơi.';
+  if (code === 'SESSION_ALREADY_ACTIVE') return 'Đã có một phòng đang hoạt động.';
+  if (code === 'HOST_CREATION_LOCAL_ONLY') return 'Chỉ có thể tạo phòng từ máy chủ trò chơi.';
   return 'Trận đã bắt đầu, không thể nhận thêm người chơi.';
 }
 

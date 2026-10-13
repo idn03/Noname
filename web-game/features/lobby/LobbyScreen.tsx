@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { io, type Socket } from 'socket.io-client';
 import { LOBBY_EVENTS, type LobbyErrorView, type LobbyView } from '../../../shared/lobby-contract';
+import LobbyNameForm from './LobbyNameForm';
 
 const CREDENTIAL_KEY = 'noname.player-credential';
 const ERROR_TEXT: Record<string, string> = {
@@ -11,6 +12,8 @@ const ERROR_TEXT: Record<string, string> = {
   INVALID_NAME: 'Tên cần từ 1 đến 24 ký tự, không chứa ký tự điều khiển.',
   LOBBY_FULL: 'Phòng đã đủ 10 người chơi.',
   LOBBY_CLOSED: 'Trận đã bắt đầu, phòng không nhận thêm người chơi.',
+  SESSION_ALREADY_ACTIVE: 'Đã có một phòng đang hoạt động.',
+  HOST_CREATION_LOCAL_ONLY: 'Chỉ có thể tạo phòng từ máy chủ trò chơi.',
 };
 
 export default function LobbyScreen() {
@@ -20,13 +23,17 @@ export default function LobbyScreen() {
   const [error, setError] = useState('');
   const [connected, setConnected] = useState(false);
   const [pending, setPending] = useState(false);
+  const [isLocalHost, setIsLocalHost] = useState(false);
+  const [selfId, setSelfId] = useState('');
 
   useEffect(() => {
+    setIsLocalHost(['localhost', '127.0.0.1', '::1'].includes(window.location.hostname));
     const credential = window.localStorage.getItem(CREDENTIAL_KEY);
     const connection = io({ auth: { credential } });
     setSocket(connection);
     connection.on('connect', () => setConnected(true));
-    connection.on('disconnect', () => setConnected(false));
+    connection.on('disconnect', () => { setConnected(false); setPending(false); });
+    connection.on(LOBBY_EVENTS.identity, (playerId: string) => setSelfId(playerId));
     connection.on(LOBBY_EVENTS.state, (state: LobbyView) => {
       setLobby(state);
       setPending(false);
@@ -42,14 +49,39 @@ export default function LobbyScreen() {
     return () => { connection.disconnect(); };
   }, []);
 
+  function createHost(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!socket || pending) return;
+    setPending(true);
+    setError('');
+    socket.timeout(8000).emit(LOBBY_EVENTS.hostCreate, { name }, (timeoutError: Error | null, reply: { ok: boolean; playerId?: string; error?: LobbyErrorView }) => {
+      if (timeoutError) {
+        setError('Máy chủ chưa phản hồi. Hãy kiểm tra kết nối rồi thử lại.');
+        setPending(false);
+      } else if (!reply.ok && reply.error) {
+        setError(ERROR_TEXT[reply.error.code] ?? 'Đã xảy ra lỗi. Vui lòng thử lại.');
+        setPending(false);
+      } else if (reply.playerId) {
+        setSelfId(reply.playerId);
+        setPending(false);
+      }
+    });
+  }
+
   function join(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!socket || pending) return;
     setPending(true);
     setError('');
-    socket.emit(LOBBY_EVENTS.join, { name }, (reply: { ok: boolean; error?: LobbyErrorView }) => {
-      if (!reply.ok && reply.error) {
+    socket.timeout(8000).emit(LOBBY_EVENTS.join, { name }, (timeoutError: Error | null, reply: { ok: boolean; playerId?: string; error?: LobbyErrorView }) => {
+      if (timeoutError) {
+        setError('Máy chủ chưa phản hồi. Hãy kiểm tra kết nối rồi thử lại.');
+        setPending(false);
+      } else if (!reply.ok && reply.error) {
         setError(ERROR_TEXT[reply.error.code] ?? 'Đã xảy ra lỗi. Vui lòng thử lại.');
+        setPending(false);
+      } else if (reply.playerId) {
+        setSelfId(reply.playerId);
         setPending(false);
       }
     });
@@ -65,15 +97,8 @@ export default function LobbyScreen() {
         <p className="phase-label">TRÒ CHƠI NHIỀU NGƯỜI</p>
         <h1 id="page-title">Cùng vào phòng</h1>
         <p className="intro">Nhập tên hiển thị để tham gia ván chơi cùng mọi người trong mạng nội bộ.</p>
-        {!lobby && <form className="join-form" onSubmit={join}>
-          <label htmlFor="player-name">Tên của bạn</label>
-          <div className="join-row">
-            <input id="player-name" autoComplete="nickname" maxLength={48} value={name} onChange={(event) => setName(event.target.value)} aria-describedby={error ? 'join-error' : 'name-help'} />
-            <button type="submit" disabled={!connected || pending}>{pending ? 'Đang tham gia…' : 'Tham gia phòng'}</button>
-          </div>
-          <p id="name-help" className="helper">Từ 1 đến 24 ký tự. Tên có thể trùng với người khác.</p>
-          {error && <p id="join-error" className="error-message" role="alert">{error}</p>}
-        </form>}
+        {!lobby && isLocalHost && <LobbyNameForm label="Tên của Host" action="PLAY" pendingAction="Đang tạo phòng…" helper="Tạo phòng trên máy chủ này và tham gia với tư cách Host." name={name} error={error} disabled={!connected || pending} onNameChange={setName} onSubmit={createHost} />}
+        {!lobby && !isLocalHost && <p className="waiting-note" role="status">Đang chờ Host tạo phòng trên máy chủ. Khi phòng mở, bạn có thể tham gia tại đây.</p>}
         {lobby && <section className="roster" aria-label="Danh sách người chơi">
           <div className="roster-heading">
             <div><h2>Người chơi</h2><p>{connectedPlayers} đang kết nối · {players.length}/10 chỗ</p></div>
@@ -85,7 +110,10 @@ export default function LobbyScreen() {
             {player.isHost && <span className="host-label">Chủ phòng</span>}
             {!player.connected && <span className="offline-label">Đã ngắt kết nối</span>}
           </li>)}</ul>
-          {lobby.phase === 'lobby' && <p className="waiting-note">Đang chờ mọi người tham gia.</p>}
+          {lobby.phase === 'lobby' && <>
+            {!lobby.players.some((player) => player.id === selfId) && <LobbyNameForm label="Tên của bạn" action="Tham gia phòng" pendingAction="Đang tham gia…" helper="Từ 1 đến 24 ký tự. Tên có thể trùng với người khác." name={name} error={error} disabled={!connected || pending} onNameChange={setName} onSubmit={join} />}
+            <p className="waiting-note">{lobby.players.some((player) => player.id === selfId && player.isHost) ? 'Phòng đã tạo. Chia sẻ địa chỉ máy chủ trong mạng nội bộ để mọi người tham gia.' : 'Đang chờ Host bắt đầu trò chơi.'}</p>
+          </>}
         </section>}
         <div className="connection-footer" role="status"><span className={`presence ${connected ? 'online' : ''}`} />{connected ? 'Kết nối với máy chủ phòng chơi' : 'Đang kết nối với máy chủ…'}</div>
       </section>

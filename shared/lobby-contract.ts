@@ -1,6 +1,8 @@
 export const LOBBY_EVENTS = {
+  hostCreate: 'host:create',
   join: 'player:join',
   resume: 'player:resume',
+  identity: 'player:identity',
   state: 'lobby:state',
   credential: 'player:credential',
   error: 'game:error',
@@ -12,7 +14,9 @@ export type LobbyErrorCode =
   | 'LOBBY_CLOSED'
   | 'LOBBY_FULL'
   | 'INVALID_CREDENTIAL'
-  | 'INVALID_REQUEST';
+  | 'INVALID_REQUEST'
+  | 'SESSION_ALREADY_ACTIVE'
+  | 'HOST_CREATION_LOCAL_ONLY';
 
 export type LobbyJoinResult =
   | { ok: true; playerId: string; credential: string; lobby: LobbyView }

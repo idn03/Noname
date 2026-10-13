@@ -4,6 +4,10 @@
 
 Provide a display-name field and a clear join action. Include a concise overview of the game rules and two clearly labeled options to open the Wolf rules and Sheep rules. Each team rules page explains that team's objective, actions, and relevant scoring at a player-friendly level, without exposing session-specific private game information. Provide a clear way back to Join from either rules page. Explain validation errors inline or in an accessible status message. A returning player with a valid session proceeds to their current game view without joining twice.
 
+## Host Setup
+
+On the server machine's local browser page, let the Host enter a display name and press PLAY to create the room. Show the Host in the lobby as a normal connected player. LAN clients cannot see or use Host session-creation controls.
+
 ## Lobby
 
 Show the session status, connected player list, and connected count against the 6–10 player range. Identify the Host and distinguish disconnected participants where relevant. Show Start only to the Host, and make its availability clear when fewer than six players are connected. Host cancellation is available while the session is active.
@@ -12,9 +16,13 @@ Show the session status, connected player list, and connected count against the 
 
 Show the player's team and their own card slot. Provide category choices, selection submission status, and overall readiness. Let players edit their own selection only while the Selection Phase is active. Show the timer and explain that selection remains open after expiry until all slots are submitted. Wolf views include the available challenge pool; Sheep views do not expose Wolf selections or that pool.
 
+The Host view shows both teams' selection progress and each player's readiness without revealing private card choices. The Host remains a regular player and manages only the controls explicitly assigned to the Host.
+
 ## Gameplay
 
 Keep the current round, team scores, active attack or waiting state, and available action visible. Only the owner of an eligible unused Wolf card can reveal it. Sheep can defend only with their own eligible matching card. During an active challenge, show its text and make the Host's outcome-recording control available only to the Host. Clearly indicate when an attack is undefended or resolved and when play advances.
+
+When a Sheep player is handling a challenge, the Host sees the active challenge and can record its outcome using the Thành Công and Thất Bại buttons. Only one outcome may be recorded for an active challenge.
 
 ## Results
 

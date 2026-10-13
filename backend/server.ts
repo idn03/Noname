@@ -23,7 +23,7 @@ function findPrivateIpv4(): string | undefined {
 
 const port = Number(process.env.PORT ?? 3000);
 const contentStore = await openContentDatabase();
-const hostname = process.env.HOST ?? findPrivateIpv4() ?? '127.0.0.1';
+const hostname = process.env.HOST ?? '0.0.0.0';
 const development = process.env.NODE_ENV !== 'production';
 const application = next({ dev: development, hostname, port, dir: 'web-game' });
 const handle = application.getRequestHandler();
@@ -39,12 +39,14 @@ const httpServer = createServer((request, response) => {
 const io = new Server(httpServer);
 httpServer.on('close', () => contentStore.client.close());
 let activeLobby: LobbySession | undefined;
-attachLobbyTransport(io, () => activeLobby);
+attachLobbyTransport(io, () => activeLobby, (session) => { activeLobby = session; });
 
 export function setActiveLobby(session: LobbySession | undefined): void {
   activeLobby = session;
 }
 
 httpServer.listen(port, hostname, () => {
-  console.info(`Host listening on http://${hostname}:${port}`);
+  const localAddress = findPrivateIpv4();
+  console.info(`Host control: http://127.0.0.1:${port}`);
+  if (localAddress) console.info(`LAN players: http://${localAddress}:${port}`);
 });

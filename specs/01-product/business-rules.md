@@ -12,6 +12,7 @@
 ## Host Rules
 
 - The player running the game server is the Host.
+- The Host opens the server on the same machine, presses PLAY, and is assigned the Host identity when the room is created.
 - The Host may start a game when the minimum player requirement is satisfied.
 - The Host may cancel the current game session.
 - The Host participates in team assignment like every other player.
