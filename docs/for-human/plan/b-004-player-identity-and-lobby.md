@@ -24,7 +24,10 @@ Coordinator to use the roles in `agents/` for implementation, review, testing,
 validation, bounded repairs, and checkpointing. Set `NONAME_PROVIDER=opencode`
 before the command to select OpenCode; Codex is the default. The Coordinator
 must halt for plan approval when needed and cannot checkpoint without passing
-gate evidence.
+gate evidence. The runner reuses a healthy server at `127.0.0.1:3000` or starts
+one for the workflow, checks that Playwright CLI can launch Chromium, and stops
+only the server it started. A failed preflight halts before Cycle 1 and does
+not consume a repair cycle; fix the environment and resume B-004.
 
 ## Phase prompts
 

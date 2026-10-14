@@ -29,6 +29,21 @@ resume from completed checkpoints.
 - Validation runs the repository’s configured quality checks.
 - Each phase produces a structured result.
 
+## Browser readiness
+
+- Before the Coordinator starts a feature workflow, the runner checks that the
+  application responds on loopback and that Playwright CLI can launch Chromium.
+- The runner reuses a healthy loopback server or starts one for the workflow,
+  then stops only the server it started when the workflow exits.
+- A failed browser preflight halts before Cycle 1, records the failed setup
+  command and outcome, and consumes no implementation/review cycle. Resume the
+  same stage after the environment is repaired.
+- For browser stages, the Coordinator uses the prepared server for the required
+  Playwright CLI inspection and records snapshots, viewport screenshots,
+  console and request failures, and an interaction. Automated browser-flow
+  tests remain a separate required test gate where the feature test spec calls
+  for them.
+
 ## Memory context
 
 - Before planning and delegation, the coordinator loads relevant memory as

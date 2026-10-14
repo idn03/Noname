@@ -44,6 +44,11 @@ repair outcome. For `web-game` interface stages, the result also records the
 Design Read, chosen design dials, and applicable design rationale from the
 installed `design-taste-frontend` skill.
 
+The feature run records its browser preflight separately from numbered cycles,
+including status, commands, outcome, and whether the runner reused or started
+the loopback server. A failed preflight halts before Cycle 1 and does not
+consume the repair budget.
+
 Final status is completed, failed, halted, or skipped. A completed stage has
 passing required gates and a successful completion checkpoint. If the third
 cycle fails, the stage result records a temporary recovery checkpoint, blocked
