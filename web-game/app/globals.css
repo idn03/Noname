@@ -4,7 +4,7 @@
   color-scheme: dark;
   --blood-red: #722F37;
   --black: #000000;
-  --gray: #5A5A5A;
+  --gray: #8D8D8D;
   --white: #FFFFFF;
   font-family: Arial, Helvetica, sans-serif;
   background: var(--black);
@@ -32,7 +32,7 @@ body {
 .join-form { max-width: 560px; }
 .join-form label { display: block; margin-bottom: 9px; font-size: 14px; font-weight: 600; }
 .join-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
-.join-row input { min-width: 0; height: 50px; padding: 0 14px; border: 1px solid #5a5a5a; border-radius: 4px; background: #111; color: #fff; font: inherit; }
+.join-row input { min-width: 0; height: 50px; padding: 0 14px; border: 1px solid #8d8d8d; border-radius: 4px; background: #111; color: #fff; font: inherit; }
 .join-row input:focus-visible, .join-row button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .join-row button { min-height: 50px; padding: 0 19px; border: 1px solid #8c424b; border-radius: 4px; background: var(--blood-red); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
 .join-row button:hover:not(:disabled) { background: #813740; }
@@ -51,7 +51,7 @@ body {
 .presence { flex: 0 0 9px; width: 9px; height: 9px; border: 1px solid #888; border-radius: 50%; }
 .presence.online { border-color: #b85c66; background: #b85c66; }
 .player-name { overflow-wrap: anywhere; }
-.host-label { padding: 4px 8px; border: 1px solid #5a5a5a; border-radius: 3px; color: #eee; font-size: 12px; }
+.host-label { padding: 4px 8px; border: 1px solid #8d8d8d; border-radius: 3px; color: #eee; font-size: 12px; }
 .offline-label { margin-left: auto; font-size: 12px; }
 .waiting-note { color: #aaa; font-size: 14px; }
 .connection-footer { display: flex; align-items: center; gap: 9px; margin-top: 48px; color: #999; font-size: 12px; }

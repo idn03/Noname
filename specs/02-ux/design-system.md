@@ -10,7 +10,7 @@ Use the four project colors as the primary palette:
 
 - **Blood red — `#722F37`:** primary emphasis, active gameplay state, and important actions.
 - **Black — `#000000`:** primary background and dark surfaces.
-- **Gray — `#5A5A5A`:** secondary surfaces, borders, and supporting text where contrast remains sufficient.
+- **Gray — `#8D8D8D`:** secondary surfaces, borders, and supporting text where contrast remains sufficient.
 - **White — `#FFFFFF`:** primary text, icons, and high-contrast content.
 
 Use color with labels, icons, or text so meaning is never communicated by color alone. Preserve readable contrast for text and interactive controls. Avoid introducing additional accent colors as part of the core theme.
