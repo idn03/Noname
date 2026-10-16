@@ -4,6 +4,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Noname',
   description: 'Trò chơi nhiều người trong mạng nội bộ.',
+  icons: { icon: '/assets/logo.png' },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

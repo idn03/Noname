@@ -110,7 +110,7 @@ export default function LobbyScreen() {
 
   return (
     <main className="lobby-shell">
-      <header className="game-header"><span className="game-mark" aria-hidden="true">N</span><span>NONAME</span></header>
+      <header className="game-header"><img className="game-logo" src="/assets/logo.png" alt="Noname" /></header>
       <section className="lobby-content" aria-labelledby="page-title">
         <p className="phase-label">TRÒ CHƠI NHIỀU NGƯỜI</p>
         <h1 id="page-title">Cùng vào phòng</h1>
