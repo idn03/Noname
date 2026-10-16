@@ -1,5 +1,13 @@
 # B-004 Player Identity and Lobby — Run Record
 
+## Resumption preflight — 2026-10-14
+
+- **Outcome:** Halted before Cycle 1; no implementation/review cycle consumed.
+- **Server reuse check:** `curl --silent --show-error --fail --max-time 2 -I http://127.0.0.1:3000/` — failed, connection refused; no healthy server was running.
+- **Owned server attempt:** `HOST=127.0.0.1 PORT=3000 npm run dev` — failed to bind `127.0.0.1:3000` with `listen EPERM: operation not permitted`. Next.js also reported repeated watcher `EMFILE: too many open files` errors.
+- **Playwright CLI:** `npx --no-install playwright-cli --version` — pass (`0.1.22`). Chromium launch was not attempted because the required app server could not start.
+- **Resumption action:** Restore permission to bind the loopback interface and address the process file-watcher limit, then rerun the same B-004 stage preflight. Continue from the existing Cycle 3 recovery state; do not renumber cycles or start B-005.
+
 - **Run status:** Blocked after Cycle 3; source review, automated tests, typecheck, and production build pass. Required Playwright CLI browser gate is unavailable. Recovery checkpoint only; no completion checkpoint created.
 - **Plan:** Reused the reviewed B-001 → B-010 backlog plan unchanged; B-004 retains its ID, dependencies, scope, and order.
 - **Dependencies:** B-001 and B-002 completion checkpoints are recorded in prior stage run records; B-003 completion checkpoint `24e884d` is present.

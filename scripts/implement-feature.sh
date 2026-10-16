@@ -105,6 +105,7 @@ fi
 # workflow. Reuse an already healthy server; otherwise own its lifecycle here.
 command -v curl >/dev/null || { log ERROR 31 'curl is required for the browser readiness check'; exit 1; }
 SERVER_PID=""
+SERVER_STARTED_BY_RUNNER=0
 SERVER_LOG="${TMPDIR:-/tmp}/noname-feature-server-$$.log"
 PLAYWRIGHT_DIR="${TMPDIR:-/tmp}/noname-playwright-daemon-$$"
 BROWSER_LOG="${TMPDIR:-/tmp}/noname-playwright-preflight-$$.log"
@@ -125,6 +126,7 @@ if ! curl --silent --show-error --fail --max-time 2 http://127.0.0.1:3000/ >/dev
   log INFO 36 'Starting the feature server on 127.0.0.1:3000'
   (cd "$PROJECT_DIR" && HOST=127.0.0.1 PORT=3000 npm run dev) >"$SERVER_LOG" 2>&1 &
   SERVER_PID=$!
+  SERVER_STARTED_BY_RUNNER=1
   READY=0
   for _ in $(seq 1 120); do
     if curl --silent --fail --max-time 2 http://127.0.0.1:3000/ >/dev/null 2>&1; then
@@ -157,12 +159,20 @@ PWTEST_DAEMON_SESSION_DIR="$PLAYWRIGHT_DIR"
 export PWTEST_DAEMON_SESSION_DIR
 mkdir -p "$PWTEST_DAEMON_SESSION_DIR"
 if ! npx --no-install playwright-cli -s=noname-preflight open about:blank >"$BROWSER_LOG" 2>&1; then
-  log ERROR 31 'Playwright CLI could not launch a browser; run npx playwright-cli install-browser chromium and retry'
+  log ERROR 31 'Playwright CLI could not launch Chrome; run npx playwright install chrome and retry'
   cat "$BROWSER_LOG" >&2
   exit 1
 fi
 npx --no-install playwright-cli -s=noname-preflight close >/dev/null 2>&1 || true
 log OK 32 'Loopback server and Playwright CLI browser preflight passed'
+
+if ! curl --silent --show-error --fail --max-time 2 http://127.0.0.1:3000/ >/dev/null 2>&1; then
+  log ERROR 31 'The prepared feature server stopped before the Coordinator started'
+  exit 1
+fi
+export NONAME_BROWSER_PREFLIGHT=passed
+export NONAME_APP_URL=http://127.0.0.1:3000
+export NONAME_SERVER_STARTED_BY_RUNNER
 
 set +e
 NONAME_MODEL="$MODEL" bash "$SCRIPT_DIR/run-agent.sh" coordinator "$REQUEST"

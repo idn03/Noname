@@ -14,6 +14,8 @@ specifications define behavior. Provider output is evidence, not authority.
 ## Responsibilities
 
 - establish the run context and repository safety checks;
+- for feature runs with `NONAME_BROWSER_PREFLIGHT=passed`, use the supplied
+  `NONAME_APP_URL` and never start or bind a second application server;
 - create or load a stable, dependency-ordered plan;
 - expose the plan for human review when requested;
 - dispatch only eligible stages with complete structured context;

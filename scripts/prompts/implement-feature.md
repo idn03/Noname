@@ -3,13 +3,14 @@ specs/memory.md, and specs/07-planning/backlog.md. Load relevant memory and
 reuse the stable plan. Preserve backlog IDs, dependencies, scope, and order.
 If planning requires human review, return the plan and stop before editing.
 
-The feature runner performs a browser preflight before starting the Coordinator:
-it serves the app at `http://127.0.0.1:3000` (reusing a healthy existing
-server), verifies Playwright CLI can launch Chromium, and keeps an owned server
-running until the workflow exits. Do not start a second server. If preflight
-fails, report the exact setup failure and stop before Cycle 1; do not count an
-environment failure as an implementation/review repair cycle. Resume the same
-stage after the environment is fixed.
+The feature runner performs a browser preflight before starting the Coordinator.
+When `NONAME_BROWSER_PREFLIGHT=passed`, use `NONAME_APP_URL` for all browser
+review and do not start or bind another application server. The runner keeps
+its server available until the workflow exits; it reuses a healthy existing
+server or starts one itself. If preflight fails, report the exact setup failure
+and stop before Cycle 1; do not count an environment failure as an
+implementation/review repair cycle. Resume the same stage after the environment
+is fixed.
 
 For each eligible stage, run at most three numbered implementation/review
 cycles. Cycle 1 includes the initial implementation; Cycles 2 and 3 are repairs

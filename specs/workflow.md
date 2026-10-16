@@ -35,6 +35,9 @@ resume from completed checkpoints.
   application responds on loopback and that Playwright CLI can launch Chromium.
 - The runner reuses a healthy loopback server or starts one for the workflow,
   then stops only the server it started when the workflow exits.
+- The runner passes the ready application URL and preflight status to the
+  Coordinator. The Coordinator reuses that endpoint and never starts a second
+  application server during the same feature run.
 - A failed browser preflight halts before Cycle 1, records the failed setup
   command and outcome, and consumes no implementation/review cycle. Resume the
   same stage after the environment is repaired.
