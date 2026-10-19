@@ -9,3 +9,5 @@
 - **CARD-007 — Timer:** Set selection duration in minutes equal to the number of card slots. If time expires before all slots are submitted, keep the Selection Phase open until they are complete; do not auto-fill cards or bypass the completion gate.
 - **CARD-008 — Validation:** Reject selection commands from another player's slot, invalid categories, or the wrong phase without changing authoritative state.
 - **CARD-009 — Host Progress View:** Show the Host readiness and completion progress for both teams and all player slots without revealing private card choices.
+- **CARD-010 — Host Team Overview:** During selection, show the Host both team rosters, selected-card counts, and remaining time.
+- **CARD-011 — Sandbox Defaults:** In Sandbox, automatically select Music for every Wolf slot and choose a random available challenge. Automatically select two Music cards and one Travel card for Sheep.

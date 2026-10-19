@@ -4,25 +4,22 @@
 
 - The game is a local multiplayer, turn-based card game.
 - A game session contains exactly two teams: **Wolf** and **Sheep**.
-- The supported player count is **6 to 10 players**.
-- The Host is also considered a regular player.
+- Support **6 to 10 joining players**. The Host is excluded from the player count and does not participate as a player.
 - V0 is designed for players connected to the same LAN or Wi-Fi network.
 - Only one active game session may exist at a time.
 
 ## Host Rules
 
 - The player running the game server is the Host.
-- The Host opens the server on the same machine, presses PLAY, and is assigned the Host identity when the room is created.
+- The Host opens the server on the same machine, presses TẠO, and is assigned the Host observer identity when the room is created.
 - The Host may start a game when the minimum player requirement is satisfied.
 - The Host may cancel the current game session.
-- The Host participates in team assignment like every other player.
-- Host privileges do not provide gameplay advantages.
+- The Host observes and manages the game but is not assigned to a team, does not select cards, and does not take player turns.
 
 ## Team Assignment
 
 - Players are assigned randomly to Wolf or Sheep when the Host starts the game.
-- When the total player count is even, both teams must contain the same number of players.
-- When the total player count is odd, one randomly selected team receives one additional player.
+- Balance the joining players across both teams. When the player count is even, both teams must contain the same number of players. When it is odd, one randomly selected team receives one additional player.
 - Team assignments remain unchanged until the game ends or is cancelled.
 
 ## Card Slot Rules

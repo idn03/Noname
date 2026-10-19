@@ -25,13 +25,13 @@ Backlog items are dependency-ordered implementation stages. Each stage has one c
 ### B-004 — Player Identity and Lobby
 
 - **Depends on:** B-001, B-002.
-- **Scope:** Host session creation from the server machine's local browser using PLAY, join by display name, server-issued session identity, lobby presence, 10-participant capacity, disconnect handling, and refresh recovery.
+- **Scope:** Host session creation from the server machine's local browser using TẠO, join by display name, server-issued session identity, lobby presence, 10-player capacity excluding Host, disconnect handling, and refresh recovery.
 - **Complete when:** The local server runner can create a room and becomes its Host; valid players can join and reconnect; remote clients cannot create sessions or claim Host authority; invalid joins are rejected safely.
 
 ### B-005 — Host Controls and Team Assignment
 
 - **Depends on:** B-002, B-004.
-- **Scope:** Host-only start and cancellation, the connected-player start gate, and balanced randomized Wolf/Sheep assignment including the Host.
+- **Scope:** Host-only start and cancellation, the connected-player start gate, and balanced randomized Wolf/Sheep assignment; the Host remains an observer.
 - **Complete when:** The Host can start a valid lobby or cancel the session, and every valid start produces stable, balanced teams.
 
 ### B-006 — Personal Card Selection

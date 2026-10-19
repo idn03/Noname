@@ -11,4 +11,4 @@
 
 - [ ] Cover valid and invalid start/cancel operations and player-count boundaries.
 - [ ] Verify cancellation is synchronized to all connected clients.
-- [ ] Confirm Host participation does not bypass gameplay rules.
+- [ ] Confirm the Host is excluded from team assignment, card selection, and player turns while retaining session-management controls.

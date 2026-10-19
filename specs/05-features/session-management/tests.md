@@ -2,7 +2,8 @@
 
 ## Unit and Integration Coverage
 
-- Start is accepted for the Host with 6–10 connected players and rejected below 6 or above 10.
+- Start is accepted for the Host with 6–10 connected joining players, excluding the Host, and rejected below 6 or above 10.
+- The Host has no team, selection slot, or player turn and receives the Host observer view.
 - Non-Host start and cancel requests are rejected without changing the session.
 - Start is rejected outside the lobby; cancellation is rejected when no session is active.
 - A valid cancellation ends the session, clears active game state, and publishes cancellation.

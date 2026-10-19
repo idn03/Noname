@@ -2,15 +2,15 @@
 
 ## Host Creates a Session
 
-1. The person running the server opens the local browser page, enters a display name, and presses PLAY.
-2. The server accepts creation only from its local browser while no session is active, creates the session, and assigns the initiating player the Host identity and private credential.
+1. The person running the server opens the local browser page and presses TẠO; Host name entry is not required.
+2. The server accepts creation only from its local browser while no session is active, creates the session, and assigns the initiator a Host observer identity and private credential.
 3. The Host appears in the lobby as a connected participant. The server publishes the lobby to connected clients.
 4. Other players on the LAN may join the active lobby by display name. They cannot create a session or claim Host authority.
 
 ## New Player
 
 1. The player opens the Host's game in a browser and submits a display name.
-2. The server trims and validates the name, confirms that the game is accepting new lobby players, and checks the 10-player session capacity, including disconnected participants.
+2. The server trims and validates the joining player's name, confirms that the game is accepting new lobby players, and checks the 10-joining-player capacity, including disconnected participants and excluding the Host.
 3. If accepted, the server creates a player identity and private session credential, associates the connection with that identity, and returns the player's authorized session view.
 4. The server publishes the updated lobby presence and player list to connected players.
 5. The player may issue commands only through the identity associated with their connection. The server determines Host privileges independently of client input.

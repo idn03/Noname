@@ -17,7 +17,7 @@ Use color with labels, icons, or text so meaning is never communicated by color 
 
 ## Typography and Layout
 
-Use a legible type system with clear distinction between page titles, phase or round status, body text, and supporting labels. Keep challenge text and player names readable at a distance on common phone and desktop screens. Layouts should adapt from narrow phones to tablets and desktop browsers without hiding primary actions or essential game information.
+Use a legible type system with clear distinction between page titles, phase or round status, body text, and supporting labels. Type sizes: heading1 128px, heading2 80px, heading3 48px, heading4 40px, heading5 36px, heading6 32px, title1 24px, title2 20px, subtitle 16px, and content 14px. Keep challenge text and player names readable at a distance on common phone and desktop screens. Layouts should adapt from narrow phones to tablets and desktop browsers without hiding primary actions or essential game information.
 
 ## Components and Interaction
 

@@ -2,11 +2,11 @@
 
 ## Entry and Lobby
 
-1. The person running the server opens the local browser page, enters a display name, and presses PLAY to create the room; the server assigns that player as Host.
+1. The person running the server opens the local browser page and presses TẠO to create the room as Host; no Host display name is required. Holding TẠO for three seconds creates a Sandbox room for Playwright CLI testing, with 6–10 simulated players in addition to the Host.
 2. Other players open the Host's LAN address, see a concise rules overview with options to read Wolf or Sheep rules, and return to Join.
 3. A new player enters a display name and joins. A returning player with a valid session resumes their existing identity.
-4. The lobby shows connected players and the current player count. The Host can start when at least six players are connected; the session limit is ten identities.
-5. The Host starts the game. The server assigns every connected player, including the Host, to Wolf or Sheep and opens card selection.
+4. The lobby shows joined players and their count, excluding the Host. The Host can start with at least six joined players; starting below ten requires Host confirmation. The Host can delete the room to recreate it.
+5. The Host starts the game. The server assigns all joined players to Wolf or Sheep and opens card selection; the Host remains an observer. Sandbox populates its 6–10 simulated-player roster automatically.
 
 ## Card Selection
 
@@ -24,8 +24,15 @@
 4. The interface presents the resolved outcome and updated scores, then the next round begins. An undefended attack resolves under the published scoring rules.
 5. After all scheduled rounds, the result view shows final scores and the winner or draw.
 
+## Host Match Management
+
+- The Host can open a concise round-by-round text history from the footer in the lobby, selection, or match-management view.
+- The Host match-management view shows the current round and Wolf attack card and provides Hoàn Thành and X controls.
+- The Host can cancel the match, returning all players to HomeScreen, or replay it with the same team assignments from card selection.
+- Sandbox selection automatically fills every Wolf slot with Music and a random challenge, and fills Sheep with two Music cards and one Travel card.
+
 ## Cancellation and Recovery
 
-- The Host may cancel an active session. All connected players are returned to the join experience after the server ends the session.
+- The Host may cancel an active session. All connected players are returned to HomeScreen after the server ends the session.
 - On refresh or temporary disconnect, a player with a valid session resumes at the current phase with their authorized view. The interface must not imply that an unconfirmed action succeeded.
 - Rejected actions preserve the current screen and show a safe, understandable error. The player can retry when the current state permits it.

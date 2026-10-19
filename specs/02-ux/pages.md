@@ -6,17 +6,29 @@ Provide a display-name field and a clear join action. Include a concise overview
 
 ## Host Setup
 
-On the server machine's local browser page, let the Host enter a display name and press PLAY to create the room. Show the Host in the lobby as a normal connected player. LAN clients cannot see or use Host session-creation controls.
+On the server machine's local browser page, let the Host press TẠO to create the room; no Host display-name entry is required. A three-second press-and-hold on TẠO creates a Sandbox room. LAN clients cannot see or use Host session-creation controls.
 
 ## Lobby
 
-Show the session status, connected player list, and connected count against the 6–10 player range. Identify the Host and distinguish disconnected participants where relevant. Show Start only to the Host, and make its availability clear when fewer than six players are connected. Host cancellation is available while the session is active.
+Show the session status, joined-player list, and joined-player count against the 6–10 range, excluding the Host. Identify the Host separately and distinguish disconnected participants where relevant. In the Host view, show CHƠI and explain that starting below ten joined players requires confirmation; at least six joined players are required. Show “Xóa phòng này” for the Host to discard and recreate a room. Provide Host match-history and cancel-match actions in the shared footer.
 
 ## Team Assignment and Card Selection
 
 Show the player's team and their own card slot. Provide category choices, selection submission status, and overall readiness. Let players edit their own selection only while the Selection Phase is active. Show the timer and explain that selection remains open after expiry until all slots are submitted. Wolf views include the available challenge pool; Sheep views do not expose Wolf selections or that pool.
 
-The Host view shows both teams' selection progress and each player's readiness without revealing private card choices. The Host remains a regular player and manages only the controls explicitly assigned to the Host.
+The Host view shows both team rosters, selected-card counts, and remaining time. The Host observes the full selection state but has no team or card slot. In Sandbox, player selections are populated automatically.
+
+## Host Match Management
+
+ManageGameScreen is Host-only. Show the current round and the Wolf attack card for that round, with Hoàn Thành and X controls. Provide match history, cancel-match, and replay actions in the shared footer on Lobby, selection, and match-management screens. History is a concise, text-based report grouped by round and team, showing score changes and attack, defense, and challenge outcomes. Replay retains team assignments and returns everyone to card selection. Cancel ends the match and returns everyone to HomeScreen.
+
+## Sandbox
+
+Sandbox rooms support Playwright CLI interface and feature testing. They contain 6–10 simulated players in addition to the Host and allow the Host to start team assignment. During selection, automatically choose Music for every Wolf slot and a random challenge; choose two Music cards and one Travel card for Sheep. Sandbox rooms reject real players joining through a link.
+
+## Screens and Shared Components
+
+Screens: HomeScreen (Host and player), LobbyScreen (Host and player), SelectCardScreen (Host and player), ManageGameScreen (Host), GameScreen (player), SheepTeamScreen (player), WolfTeamScreen (player), EndGameScreen (Host and player). Shared components: Button, CardFrame, PlayerNameTag, CardTag.
 
 ## Gameplay
 

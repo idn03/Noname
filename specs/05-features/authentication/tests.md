@@ -5,7 +5,7 @@
 - A valid display name is trimmed and accepted; whitespace-only, over-limit, and control-character names are rejected.
 - Duplicate display names create distinct player identities and do not authorize one player as another.
 - An accepted join creates one identity; a rejected join does not mutate lobby membership.
-- The Host and disconnected participants count toward the 10-player session limit; only connected players count toward the start minimum; new joins are rejected after the game starts.
+- The Host observer does not count toward the 10-joining-player session limit or team assignment; disconnected joining players retain capacity; only connected joining players count toward the six-player start minimum; new joins are rejected after the game starts.
 - Only the server-designated Host can use Host operations; client-supplied identity or role claims do not grant access.
 - Commands without a valid connection identity are rejected without changing state.
 - A valid credential reconnects to the same player and current authorized view without creating a duplicate.

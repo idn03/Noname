@@ -3,13 +3,13 @@
 ## Product Requirements
 
 - **R-001 — Local Multiplayer:** Allow multiple players to join a game hosted on the same LAN or Wi-Fi network.
-- **R-002 — Player Capacity:** Support 6–10 active players per session.
+- **R-002 — Player Capacity:** Support 6–10 joining players per session; the Host is not counted as a player.
 - **R-003 — Player Identity:** Let players enter a display name before joining.
 - **R-004 — Host:** Designate the machine running the server as Host.
 - **R-005 — Lobby:** Show connected players before the game starts.
-- **R-006 — Start Game:** Let the Host start when at least 6 players are connected.
+- **R-006 — Start Game:** Let the Host start when at least 6 joining players are connected; request confirmation when fewer than 10 joining players are present.
 - **R-007 — Cancel Game:** Let the Host cancel an active game.
-- **R-008 — Team Assignment:** Randomly divide all players, including the Host, into Wolf and Sheep teams.
+- **R-008 — Team Assignment:** Randomly divide all joining players into Wolf and Sheep teams; exclude the Host.
 - **R-009 — Balanced Teams:** Keep team sizes as balanced as possible.
 - **R-010 — Card Categories:** Provide multiple categories containing predefined challenges.
 - **R-011 — Challenge Pool:** Randomly select up to 10 challenges per available category for each session.

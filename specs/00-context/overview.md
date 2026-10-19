@@ -38,13 +38,13 @@ The game contains two teams:
 - Wolf.
 - Sheep.
 
-The Host is also a normal player and participates in team assignment.
+The Host observes and manages the session but does not join either team or select cards.
 
-The target player count for V0 is:
+The target count of players joining the Host's room, excluding the Host, is:
 
-- Minimum: 6 players.
-- Maximum: 10 players.
-- Expected team size: 3 to 5 players.
+- Minimum: 6 joining players, excluding the Host.
+- Maximum: 10 joining players, excluding the Host.
+- The team roster contains 6 to 10 players, with 3 to 5 players per team. The Host is outside the roster.
 
 Teams are automatically assigned when the Host starts the game.
 

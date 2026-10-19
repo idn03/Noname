@@ -13,16 +13,16 @@ All V0 implementations should remain within these constraints unless a specifica
 - Players must connect through the same LAN or Wi-Fi network.
 - V0 must not depend on public Internet deployment.
 - V0 must not require cloud infrastructure.
-- The Host must also be allowed to participate as a normal player.
+- The Host observes and manages the session but is not a game player.
 
 ## Player Constraints
 
-- A game must support between 6 and 10 players.
-- All players must belong to exactly one team after team assignment.
+- A game must support 6–10 joining players; the Host is excluded from this count and from the game roster.
+- Every joining player must belong to exactly one team after team assignment.
 - The available teams are Wolf and Sheep.
 - Team assignment must occur automatically when the Host starts the game.
 - Team assignment must be randomized.
-- The Host must be included in team assignment.
+- The Host must be excluded from team assignment and card selection.
 - A player must not belong to both teams simultaneously.
 
 ## Session Constraints

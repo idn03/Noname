@@ -4,7 +4,7 @@ Use these terms consistently across the specifications and application.
 
 ## Game Roles
 
-- **Host:** Player whose machine runs the server and session; may start or cancel a game and also plays.
+- **Host:** Person operating the server who observes and manages the session; does not join either team or select cards.
 - **Player:** Person connected to the current session through a browser.
 - **Wolf:** Attacking team; selects and plays cards that generate challenges.
 - **Sheep:** Defending team; predicts and counters Wolf cards using matching categories.

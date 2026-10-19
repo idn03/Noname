@@ -2,7 +2,7 @@
 
 ## Goal
 
-Provide one Host-controlled game session on the Host machine. The Host participates as a regular player and has only the session controls defined by V0.
+Provide one Host-controlled game session on the Host machine. The Host is an observer and manager, not a game player, and uses the Host controls defined by V0.
 
 ## Session States
 

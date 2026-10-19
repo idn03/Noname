@@ -2,7 +2,7 @@
 
 ## System Model
 
-V0 uses a host-authoritative client-server model. One Host machine runs the Next.js application, Socket.IO server, Game Engine, and SQLite database. All players, including the Host, connect through browsers on the same LAN or Wi-Fi. The Host participates as a normal player.
+V0 uses a host-authoritative client-server model. One Host machine runs the Next.js application, Socket.IO server, Game Engine, and SQLite database. The Host is an observer and manager, not a game player; the 6–10 player capacity applies to joining players.
 
 ## Layers and Responsibilities
 

@@ -10,7 +10,7 @@
 
 ## US-003 — Start Game
 
-**As the Host,** I want to start the game so all connected players can begin. **Acceptance:** Only the Host can start; at least 6 players must be connected; all players are assigned to a team.
+**As the Host,** I want to start the game so all joined players can begin. **Acceptance:** Only the Host can start; at least 6 players must be connected; all joined players are assigned to a team and the Host observes.
 
 ## US-004 — View My Team
 
@@ -50,4 +50,4 @@
 
 ## US-013 — Create Room
 
-**As the person running the server,** I want to press PLAY on the local browser page to create a room and join as Host. **Acceptance:** The server assigns my Host identity; LAN players can join the room but cannot create it or claim Host authority.
+**As the person running the server,** I want to press TẠO on the local browser page to create a room as Host. **Acceptance:** The server assigns my Host identity; I can observe and manage the game without joining a team; LAN players can join the room but cannot create it or claim Host authority.
