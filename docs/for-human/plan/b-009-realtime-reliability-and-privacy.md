@@ -7,7 +7,7 @@ relevant specifications. Do not expand the scope to another backlog stage.
 
 ## Stage contract
 
-- **Depends on:** B-001 through B-008.
+- **Depends on:** B-001 through B-008.1.
 - **Scope:** Complete role-filtered realtime updates, safe errors, disconnect handling, and refresh recovery across the implemented features.
 - **Complete when:** Connected clients receive consistent authorized state; invalid commands leave state unchanged; refresh restores the current session.
 
@@ -16,7 +16,7 @@ relevant specifications. Do not expand the scope to another backlog stage.
 Run the Coordinator workflow for this backlog stage:
 
 ```bash
-bash scripts/implement-feature.sh "B-009 — Realtime Reliability and Privacy"
+bash scripts/implement-feature.sh "B-009 — Realtime Reliability and Privacy" --scope 05-features/realtime-synchronization
 ```
 
 The script starts the configured provider in this repository and asks the

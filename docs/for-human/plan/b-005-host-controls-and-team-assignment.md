@@ -7,16 +7,16 @@ relevant specifications. Do not expand the scope to another backlog stage.
 
 ## Stage contract
 
-- **Depends on:** B-002, B-004.
-- **Scope:** Host-only start and cancellation, the connected-player start gate, and balanced randomized Wolf/Sheep assignment including the Host.
-- **Complete when:** The Host can start a valid lobby or cancel the session, and every valid start produces stable, balanced teams.
+- **Depends on:** B-002, B-004.1.
+- **Scope:** Host-only start with low-population confirmation, room deletion, and balanced randomized Wolf/Sheep assignment of joining players; Host remains an observer.
+- **Complete when:** The Host can start a valid lobby or delete it, and each valid start produces stable, balanced teams without assigning the Host.
 
 ## Run prompt
 
 Run the Coordinator workflow for this backlog stage:
 
 ```bash
-bash scripts/implement-feature.sh "B-005 — Host Controls and Team Assignment"
+bash scripts/implement-feature.sh "B-005 — Host Controls and Team Assignment" --scope 05-features/team-assignment
 ```
 
 The script starts the configured provider in this repository and asks the

@@ -19,6 +19,9 @@ resume from completed checkpoints.
 - Every stage has one primary concern, explicit dependencies, and completion
   criteria.
 - Stages are ordered so dependencies complete before dependents.
+- Decimal stage IDs add focused sub-stages without renumbering existing stages.
+  Include them in a reviewed plan's dependency order; do not insert them
+  retroactively into an in-progress run.
 - Planning output is reviewable and can be supplied unchanged to a later run.
 
 ## Stage execution

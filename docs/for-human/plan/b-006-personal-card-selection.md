@@ -9,14 +9,14 @@ relevant specifications. Do not expand the scope to another backlog stage.
 
 - **Depends on:** B-003, B-005.
 - **Scope:** One personal slot per player, local drafts, server-validated submit/replace/remove, role-filtered selection views, timer, and all-player completion gate.
-- **Complete when:** Every player can submit a valid slot, the phase advances only when all are complete, and timer expiry keeps incomplete selection open.
+- **Complete when:** Every player can submit a valid slot, the phase advances only when all are complete, and timer expiry keeps incomplete selection open. Host overview and Sandbox defaults are handled in B-006.1 and B-006.2.
 
 ## Run prompt
 
 Run the Coordinator workflow for this backlog stage:
 
 ```bash
-bash scripts/implement-feature.sh "B-006 — Personal Card Selection"
+bash scripts/implement-feature.sh "B-006 — Personal Card Selection" --scope 05-features/card-selection
 ```
 
 The script starts the configured provider in this repository and asks the

@@ -10,19 +10,19 @@ Milestones describe observable outcomes, not calendar dates. They are completed 
 
 ## M-002 — Host Lobby and Game Setup
 
-- **Stages:** B-003, B-004, B-005.
-- **Outcome:** Players join a local Host lobby, the Host starts or cancels a session, and teams are assigned.
+- **Stages:** B-003, B-004, B-004.1, B-005.
+- **Outcome:** Players join a local Host lobby, the Host starts or deletes the room, and joining players are assigned to teams.
 - **Acceptance:** Capacity and Host permissions are enforced; reconnect restores identity; valid starts create balanced teams; challenge content is available locally.
 
 ## M-003 — Ready-to-Play Selection
 
-- **Stages:** B-006.
+- **Stages:** B-006, B-006.1, B-006.2.
 - **Outcome:** Every player selects and submits a personal card slot.
 - **Acceptance:** Slot ownership, edit/removal, privacy, timer behavior, and the all-player completion gate match the specifications.
 
 ## M-004 — Complete Game Loop
 
-- **Stages:** B-007, B-008.
+- **Stages:** B-007, B-008, B-008.1.
 - **Outcome:** Players complete attacks, defenses, challenges, scoring, and final results.
 - **Acceptance:** Card ownership and use are enforced; the Host records challenge outcomes; scores, rounds, winner, and draw are correct.
 

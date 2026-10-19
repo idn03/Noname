@@ -7,7 +7,7 @@ relevant specifications. Do not expand the scope to another backlog stage.
 
 ## Stage contract
 
-- **Depends on:** B-003, B-006.
+- **Depends on:** B-003, B-006.2.
 - **Scope:** Owner-only Wolf card reveal, one active attack, matching personal Sheep defense, first-valid defense handling, challenge presentation, and Host-recorded challenge outcomes.
 - **Complete when:** Valid turns resolve in order, invalid or duplicate actions do not mutate state, and used cards cannot be reused.
 
@@ -16,7 +16,7 @@ relevant specifications. Do not expand the scope to another backlog stage.
 Run the Coordinator workflow for this backlog stage:
 
 ```bash
-bash scripts/implement-feature.sh "B-007 — Attack, Defense, and Challenges"
+bash scripts/implement-feature.sh "B-007 — Attack, Defense, and Challenges" --scope 05-features/turn-gameplay
 ```
 
 The script starts the configured provider in this repository and asks the

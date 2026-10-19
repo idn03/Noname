@@ -8,15 +8,15 @@ relevant specifications. Do not expand the scope to another backlog stage.
 ## Stage contract
 
 - **Depends on:** B-001, B-002.
-- **Scope:** Host session creation from the server machine's local browser using PLAY, join by display name, server-issued session identity, lobby presence, 10-participant capacity, disconnect handling, and refresh recovery.
-- **Complete when:** The local server runner can create a room and becomes its Host; valid players can join and reconnect; remote clients cannot create sessions or claim Host authority; invalid joins are rejected safely.
+- **Scope:** Name-free Host observer session creation, player join by display name, server-issued identities, lobby presence, 10-player capacity excluding Host, disconnect handling, and refresh recovery.
+- **Complete when:** The local operator creates a room as Host observer; valid players can join and reconnect; remote clients cannot create sessions or claim Host authority; invalid joins are rejected safely. Sandbox mode is completed in B-004.1.
 
 ## Run prompt
 
 Run the Coordinator workflow for this backlog stage:
 
 ```bash
-bash scripts/implement-feature.sh "B-004 — Player Identity and Lobby"
+bash scripts/implement-feature.sh "B-004 — Player Identity and Lobby" --scope 05-features/authentication
 ```
 
 The script starts the configured provider in this repository and asks the

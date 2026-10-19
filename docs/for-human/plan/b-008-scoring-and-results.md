@@ -16,7 +16,7 @@ relevant specifications. Do not expand the scope to another backlog stage.
 Run the Coordinator workflow for this backlog stage:
 
 ```bash
-bash scripts/implement-feature.sh "B-008 — Scoring and Results"
+bash scripts/implement-feature.sh "B-008 — Scoring and Results" --scope 05-features/scoring-results
 ```
 
 The script starts the configured provider in this repository and asks the
