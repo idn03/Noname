@@ -37,7 +37,7 @@
 ## Card Category Rules
 
 - Each card belongs to exactly one category.
-- Example categories include Music, Travel, Technology, Geography, Economy, Films, Healthcare, and Folklore.
+- Example categories include Music, Travel, Geography, Films, Healthcare, and Folklore.
 - A category may contain up to 50 predefined challenges.
 - Only a random subset of challenges is available during a game session.
 - The available subset must contain no more than 10 challenges per category.
