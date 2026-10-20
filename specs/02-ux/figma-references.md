@@ -1,9 +1,6 @@
 # Figma Interface References
 
-These frames are visual references for the screen and interaction contracts in
-[pages.md](pages.md), [navigation.md](navigation.md), and
-[application-flow.md](application-flow.md). Product behavior and server
-authority remain defined by those specifications and the feature contracts.
+These frames are visual references for the screen and interaction contracts in [pages.md](pages.md), [navigation.md](navigation.md), and [application-flow.md](application-flow.md). Product behavior and server authority remain defined by those specifications and the feature contracts.
 
 ## Screen references
 
@@ -20,10 +17,7 @@ authority remain defined by those specifications and the feature contracts.
 | SheepTeamScreen, player | [Sheep rules](https://www.figma.com/design/vi5064YHv4FnNJlMy7eXNL/other-apps?node-id=2192-932) |
 | WolfTeamScreen, player | [Wolf rules](https://www.figma.com/design/vi5064YHv4FnNJlMy7eXNL/other-apps?node-id=2199-949) |
 
-EndGameScreen has no supplied Figma frame. Its visual design extends the
-project palette and existing team imagery while following the Results contract
-in [pages.md](pages.md) and
-[scoring-results](../05-features/scoring-results/design.md).
+EndGameScreen has no supplied Figma frame. Its visual design extends the project palette and existing team imagery while following the Results contract in [pages.md](pages.md) and [scoring-results](../05-features/scoring-results/design.md).
 
 ## Shared visual direction
 
@@ -45,6 +39,4 @@ in [pages.md](pages.md) and
 - End Game must display the same server-confirmed scores and outcome to Host
   and players. Do not imply a local result or animate before confirmation.
 
-The supplied font and background files are added to the project separately;
-until then, implementations should use available local assets and system
-fallbacks without inventing replacement artwork.
+The supplied font and background files are added to the project separately; until then, implementations should use available local assets and system fallbacks without inventing replacement artwork.
