@@ -61,3 +61,19 @@
 **Failed required gate:** Playwright CLI UI review is unavailable in this environment. No snapshot, relevant viewport screenshots, console/request inspection, or user interaction evidence exists. **Remaining acceptance criterion:** execute the B-004 browser review on an environment with a runnable Playwright CLI browser and application server; inspect Host PLAY, LAN join, refresh recovery, responsive viewports, console errors, and failed requests. **Next resume action:** resume this same B-004 stage and original plan, retain Cycle 1–3 findings and test evidence, run the complete required Playwright CLI review, then perform the stage completion checkpoint only if that gate passes. B-005 and later stages remain unattempted.
 
 **Recovery checkpoint:** [20261013T090400Z-b004-recovery-checkpoint.tar.gz](20261013T090400Z-b004-recovery-checkpoint.tar.gz) preserves the changed stage files and this run record; it is temporary and does not satisfy dependencies. A Git recovery commit could not be created because `.git` is read-only in this workspace (`git commit` failed creating `.git/index.lock` with `Operation not permitted`). The working tree remains intact for resumption. Do not mark B-004 complete or start B-005 until browser evidence is available and the required completion checkpoint can be created.
+
+## Resume attempt — 2026-10-20
+
+- **Runner variables:** `NONAME_BROWSER_PREFLIGHT=passed`; `NONAME_APP_URL=http://127.0.0.1:3000`.
+- **Server check:** `curl --silent --show-error --fail --max-time 3 -I http://127.0.0.1:3000/` — failed (exit 7), connection refused. No server was started, consistent with the no-second-server requirement.
+- **Browser review attempt:** `npx --no-install playwright-cli open "$NONAME_APP_URL"` — failed before page inspection. Playwright's Chrome process at `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` exited with `SIGABRT`; process cleanup also reported `kill EPERM`. No snapshot, screenshots, console/request inspection, or interaction evidence was produced.
+- **Outcome:** Halted before further stage work. The supplied `passed` flag does not match the observed app availability, and the required browser evidence remains unavailable. Existing Cycles 1–3 remain unchanged; no additional implementation/review cycle was consumed. No completion checkpoint or dependent stage was attempted.
+- **Resume action:** Rerun the runner preflight with a live `NONAME_APP_URL` and a Chromium-capable Playwright CLI environment, then resume this same B-004 stage and original plan. Keep the existing cycle history; do not begin B-005 unless browser evidence and the completion checkpoint both pass.
+
+## Resume attempt — 2026-10-20 (Coordinator verification)
+
+- **Preflight variables:** `NONAME_BROWSER_PREFLIGHT=passed`; `NONAME_APP_URL=http://127.0.0.1:3000`.
+- **Endpoint check:** `curl --silent --show-error --fail --max-time 3 -I "$NONAME_APP_URL"` — failed, exit 7; connection refused on `127.0.0.1:3000`. No application server was started or bound.
+- **Playwright CLI:** `npx --no-install playwright-cli open "$NONAME_APP_URL"` — unavailable; Chromium process `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` exited with `SIGABRT`, and process cleanup reported `kill EPERM`. No page snapshot, viewport screenshots, console/request inspection, or interaction was available.
+- **Outcome:** Halted before stage-cycle work. Existing Cycles 1–3 and their evidence remain unchanged; no repair cycle was consumed. The required browser gate remains unsatisfied, so no completion checkpoint was created and no dependent stage was attempted.
+- **Resume action:** Repair the runner environment so the supplied URL responds and Playwright CLI can launch Chromium, then resume B-004 using the existing plan and cycle history. Complete the required browser review and create the B-004 completion checkpoint only after all gates pass.
