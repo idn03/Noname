@@ -77,3 +77,14 @@
 - **Playwright CLI:** `npx --no-install playwright-cli open "$NONAME_APP_URL"` — unavailable; Chromium process `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` exited with `SIGABRT`, and process cleanup reported `kill EPERM`. No page snapshot, viewport screenshots, console/request inspection, or interaction was available.
 - **Outcome:** Halted before stage-cycle work. Existing Cycles 1–3 and their evidence remain unchanged; no repair cycle was consumed. The required browser gate remains unsatisfied, so no completion checkpoint was created and no dependent stage was attempted.
 - **Resume action:** Repair the runner environment so the supplied URL responds and Playwright CLI can launch Chromium, then resume B-004 using the existing plan and cycle history. Complete the required browser review and create the B-004 completion checkpoint only after all gates pass.
+
+## Resume attempt — 2026-10-20T03:14Z (Coordinator)
+
+- **Plan and memory:** Reused the existing reviewed B-001 → B-010 plan and the existing B-004 cycle history. `specs/memory.md` has policy only; no implementation memory entries were present. No implementation cycle was available or started because Cycles 1–3 are already recorded.
+- **Preflight inputs:** `NONAME_BROWSER_PREFLIGHT=passed`; `NONAME_APP_URL=http://127.0.0.1:3000`.
+- **Endpoint command:** `curl --silent --show-error --fail --max-time 3 -I http://127.0.0.1:3000/` — failed, exit 7, connection refused. No server was started or bound, following the supplied-URL/no-second-server rule.
+- **Browser command:** `npx --no-install playwright-cli open "$NONAME_APP_URL"` — failed; Playwright's Chrome process `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` exited with `SIGABRT`, and cleanup reported `kill EPERM`. CLI version command `npx --no-install playwright-cli --version` passed (`0.1.22`). No page snapshot, screenshots, console/request inspection, or interaction evidence was produced. Required browser UI review remains unavailable, not passed.
+- **Current full validation:** `npm test` — pass, 6 files / 23 tests; `npm run typecheck` — pass; `npm run build` — pass; `git diff --check` — pass. These results do not satisfy the missing browser gate.
+- **Current tree:** B-004 source has no tracked changes. An existing untracked `.playwright-cli/page-2026-10-20T03-13-32-827Z.yml` was present before this attempt and was left untouched.
+- **Outcome:** B-004 remains blocked/incomplete. No cycle was consumed, no completion checkpoint was created, and no dependent stage was attempted. The previous Cycle 3 recovery state remains resumable.
+- **Next resume action:** Rerun the feature runner with a live supplied app URL and a Playwright CLI Chromium environment that can launch. Resume B-004 without renumbering cycles; complete browser review and create a completion checkpoint only if the required UI gate passes. B-005 remains ineligible until then.
