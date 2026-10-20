@@ -55,10 +55,45 @@ body {
 .offline-label { margin-left: auto; font-size: 12px; }
 .waiting-note { color: #aaa; font-size: 14px; }
 .connection-footer { display: flex; align-items: center; gap: 9px; margin-top: 48px; color: #999; font-size: 12px; }
+.endgame-screen {
+  --endgame-ink: #fff;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+  padding: 56px 24px;
+  color: var(--endgame-ink);
+  text-align: center;
+  background: linear-gradient(180deg, #722f37 0%, #57272d 54%, #080607 100%);
+}
+.endgame-screen--player { width: min(100%, 402px); margin-inline: auto; padding: 44px 20px 36px; gap: 28px; }
+.endgame-heading { width: 100%; }
+.endgame-eyebrow { margin: 0 0 13px; color: #f0dfe0; font: 700 11px/1.4 Arial, Helvetica, sans-serif; letter-spacing: .16em; }
+.endgame-heading h1 { margin: 0; font: 400 clamp(38px, 8vw, 72px)/1.04 Georgia, 'Times New Roman', serif; letter-spacing: -.045em; }
+.endgame-summary { margin: 14px 0 0; color: #f1e7e7; font: 18px/1.4 Georgia, 'Times New Roman', serif; }
+.endgame-scores { display: grid; width: min(100%, 760px); grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.endgame-team { min-width: 0; display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 16px; border: 1px solid rgb(255 255 255 / .42); border-radius: 14px; background: rgb(0 0 0 / .24); text-align: left; }
+.endgame-team.is-winner { border-color: #fff; background: rgb(255 255 255 / .12); }
+.endgame-team img { width: 56px; height: 78px; object-fit: cover; object-position: center 24%; border-radius: 7px; }
+.endgame-team-info { min-width: 0; }
+.endgame-team h2 { margin: 0; font: 600 19px/1.2 Georgia, 'Times New Roman', serif; }
+.endgame-team-info p { margin: 7px 0 0; color: #f0dfe0; font-size: 12px; }
+.endgame-team strong { font: 400 34px/1 Georgia, 'Times New Roman', serif; }
+.endgame-confirmation { max-width: 42ch; margin: 0; color: #d2c5c6; font-size: 13px; line-height: 1.5; }
+.endgame-return { min-height: 48px; padding: 0 26px; border: 1px solid #fff; border-radius: 8px; background: transparent; color: #fff; font: 600 15px/1 Arial, Helvetica, sans-serif; cursor: pointer; }
+.endgame-return:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.endgame-return:hover { background: rgb(255 255 255 / .12); }
 @media (max-width: 520px) {
   .join-row { grid-template-columns: 1fr; }
   .join-row button { width: 100%; }
   .roster-heading { align-items: flex-start; flex-direction: column; }
   .offline-label { font-size: 11px; }
+  .endgame-screen:not(.endgame-screen--player) .endgame-scores { grid-template-columns: 1fr; }
+  .endgame-screen--player { justify-content: flex-start; }
+  .endgame-screen--player .endgame-scores { grid-template-columns: 1fr; gap: 12px; }
+  .endgame-screen--player .endgame-team { grid-template-columns: 48px minmax(0, 1fr) auto; padding: 13px; }
+  .endgame-screen--player .endgame-team img { width: 48px; height: 66px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
