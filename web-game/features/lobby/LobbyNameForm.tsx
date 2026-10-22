@@ -15,10 +15,12 @@ interface LobbyNameFormProps {
 export default function LobbyNameForm(props: LobbyNameFormProps) {
   return (
     <form className="join-form" onSubmit={props.onSubmit}>
-      <label htmlFor="player-name">{props.label}</label>
+      <label className="sr-only" htmlFor="player-name">{props.label}</label>
       <div className="join-row">
-        <input id="player-name" autoComplete="nickname" maxLength={48} value={props.name} onChange={(event) => props.onNameChange(event.target.value)} aria-describedby={props.error ? 'join-error' : 'name-help'} />
-        <button type="submit" disabled={props.disabled}>{props.disabled ? props.pendingAction : props.action}</button>
+        <input id="player-name" placeholder="Tên hiển thị của bạn" autoComplete="nickname" maxLength={48} value={props.name} onChange={(event) => props.onNameChange(event.target.value)} aria-describedby={props.error ? 'join-error' : 'name-help'} />
+        <button type="submit" aria-label={props.disabled ? props.pendingAction : props.action} disabled={props.disabled}>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+        </button>
       </div>
       <p id="name-help" className="helper">{props.helper}</p>
       {props.error && <p id="join-error" className="error-message" role="alert">{props.error}</p>}
