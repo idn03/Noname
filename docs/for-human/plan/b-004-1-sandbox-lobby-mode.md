@@ -22,7 +22,7 @@ After reviewing the full plan, run:
 bash scripts/implement-feature.sh "B-004.1 — Sandbox Lobby Mode" --scope 05-features/session-management
 ```
 
-`implement-feature.sh` prepares the browser and Playwright CLI, then runs the
+`implement-feature.sh` prepares the browser with Playwright Test, then runs the
 Coordinator. The Coordinator must also read all required shared contracts and
 the relevant UX and product specifications. Record implementation, review,
 test, validation, repair, and checkpoint evidence before marking this stage

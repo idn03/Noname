@@ -35,7 +35,8 @@ resume from completed checkpoints.
 ## Browser readiness
 
 - Before the Coordinator starts a feature workflow, the runner checks that the
-  application responds on loopback and that Playwright CLI can launch Chromium.
+  application responds on loopback and that the Playwright Test browser
+  preflight passes against that application.
 - The runner reuses a healthy loopback server or starts one for the workflow,
   then stops only the server it started when the workflow exits.
 - The runner passes the ready application URL and preflight status to the
@@ -45,10 +46,10 @@ resume from completed checkpoints.
   command and outcome, and consumes no implementation/review cycle. Resume the
   same stage after the environment is repaired.
 - For browser stages, the Coordinator uses the prepared server for the required
-  Playwright CLI inspection and records snapshots, viewport screenshots,
-  console and request failures, and an interaction. Automated browser-flow
-  tests remain a separate required test gate where the feature test spec calls
-  for them.
+  Playwright Test UI review. Record test output, viewport screenshots, trace
+  artifacts, console and request evidence, and relevant interactions. The review and required
+  browser-flow tests use the same Playwright Test toolchain; coverage required
+  by each feature test spec remains a test gate.
 
 ## Memory context
 
@@ -71,8 +72,9 @@ resume from completed checkpoints.
   design dials. Apply suitable anti-default guidance without forcing
   marketing-page patterns onto gameplay UI or overriding product, accessibility,
   or gameplay-clarity requirements. Review that design reasoning with the UI.
-- UI review uses Playwright CLI evidence: snapshot, screenshot at relevant
-  viewport sizes, console and request failures, and a relevant interaction.
+- UI review uses Playwright Test evidence: test output, screenshots at relevant
+  viewport sizes, trace artifacts, console and request evidence, and a relevant
+  interaction.
   A required but unavailable browser check is not a pass. Record why UI review
   is not applicable for stages without a browser interface.
 - Failed review, focused tests, or validation findings are sent to the

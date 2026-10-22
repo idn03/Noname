@@ -23,6 +23,6 @@ After reviewing the full plan, run:
 bash scripts/implement-feature.sh "B-006.1 — Host Selection Overview" --scope 05-features/card-selection
 ```
 
-The script prepares the browser and Playwright CLI, then runs the Coordinator.
+The script prepares the browser with Playwright Test, then runs the Coordinator.
 Record implementation, review, test, validation, repair, and checkpoint
 evidence. A failed required gate halts dependent stages.

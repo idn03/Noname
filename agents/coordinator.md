@@ -24,7 +24,7 @@ specifications define behavior. Provider output is evidence, not authority.
 - enforce implement, review, test, and validate gates;
 - manage at most three implementation/review cycles per stage (Cycle 1 is the
   initial implementation), including scoped frontend/backend logic review and
-  Playwright CLI UI review when applicable;
+  Playwright Test UI review when applicable;
 - preserve each cycle's evidence and create a temporary recovery checkpoint
   when Cycle 3 cannot satisfy required gates; update the task as blocked with
   findings, remaining acceptance criteria, and a resume action;

@@ -18,10 +18,10 @@ informed by prior findings. In each cycle, delegate implementation to
 agents/implementer.md or agents/screen-implementer.md, then run the independent
 scope review and focused behavior checks. The review covers all changed and
 impacted frontend and backend logic against the stage scope, plus user-facing
-UI with the local `npx playwright-cli` when the stage has a browser interface.
-Inspect a page snapshot, a screenshot at relevant viewport sizes, browser
-console errors, failed requests, and a relevant user interaction. Record the
-commands, outcomes, findings, and artifact paths in the run record. A UI check
+UI with relevant local Playwright Test cases when the stage has a browser
+interface. Inspect screenshots at relevant viewport sizes, test traces, browser
+console errors, failed requests, and relevant user interactions. Record test commands,
+outcomes, findings, and artifact paths in the run record. A UI check
 that is required but unavailable is not a pass. For non-UI stages, record why
 the browser review does not apply.
 

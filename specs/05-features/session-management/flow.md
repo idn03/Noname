@@ -2,7 +2,7 @@
 
 ## Start
 
-1. The person running the server opens the local browser page and presses TẠO to create a lobby; no display name is required and the server assigns the Host observer identity. A three-second hold creates a Sandbox lobby for Playwright CLI interface and feature testing, with 6–10 simulated players in addition to the Host.
+1. The person running the server opens the local browser page and presses TẠO to create a lobby; no display name is required and the server assigns the Host observer identity. A three-second hold creates a Sandbox lobby for Playwright Test interface and feature testing, with 6–10 simulated players in addition to the Host.
 2. Other players join the lobby and the server updates connected-player presence.
 3. The Host requests to start the game. For 6–9 joining players (excluding the Host), the Host confirms the low-population start.
 4. The server verifies Host authority, player count, any required confirmation, and start invariants.

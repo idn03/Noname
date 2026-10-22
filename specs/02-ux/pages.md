@@ -27,7 +27,7 @@ ManageGameScreen is Host-only. Show the current round and the Wolf attack card f
 
 ## Sandbox
 
-Sandbox rooms support Playwright CLI interface and feature testing. They contain 6–10 simulated players in addition to the Host and allow the Host to start team assignment. During selection, automatically choose Music for every Wolf slot and a random challenge; choose two Music cards and one Travel card for Sheep. Sandbox rooms reject real players joining through a link.
+Sandbox rooms support Playwright Test interface and feature testing. They contain 6–10 simulated players in addition to the Host and allow the Host to start team assignment. During selection, automatically choose Music for every Wolf slot and a random challenge; choose two Music cards and one Travel card for Sheep. Sandbox rooms reject real players joining through a link.
 
 ## Screens and Shared Components
 

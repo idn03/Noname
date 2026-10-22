@@ -11,7 +11,7 @@ Verify that the Host and all connected browsers follow the product rules, keep o
 | Unit | Vitest | Test Game Engine rules and other pure logic without a browser, network, or database. |
 | Integration | Vitest | Test application services, Socket.IO boundaries, authorization, persistence, and synchronization together. |
 | End-to-end | Playwright | Test critical player and Host journeys through real browser interfaces and realtime communication. |
-| Interactive UI review | Playwright CLI | Inspect a stage's browser UI with snapshots, screenshots, console and request output, and relevant interactions during each implementation/review cycle. |
+| Interactive UI review | Playwright Test | Inspect a stage's browser UI with test output, screenshots, console and request output, and relevant interactions during each implementation/review cycle. |
 
 ## Coverage Priorities
 
@@ -24,9 +24,10 @@ Each feature's `tests.md` lists its expected behaviors. Keep tests behavior-focu
 For user-facing changes, verify that all rendered interface text and accessible
 names are Vietnamese, including dynamic states and error paths.
 
-Playwright CLI inspection supplements automated Playwright Test coverage. It
-does not replace deterministic unit, integration, or end-to-end tests. Record
-the CLI commands and evidence paths in the stage run record.
+Playwright Test covers both UI review and automated browser flows. During UI
+review, run relevant browser tests and retain screenshot and trace artifacts,
+console and request evidence, interactions, and test output in the stage run
+record. This does not replace deterministic unit or integration tests.
 
 ## Determinism and Isolation
 

@@ -6,7 +6,7 @@ V0 is a single-session game with phase-based screens rather than a multi-section
 
 ## Main Destinations
 
-- **HomeScreen:** Create a room as Host without entering a name, join an existing room as a player, or resume a valid player session. Holding TẠO for three seconds creates a Sandbox room for Playwright CLI testing.
+- **HomeScreen:** Create a room as Host without entering a name, join an existing room as a player, or resume a valid player session. Holding TẠO for three seconds creates a Sandbox room for Playwright Test.
 - **Team rules:** Read the team-specific rules from Join and return to Join to continue. These are informational views and do not reveal private session state.
 - **LobbyScreen:** View player presence and, for the Host, start, delete-room, match-history, and cancel-match controls.
 - **SelectCardScreen:** View team and selection progress. Host can observe both teams' rosters, selected-card counts, and remaining time without a player slot; players manage their own slot. Wolf players also have access to the challenge pool.

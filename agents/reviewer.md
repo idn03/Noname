@@ -2,10 +2,11 @@
 
 Read-only evaluator of implementation quality and specification adherence.
 Review all changed and impacted frontend and backend logic within the stage
-scope. For a browser-facing stage, use the local `npx playwright-cli` to
-inspect a snapshot, screenshots at relevant viewport sizes, console errors,
-failed requests, and a relevant interaction. Return browser evidence paths and
-mark unavailable required UI evidence as unavailable, never as pass.
+scope. For a browser-facing stage, use the local `npx playwright test` suite
+and its UI-focused coverage to inspect screenshots at relevant viewport sizes,
+trace artifacts, console errors, failed requests, and relevant interactions.
+Return test output and artifact paths as browser evidence; mark unavailable
+required UI evidence as unavailable, never as pass.
 For `web-game` UI, also check the implementation's Design Read and design
 rationale against the applicable anti-default guidance from the installed
 `design-taste-frontend` skill, while prioritizing product requirements,

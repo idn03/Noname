@@ -101,13 +101,12 @@ if [[ "$DRY_RUN" -eq 1 ]]; then
   exit 0
 fi
 
-# Keep the app available to the Coordinator and Playwright CLI for the full
+# Keep the app available to the Coordinator and Playwright Test for the full
 # workflow. Reuse an already healthy server; otherwise own its lifecycle here.
 command -v curl >/dev/null || { log ERROR 31 'curl is required for the browser readiness check'; exit 1; }
 SERVER_PID=""
 SERVER_STARTED_BY_RUNNER=0
 SERVER_LOG="${TMPDIR:-/tmp}/noname-feature-server-$$.log"
-PLAYWRIGHT_DIR="${TMPDIR:-/tmp}/noname-playwright-daemon-$$"
 BROWSER_LOG="${TMPDIR:-/tmp}/noname-playwright-preflight-$$.log"
 cleanup() {
   if [[ -n "$SERVER_PID" ]]; then
@@ -115,7 +114,6 @@ cleanup() {
     wait "$SERVER_PID" 2>/dev/null || true
     rm -f "$SERVER_LOG"
   fi
-  rm -rf "$PLAYWRIGHT_DIR"
   rm -f "$BROWSER_LOG"
 }
 trap cleanup EXIT
@@ -147,24 +145,18 @@ if ! command -v npx >/dev/null; then
   log ERROR 31 'npx is unavailable; install Node.js and project dependencies before starting this workflow'
   exit 1
 fi
-if ! npx --no-install playwright-cli --version >"$BROWSER_LOG" 2>&1; then
-  log ERROR 31 'Playwright CLI is unavailable; install project dependencies before starting this workflow'
+if ! npx --no-install playwright --version >"$BROWSER_LOG" 2>&1; then
+  log ERROR 31 'Playwright Test is unavailable; install project dependencies before starting this workflow'
   cat "$BROWSER_LOG" >&2
   exit 1
 fi
 
-# Use a writable temporary daemon directory so CLI preflight does not depend
-# on permissions in the user's home cache. Keep the same setting for the run.
-PWTEST_DAEMON_SESSION_DIR="$PLAYWRIGHT_DIR"
-export PWTEST_DAEMON_SESSION_DIR
-mkdir -p "$PWTEST_DAEMON_SESSION_DIR"
-if ! npx --no-install playwright-cli -s=noname-preflight open about:blank >"$BROWSER_LOG" 2>&1; then
-  log ERROR 31 'Playwright CLI could not launch Chrome; run npx playwright install chrome and retry'
+if ! NONAME_APP_URL=http://127.0.0.1:3000 npx --no-install playwright test --grep @browser-preflight >"$BROWSER_LOG" 2>&1; then
+  log ERROR 31 'Playwright Test browser preflight failed; install Chromium with npx playwright install chromium and retry'
   cat "$BROWSER_LOG" >&2
   exit 1
 fi
-npx --no-install playwright-cli -s=noname-preflight close >/dev/null 2>&1 || true
-log OK 32 'Loopback server and Playwright CLI browser preflight passed'
+log OK 32 'Loopback server and Playwright Test browser preflight passed'
 
 if ! curl --silent --show-error --fail --max-time 2 http://127.0.0.1:3000/ >/dev/null 2>&1; then
   log ERROR 31 'The prepared feature server stopped before the Coordinator started'

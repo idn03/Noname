@@ -2,7 +2,7 @@
 
 ## Entry and Lobby
 
-1. The person running the server opens the local browser page and presses TẠO to create the room as Host; no Host display name is required. Holding TẠO for three seconds creates a Sandbox room for Playwright CLI testing, with 6–10 simulated players in addition to the Host.
+1. The person running the server opens the local browser page and presses TẠO to create the room as Host; no Host display name is required. Holding TẠO for three seconds creates a Sandbox room for Playwright Test, with 6–10 simulated players in addition to the Host.
 2. Other players open the Host's LAN address, see a concise rules overview with options to read Wolf or Sheep rules, and return to Join.
 3. A new player enters a display name and joins. A returning player with a valid session resumes their existing identity.
 4. The lobby shows joined players and their count, excluding the Host. The Host can start with at least six joined players; starting below ten requires Host confirmation. The Host can delete the room to recreate it.

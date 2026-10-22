@@ -23,6 +23,6 @@ After reviewing the full plan, run:
 bash scripts/implement-feature.sh "B-008.1 — Host Match Management" --scope 05-features/turn-gameplay
 ```
 
-The script prepares the browser and Playwright CLI, then runs the Coordinator.
+The script prepares the browser with Playwright Test, then runs the Coordinator.
 Record implementation, review, test, validation, repair, and checkpoint
 evidence. A failed required gate halts dependent stages.
