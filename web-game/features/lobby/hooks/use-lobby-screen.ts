@@ -36,7 +36,7 @@ export function useLobbyScreen() {
   const roleClass = isLocalHost === null ? 'lobby-shell--resolving' : isLocalHost ? 'lobby-shell--host' : 'lobby-shell--player';
 
   return {
-    name, setName, lobby, error, connected, pending, isLocalHost, selfId, host,
+    name, setName, lobby, error, connected, pending, isLocalHost, host,
     players, connectedPlayers, currentPlayer, roleClass,
     createHost, join, start, cancel, deleteRoom,
   };
