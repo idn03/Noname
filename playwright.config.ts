@@ -10,7 +10,7 @@ export default defineConfig({
   },
   ...(process.env.NONAME_APP_URL ? {} : {
     webServer: {
-      command: 'HOST=127.0.0.1 PORT=3000 npm run dev',
+      command: 'HOST=127.0.0.1 PORT=3000 pnpm dev',
       url: 'http://127.0.0.1:3000',
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,

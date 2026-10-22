@@ -4,6 +4,17 @@ Noname is a web-based multiplayer card game for small groups playing together
 on the same local network. Version 0 focuses on a complete, host-managed game
 loop with team-based card play and challenges.
 
+## Local Development
+
+Use pnpm to install dependencies and run project commands:
+
+```sh
+pnpm install
+pnpm dev
+pnpm test
+pnpm run typecheck
+```
+
 This project uses spec-driven development. Product requirements, gameplay
 rules, and technical decisions live under `specs/`; the workflow specifications
 define how agent-assisted work is planned, checked, and resumed.
