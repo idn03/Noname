@@ -1,6 +1,7 @@
 'use client';
 
 import type { Team } from '../../game/game-types';
+import { RuneField } from '../../components/shared/RuneField';
 
 export interface EndGameResult {
   scores: Readonly<Record<Team, number>>;
@@ -21,6 +22,7 @@ export function EndGameScreen({ result, audience, onReturnHome }: EndGameScreenP
 
   return (
     <main className={`endgame-screen endgame-screen--${audience}`} aria-labelledby="endgame-title">
+      <RuneField />
       <header className="endgame-heading">
         <p className="endgame-eyebrow">TRẬN ĐẤU ĐÃ KẾT THÚC · {result.rounds} LƯỢT</p>
         <h1 id="endgame-title">{headline}</h1>

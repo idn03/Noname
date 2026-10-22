@@ -66,6 +66,9 @@ body {
 .connection-footer { display: flex; align-items: center; gap: 9px; margin-top: 48px; color: #999; font-size: 12px; }
 .endgame-screen {
   --endgame-ink: #fff;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;

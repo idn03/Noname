@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { LOBBY_EVENTS, type LobbyCommandReply } from '../../../shared/lobby-contract';
+import { RuneField } from '../../components/shared/RuneField';
 import LobbyNameForm from './LobbyNameForm';
 import { emitLobbyCommand, errorText, type LobbyCommand } from './emit-lobby-command';
 import { LobbyHostActions } from './LobbyHostActions';
@@ -39,10 +40,7 @@ export default function LobbyScreen() {
   const roleClass = isLocalHost === null ? 'lobby-shell--resolving' : isLocalHost ? 'lobby-shell--host' : 'lobby-shell--player';
 
   return <main className={`lobby-shell ${roleClass} ${lobby ? 'lobby-shell--active' : 'lobby-shell--home'}`}>
-    <div className="rune-field" aria-hidden="true">
-      <span>tytiincaafty</span><span>abjiitewabjio</span><span>hunzaykovbuji</span>
-      <span>vyt aikcaafty</span><span>ydbnaikovbuji</span><span>xuykoonfty</span><span>tytiincaafty</span>
-    </div>
+    <RuneField />
     {!lobby && isLocalHost === null && <p className="role-resolution" role="status">Đang xác định chế độ kết nối…</p>}
     {!lobby && isLocalHost !== null && <section className="home-content" aria-labelledby="page-title">
       <h1 id="page-title" className="game-title"><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>
