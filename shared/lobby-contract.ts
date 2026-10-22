@@ -35,6 +35,7 @@ export interface LobbyPlayerView {
   name: string;
   isHost: boolean;
   connected: boolean;
+  team?: 'wolf' | 'sheep';
 }
 
 export interface LobbyView {

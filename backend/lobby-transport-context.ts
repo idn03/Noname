@@ -39,6 +39,12 @@ export function endSession(context: LobbyTransportContext, reason: SessionEndRea
   context.setSession(undefined);
 }
 
+export function broadcastLobby(context: LobbyTransportContext, session: LobbySession): void {
+  for (const [socketId, socket] of context.sockets) {
+    socket.emit(LOBBY_EVENTS.state, session.view(context.playerBySocket.get(socketId)));
+  }
+}
+
 export function isLoopbackAddress(address: string | undefined): boolean {
   return address === '::1' || address === '127.0.0.1' || Boolean(address?.startsWith('::ffff:127.'));
 }

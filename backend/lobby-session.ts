@@ -1,8 +1,12 @@
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import type { GameState } from '../web-game/game/game-types';
 import { createGameState } from '../web-game/game/game-types';
+import { applyGameCommand } from '../web-game/game/game-engine';
+import { prepareBalancedTeams } from '../web-game/game/team-assignment';
+import { systemRandom } from '../web-game/game/randomness';
 import type { LobbyErrorCode, LobbyPlayerView, LobbySessionView, LobbyView } from '../shared/lobby-contract';
 import { parsePlayerName } from '../shared/lobby-contract';
+import { createLobbyView } from './lobby-view';
 
 interface PlayerRecord extends LobbyPlayerView { credentialHash: string }
 
@@ -69,7 +73,17 @@ export class LobbySession {
     const players = this.joiningPlayers().filter((player) => player.connected);
     if (players.length < 6 || players.length > 10) return 'NOT_ENOUGH_PLAYERS';
     if (players.length < 10 && !confirmLowPopulation) return 'START_REQUIRES_CONFIRMATION';
-    this.gameState = createGameState(players.map(({ id, name }) => ({ id, name, isHost: false })));
+    const connectedPlayers = [...this.players.values()].filter((player) => player.connected);
+    const initialState = createGameState(connectedPlayers.map(({ id, name, isHost }) => ({ id, name, isHost })));
+    const started = applyGameCommand(initialState, { type: 'start', actorId }, {
+      random: systemRandom,
+      prepareTeams: prepareBalancedTeams,
+    });
+    if (!started.ok) return started.error.code === 'NOT_AUTHORIZED' ? 'NOT_AUTHORIZED' : 'INVALID_REQUEST';
+    this.gameState = {
+      ...started.value,
+      players: started.value.players.filter((player) => !player.isHost),
+    };
     this.phase = 'started';
     return { lobby: this.view(), gameState: structuredClone(this.gameState) };
   }
@@ -87,11 +101,8 @@ export class LobbySession {
     return undefined;
   }
 
-  view(): LobbyView {
-    return {
-      phase: this.phase,
-      players: [...this.players.values()].map(({ id, name, isHost, connected }) => ({ id, name, isHost, connected })),
-    };
+  view(viewerId?: string): LobbyView {
+    return createLobbyView(this.phase, [...this.players.values()], this.gameState, viewerId);
   }
 
   private joiningPlayers(): PlayerRecord[] {
@@ -103,7 +114,5 @@ export class LobbySession {
     return Boolean(player?.isHost && player.connected);
   }
 
-  private hash(credential: string): string {
-    return createHash('sha256').update(credential).digest('hex');
-  }
+  private hash(credential: string): string { return createHash('sha256').update(credential).digest('hex'); }
 }

@@ -15,6 +15,42 @@
 .rune-field span:nth-child(7) { left: 49%; top: 55%; animation-delay: -12s; }
 @keyframes rune-drift { to { transform: translateY(64px); } }
 .home-content { position: relative; display: grid; grid-template-columns: minmax(180px, .7fr) minmax(0, 2fr); align-content: center; align-items: center; gap: clamp(32px, 8vw, 150px); width: min(100%, 1920px); min-height: 100dvh; margin: auto; padding: clamp(28px, 6vw, 96px); }
+.lobby-shell--host .home-content { grid-template-columns: minmax(220px, 260px) minmax(0, 1fr); align-content: start; align-items: start; gap: clamp(36px, 3vw, 56px); padding: 15vh clamp(28px, 3.65vw, 72px) 6vh; }
+.host-home-action { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: 'overview .' 'sheep wolf' 'create create'; align-items: start; gap: 30px clamp(28px, 4vw, 72px); }
+.lobby-shell--host .host-home-action { margin-top: 30px; }
+.host-rule-overview { grid-area: overview; }
+.host-rule-overview h2, .host-team-heading h2 { margin: 0; color: #fff; font: 700 40px/1.15 Judson, Georgia, serif; }
+.host-rule-overview ul { margin: 12px 0 0; padding-left: 20px; color: #fff; font: 16px/1.8 Judson, Georgia, serif; }
+.host-rule-overview li + li { margin-top: 8px; }
+.host-team-rule--sheep { grid-area: sheep; }
+.host-team-rule--wolf { grid-area: wolf; }
+.host-team-heading { display: flex; align-items: center; gap: 14px; min-height: 60px; }
+.host-team-heading img { width: 60px; height: 60px; object-fit: contain; }
+.host-team-rule p { margin: 20px 0 0 30px; color: #fff; font: 16px/1.9 Judson, Georgia, serif; }
+.host-team-rule strong, .host-rule-overview strong { color: #fff; font-weight: 700; }
+.host-home-action .host-create { grid-area: create; width: min(100%, 480px); margin: 140px auto 0; }
+.host-create-note { margin: 12px 0 0; color: #fff; font: 14px/1.4 Judson, Georgia, serif; }
+.lobby-shell--home.lobby-shell--player { width: min(100%, 402px); margin-inline: auto; border-radius: 8px; background-attachment: scroll; }
+.lobby-shell--player.lobby-shell--active { width: min(100%, 402px); margin-inline: auto; background-attachment: scroll; }
+.lobby-shell--host .lobby-content { width: min(calc(100% - 96px), 1320px); }
+.lobby-host-presence { display: flex; align-items: center; gap: 10px; width: fit-content; margin: 18px 0; color: #fff; font: 16px Judson, Georgia, serif; }
+.lobby-stage { position: relative; min-height: 400px; overflow: hidden; border: 1px solid var(--gray); border-radius: 8px; background: rgb(0 0 0 / 15%); }
+.lobby-team-zones { position: absolute; inset: 0; }
+.lobby-team-zone { position: absolute; inset-block: 0; display: flex; justify-content: center; padding: 22px 14px; }
+.lobby-team-zone--wolf { left: 0; width: 50%; border-right: 1px solid rgb(141 141 141 / 70%); background: rgb(0 0 0 / 10%); }
+.lobby-team-zone--sheep { right: 0; width: 50%; background: rgb(255 255 255 / 4%); }
+.lobby-team-zone h3 { display: flex; align-items: center; gap: 8px; margin: 0; color: #fff; font: 700 20px Judson, Georgia, serif; }
+.lobby-team-zone h3 img { width: 36px; height: 36px; object-fit: contain; }
+.lobby-team-zone h3 span { color: rgb(255 255 255 / 70%); font: 400 14px Judson, Georgia, serif; }
+.lobby-player-tokens { position: absolute; inset: 0; z-index: 1; margin: 0; padding: 0; list-style: none; }
+.roster .lobby-player-tokens > li { position: absolute; display: flex; align-items: center; gap: 8px; width: max-content; max-width: 46%; min-height: 0; padding: 8px 12px; overflow: hidden; border: 1px solid rgb(255 255 255 / 65%); border-bottom: 0; border-radius: 6px; background: rgb(0 0 0 / 70%); color: #fff; font: 16px/1.2 Judson, Georgia, serif; text-overflow: ellipsis; white-space: nowrap; transition: left 1.35s cubic-bezier(.17,.72,.25,1), top 1.35s cubic-bezier(.17,.72,.25,1), transform 1.35s cubic-bezier(.17,.72,.25,1), opacity .4s ease; }
+.roster .lobby-player-tokens > li.is-disconnected { opacity: .55; }
+.lobby-stage--assigned .lobby-player-token { box-shadow: 0 3px 12px rgb(0 0 0 / 25%); }
+.lobby-shell--player .home-content { grid-template-columns: 1fr; align-content: start; gap: 0; padding: max(26px, env(safe-area-inset-top)) 20px max(22px, env(safe-area-inset-bottom)); }
+.lobby-shell--player .game-title { font-size: clamp(82px, 30vw, 128px); line-height: .97; }
+.lobby-shell--player .player-home-action { align-self: auto; margin: auto 0 8vh; }
+.lobby-shell--player .home-tagline { margin-bottom: 28px; }
+.lobby-shell--player .home-content > .connection-footer { grid-column: 1; margin: -5vh 0 0; }
 .role-resolution { position: relative; display: grid; min-height: 100dvh; place-items: center; margin: 0; color: #fff; font: 18px Judson, Georgia, serif; }
 .game-title { display: flex; flex-direction: column; margin: 0; color: #fff; font: 400 clamp(72px, 9vw, 128px)/.98 Judson, Georgia, serif; text-shadow: 0 4px 20px rgb(0 0 0 / 20%); }
 .home-action { min-width: 0; }
@@ -23,7 +59,7 @@
 .home-copy h2 { margin: 0 0 12px; color: #fff; font: 700 36px/1.1 Judson, Georgia, serif; }
 .home-copy p { max-width: 68ch; margin: 8px 0; color: rgb(255 255 255 / 88%); font: 16px/1.7 Judson, Georgia, serif; }
 .host-create { margin-top: 28px; text-align: center; }
-.host-create button { width: min(100%, 480px); min-height: 112px; border: 4px solid rgb(255 255 255 / 82%); border-radius: 12px; background: transparent; color: #fff; font: 700 60px/1 Judson, Georgia, serif; cursor: pointer; transition: background-color .2s, transform .2s; }
+.host-create button { width: min(100%, 480px); min-height: 140px; border: 4px solid rgb(255 255 255 / 82%); border-radius: 12px; background: transparent; color: #fff; font: 700 60px/1 Judson, Georgia, serif; cursor: pointer; transition: background-color .2s, transform .2s; }
 .host-create button:hover:not(:disabled) { background: rgb(255 255 255 / 10%); transform: translateY(-2px); }
 .host-create button:disabled { opacity: .55; cursor: wait; }
 .host-create button:focus-visible, .join-row button:focus-visible { outline: 3px solid #fff; outline-offset: 5px; }
@@ -43,16 +79,17 @@
 .lobby-content h1 { font-family: Judson, Georgia, serif; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
 @media (max-width: 700px) {
-  .lobby-shell--player { width: min(100%, 402px); min-height: 100svh; margin-inline: auto; background-attachment: scroll; }
-  .lobby-shell--player .home-content { grid-template-columns: 1fr; align-content: start; gap: 0; min-height: 100svh; padding: max(26px, env(safe-area-inset-top)) 20px max(22px, env(safe-area-inset-bottom)); }
-  .lobby-shell--player .game-title { font-size: clamp(82px, 30vw, 128px); line-height: .97; }
-  .lobby-shell--player .player-home-action { align-self: auto; margin: auto 0 8vh; }
-  .lobby-shell--player .home-tagline { margin-bottom: 28px; }
-  .lobby-shell--player .home-content > .connection-footer { grid-column: 1; margin: -5vh 0 0; }
   .lobby-shell--host .home-content { grid-template-columns: 1fr; align-content: start; gap: 28px; padding: 30px 24px; }
+  .lobby-shell--host .host-home-action { grid-template-columns: 1fr; grid-template-areas: 'overview' 'sheep' 'wolf' 'create'; gap: 26px; margin-top: 0; }
   .lobby-shell--host .game-title { flex-direction: row; gap: .25em; font-size: clamp(48px, 13vw, 76px); }
   .lobby-shell--host .home-copy h2 { font-size: 30px; }
   .host-create button { min-height: 78px; font-size: 44px; }
   .lobby-shell--active { background-attachment: scroll; }
+  .lobby-shell--host .lobby-content { width: min(calc(100% - 40px), 680px); }
+  .lobby-stage { min-height: 420px; }
+  .lobby-team-zone { padding: 14px 8px; }
+  .lobby-team-zone h3 { gap: 5px; font-size: 16px; }
+  .lobby-team-zone h3 img { width: 28px; height: 28px; }
+  .roster .lobby-player-tokens > li { gap: 5px; max-width: 47%; padding: 7px 8px; font-size: 13px; }
 }
-@media (prefers-reduced-motion: reduce) { .rune-field span { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .rune-field span { animation: none; } .roster .lobby-player-tokens > li { transition: none; } }

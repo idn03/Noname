@@ -8,4 +8,4 @@ Assign every player in the session to exactly one team when the Host starts the 
 
 The Game Engine randomly assigns joining players only, using isolated randomness. Team sizes are equal for an even player count. For an odd count, one randomly selected team receives the extra player. The Host remains an observer.
 
-The server publishes the resulting team state. Team assignment remains fixed for the game and does not depend on client-side state.
+The server publishes authorized team views: the Host observes the full assignment, and each player receives only their own team. Team assignment remains fixed for the game and does not depend on client-side state.

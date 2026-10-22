@@ -1,7 +1,7 @@
 import type { Server, Socket } from 'socket.io';
 import { LOBBY_EVENTS, type LobbyCommandReply } from '../shared/lobby-contract';
 import { LobbySession } from './lobby-session';
-import { bindIdentity, endSession, isLoopbackAddress, respond, type LobbyTransportContext } from './lobby-transport-context';
+import { bindIdentity, broadcastLobby, endSession, isLoopbackAddress, respond, type LobbyTransportContext } from './lobby-transport-context';
 
 interface StartRequest { confirmLowPopulation?: unknown }
 
@@ -17,7 +17,7 @@ export function attachHostHandlers(context: LobbyTransportContext, socket: Socke
     bindIdentity(context, socket, host.playerId);
     socket.emit(LOBBY_EVENTS.identity, host.playerId);
     socket.emit(LOBBY_EVENTS.credential, host.credential);
-    context.io.emit(LOBBY_EVENTS.state, host.lobby);
+    broadcastLobby(context, session);
     reply?.({ ok: true, playerId: host.playerId });
   });
 
@@ -28,7 +28,7 @@ export function attachHostHandlers(context: LobbyTransportContext, socket: Socke
     if (!session) return respond(socket, reply, 'SESSION_NOT_ACTIVE');
     const result = session.start(actorId, request?.confirmLowPopulation === true);
     if (typeof result === 'string') return respond(socket, reply, result);
-    context.io.emit(LOBBY_EVENTS.state, result.lobby);
+    broadcastLobby(context, session);
     reply?.({ ok: true });
   });
 

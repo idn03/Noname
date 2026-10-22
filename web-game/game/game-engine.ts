@@ -48,7 +48,8 @@ function isValidPreparation(players: readonly GamePlayer[], prepared: PreparedGa
   const assignedIds = new Set(prepared.players.map((player) => player.id));
   return assignedIds.size === players.length
     && [...originalIds].every((id) => assignedIds.has(id))
-    && prepared.players.every((player) => player.team === "wolf" || player.team === "sheep");
+    && prepared.players.every((player) => player.isHost && player.team === undefined
+      || player.team === "wolf" || player.team === "sheep");
 }
 
 export function applyGameCommand(
