@@ -38,6 +38,15 @@ body {
 .join-row button:hover:not(:disabled) { background: #813740; }
 .join-row button:active:not(:disabled) { transform: translateY(1px); }
 .join-row button:disabled { cursor: wait; opacity: .65; }
+.host-create button, .host-actions > button, .host-confirm button { min-height: 48px; padding: 0 22px; border: 1px solid #8c424b; border-radius: 4px; background: var(--blood-red); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.host-create button:disabled, .host-actions button:disabled { cursor: wait; opacity: .65; }
+.host-create button:focus-visible, .host-actions button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.host-create .helper { margin-top: 12px; }
+.host-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.host-actions .host-secondary, .host-confirm .host-secondary { border-color: #555; background: transparent; }
+.host-confirm { flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 16px; border: 1px solid #555; }
+.host-confirm p { flex: 1 1 100%; margin: 0 0 4px; color: #ddd; }
+.host-requirement { flex: 1 1 100%; margin: 0; color: #aaa; font-size: 13px; }
 .helper { margin: 9px 0 0; color: #aaa; font-size: 13px; }
 .error-message { margin: 14px 0; color: #ffb6bd; font-size: 14px; }
 .roster { margin-top: 42px; }

@@ -6,7 +6,7 @@ import { LOBBY_EVENTS, type LobbyView } from '../shared/lobby-contract';
 
 describe('lobby transport', () => {
   it('sends the current snapshot and safely reports invalid handshake credentials', () => {
-    const lobby = LobbySession.createForHost('Host');
+    const lobby = LobbySession.createForHost();
     lobby.connectHost();
     const { socket } = connect(lobby, { credential: 'invalid-token' });
 
@@ -16,7 +16,7 @@ describe('lobby transport', () => {
   });
 
   it('rejects a second join on the same connection without adding an identity', () => {
-    const lobby = LobbySession.createForHost('Host');
+    const lobby = LobbySession.createForHost();
     lobby.connectHost();
     const { socket } = connect(lobby);
     const first: { ok: boolean }[] = [];

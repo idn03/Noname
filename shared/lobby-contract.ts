@@ -1,11 +1,15 @@
 export const LOBBY_EVENTS = {
   hostCreate: 'host:create',
+  hostStart: 'host:start',
+  hostCancel: 'host:cancel',
+  hostDeleteRoom: 'host:delete-room',
   join: 'player:join',
   resume: 'player:resume',
   identity: 'player:identity',
   state: 'lobby:state',
   credential: 'player:credential',
   error: 'game:error',
+  ended: 'session:ended',
 } as const;
 
 export type LobbyErrorCode =
@@ -16,7 +20,11 @@ export type LobbyErrorCode =
   | 'INVALID_CREDENTIAL'
   | 'INVALID_REQUEST'
   | 'SESSION_ALREADY_ACTIVE'
-  | 'HOST_CREATION_LOCAL_ONLY';
+  | 'HOST_CREATION_LOCAL_ONLY'
+  | 'NOT_AUTHORIZED'
+  | 'NOT_ENOUGH_PLAYERS'
+  | 'START_REQUIRES_CONFIRMATION'
+  | 'SESSION_NOT_ACTIVE';
 
 export type LobbyJoinResult =
   | { ok: true; playerId: string; credential: string; lobby: LobbyView }
@@ -39,6 +47,14 @@ export interface LobbySessionView {
   credential?: string;
   lobby: LobbyView;
 }
+
+export interface LobbyCommandReply {
+  ok: boolean;
+  playerId?: string;
+  error?: LobbyErrorView;
+}
+
+export type SessionEndReason = 'cancelled' | 'deleted';
 
 export interface LobbyErrorView {
   code: LobbyErrorCode;

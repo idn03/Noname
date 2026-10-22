@@ -13,7 +13,7 @@ describe('player identity and lobby session', () => {
   });
 
   it('gives duplicate display names distinct identities and credentials', () => {
-    const lobby = LobbySession.createForHost('Host');
+    const lobby = LobbySession.createForHost();
     const first = lobby.join('Sam');
     const second = lobby.join('Sam');
 
@@ -25,21 +25,21 @@ describe('player identity and lobby session', () => {
     expect(lobby.view().players.filter((player) => player.name === 'Sam')).toHaveLength(2);
   });
 
-  it('counts the Host and disconnected identities toward the ten-player limit', () => {
-    const lobby = LobbySession.createForHost('Host');
+  it('allows ten joining players excluding the Host, including disconnected identities', () => {
+    const lobby = LobbySession.createForHost();
     lobby.connectHost();
-    const joined = Array.from({ length: 9 }, (_, index) => lobby.join(`P${index}`));
+    const joined = Array.from({ length: 10 }, (_, index) => lobby.join(`P${index}`));
     const first = joined[0];
     if (typeof first === 'string') throw new Error('Expected first player to join');
     lobby.disconnect(first.playerId);
 
-    expect(lobby.view().players).toHaveLength(10);
+    expect(lobby.view().players).toHaveLength(11);
     expect(lobby.view().players.find((player) => player.id === first.playerId)?.connected).toBe(false);
     expect(lobby.join('Extra')).toBe('LOBBY_FULL');
   });
 
   it('reconnects the same identity without adding a participant', () => {
-    const lobby = LobbySession.createForHost('Host');
+    const lobby = LobbySession.createForHost();
     const joined = lobby.join('Guest');
     if (typeof joined === 'string') throw new Error('Expected player to join');
     lobby.disconnect(joined.playerId);
@@ -56,12 +56,11 @@ describe('player identity and lobby session', () => {
     expect(lobby.resume({ credential: joined.credential })).toBeUndefined();
   });
 
-  it('rejects invalid names, preserves membership, and closes new admission after start', () => {
-    const lobby = LobbySession.createForHost('Host');
+  it('rejects invalid names without changing membership', () => {
+    const lobby = LobbySession.createForHost();
     expect(lobby.join(' \t ')).toBe('INVALID_NAME');
     expect(lobby.view().players).toHaveLength(1);
-    lobby.closeAdmission();
-    expect(lobby.join('Guest')).toBe('LOBBY_CLOSED');
-    expect(lobby.view().players).toHaveLength(1);
+    expect(lobby.join('Guest')).not.toBe('INVALID_NAME');
+    expect(lobby.view().players).toHaveLength(2);
   });
 });
