@@ -34,12 +34,15 @@ export default function LobbyScreen() {
   const currentPlayer = players.find((player) => player.id === selfId);
   const host = Boolean(currentPlayer?.isHost);
 
-  return <main className={`lobby-shell ${lobby ? 'lobby-shell--active' : `lobby-shell--home ${isLocalHost ? 'lobby-shell--host' : 'lobby-shell--player'}`}`}>
+  const roleClass = isLocalHost === null ? 'lobby-shell--resolving' : isLocalHost ? 'lobby-shell--host' : 'lobby-shell--player';
+
+  return <main className={`lobby-shell ${lobby ? 'lobby-shell--active' : `lobby-shell--home ${roleClass}`}`}>
     <div className="rune-field" aria-hidden="true">
       <span>tytiincaafty</span><span>abjiitewabjio</span><span>hunzaykovbuji</span>
       <span>vyt aikcaafty</span><span>ydbnaikovbuji</span><span>xuykoonfty</span><span>tytiincaafty</span>
     </div>
-    {!lobby && <section className="home-content" aria-labelledby="page-title">
+    {!lobby && isLocalHost === null && <p className="role-resolution" role="status">Đang xác định chế độ kết nối…</p>}
+    {!lobby && isLocalHost !== null && <section className="home-content" aria-labelledby="page-title">
       <h1 id="page-title" className="game-title"><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>
       {isLocalHost ? <div className="home-action host-home-action">
         <div className="home-copy"><p className="home-kicker">TRÒ CHƠI NHIỀU NGƯỜI</p><h2>Luật chơi</h2>

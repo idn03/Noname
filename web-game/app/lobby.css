@@ -15,6 +15,7 @@
 .rune-field span:nth-child(7) { left: 49%; top: 55%; animation-delay: -12s; }
 @keyframes rune-drift { to { transform: translateY(64px); } }
 .home-content { position: relative; display: grid; grid-template-columns: minmax(180px, .7fr) minmax(0, 2fr); align-content: center; align-items: center; gap: clamp(32px, 8vw, 150px); width: min(100%, 1920px); min-height: 100dvh; margin: auto; padding: clamp(28px, 6vw, 96px); }
+.role-resolution { position: relative; display: grid; min-height: 100dvh; place-items: center; margin: 0; color: #fff; font: 18px Judson, Georgia, serif; }
 .game-title { display: flex; flex-direction: column; margin: 0; color: #fff; font: 400 clamp(72px, 9vw, 128px)/.98 Judson, Georgia, serif; text-shadow: 0 4px 20px rgb(0 0 0 / 20%); }
 .home-action { min-width: 0; }
 .home-copy { max-width: 720px; }

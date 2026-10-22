@@ -12,18 +12,30 @@ export function useLobbyConnection() {
   const [error, setError] = useState('');
   const [connected, setConnected] = useState(false);
   const [pending, setPending] = useState(false);
-  const [isLocalHost, setIsLocalHost] = useState(false);
+  const [isLocalHost, setIsLocalHost] = useState<boolean | null>(null);
   const [selfId, setSelfId] = useState('');
   const credentialRejected = useRef(false);
   const connectionRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    setIsLocalHost(['localhost', '127.0.0.1', '::1'].includes(window.location.hostname));
+    const hostname = window.location.hostname.toLowerCase();
+    const localHost = ['localhost', '127.0.0.1', '::1'].includes(hostname);
+    setIsLocalHost(localHost);
+    console.info('[Noname] Host mode detection', { hostname, isLocalHost: localHost, origin: window.location.origin });
     const connection = io({ auth: { credential: window.localStorage.getItem(CREDENTIAL_KEY) } });
     connectionRef.current = connection;
     setSocket(connection);
-    connection.on('connect', () => setConnected(true));
-    connection.on('disconnect', () => {
+    connection.on('connect', () => {
+      console.info('[Noname] Lobby server connected', { socketId: connection.id, isLocalHost: localHost });
+      setConnected(true);
+      setError('');
+    });
+    connection.on('connect_error', (issue) => {
+      console.error('[Noname] Lobby server connection failed', { message: issue.message, isLocalHost: localHost });
+      setError('Không thể kết nối đến máy chủ. Hãy kiểm tra máy chủ rồi thử lại.');
+    });
+    connection.on('disconnect', (reason) => {
+      console.warn('[Noname] Lobby server disconnected', { reason, isLocalHost: localHost });
       setConnected(false);
       setPending(false);
       setError('Đã mất kết nối. Khi máy chủ hoạt động lại, hãy thử lại.');
