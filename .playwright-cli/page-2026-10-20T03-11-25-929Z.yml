@@ -1,8 +1,0 @@
-- main [ref=e2]:
-  - img "Noname" [ref=e4]
-  - region [ref=e5]:
-    - paragraph [ref=e6]: TRÒ CHƠI NHIỀU NGƯỜI
-    - heading "Cùng vào phòng" [level=1] [ref=e7]
-    - paragraph [ref=e8]: Nhập tên hiển thị để tham gia ván chơi cùng mọi người trong mạng nội bộ.
-    - status [ref=e9]: Đang chờ Host tạo phòng trên máy chủ. Khi phòng mở, bạn có thể tham gia tại đây.
-    - status [ref=e10]: Đang kết nối với máy chủ…

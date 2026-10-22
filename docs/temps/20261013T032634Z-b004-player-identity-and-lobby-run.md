@@ -88,3 +88,20 @@
 - **Current tree:** B-004 source has no tracked changes. An existing untracked `.playwright-cli/page-2026-10-20T03-13-32-827Z.yml` was present before this attempt and was left untouched.
 - **Outcome:** B-004 remains blocked/incomplete. No cycle was consumed, no completion checkpoint was created, and no dependent stage was attempted. The previous Cycle 3 recovery state remains resumable.
 - **Next resume action:** Rerun the feature runner with a live supplied app URL and a Playwright CLI Chromium environment that can launch. Resume B-004 without renumbering cycles; complete browser review and create a completion checkpoint only if the required UI gate passes. B-005 remains ineligible until then.
+
+## Resume attempt — 2026-10-22T01:45Z (Coordinator verification)
+
+- **Plan and memory:** Reused the reviewed B-001 → B-010 plan without changes. `specs/memory.md` remains policy-only. Existing B-004 Cycles 1–3 remain the complete repair history; no implementation cycle was available or started.
+- **Preflight inputs:** `NONAME_BROWSER_PREFLIGHT=passed`; `NONAME_APP_URL=http://127.0.0.1:3000`.
+- **Endpoint command:** `curl --silent --show-error --fail --max-time 3 -I "$NONAME_APP_URL"` — failed, exit 7, connection refused. No application server was started or bound; the supplied endpoint was used as directed.
+- **Playwright Test:** `NONAME_APP_URL="$NONAME_APP_URL" npx playwright test` — failed before page inspection. Chromium terminated during launch with `bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer... Permission denied (1100)`; process cleanup reported `kill EPERM`. The test reported one failed test (`tests/e2e/application-foundation.spec.ts:3`), but no B-004 UI interaction ran. Trace: `test-results/application-foundation-Hos-6e7b2-home-page-browser-preflight/trace.zip`; error context: `test-results/application-foundation-Hos-6e7b2-home-page-browser-preflight/error-context.md`. No screenshots, console/request inspection, or relevant interactions were captured. Required browser evidence remains unavailable, not passed.
+- **Outcome:** Halted before additional stage work. B-004 remains blocked/incomplete with its existing Cycle 3 recovery state. No completion checkpoint was created and no dependent stage was attempted.
+- **Next resume action:** Rerun with a live supplied application URL and an environment where Playwright Test Chromium can launch. Resume the same B-004 stage and plan without renumbering cycles; complete the required Host creation, player join, refresh recovery, viewport, console, and request review. Create the completion checkpoint only after all required gates pass.
+
+## Resume attempt — 2026-10-22T01:47Z (Coordinator verification)
+
+- **Plan and memory:** Reused the reviewed B-001 → B-010 plan and existing B-004 cycle history. `specs/memory.md` contains policy only. Cycles 1–3 are already recorded; no implementation/review cycle was available or started.
+- **Preflight inputs:** `NONAME_BROWSER_PREFLIGHT=passed`; `NONAME_APP_URL=http://127.0.0.1:3000`.
+- **Supplied endpoint check:** `curl --silent --show-error --fail --max-time 3 -I "$NONAME_APP_URL"` — failed, exit 7, connection refused on `127.0.0.1:3000`. No server was started or bound; the Coordinator used only the supplied endpoint.
+- **Outcome:** Halted at browser readiness. The supplied preflight status does not match current endpoint availability. No Playwright UI inspection was attempted because the app was unreachable. Required browser evidence remains unavailable, not passed. B-004 remains blocked/incomplete; no completion checkpoint was created and no dependent stage was attempted.
+- **Next resume action:** Rerun the feature runner so its preflight confirms a live supplied application URL and Playwright Test browser. Resume B-004 with its existing plan and Cycle 1–3 history; complete the required UI review and create a completion checkpoint only if all gates pass.
