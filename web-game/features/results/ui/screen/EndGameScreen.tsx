@@ -1,7 +1,7 @@
 'use client';
 
-import type { Team } from '../../game/game-types';
-import { RuneField } from '../../components/shared/RuneField';
+import type { Team } from '../../../../game/game-types';
+import { RuneField } from '../../../../components/shared/RuneField';
 
 export interface EndGameResult {
   scores: Readonly<Record<Team, number>>;

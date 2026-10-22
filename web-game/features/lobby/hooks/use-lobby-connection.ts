@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { io, type Socket } from 'socket.io-client';
-import { LOBBY_EVENTS, type LobbyErrorView, type LobbyView } from '../../../shared/lobby-contract';
+import { LOBBY_EVENTS, type LobbyErrorView, type LobbyView } from '../../../../shared/lobby-contract';
 
 const CREDENTIAL_KEY = 'noname.player-credential';
 

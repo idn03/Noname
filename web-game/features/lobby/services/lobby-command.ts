@@ -1,5 +1,5 @@
 import type { Socket } from 'socket.io-client';
-import { LOBBY_EVENTS, type LobbyCommandReply, type LobbyErrorCode } from '../../../shared/lobby-contract';
+import { LOBBY_EVENTS, type LobbyCommandReply, type LobbyErrorCode } from '../../../../shared/lobby-contract';
 
 export type LobbyCommand = typeof LOBBY_EVENTS.hostCreate
   | typeof LOBBY_EVENTS.hostStart

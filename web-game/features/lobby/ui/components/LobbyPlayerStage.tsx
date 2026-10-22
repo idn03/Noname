@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { LobbyPlayerView } from '../../../shared/lobby-contract';
+import type { LobbyPlayerView } from '../../../../../shared/lobby-contract';
 
 interface LobbyPlayerStageProps {
   players: readonly LobbyPlayerView[];

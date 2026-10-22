@@ -4,7 +4,7 @@ Organize the application by responsibility. Keep gameplay rules independent from
 
 ## Application Areas
 
-- **`web-game/`** — the complete browser-based game application, organized into the routes, shared interface components, feature-specific client behavior, client state, browser-side shared utilities, and game domain logic listed below. Keep browser concerns in this area and keep the game rules independent of UI, transport, and persistence.
+- **`web-game/`** — the complete browser-based game application, organized into the routes, shared interface components, feature-specific client behavior, client state, browser-side shared utilities, and game domain logic listed below. Keep browser concerns in this area and keep the game rules independent of UI, transport, and persistence. Organize feature internals according to [Feature Structure](feature-structure.md).
     - **`app/`** — Next.js routes, layouts, and page composition.
     - **`components/`** — shared React interface components, including shadcn/ui components.
     - **`features/`** — feature-specific UI and client behavior, grouped by feature.
