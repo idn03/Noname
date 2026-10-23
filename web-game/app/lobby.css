@@ -5,19 +5,17 @@
 
 .lobby-shell { position: relative; isolation: isolate; min-height: 100dvh; overflow: hidden; background: #080607 url('/assets/backgrounds/background.png') center / cover fixed; font-family: Judson, Georgia, serif; }
 .lobby-shell--home { display: flex; align-items: stretch; }
-.rune-field { position: absolute; z-index: -1; inset: 0; overflow: hidden; pointer-events: none; }
-.rune-mark { position: absolute; top: 0; width: 21px; height: auto; opacity: .16; filter: brightness(0) invert(1); animation: rune-fall 31s linear infinite; }
-.rune-mark--1 { left: 5%; animation-duration: 32s; animation-delay: -7s; }
-.rune-mark--2 { left: 18%; animation-name: rune-rise; animation-duration: 27s; animation-delay: -19s; }
-.rune-mark--3 { left: 31%; animation-duration: 36s; animation-delay: -2s; }
-.rune-mark--4 { left: 45%; animation-name: rune-rise; animation-duration: 29s; animation-delay: -13s; }
-.rune-mark--5 { left: 59%; animation-duration: 34s; animation-delay: -24s; }
-.rune-mark--6 { left: 72%; animation-name: rune-rise; animation-duration: 25s; animation-delay: -5s; }
-.rune-mark--7 { left: 85%; animation-duration: 38s; animation-delay: -16s; }
-.rune-mark--8 { left: 95%; animation-name: rune-rise; animation-duration: 30s; animation-delay: -10s; }
-.rune-mark--mobile-1, .rune-mark--mobile-2, .rune-mark--mobile-3 { display: none; }
-@keyframes rune-fall { from { transform: translateY(-100%); } to { transform: translateY(100dvh); } }
-@keyframes rune-rise { from { transform: translateY(100dvh); } to { transform: translateY(-100%); } }
+.rune-field { position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
+.lobby-shell > :not(.rune-field), .endgame-screen > :not(.rune-field) { position: relative; z-index: 1; }
+.rune-mark { position: absolute; top: 0; width: 21px; height: auto; opacity: .72; }
+.rune-mark--1 { left: 4%; }
+.rune-mark--2 { left: 11%; }
+.rune-mark--3 { left: 21%; }
+.rune-mark--4 { left: 38%; }
+.rune-mark--5 { left: 58%; }
+.rune-mark--6 { left: 70%; }
+.rune-mark--7 { left: 82%; }
+.rune-mark--8 { left: 95%; }
 .home-content { position: relative; display: grid; grid-template-columns: minmax(180px, .7fr) minmax(0, 2fr); align-content: center; align-items: center; gap: clamp(32px, 8vw, 150px); width: min(100%, 1920px); min-height: 100dvh; margin: auto; padding: clamp(28px, 6vw, 96px); }
 .lobby-shell--host .home-content { grid-template-columns: minmax(220px, 260px) minmax(0, 1fr); align-content: start; align-items: start; gap: clamp(36px, 3vw, 56px); padding: 15vh clamp(28px, 3.65vw, 72px) 6vh; }
 .host-home-action { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: 'overview .' 'sheep wolf' 'create create'; align-items: start; gap: 30px clamp(28px, 4vw, 72px); }
@@ -97,13 +95,6 @@
   .roster .lobby-player-tokens > li { gap: 5px; max-width: 47%; padding: 7px 8px; font-size: 13px; }
 }
 @media (max-width: 700px) {
-  .rune-mark--1, .rune-mark--2, .rune-mark--3, .rune-mark--4, .rune-mark--5, .rune-mark--6, .rune-mark--7, .rune-mark--8 { display: none; }
-  .rune-mark--mobile-1, .rune-mark--mobile-2, .rune-mark--mobile-3 { display: block; width: 18px; }
-  .rune-mark--mobile-1 { left: 12%; animation-duration: 28s; animation-delay: -11s; }
-  .rune-mark--mobile-2 { left: 51%; animation-name: rune-rise; animation-duration: 35s; animation-delay: -21s; }
-  .rune-mark--mobile-3 { left: 88%; animation-duration: 31s; animation-delay: -4s; }
+  .rune-mark { width: 18px; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .rune-mark { top: 50%; transform: translateY(-50%); animation: none; }
-  .roster .lobby-player-tokens > li { transition: none; }
-}
+@media (prefers-reduced-motion: reduce) { .roster .lobby-player-tokens > li { transition: none; } }
