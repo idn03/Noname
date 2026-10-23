@@ -1,11 +1,12 @@
 'use client';
 
-import { RuneField } from '../../../../components/shared/RuneField';
-import { useLobbyScreen } from '../../hooks/use-lobby-screen';
-import { HostHomeActions } from '../components/HostHomeActions';
-import { LobbyHostActions } from '../components/LobbyHostActions';
-import LobbyNameForm from '../components/LobbyNameForm';
-import { LobbyPlayerStage } from '../components/LobbyPlayerStage';
+import { RuneField } from '@/components/shared/RuneField';
+import { HostHomeActions } from '@/features/lobby/ui/components/HostHomeActions';
+import { HostLobbyLayout } from '@/features/lobby/ui/components/HostLobbyLayout';
+import { LobbyHostActions } from '@/features/lobby/ui/components/LobbyHostActions';
+import LobbyNameForm from '@/features/lobby/ui/components/LobbyNameForm';
+import { LobbyPlayerStage } from '@/features/lobby/ui/components/LobbyPlayerStage';
+import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 
 export default function LobbyScreen() {
   const screen = useLobbyScreen();
@@ -26,7 +27,18 @@ export default function LobbyScreen() {
       </div>}
       {!isLocalHost && <div className="connection-footer" role="status"><span className={`presence ${connected ? 'online' : ''}`} />{connected ? 'Đã kết nối với máy chủ' : 'Đang kết nối với máy chủ…'}</div>}
     </section>}
-    {lobby && <section className="lobby-content" aria-labelledby="page-title">
+    {lobby && host && <HostLobbyLayout
+      players={players}
+      connectedPlayers={connectedPlayers}
+      connected={connected}
+      pending={pending}
+      error={error}
+      started={lobby.phase === 'started'}
+      onStart={start}
+      onCancel={cancel}
+      onDelete={deleteRoom}
+    />}
+    {lobby && !host && <section className="lobby-content" aria-labelledby="page-title">
       <p className="phase-label">PHÒNG CHƠI</p>
       <h1 id="page-title">Cùng vào phòng</h1>
       <p className="intro">{lobby.phase === 'started' ? 'Các đội đã được Game Engine phân chia.' : isLocalHost ? 'Phòng đã sẵn sàng. Chờ mọi người tham gia trước khi bắt đầu.' : 'Nhập tên hiển thị để tham gia ván chơi cùng mọi người trong mạng nội bộ.'}</p>

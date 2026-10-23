@@ -16,8 +16,9 @@ export function LobbyPlayerStage({ players, started, canSeeAllTeams }: LobbyPlay
       <section className="lobby-team-zone lobby-team-zone--sheep"><h3><img src="/assets/teams/sheep-icon.svg" alt="" />Đội Cừu {canSeeAllTeams && <span>{sheepTeam.length}</span>}</h3></section>
     </div>}
     <ul className="lobby-player-tokens">
-      {tokens.map(({ player, style }) => <li className={`lobby-player-token ${player.connected ? '' : 'is-disconnected'}`} key={player.id} style={style}>
+      {tokens.map(({ player, style }, index) => <li className={`lobby-player-token ${player.connected ? '' : 'is-disconnected'}`} key={player.id} style={style}>
         <span className="sr-only">{player.team ? `Đội ${player.team === 'wolf' ? 'Sói' : 'Cừu'}: ` : ''}</span>
+        <span className="lobby-player-order" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
         <span className={`presence ${player.connected ? 'online' : ''}`} aria-hidden="true" />
         <span>{player.name}</span>
       </li>)}

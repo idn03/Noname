@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import './lobby.css';
+import './host-lobby.css';
 
 export const metadata: Metadata = {
   title: 'Noname',
