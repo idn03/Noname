@@ -23,6 +23,8 @@ Use a legible type system with clear distinction between page titles, phase or r
 
 Use shadcn/ui components as the starting point for common controls and status patterns, styled to match this palette and visual direction. Keep interaction states consistent for default, hover, focus, disabled, pending, success, and error. Provide visible keyboard focus, accessible names, and touch-sized controls. Do not rely on hover for essential behavior.
 
+Use one shared Button component across screens. Buttons have a transparent background, 12px corner radius, and two sizes: default uses 4px top, 6px left and right, and 10px bottom border widths; mobile uses 1px top, 2px left and right, and 4px bottom widths.
+
 Use motion sparingly for phase changes or card reveals. Respect reduced-motion preferences, and ensure animation never delays or conceals the authoritative result of an action. Avoid decorative effects that reduce legibility or slow play.
 
 ## Shared UI Principles

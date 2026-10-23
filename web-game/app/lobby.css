@@ -61,10 +61,7 @@
 .home-copy h2 { margin: 0 0 12px; color: #fff; font: 700 36px/1.1 Judson, Georgia, serif; }
 .home-copy p { max-width: 68ch; margin: 8px 0; color: rgb(255 255 255 / 88%); font: 16px/1.7 Judson, Georgia, serif; }
 .host-create { margin-top: 28px; text-align: center; }
-.host-create button { width: min(100%, 480px); min-height: 140px; border: 4px solid rgb(255 255 255 / 82%); border-radius: 12px; background: transparent; color: #fff; font: 700 60px/1 Judson, Georgia, serif; cursor: pointer; transition: background-color .2s, transform .2s; }
-.host-create button:hover:not(:disabled) { background: rgb(255 255 255 / 10%); transform: translateY(-2px); }
-.host-create button:disabled { opacity: .55; cursor: wait; }
-.host-create button:focus-visible, .join-row button:focus-visible { outline: 3px solid #fff; outline-offset: 5px; }
+.host-create .shared-button { width: min(100%, 480px); min-height: 140px; color: #fff; font: 700 60px/1 Judson, Georgia, serif; }
 .player-home-action { align-self: end; margin-bottom: 7vh; }
 .home-tagline { margin: 0 0 28px; color: #fff; font: 400 18px/1.4 Judson, Georgia, serif; }
 .join-form { width: 100%; max-width: 560px; }
@@ -72,9 +69,8 @@
 .join-row input { flex: 1; width: 0; min-width: 0; height: auto; border: 0; border-radius: 7px; background: transparent; color: #fff; font: 700 16px Judson, Georgia, serif; }
 .join-row input::placeholder { color: rgb(255 255 255 / 60%); }
 .join-row input:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-.join-row button { display: grid; flex: 0 0 50px; place-items: center; min-height: 50px; border: 0; border-radius: 8px; background: transparent; color: #fff; cursor: pointer; }
-.join-row button:disabled { opacity: .5; cursor: wait; }
-.join-row button svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+.join-row .shared-button { display: grid; flex: 0 0 50px; place-items: center; min-height: 50px; color: #fff; }
+.join-row .shared-button svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
 .join-form .helper { margin: 8px 6px 0; color: rgb(255 255 255 / 65%); font: 13px/1.5 Judson, Georgia, serif; }
 .home-content > .connection-footer { grid-column: 2; margin-top: -4vh; color: rgb(255 255 255 / 65%); font: 13px Judson, Georgia, serif; }
 .lobby-content { position: relative; font-family: Judson, Georgia, serif; }
@@ -85,7 +81,7 @@
   .lobby-shell--host .host-home-action { grid-template-columns: 1fr; grid-template-areas: 'overview' 'sheep' 'wolf' 'create'; gap: 26px; margin-top: 0; }
   .lobby-shell--host .game-title { flex-direction: row; gap: .25em; font-size: clamp(48px, 13vw, 76px); }
   .lobby-shell--host .home-copy h2 { font-size: 30px; }
-  .host-create button { min-height: 78px; font-size: 44px; }
+  .host-create .shared-button { min-height: 78px; font-size: 44px; }
   .lobby-shell--active { background-attachment: scroll; }
   .lobby-shell--host .lobby-content { width: min(calc(100% - 40px), 680px); }
   .lobby-stage { min-height: 420px; }

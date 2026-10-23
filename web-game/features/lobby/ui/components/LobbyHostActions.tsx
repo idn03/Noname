@@ -1,6 +1,7 @@
 'use client';
 
 import { Trash2 } from 'lucide-react';
+import { Button } from '../../../../components/shared/Button';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
 import { useLobbyHostActions } from '../../hooks/use-lobby-host-actions';
@@ -23,23 +24,23 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
   useEffect(() => setPortalReady(true), []);
 
   return <div className="host-actions">
-    {started ? <button type="button" className="host-secondary" onClick={() => setEndAction('cancel')}>Hủy trận</button> : <>
+    {started ? <Button type="button" className="host-secondary" onClick={() => setEndAction('cancel')}>Hủy trận</Button> : <>
       {confirmStart ? <div className="host-confirm" role="group" aria-label="Xác nhận bắt đầu">
         <p>Bắt đầu với {playerCount} người chơi?</p>
-        <button type="button" disabled={pending} onClick={confirmStarting}>Xác nhận</button>
-        <button type="button" className="host-secondary" onClick={() => setConfirmStart(false)}>Quay lại</button>
-      </div> : <button type="button" disabled={pending || playerCount < 6} onClick={requestStart}>CHƠI</button>}
-      <button type="button" className="host-secondary host-delete-room" onClick={() => setEndAction('delete')}>
+        <Button type="button" disabled={pending} onClick={confirmStarting}>Xác nhận</Button>
+        <Button type="button" className="host-secondary" onClick={() => setConfirmStart(false)}>Quay lại</Button>
+      </div> : <Button type="button" disabled={pending || playerCount < 6} onClick={requestStart}>CHƠI</Button>}
+      <Button type="button" className="host-secondary host-delete-room" onClick={() => setEndAction('delete')}>
         <Trash2 size={20} strokeWidth={1.8} aria-hidden="true" />
         <span>Xóa phòng này</span>
-      </button>
+      </Button>
     </>}
     {!started && playerCount < 6 && <p className="host-requirement">Cần ít nhất 6 người chơi đang kết nối để bắt đầu.</p>}
     {endAction && portalReady && createPortal(<div className="host-confirm-overlay">
       <div className="host-confirm host-confirm-modal" role="alertdialog" aria-modal="true" aria-label="Xác nhận kết thúc phòng">
         <p>{endAction === 'delete' ? 'Xóa phòng và ngắt phiên hiện tại?' : 'Kết thúc trận đấu hiện tại?'}</p>
-        <button type="button" disabled={pending} onClick={confirmEnding}>Xác nhận</button>
-        <button type="button" className="host-secondary" onClick={() => setEndAction(null)}>Quay lại</button>
+        <Button type="button" disabled={pending} onClick={confirmEnding}>Xác nhận</Button>
+        <Button type="button" className="host-secondary" onClick={() => setEndAction(null)}>Quay lại</Button>
       </div>
     </div>, document.body)}
   </div>;

@@ -1,3 +1,5 @@
+import { Button } from '../../../../components/shared/Button';
+
 interface HostHomeActionsProps {
   connected: boolean;
   pending: boolean;
@@ -24,7 +26,7 @@ export function HostHomeActions({ connected, pending, error, onCreate }: HostHom
       <p className="!text-black">Đội của bạn sẽ chọn các thẻ và thử thách mà trò chơi cung cấp. Khi bắt đầu lượt, lật 1 thẻ đã chọn để tấn công, lượt tấn công thành công là khi <strong>Đội Cừu</strong> không có thẻ cùng loại để phòng thủ hoặc không hoàn thành thử thách. Nếu tấn công thành công, đội của bạn sẽ được cộng điểm và bắt cóc một chú <strong>Cừu</strong>.</p>
     </section>
     <div className="host-create">
-      <button type="button" disabled={!connected || pending} onClick={onCreate}>{pending ? 'ĐANG TẠO…' : 'TẠO'}</button>
+      <Button type="button" disabled={!connected || pending} onClick={onCreate}>{pending ? 'ĐANG TẠO…' : 'TẠO'}</Button>
       <p className="host-create-note">Tạo phòng trên máy chủ này và tham gia với tư cách Host.</p>
       {error && <p className="error-message" role="alert">{error}</p>}
     </div>

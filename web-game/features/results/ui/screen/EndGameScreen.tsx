@@ -2,6 +2,7 @@
 
 import { useEndGameScreen, type EndGameResult } from '../../hooks/use-end-game-screen';
 import { RuneField } from '../../../../components/shared/RuneField';
+import { Button } from '../../../../components/shared/Button';
 
 export type { EndGameResult } from '../../hooks/use-end-game-screen';
 
@@ -39,7 +40,7 @@ export function EndGameScreen({ result, audience, onReturnHome }: EndGameScreenP
       </section>
 
       <p className="endgame-confirmation">Kết quả đã được xác nhận cho tất cả người chơi.</p>
-      {onReturnHome && <button className="endgame-return" type="button" onClick={onReturnHome}>Về trang chủ</button>}
+      {onReturnHome && <Button className="endgame-return" type="button" onClick={onReturnHome}>Về trang chủ</Button>}
     </main>
   );
 }
