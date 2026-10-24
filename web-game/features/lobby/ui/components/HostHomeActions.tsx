@@ -85,7 +85,7 @@ export function HostHomeActions({ connected, pending, error, onCreate, onCreateS
         onBlur={clearHold}
         onContextMenu={(event) => event.preventDefault()}
       >{pending ? 'ĐANG TẠO…' : 'TẠO'}</Button>
-      <p id="host-create-note" className="host-create-note">Nhấn TẠO để mở phòng thường; giữ 3 giây để tạo Sandbox với 6–10 người chơi máy.</p>
+      <p id="host-create-note" className="host-create-note">Tạo phòng trên máy chủ này và tham gia với tư cách Host.</p>
       {error && <p className="error-message" role="alert">{error}</p>}
     </div>
   </div>;
