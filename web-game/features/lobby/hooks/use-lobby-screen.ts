@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { LOBBY_EVENTS, type LobbyCommandReply } from '../../../../shared/lobby-contract';
+import { LOBBY_EVENTS, type HostCreateMode, type LobbyCommandReply } from '../../../../shared/lobby-contract';
 import { emitLobbyCommand, errorText, type LobbyCommand } from '../services/lobby-command';
 import { useLobbyConnection } from './use-lobby-connection';
 
@@ -21,7 +21,11 @@ export function useLobbyScreen() {
     });
   };
 
-  const createHost = () => command(LOBBY_EVENTS.hostCreate, {}, (reply) => setSelfId(reply.playerId ?? ''));
+  const createRoom = (mode: HostCreateMode) => command(
+    LOBBY_EVENTS.hostCreate, { mode }, (reply) => setSelfId(reply.playerId ?? ''),
+  );
+  const createHost = () => createRoom('regular');
+  const createSandbox = () => createRoom('sandbox');
   const join = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     command(LOBBY_EVENTS.join, { name }, (reply) => setSelfId(reply.playerId ?? ''));
@@ -38,6 +42,6 @@ export function useLobbyScreen() {
   return {
     name, setName, lobby, error, connected, pending, isLocalHost, host,
     players, connectedPlayers, currentPlayer, roleClass,
-    createHost, join, start, cancel, deleteRoom,
+    createHost, createSandbox, join, start, cancel, deleteRoom,
   };
 }

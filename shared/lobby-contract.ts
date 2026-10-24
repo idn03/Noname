@@ -24,7 +24,14 @@ export type LobbyErrorCode =
   | 'NOT_AUTHORIZED'
   | 'NOT_ENOUGH_PLAYERS'
   | 'START_REQUIRES_CONFIRMATION'
+  | 'SANDBOX_ROOM'
   | 'SESSION_NOT_ACTIVE';
+
+export type HostCreateMode = 'regular' | 'sandbox';
+
+export interface HostCreateRequest {
+  mode?: HostCreateMode;
+}
 
 export type LobbyJoinResult =
   | { ok: true; playerId: string; credential: string; lobby: LobbyView }

@@ -64,6 +64,7 @@ function messageFor(code: LobbyErrorCode): string {
     NOT_AUTHORIZED: 'Chỉ Chủ phòng được thực hiện thao tác này.',
     NOT_ENOUGH_PLAYERS: 'Cần ít nhất 6 người chơi đang kết nối để bắt đầu.',
     START_REQUIRES_CONFIRMATION: 'Hãy xác nhận bắt đầu với ít hơn 10 người chơi.',
+    SANDBOX_ROOM: 'Phòng Sandbox chỉ nhận người chơi giả lập, không nhận người chơi qua liên kết.',
     SESSION_NOT_ACTIVE: 'Phòng không còn hoạt động.',
   };
   return messages[code];

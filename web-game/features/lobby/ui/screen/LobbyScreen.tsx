@@ -12,7 +12,7 @@ export default function LobbyScreen() {
   const screen = useLobbyScreen();
   const {
     name, setName, lobby, error, connected, pending, isLocalHost, host, players,
-    connectedPlayers, currentPlayer, roleClass, createHost, join, start, cancel, deleteRoom,
+    connectedPlayers, currentPlayer, roleClass, createHost, createSandbox, join, start, cancel, deleteRoom,
   } = screen;
 
   return <main className={`lobby-shell ${roleClass} ${lobby ? 'lobby-shell--active' : 'lobby-shell--home'}`}>
@@ -20,7 +20,7 @@ export default function LobbyScreen() {
     {!lobby && isLocalHost === null && <p className="role-resolution" role="status">Đang xác định chế độ kết nối…</p>}
     {!lobby && isLocalHost !== null && <section className="home-content" aria-labelledby="page-title">
       <h1 id="page-title" className="game-title"><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>
-      {isLocalHost ? <HostHomeActions connected={connected} pending={pending} error={error} onCreate={createHost} /> : <div className="home-action player-home-action">
+      {isLocalHost ? <HostHomeActions connected={connected} pending={pending} error={error} onCreate={createHost} onCreateSandbox={createSandbox} /> : <div className="home-action player-home-action">
         <p className="home-tagline">Hãy để màn đêm định đoạt tất cả</p>
         <LobbyNameForm label="Tên hiển thị" action="Tham gia phòng" pendingAction="Đang tham gia…" helper="Từ 1 đến 24 ký tự." name={name} error={error} disabled={!connected || pending || !lobby} onNameChange={setName} onSubmit={join} />
         {!lobby && <p className="waiting-note" role="status">Đang chờ Chủ phòng tạo phòng trên máy chủ.</p>}

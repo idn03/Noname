@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useRef, type KeyboardEvent, type PointerEvent } from 'react';
 import { Button } from '../../../../components/shared/Button';
 
 interface HostHomeActionsProps {
@@ -5,9 +8,43 @@ interface HostHomeActionsProps {
   pending: boolean;
   error: string;
   onCreate: () => void;
+  onCreateSandbox: () => void;
 }
 
-export function HostHomeActions({ connected, pending, error, onCreate }: HostHomeActionsProps) {
+export function HostHomeActions({ connected, pending, error, onCreate, onCreateSandbox }: HostHomeActionsProps) {
+  const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const heldForSandbox = useRef(false);
+
+  const clearHold = () => {
+    if (holdTimer.current) clearTimeout(holdTimer.current);
+    holdTimer.current = null;
+  };
+  const beginHold = () => {
+    clearHold();
+    heldForSandbox.current = false;
+    if (!connected || pending) return;
+    holdTimer.current = setTimeout(() => {
+      holdTimer.current = null;
+      heldForSandbox.current = true;
+      onCreateSandbox();
+    }, 3000);
+  };
+  const finishKeyboardHold = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    clearHold();
+    if (!heldForSandbox.current) onCreate();
+    heldForSandbox.current = false;
+  };
+  const finishPointerHold = (event: PointerEvent<HTMLButtonElement>) => {
+    if (event.button === 0) clearHold();
+  };
+
+  useEffect(() => {
+    if (!connected || pending) clearHold();
+    return clearHold;
+  }, [connected, pending]);
+
   return <div className="home-action host-home-action">
     <section className="host-rule-overview" aria-labelledby="rules-heading">
       <h2 id="rules-heading">Luật chơi:</h2>
@@ -26,8 +63,29 @@ export function HostHomeActions({ connected, pending, error, onCreate }: HostHom
       <p className="!text-black">Đội của bạn sẽ chọn các thẻ và thử thách mà trò chơi cung cấp. Khi bắt đầu lượt, lật 1 thẻ đã chọn để tấn công, lượt tấn công thành công là khi <strong>Đội Cừu</strong> không có thẻ cùng loại để phòng thủ hoặc không hoàn thành thử thách. Nếu tấn công thành công, đội của bạn sẽ được cộng điểm và bắt cóc một chú <strong>Cừu</strong>.</p>
     </section>
     <div className="host-create">
-      <Button type="button" disabled={!connected || pending} onClick={onCreate}>{pending ? 'ĐANG TẠO…' : 'TẠO'}</Button>
-      <p className="host-create-note">Tạo phòng trên máy chủ này và tham gia với tư cách Host.</p>
+      <Button
+        type="button"
+        disabled={!connected || pending}
+        aria-describedby="host-create-note"
+        onPointerDown={(event) => { if (event.button === 0) beginHold(); }}
+        onPointerUp={finishPointerHold}
+        onPointerCancel={() => { clearHold(); heldForSandbox.current = false; }}
+        onPointerLeave={clearHold}
+        onClick={() => {
+          if (heldForSandbox.current) { heldForSandbox.current = false; return; }
+          onCreate();
+        }}
+        onKeyDown={(event) => {
+          if ((event.key === 'Enter' || event.key === ' ') && !event.repeat) {
+            event.preventDefault();
+            beginHold();
+          }
+        }}
+        onKeyUp={finishKeyboardHold}
+        onBlur={clearHold}
+        onContextMenu={(event) => event.preventDefault()}
+      >{pending ? 'ĐANG TẠO…' : 'TẠO'}</Button>
+      <p id="host-create-note" className="host-create-note">Nhấn TẠO để mở phòng thường; giữ 3 giây để tạo Sandbox với 6–10 người chơi máy.</p>
       {error && <p className="error-message" role="alert">{error}</p>}
     </div>
   </div>;

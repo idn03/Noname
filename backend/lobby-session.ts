@@ -1,16 +1,16 @@
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import type { GameState } from '../web-game/game/game-types';
-import { systemRandom } from '../web-game/game/randomness';
-import type { RandomSource } from '../web-game/game/randomness';
+import { systemRandom, type RandomSource } from '../web-game/game/randomness';
 import { bundledContent } from './db/bundled-content';
 import type { CategoryContent } from './db/content-validation';
 import { prepareGameSetup } from './game-setup';
 import type { SessionCategoryPool } from './db/session-pool';
-import type { LobbyErrorCode, LobbyPlayerView, LobbySessionView, LobbyView } from '../shared/lobby-contract';
+import type { LobbyErrorCode, LobbySessionView, LobbyView } from '../shared/lobby-contract';
 import { parsePlayerName } from '../shared/lobby-contract';
 import { createLobbyView } from './lobby-view';
+import { createSandboxPlayers, type LobbyPlayerRecord } from './lobby-sandbox-players';
 
-interface PlayerRecord extends LobbyPlayerView { credentialHash: string }
+type PlayerRecord = LobbyPlayerRecord;
 
 export class LobbySession {
   private readonly players = new Map<string, PlayerRecord>();
@@ -22,16 +22,24 @@ export class LobbySession {
   private constructor(
     private readonly categories: readonly CategoryContent[],
     private readonly random: RandomSource,
+    readonly isSandboxRoom = false,
+    simulatedPlayers: readonly PlayerRecord[] = [],
   ) {
     const id = randomUUID();
     this.players.set(id, { id, name: 'Chủ phòng', isHost: true, connected: false, credentialHash: '' });
+    simulatedPlayers.forEach((player) => this.players.set(player.id, player));
   }
 
   static createForHost(categories: readonly CategoryContent[] = bundledContent, random: RandomSource = systemRandom): LobbySession {
     return new LobbySession(categories, random);
   }
 
+  static createSandboxForHost(categories: readonly CategoryContent[] = bundledContent, random: RandomSource = systemRandom): LobbySession {
+    return new LobbySession(categories, random, true, createSandboxPlayers(6 + random.nextInt(5)));
+  }
+
   join(value: unknown): LobbySessionView | LobbyErrorCode {
+    if (this.isSandboxRoom) return 'SANDBOX_ROOM';
     const name = parsePlayerName(value);
     if (!name) return 'INVALID_NAME';
     if (this.phase !== 'lobby' || this.ended) return 'LOBBY_CLOSED';
@@ -67,11 +75,7 @@ export class LobbySession {
     return { playerId: player.id, credential, lobby: this.view() };
   }
 
-  disconnect(playerId: string): LobbyView {
-    const player = this.players.get(playerId);
-    if (player) player.connected = false;
-    return this.view();
-  }
+  disconnect(playerId: string): LobbyView { const player = this.players.get(playerId); if (player) player.connected = false; return this.view(); }
 
   start(actorId: string, confirmLowPopulation = false): { lobby: LobbyView; gameState: GameState } | LobbyErrorCode {
     if (!this.isConnectedHost(actorId)) return 'NOT_AUTHORIZED';
@@ -102,18 +106,13 @@ export class LobbySession {
     return undefined;
   }
 
-  view(viewerId?: string): LobbyView {
-    return createLobbyView(this.phase, [...this.players.values()], this.gameState, viewerId);
-  }
+  view(viewerId?: string): LobbyView { return createLobbyView(this.phase, [...this.players.values()], this.gameState, viewerId); }
 
   private joiningPlayers(): PlayerRecord[] {
     return [...this.players.values()].filter((player) => !player.isHost);
   }
 
-  private isConnectedHost(playerId: string): boolean {
-    const player = this.players.get(playerId);
-    return Boolean(player?.isHost && player.connected);
-  }
+  private isConnectedHost(playerId: string): boolean { const player = this.players.get(playerId); return Boolean(player?.isHost && player.connected); }
 
   private hash(credential: string): string { return createHash('sha256').update(credential).digest('hex'); }
 }

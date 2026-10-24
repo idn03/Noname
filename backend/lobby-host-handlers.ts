@@ -1,17 +1,22 @@
 import type { Server, Socket } from 'socket.io';
-import { LOBBY_EVENTS, type LobbyCommandReply } from '../shared/lobby-contract';
+import { LOBBY_EVENTS, type HostCreateRequest, type LobbyCommandReply } from '../shared/lobby-contract';
 import { LobbySession } from './lobby-session';
 import { bindIdentity, broadcastLobby, endSession, isLoopbackAddress, respond, type LobbyTransportContext } from './lobby-transport-context';
 
 interface StartRequest { confirmLowPopulation?: unknown }
 
 export function attachHostHandlers(context: LobbyTransportContext, socket: Socket): void {
-  socket.on(LOBBY_EVENTS.hostCreate, (_request: unknown, reply?: (result: LobbyCommandReply) => void) => {
+  socket.on(LOBBY_EVENTS.hostCreate, (request: HostCreateRequest, reply?: (result: LobbyCommandReply) => void) => {
     if (context.playerBySocket.has(socket.id)) return respond(socket, reply, 'INVALID_REQUEST');
     if (!isLoopbackAddress(socket.handshake.address)) return respond(socket, reply, 'HOST_CREATION_LOCAL_ONLY');
     if (context.getSession()) return respond(socket, reply, 'SESSION_ALREADY_ACTIVE');
+    if (request?.mode !== undefined && request.mode !== 'regular' && request.mode !== 'sandbox') {
+      return respond(socket, reply, 'INVALID_REQUEST');
+    }
 
-    const session = LobbySession.createForHost(context.categories);
+    const session = request?.mode === 'sandbox'
+      ? LobbySession.createSandboxForHost(context.categories)
+      : LobbySession.createForHost(context.categories);
     const host = session.connectHost();
     context.setSession(session);
     bindIdentity(context, socket, host.playerId);
