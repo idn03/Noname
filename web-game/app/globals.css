@@ -18,7 +18,7 @@
 .shared-button {
   border: solid currentColor;
   border-width: 4px 6px 10px;
-  border-radius: 12px;
+  border-radius: 16px;
   background: transparent;
   color: inherit;
   font: inherit;
