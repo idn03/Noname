@@ -45,7 +45,7 @@ export default function LobbyScreen() {
       <section className="roster" aria-label="Danh sách người chơi">
         <div className="roster-heading">
           <div><h2>Người chơi</h2><p>{connectedPlayers} đang kết nối · {players.filter((player) => !player.isHost).length}/10 chỗ</p></div>
-          <span className={`connection-state ${connected ? '' : 'is-offline'}`} role="status">{connected ? 'Đã kết nối' : 'Đang kết nối lại'}</span>
+          {!connected && <span className="connection-state is-offline" role="status">Đang kết nối lại</span>}
         </div>
         <p className="lobby-host-presence">Chủ phòng <span className={`presence ${players.find((player) => player.isHost)?.connected ? 'online' : ''}`} aria-hidden="true" /></p>
         <LobbyPlayerStage players={players} started={lobby.phase === 'started'} canSeeAllTeams={host} />
