@@ -11,7 +11,7 @@ export function attachHostHandlers(context: LobbyTransportContext, socket: Socke
     if (!isLoopbackAddress(socket.handshake.address)) return respond(socket, reply, 'HOST_CREATION_LOCAL_ONLY');
     if (context.getSession()) return respond(socket, reply, 'SESSION_ALREADY_ACTIVE');
 
-    const session = LobbySession.createForHost();
+    const session = LobbySession.createForHost(context.categories);
     const host = session.connectHost();
     context.setSession(session);
     bindIdentity(context, socket, host.playerId);

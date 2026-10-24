@@ -39,7 +39,7 @@ const httpServer = createServer((request, response) => {
 const io = new Server(httpServer);
 httpServer.on('close', () => contentStore.client.close());
 let activeLobby: LobbySession | undefined;
-attachLobbyTransport(io, () => activeLobby, (session) => { activeLobby = session; });
+attachLobbyTransport(io, () => activeLobby, (session) => { activeLobby = session; }, contentStore.content);
 
 export function setActiveLobby(session: LobbySession | undefined): void {
   activeLobby = session;

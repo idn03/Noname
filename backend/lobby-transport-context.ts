@@ -1,6 +1,7 @@
 import type { Server, Socket } from 'socket.io';
 import { LOBBY_EVENTS, type LobbyCommandReply, type LobbyErrorCode, type LobbyErrorView, type SessionEndReason } from '../shared/lobby-contract';
 import type { LobbySession } from './lobby-session';
+import type { CategoryContent } from './db/content-validation';
 
 export interface LobbyTransportContext {
   io: Server;
@@ -9,6 +10,7 @@ export interface LobbyTransportContext {
   playerBySocket: Map<string, string>;
   socketByPlayer: Map<string, string>;
   sockets: Map<string, Socket>;
+  categories: readonly CategoryContent[];
 }
 
 export function bindIdentity(context: LobbyTransportContext, socket: Socket, playerId: string): void {

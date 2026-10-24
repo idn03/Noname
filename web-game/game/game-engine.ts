@@ -46,10 +46,16 @@ function isValidPreparation(players: readonly GamePlayer[], prepared: PreparedGa
   if (!Number.isInteger(prepared.rounds) || prepared.rounds < 1 || prepared.players.length !== players.length) return false;
   const originalIds = new Set(players.map((player) => player.id));
   const assignedIds = new Set(prepared.players.map((player) => player.id));
-  return assignedIds.size === players.length
-    && [...originalIds].every((id) => assignedIds.has(id))
-    && prepared.players.every((player) => player.isHost && player.team === undefined
-      || player.team === "wolf" || player.team === "sheep");
+  if (assignedIds.size !== players.length || ![...originalIds].every((id) => assignedIds.has(id))) return false;
+  const preparedById = new Map(prepared.players.map((player) => [player.id, player]));
+  if (players.some((player) => {
+    const assigned = preparedById.get(player.id);
+    return !assigned || assigned.name !== player.name || assigned.isHost !== player.isHost
+      || (player.isHost ? assigned.team !== undefined : assigned.team !== "wolf" && assigned.team !== "sheep");
+  })) return false;
+  const wolfCount = prepared.players.filter((player) => !player.isHost && player.team === "wolf").length;
+  const sheepCount = prepared.players.filter((player) => !player.isHost && player.team === "sheep").length;
+  return Math.abs(wolfCount - sheepCount) <= 1 && prepared.rounds === Math.min(wolfCount, sheepCount);
 }
 
 export function applyGameCommand(
