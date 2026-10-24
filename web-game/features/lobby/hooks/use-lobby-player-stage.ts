@@ -16,7 +16,7 @@ export function useLobbyPlayerStage(
     const teamPlayers = player.team === 'wolf' ? wolfTeam : sheepTeam;
     const teamIndex = teamPlayers.findIndex((member) => member.id === player.id);
     const hash = stableHash(player.id);
-    const position = started && player.team && teamIndex >= 0
+    const position = started && !canSeeAllTeams && player.team && teamIndex >= 0
       ? teamPosition(player.team, teamIndex)
       : scatterPosition(hash);
     const style: CSSProperties = {

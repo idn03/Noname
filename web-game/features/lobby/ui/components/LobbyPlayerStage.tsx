@@ -11,12 +11,12 @@ export function LobbyPlayerStage({ players, started, canSeeAllTeams }: LobbyPlay
   const { wolfTeam, sheepTeam, tokens } = useLobbyPlayerStage(players, started, canSeeAllTeams);
 
   return <div className={`lobby-stage ${started ? 'lobby-stage--assigned' : ''}`} role="group" aria-label={started ? 'Người chơi sau khi chia đội' : 'Người chơi đang chờ chia đội'}>
-    {started && <div className="lobby-team-zones" aria-hidden="true">
-      <section className="lobby-team-zone lobby-team-zone--wolf"><h3><img src="/assets/teams/wolf-icon.svg" alt="" />Đội Sói {canSeeAllTeams && <span>{wolfTeam.length}</span>}</h3></section>
-      <section className="lobby-team-zone lobby-team-zone--sheep"><h3><img src="/assets/teams/sheep-icon.svg" alt="" />Đội Cừu {canSeeAllTeams && <span>{sheepTeam.length}</span>}</h3></section>
+    {started && !canSeeAllTeams && <div className="lobby-team-zones" aria-hidden="true">
+      <section className="lobby-team-zone lobby-team-zone--wolf"><h3><img src="/assets/teams/wolf-icon.svg" alt="" />Đội Sói</h3></section>
+      <section className="lobby-team-zone lobby-team-zone--sheep"><h3><img src="/assets/teams/sheep-icon.svg" alt="" />Đội Cừu</h3></section>
     </div>}
-    <ul className="lobby-player-tokens">
-      {tokens.map(({ player, style }, index) => <li className={`lobby-player-token ${player.connected ? '' : 'is-disconnected'}`} key={player.id} style={style}>
+    <ul className="lobby-player-tokens" aria-hidden={started && canSeeAllTeams}>
+      {tokens.map(({ player, style }, index) => <li className={`lobby-player-token ${player.connected ? '' : 'is-disconnected'}`} data-roster-player-id={player.id} key={player.id} style={style}>
         <span className="sr-only">{player.team ? `Đội ${player.team === 'wolf' ? 'Sói' : 'Cừu'}: ` : ''}</span>
         <span className="lobby-player-order" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
         <span className={`presence ${player.connected ? 'online' : ''}`} aria-hidden="true" />
