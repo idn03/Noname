@@ -50,9 +50,9 @@ body {
 .join-row input:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .host-create .helper { margin-top: 12px; }
 .host-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
-.host-actions .host-secondary, .host-confirm .host-secondary { border-color: currentColor; background: transparent; }
-.host-confirm { flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 16px; border: 1px solid #555; }
-.host-confirm p { flex: 1 1 100%; margin: 0 0 4px; color: #ddd; }
+.host-actions .host-secondary, .host-confirm-modal .host-secondary { border-color: currentColor; background: transparent; }
+.dialog-overlay { position: fixed; z-index: 1000; inset: 0; }
+.dialog-content { position: fixed; z-index: 1001; top: 50%; left: 50%; transform: translate(-50%, -50%); outline: none; }
 .host-requirement { flex: 1 1 100%; margin: 0; color: #aaa; font-size: 13px; }
 .helper { margin: 9px 0 0; color: #aaa; font-size: 13px; }
 .error-message { margin: 14px 0; color: #ffb6bd; font-size: 14px; }

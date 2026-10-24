@@ -2,8 +2,8 @@
 
 import { Trash2 } from 'lucide-react';
 import { Button } from '../../../../components/shared/Button';
-import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { useLobbyHostActions } from '../../hooks/use-lobby-host-actions';
 
 interface LobbyHostActionsProps {
@@ -18,7 +18,6 @@ interface LobbyHostActionsProps {
 export function LobbyHostActions(props: LobbyHostActionsProps) {
   const { started, playerCount, pending, onStart, onCancel, onDelete } = props;
   const { confirmStart, setConfirmStart, requestStart } = useLobbyHostActions(playerCount, onStart);
-  const [portalReady, setPortalReady] = useState(false);
   const [closingConfirmation, setClosingConfirmation] = useState(false);
   const [endAction, setEndAction] = useState<'cancel' | 'delete' | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -44,7 +43,6 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
   };
 
   useEffect(() => {
-    setPortalReady(true);
     return () => { if (closeTimer.current) clearTimeout(closeTimer.current); };
   }, []);
 
@@ -57,12 +55,19 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
       </Button>
     </>}
     {!started && playerCount < 6 && <p className="host-requirement">Cần ít nhất 6 người chơi đang kết nối để bắt đầu.</p>}
-    {confirmationOpen && portalReady && createPortal(<div className={`host-confirm-overlay ${closingConfirmation ? 'host-confirm-overlay--closing' : ''}`}>
-      <div className={`host-confirm host-confirm-modal ${closingConfirmation ? 'host-confirm-modal--closing' : ''}`} role="alertdialog" aria-modal="true" aria-label={confirmationLabel}>
-        <p>{confirmationMessage}</p>
-        <Button type="button" size="mobile" autoFocus disabled={pending || closingConfirmation} onClick={() => closeConfirmation(true)}>Xác nhận</Button>
-        <Button type="button" size="mobile" className="host-secondary" disabled={closingConfirmation} onClick={() => closeConfirmation(false)}>Quay lại</Button>
-      </div>
-    </div>, document.body)}
+    <Dialog open={confirmationOpen} onOpenChange={(open) => { if (!open) closeConfirmation(false); }}>
+      {confirmationOpen && <DialogContent
+        className={`host-confirm-modal ${closingConfirmation ? 'host-confirm-modal--closing' : ''}`}
+        overlayClassName={`host-confirm-overlay ${closingConfirmation ? 'host-confirm-overlay--closing' : ''}`}
+        aria-describedby="host-confirmation-message"
+      >
+        <DialogTitle className="sr-only">{confirmationLabel}</DialogTitle>
+        <DialogDescription id="host-confirmation-message" className="host-confirm-message">{confirmationMessage}</DialogDescription>
+        <div className="host-confirm-actions">
+          <Button type="button" size="mobile" autoFocus disabled={pending || closingConfirmation} onClick={() => closeConfirmation(true)}>Xác nhận</Button>
+          <Button type="button" size="mobile" className="host-secondary" disabled={closingConfirmation} onClick={() => closeConfirmation(false)}>Quay lại</Button>
+        </div>
+      </DialogContent>}
+    </Dialog>
   </div>;
 }
