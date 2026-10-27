@@ -23,10 +23,15 @@
   color: inherit;
   font: inherit;
   cursor: pointer;
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, transform 220ms ease;
 }
+.shared-button:not(:disabled):active { transform: translateY(1px); }
 .shared-button--mobile { border-width: 1px 2px 4px; }
 .shared-button:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 .shared-button:disabled { cursor: wait; opacity: .65; }
+@media (hover: hover) and (pointer: fine) {
+  .shared-button:not(:disabled):hover { border-color: var(--blood-red); background: var(--blood-red); color: var(--white); transform: translateY(-2px); }
+}
 @media (max-width: 700px) { .shared-button { border-width: 1px 2px 4px; } }
 
 body {
