@@ -11,7 +11,7 @@
 ## Card Selection
 
 1. Each player sees their own team, personal slot, available categories, and selection timer.
-2. Wolf players may inspect the available challenges. Sheep players do not receive Wolf selections or challenge pools.
+2. Wolf and Sheep players may inspect the available challenges. Sheep players do not receive Wolf selections.
 3. A player chooses a local draft and submits it with Done. They may replace or remove a submitted selection while the phase remains open; an edited or removed selection must be submitted again.
 4. The interface shows each player's readiness without exposing private selections.
 5. When all players have submitted a complete selection, the server advances to gameplay and locks selections. Timer expiry does not fill missing slots or advance the phase.

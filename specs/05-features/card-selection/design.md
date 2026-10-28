@@ -10,4 +10,4 @@ Each player owns one slot. The browser may hold an editable draft locally. The H
 
 ## Visibility
 
-Wolf players may inspect available challenges during selection. Sheep players must not receive Wolf selections before reveal. The server filters game views; UI hiding alone is not privacy protection.
+Wolf and Sheep players may inspect available challenges during selection. Sheep players must not receive Wolf selections before reveal. The server filters game views; UI hiding alone is not privacy protection.

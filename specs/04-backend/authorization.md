@@ -14,7 +14,7 @@ Only the server-designated Host may start, cancel, replay, or manage the game, o
 
 ## Information Access
 
-Filter every state response for the receiving player's permissions. Wolf players may inspect the available challenge pool during selection. Sheep players must not receive Wolf's selected cards before reveal. Send each player only team, card, challenge, and session information they are allowed to observe. UI hiding is not an authorization boundary.
+Filter every state response for the receiving player's permissions. Wolf and Sheep players may inspect the available challenge pool during selection. Sheep players must not receive Wolf's selected cards before reveal. Send each player only team, card, challenge, and session information they are allowed to observe. UI hiding is not an authorization boundary.
 
 ## Non-Participants and Invalid State
 

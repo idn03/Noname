@@ -10,8 +10,8 @@
       { "id": "music-4", "categoryId": "music", "text": "Kể tên 5 ca sĩ Việt Nam có nghệ danh chỉ gồm một từ." },
       { "id": "music-5", "categoryId": "music", "text": "Đội Sói sẽ ngân nga giai điệu của một bài hát bằng: na na na hoặc từng tưng tưng. Đội Cừu đoán tên bài." },
       { "id": "music-6", "categoryId": "music", "text": "Đội Sói chọn một ca sĩ Việt Nam nổi tiếng. Đội Cừu phải hát 3 bài hát của ca sĩ đó." },
-      { "id": "music-6", "categoryId": "music", "text": "Cả Đội Cừu cùng hát một bài hát, hát không cùng nhịp, hát sai sẽ không hoàn thành." },
-      { "id": "music-7", "categoryId": "music", "text": "Đội Cừu sẽ trình bày một bài song ca, Đội Sói sẽ phá để bài hát đứt đoạn." }
+      { "id": "music-7", "categoryId": "music", "text": "Cả Đội Cừu cùng hát một bài hát, hát không cùng nhịp, hát sai sẽ không hoàn thành." },
+      { "id": "music-8", "categoryId": "music", "text": "Đội Cừu sẽ trình bày một bài song ca, Đội Sói sẽ phá để bài hát đứt đoạn." }
     ]
   },
   {
@@ -20,7 +20,7 @@
     "contentVersion": 1,
     "challenges": [
       { "id": "travel-1", "categoryId": "travel", "text": "Hóa thân thành hướng dẫn viên, giới thiệu về Vịnh Hạ Long." },
-      { "id": "travel-2", "categoryId": "travel", "text": "Kể tên ba món đồ cần mang theo cho chuyến đi cuối tuần." }
+      { "id": "travel-2", "categoryId": "travel", "text": "Lên danh sách gồm 20 các món đồ đem đi Đà Lạt trong 3 ngày 2 đêm." }
     ]
   },
   {

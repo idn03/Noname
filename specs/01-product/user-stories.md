@@ -22,7 +22,7 @@
 
 ## US-006 — Inspect Challenges
 
-**As a Wolf player,** I want to inspect challenges by category so my team can choose attack cards strategically. **Acceptance:** Wolf can view the available pool; Sheep cannot access it.
+**As a player on either team,** I want to inspect challenges by category during card selection. **Acceptance:** Wolf and Sheep can view the available pool; Sheep cannot see Wolf selections before reveal.
 
 ## US-007 — Play Attack Card
 

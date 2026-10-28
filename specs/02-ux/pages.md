@@ -17,7 +17,7 @@ Show the session status, joined-player list, and joined-player count against the
 
 ## Team Assignment and Card Selection
 
-Show the player's team and their own card slot. Provide category choices, selection submission status, and overall readiness. Let players edit their own selection only while the Selection Phase is active. Show the timer and explain that selection remains open after expiry until all slots are submitted. Wolf views include the available challenge pool; Sheep views do not expose Wolf selections or that pool.
+Show the player's team and their own card slot. Provide category choices, selection submission status, and overall readiness. Let players edit their own selection only while the Selection Phase is active. Show the timer and explain that selection remains open after expiry until all slots are submitted. Wolf and Sheep views include the available challenge pool; Sheep views do not expose Wolf selections.
 
 The Host view shows both team rosters, selected-card counts, and remaining time. The Host observes the full selection state but has no team or card slot. In Sandbox, player selections are populated automatically.
 
