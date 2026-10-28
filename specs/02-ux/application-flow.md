@@ -11,7 +11,7 @@
 ## Card Selection
 
 1. Each player sees their own team, personal slot, available categories, and selection timer.
-2. Wolf and Sheep players may inspect the available challenges. Sheep players do not receive Wolf selections.
+2. Wolf players may inspect challenge text. Sheep players see only the available challenge count for each category and do not see challenge text during selection.
 3. A player chooses a local draft and submits it with Done. They may replace or remove a submitted selection while the phase remains open; an edited or removed selection must be submitted again.
 4. The interface shows each player's readiness without exposing private selections.
 5. When all players have submitted a complete selection, the server advances to gameplay and locks selections. Timer expiry does not fill missing slots or advance the phase.
@@ -19,7 +19,7 @@
 ## Turn Gameplay
 
 1. The active round prompts the eligible Wolf card owner to reveal their unused card.
-2. The revealed category and its challenge are shown to players. Sheep players with an unused matching card may defend; the first valid defense accepted resolves the attack.
+2. The revealed category and its challenge are shown to both teams. Sheep players with an unused matching card may defend; the first valid defense accepted resolves the attack.
 3. The defending Sheep player handles the challenge. The Host records the agreed outcome.
 4. The interface presents the resolved outcome and updated scores, then the next round begins. An undefended attack resolves under the published scoring rules.
 5. After all scheduled rounds, the result view shows final scores and the winner or draw.

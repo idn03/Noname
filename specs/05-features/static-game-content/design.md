@@ -10,4 +10,4 @@ Each challenge belongs to exactly one category. Static content is separate from 
 
 ## Session Use
 
-At game setup, the Host prepares a random session subset of challenges for each category. Wolf and Sheep players may inspect the available challenge pool during selection. The challenge for an attack is presented when its category is revealed.
+At game setup, the Host prepares a random session subset of challenges for each category. During selection, Wolf players may inspect the session pool while Sheep players see only the number of available challenges per category. The challenge for an attack is presented to both teams when its category is revealed.

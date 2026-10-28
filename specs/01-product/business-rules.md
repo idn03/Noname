@@ -38,7 +38,7 @@
 - A category may contain up to 50 predefined challenges.
 - Only a random subset of challenges is available during a game session.
 - The available subset must contain no more than 10 challenges per category.
-- Wolf and Sheep players may inspect the available challenges while selecting their cards.
+- Wolf players may inspect challenge text while selecting cards. Sheep players may see only the number of available challenges in each category; they cannot see challenge text until an attack reveals it.
 - Sheep players must not see the Wolf team's selected cards before they are revealed.
 
 ## Card Selection Phase

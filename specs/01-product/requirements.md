@@ -15,7 +15,7 @@
 - **R-011 — Challenge Pool:** Randomly select up to 10 challenges per available category for each session.
 - **R-012 — Card Selection:** Let each player select and manage the card in their personal team slot before gameplay.
 - **R-013 — Selection Timer:** Set selection time in minutes equal to the number of card slots.
-- **R-014 — Challenge Information:** Let Wolf and Sheep players view available challenges during selection.
+- **R-014 — Challenge Information:** During selection, let Wolf players view challenge text and Sheep players view only the number of available challenges in each category. Show challenge text to both teams when an attack reveals it.
 - **R-015 — Hidden Information:** Hide Wolf's selected cards from Sheep until revealed.
 - **R-016 — Attack:** Let only the player who selected a card reveal it, with at most one active attack at a time.
 - **R-017 — Defense:** Let a Sheep player defend an attack using an unused matching-category card from their own slot and handle its corresponding challenge.
