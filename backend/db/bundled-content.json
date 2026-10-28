@@ -1,29 +1,26 @@
 [
   {
     "id": "music",
-    "name": "Âm nhạc",
+    "name": "Âm Nhạc",
     "contentVersion": 1,
     "challenges": [
-      { "id": "music-1", "categoryId": "music", "text": "Ngân nga một bài hát để mọi người đoán tên." },
-      { "id": "music-2", "categoryId": "music", "text": "Kể tên ba nhạc cụ trong mười giây." }
+      { "id": "music-1", "categoryId": "music", "text": "Một người hát, những người còn lại nhảy phụ họa. Bài hát sẽ do Đội Sói chọn Hát ít nhất một ver." },
+      { "id": "music-2", "categoryId": "music", "text": "Kể tên mười nhạc cụ dân tộc trong mười giây." },
+      { "id": "music-3", "categoryId": "music", "text": "Đội Sói sẽ chọn một bài nhạc Việt, Đội Cừu sẽ cử 1 thành viên để diễn tả bài hát đó bằng hành động." },
+      { "id": "music-4", "categoryId": "music", "text": "Kể tên 5 ca sĩ Việt Nam có nghệ danh chỉ gồm một từ." },
+      { "id": "music-5", "categoryId": "music", "text": "Đội Sói sẽ ngân nga giai điệu của một bài hát bằng: na na na hoặc từng tưng tưng. Đội Cừu đoán tên bài." },
+      { "id": "music-6", "categoryId": "music", "text": "Đội Sói chọn một ca sĩ Việt Nam nổi tiếng. Đội Cừu phải hát 3 bài hát của ca sĩ đó." },
+      { "id": "music-6", "categoryId": "music", "text": "Cả Đội Cừu cùng hát một bài hát, hát không cùng nhịp, hát sai sẽ không hoàn thành." },
+      { "id": "music-7", "categoryId": "music", "text": "Đội Cừu sẽ trình bày một bài song ca, Đội Sói sẽ phá để bài hát đứt đoạn." }
     ]
   },
   {
     "id": "travel",
-    "name": "Du lịch",
+    "name": "Du Lịch",
     "contentVersion": 1,
     "challenges": [
-      { "id": "travel-1", "categoryId": "travel", "text": "Kể về chuyến đi trong mơ của bạn bằng một câu." },
+      { "id": "travel-1", "categoryId": "travel", "text": "Hóa thân thành hướng dẫn viên, giới thiệu về Vịnh Hạ Long." },
       { "id": "travel-2", "categoryId": "travel", "text": "Kể tên ba món đồ cần mang theo cho chuyến đi cuối tuần." }
-    ]
-  },
-  {
-    "id": "technology",
-    "name": "Công nghệ",
-    "contentVersion": 1,
-    "challenges": [
-      { "id": "technology-1", "categoryId": "technology", "text": "Kể tên ba thiết bị có màn hình." },
-      { "id": "technology-2", "categoryId": "technology", "text": "Mô tả một ứng dụng quen thuộc mà không nói tên." }
     ]
   },
   {
@@ -31,44 +28,38 @@
     "name": "Địa lý",
     "contentVersion": 1,
     "challenges": [
-      { "id": "geography-1", "categoryId": "geography", "text": "Kể tên ba quốc gia ở châu Âu." },
-      { "id": "geography-2", "categoryId": "geography", "text": "Nêu tên một thủ đô để mọi người đoán quốc gia." }
-    ]
-  },
-  {
-    "id": "economy",
-    "name": "Kinh tế",
-    "contentVersion": 1,
-    "challenges": [
-      { "id": "economy-1", "categoryId": "economy", "text": "Kể tên ba thứ mà mọi người thường tiết kiệm tiền để mua." },
-      { "id": "economy-2", "categoryId": "economy", "text": "Nêu một cách để so sánh giá của hai món hàng." }
+      { "id": "geography-1", "categoryId": "geography", "text": "Kể tên 5 đặc sản ứng với 5 tỉnh thành Việt Nam." },
+      { "id": "geography-2", "categoryId": "geography", "text": "So sánh và giải thích sự khác nhau về trồng trọt cây ăn quả giữa miền bắc và miền nam Việt Nam." }
     ]
   },
   {
     "id": "films",
-    "name": "Phim ảnh",
+    "name": "Phim Ảnh",
     "contentVersion": 1,
     "challenges": [
-      { "id": "films-1", "categoryId": "films", "text": "Diễn tả một thể loại phim để mọi người đoán." },
-      { "id": "films-2", "categoryId": "films", "text": "Kể tên ba kiểu nhân vật thường gặp trong phim." }
+      { "id": "films-1", "categoryId": "films", "text": "Cả Đội thực hiện phân vai, diễn lại một phân cảnh trong phim MAI." },
+      { "id": "films-2", "categoryId": "films", "text": "Kể tên 5 bộ phim AI được chiếu trên Tiktok." },
+      { "id": "films-3", "categoryId": "films", "text": "Đội Sói sẽ chọn 3 phim điện ảnh Việt Nam, Đội Cừu cử ra một người để xem đáp án và người đó sẽ diễn tả lại phim bằng 3 cụm từ." },
+      { "id": "films-4", "categoryId": "films", "text": "Đội Cừu sẽ chọn ra các thành viên để đóng các vai: Chằn Tinh, Người Nhện, Thủy Thủ Mặt Trăng." }
     ]
   },
   {
     "id": "healthcare",
-    "name": "Chăm sóc sức khỏe",
+    "name": "Sức Khỏe",
     "contentVersion": 1,
     "challenges": [
-      { "id": "healthcare-1", "categoryId": "healthcare", "text": "Kể tên ba thói quen hằng ngày giúp bạn khỏe mạnh." },
-      { "id": "healthcare-2", "categoryId": "healthcare", "text": "Kể tên ba nghề nghiệp giúp chăm sóc bệnh nhân trong bệnh viện." }
+      { "id": "healthcare-1", "categoryId": "healthcare", "text": "Thực hiện 50 - 80 cái chống đẩy." },
+      { "id": "healthcare-2", "categoryId": "healthcare", "text": "Cả 2 đội cùng tìm một món đồ mà Quản Trò cần. Đội Cừu cần mang về trước để hoàn thành thử thách." },
+      { "id": "healthcare-3", "categoryId": "healthcare", "text": "Làm kiệu và chở các thành viên Đội Sói đi qua sông." }
     ]
   },
   {
     "id": "folklore",
-    "name": "Truyện dân gian",
+    "name": "Dân Gian",
     "contentVersion": 1,
     "challenges": [
-      { "id": "folklore-1", "categoryId": "folklore", "text": "Kể lại một truyện cổ tích quen thuộc trong ba câu." },
-      { "id": "folklore-2", "categoryId": "folklore", "text": "Tưởng tượng một sinh vật thần thoại thân thiện và đặt tên cho nó." }
+      { "id": "folklore-1", "categoryId": "folklore", "text": "Đóng vai và diễn lại một phân đoạn trong truyện Tấm Cám." },
+      { "id": "folklore-2", "categoryId": "folklore", "text": "Kể ngắn gọn 3 truyền thuyết đô thị tại Việt Nam." }
     ]
   }
 ]
