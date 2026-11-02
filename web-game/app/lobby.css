@@ -53,6 +53,24 @@
 .lobby-shell--player .player-home-action { align-self: auto; margin: auto 0 8vh; }
 .lobby-shell--player .home-tagline { margin-bottom: 28px; }
 .lobby-shell--player .home-content > .connection-footer { grid-column: 1; margin: -5vh 0 0; }
+.player-bottom-nav { position: absolute; z-index: 2; right: 0; bottom: max(34px, env(safe-area-inset-bottom)); left: 0; display: grid; grid-template-columns: repeat(4, 1fr); width: min(100% - 40px, 360px); height: 32px; margin-inline: auto; }
+.player-bottom-nav__item { display: grid; place-items: center; min-width: 44px; min-height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.player-bottom-nav__item img { display: block; max-width: 24px; max-height: 24px; object-fit: contain; }
+.player-bottom-nav__item:focus-visible, .team-instruction__back:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.player-tab-status { position: absolute; z-index: 2; right: 16px; bottom: max(70px, calc(env(safe-area-inset-bottom) + 46px)); left: 16px; margin: 0; color: #fff; font: 14px/1.4 Judson, Georgia, serif; text-align: center; }
+.team-instruction-shell { overflow: visible; background: #000; }
+.team-instruction { width: min(100%, 402px); min-height: 100dvh; margin: 0 auto; padding: 20px 0 32px; overflow: visible; background: #000; color: #fff; }
+.team-instruction__back { display: inline-flex; align-items: center; gap: 8px; margin: 0 20px 36px; padding: 8px 0; border: 0; background: transparent; color: #fff; font: 16px Judson, Georgia, serif; cursor: pointer; }
+.team-instruction__back span { font: 22px/1 Arial, sans-serif; }
+.team-instruction__heading { display: flex; flex-direction: column; align-items: center; gap: 10px; min-height: 181px; }
+.team-instruction__heading img { width: 60px; height: 60px; object-fit: contain; }
+.team-instruction__heading h1 { margin: 0; font: 700 40px/1.2 Judson, Georgia, serif; }
+.team-instruction__portrait { display: block; width: 100%; height: 603px; border-radius: 12px; object-fit: cover; }
+.team-instruction__copy { padding: 24px 19px 0; font: 14px/30px Judson, Georgia, serif; }
+.team-instruction__copy p { margin: 0 0 24px; }
+.lobby-shell--player .home-content { padding-bottom: max(100px, calc(env(safe-area-inset-bottom) + 84px)); }
+.lobby-shell--player .player-home-action { margin: clamp(40px, 11vh, 112px) 0 0; }
+.lobby-shell--player .home-content > .connection-footer { margin: 28px 0 0; }
 .role-resolution { position: relative; display: grid; min-height: 100dvh; place-items: center; margin: 0; color: #fff; font: 18px Judson, Georgia, serif; }
 .game-title { display: flex; flex-direction: column; margin: 0; color: #fff; font: 400 clamp(72px, 9vw, 128px)/.98 Judson, Georgia, serif; text-shadow: 0 4px 20px rgb(0 0 0 / 20%); }
 .home-action { min-width: 0; }

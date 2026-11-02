@@ -1,19 +1,30 @@
 'use client';
 
+import { useState } from 'react';
 import { RuneField } from '@/components/shared/RuneField';
 import { HostHomeActions } from '@/features/lobby/ui/components/HostHomeActions';
 import { HostLobbyLayout } from '@/features/lobby/ui/components/HostLobbyLayout';
 import { LobbyHostActions } from '@/features/lobby/ui/components/LobbyHostActions';
 import LobbyNameForm from '@/features/lobby/ui/components/LobbyNameForm';
 import { LobbyPlayerStage } from '@/features/lobby/ui/components/LobbyPlayerStage';
+import { PlayerBottomNav } from '@/features/lobby/ui/components/PlayerBottomNav';
+import { TeamInstructionScreen } from '@/features/lobby/ui/screen/TeamInstructionScreen';
 import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 
 export default function LobbyScreen() {
+  const [instructionTeam, setInstructionTeam] = useState<'wolf' | 'sheep' | null>(null);
+  const [comingSoon, setComingSoon] = useState('');
   const screen = useLobbyScreen();
   const {
     name, setName, lobby, error, connected, pending, isLocalHost, host, players,
     connectedPlayers, currentPlayer, roleClass, createHost, createSandbox, join, start, cancel, deleteRoom,
   } = screen;
+
+  if (!lobby && isLocalHost === false && instructionTeam) {
+    return <div className="lobby-shell lobby-shell--player team-instruction-shell">
+      <TeamInstructionScreen team={instructionTeam} onBack={() => setInstructionTeam(null)} />
+    </div>;
+  }
 
   return <main className={`lobby-shell ${roleClass} ${lobby ? 'lobby-shell--active' : 'lobby-shell--home'}`}>
     <RuneField />
@@ -26,6 +37,14 @@ export default function LobbyScreen() {
         {!lobby && <p className="waiting-note" role="status">Đang chờ Chủ phòng tạo phòng trên máy chủ.</p>}
       </div>}
       {!isLocalHost && <div className="connection-footer" role="status"><span className={`presence ${connected ? 'online' : ''}`} />{connected ? 'Đã kết nối với máy chủ' : 'Đang kết nối với máy chủ…'}</div>}
+      {!isLocalHost && <>
+        {comingSoon && <p className="player-tab-status" role="status">{comingSoon} · Sắp ra mắt</p>}
+        <PlayerBottomNav
+          onOpenWolf={() => { setComingSoon(''); setInstructionTeam('wolf'); }}
+          onOpenSheep={() => { setComingSoon(''); setInstructionTeam('sheep'); }}
+          onComingSoon={(item) => setComingSoon(item)}
+        />
+      </>}
     </section>}
     {lobby && host && <HostLobbyLayout
       players={players}
