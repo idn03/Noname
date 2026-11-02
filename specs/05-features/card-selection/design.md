@@ -6,7 +6,7 @@ Let each player choose and manage the card in their personal team slot before tu
 
 ## Player Slot
 
-Each player owns one slot. The browser may hold an editable draft locally. The Host server owns submitted selections and slot readiness. A submitted slot may be replaced or removed only while selection remains active.
+Each card slot belongs to one player. The larger team in an uneven assignment has one designated member without a slot. The browser may hold an editable draft locally. The Host server owns submitted selections and slot readiness. A submitted slot may be replaced or removed only while selection remains active.
 
 ## Visibility
 

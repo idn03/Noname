@@ -18,19 +18,23 @@ export const prepareBalancedTeams: TeamPreparation = (players, random) => {
     player.id,
     index < wolfCount ? 'wolf' as const : 'sheep' as const,
   ]));
+  const wolfSize = [...teamById.values()].filter((team) => team === 'wolf').length;
+  const sheepSize = participants.length - wolfSize;
+  const largerTeam = wolfSize > sheepSize ? 'wolf' : wolfSize < sheepSize ? 'sheep' : undefined;
+  const slotlessPlayerId = largerTeam && randomized.findLast((player) => teamById.get(player.id) === largerTeam)?.id;
 
   return {
     ok: true,
     value: {
       players: players.map((player) => player.isHost
         ? withoutTeam(player)
-        : { ...player, team: teamById.get(player.id) }),
+        : { ...player, team: teamById.get(player.id), hasCardSlot: player.id !== slotlessPlayerId }),
       rounds: Math.floor(participants.length / 2),
     },
   };
 };
 
 function withoutTeam(player: GamePlayer): GamePlayer {
-  const { team: _team, ...observer } = player;
+  const { team: _team, hasCardSlot: _hasCardSlot, ...observer } = player;
   return observer;
 }

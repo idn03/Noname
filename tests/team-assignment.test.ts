@@ -31,5 +31,16 @@ describe('balanced team assignment', () => {
     const sheepExtra = assigned(7, 1);
     expect(wolfExtra.filter((player) => player.team === 'wolf')).toHaveLength(4);
     expect(sheepExtra.filter((player) => player.team === 'sheep')).toHaveLength(4);
+    expect(wolfExtra.filter((player) => player.team === 'wolf' && player.hasCardSlot)).toHaveLength(3);
+    expect(sheepExtra.filter((player) => player.team === 'sheep' && player.hasCardSlot)).toHaveLength(3);
+    expect(wolfExtra.filter((player) => player.hasCardSlot === false).map((player) => player.team)).toEqual(['wolf']);
+    expect(sheepExtra.filter((player) => player.hasCardSlot === false).map((player) => player.team)).toEqual(['sheep']);
+  });
+
+  it('gives nine-player matches four card slots to each team and none to the extra teammate', () => {
+    const result = assigned(9, 0);
+    expect(result.filter((player) => player.team === 'wolf' && player.hasCardSlot)).toHaveLength(4);
+    expect(result.filter((player) => player.team === 'sheep' && player.hasCardSlot)).toHaveLength(4);
+    expect(result.filter((player) => player.hasCardSlot === false)).toHaveLength(1);
   });
 });

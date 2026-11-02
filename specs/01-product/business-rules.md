@@ -24,9 +24,9 @@
 
 ## Card Slot Rules
 
-- Each team receives one card slot per team member.
-- Each card slot belongs to the player assigned to it; a player selects and manages only their own slot.
-- Therefore, each team normally has between 3 and 5 card slots.
+- Each team receives the same number of card slots as the smaller team has members.
+- Each card slot belongs to one player. If team sizes differ, the server designates one member of the larger team as slotless; that player cannot select a card and is excluded from selection readiness.
+- Each team normally has between 3 and 5 card slots.
 - The number of game rounds is equal to the number of members on the team with fewer members.
 - Each team receives access to one more card category than its number of card slots.
 - Multiple cards from the same category may be selected.
@@ -43,8 +43,8 @@
 
 ## Card Selection Phase
 
-- Every player selects one card for their personal slot before the first round begins.
-- The selection duration in minutes equals the number of card slots.
+- Every card-slot owner selects one card for their slot before the first round begins. A designated slotless member of an uneven larger team does not select a card.
+- The selection duration in minutes equals the total number of card slots across both teams.
 - A player may replace or remove their selection while the Selection Phase remains active.
 - Pressing Done submits the player's selection and marks that slot ready. Removing or changing a submitted selection makes that slot unready until submitted again.
 - The game proceeds to the turn phase only after every player's slot has a complete submitted selection. Once the phase advances, selections can no longer be changed.

@@ -1,4 +1,5 @@
 import { gameError, type GameResult } from "./game-error";
+import { applyCardSelectionCommand } from "./game-card-selection";
 import type { GameCommand, GamePlayer, GameState } from "./game-types";
 import type { RandomSource } from "./randomness";
 
@@ -17,6 +18,7 @@ export function startGame(
   actorId: string,
   prepareTeams: TeamPreparation,
   random: RandomSource,
+  now: () => number = Date.now,
 ): GameResult<GameState> {
   if (state.phase !== "lobby") return gameError("INVALID_PHASE", "The game can only start from the lobby.");
   if (!state.players.some((player) => player.id === actorId && player.isHost)) {
@@ -30,16 +32,27 @@ export function startGame(
   if (!isValidPreparation(state.players, prepared.value)) {
     return gameError("INVALID_ASSIGNMENT", "Game preparation returned an invalid player assignment.");
   }
-  const teamById = new Map(prepared.value.players.map((player) => [player.id, player.team]));
+  const startedAt = now();
+  const preparedById = new Map(prepared.value.players.map((player) => [player.id, player]));
   return {
     ok: true,
     value: {
       ...state,
       phase: "selection",
-      players: state.players.map((player) => ({ ...player, team: teamById.get(player.id) })),
+      players: state.players.map((player) => ({
+        ...player,
+        team: preparedById.get(player.id)?.team,
+        hasCardSlot: preparedById.get(player.id)?.hasCardSlot,
+      })),
       rounds: prepared.value.rounds,
+      selectionStartedAtMs: startedAt,
+      selectionDeadlineMs: startedAt + countCardSlots(prepared.value.players) * 60_000,
     },
   };
+}
+
+function countCardSlots(players: readonly GamePlayer[]): number {
+  return players.filter((player) => !player.isHost && player.hasCardSlot === true).length;
 }
 
 function isValidPreparation(players: readonly GamePlayer[], prepared: PreparedGame): boolean {
@@ -51,18 +64,27 @@ function isValidPreparation(players: readonly GamePlayer[], prepared: PreparedGa
   if (players.some((player) => {
     const assigned = preparedById.get(player.id);
     return !assigned || assigned.name !== player.name || assigned.isHost !== player.isHost
-      || (player.isHost ? assigned.team !== undefined : assigned.team !== "wolf" && assigned.team !== "sheep");
+      || (player.isHost
+        ? assigned.team !== undefined || assigned.hasCardSlot !== undefined
+        : (assigned.team !== "wolf" && assigned.team !== "sheep") || typeof assigned.hasCardSlot !== "boolean");
   })) return false;
   const wolfCount = prepared.players.filter((player) => !player.isHost && player.team === "wolf").length;
   const sheepCount = prepared.players.filter((player) => !player.isHost && player.team === "sheep").length;
-  return Math.abs(wolfCount - sheepCount) <= 1 && prepared.rounds === Math.min(wolfCount, sheepCount);
+  const wolfSlots = prepared.players.filter((player) => !player.isHost && player.team === "wolf" && player.hasCardSlot).length;
+  const sheepSlots = prepared.players.filter((player) => !player.isHost && player.team === "sheep" && player.hasCardSlot).length;
+  const expectedSlots = Math.min(wolfCount, sheepCount);
+  return Math.abs(wolfCount - sheepCount) <= 1 && prepared.rounds === expectedSlots
+    && wolfSlots === expectedSlots && sheepSlots === expectedSlots;
 }
 
 export function applyGameCommand(
   state: GameState,
   command: GameCommand,
-  dependencies: { random: RandomSource; prepareTeams: TeamPreparation },
+  dependencies: { random: RandomSource; prepareTeams: TeamPreparation; now?: () => number },
 ): GameResult<GameState> {
-  if (command.type === "start") return startGame(state, command.actorId, dependencies.prepareTeams, dependencies.random);
+  if (command.type === "start") return startGame(state, command.actorId, dependencies.prepareTeams, dependencies.random, dependencies.now);
+  if (command.type === "select-card" || command.type === "remove-card") {
+    return applyCardSelectionCommand(state, command);
+  }
   return gameError("INVALID_COMMAND", "This command is not implemented in the current engine stage.");
 }

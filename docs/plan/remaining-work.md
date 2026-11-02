@@ -26,9 +26,9 @@ Implement server-side randomized, balanced assignment for 6–10 joining players
 
 ### 3. Implement card selection
 
-Add one personal slot per player, team category access, local editable drafts, server-validated submit/replace/remove, readiness, selection timing, and the all-player completion gate. Provide role-filtered player views and a Host overview with rosters, counts, readiness, and remaining time. In Sandbox, automatically fill every Wolf slot with Music and a random available challenge, and fill Sheep slots with the specified two Music and one Travel defaults.
+Add one personal slot per eligible player, equalizing slot counts to the smaller team when teams are uneven; designate one player in the larger team without a slot. Add team category access, local editable drafts, server-validated submit/replace/remove, readiness, selection timing, and the all-slot completion gate. Provide role-filtered player views and a Host overview with rosters, counts, readiness, and remaining time. In Sandbox, automatically fill every Wolf slot with Music and a random available challenge, and repeat Music, Music, Travel for Sheep until all Sheep slots are filled.
 
-**Done when:** Only slot owners can change their selections; submitted choices remain private as specified; gameplay begins only after every player submits a complete slot; timer expiry does not bypass the gate. Sandbox defaults are applied to simulated players through normal validated selection actions. Specify how defaults cover Sheep teams larger than three before implementation, since current specifications define 2 Music and 1 Travel while team sizes can reach five.
+**Done when:** Only slot owners can change their selections; the slotless member of an uneven larger team cannot submit and does not block readiness; submitted choices remain private as specified; gameplay begins only after every card slot is complete; timer expiry does not bypass the gate. Sandbox defaults are applied to simulated players through normal validated selection actions.
 
 **Specs:** [card selection](../../specs/05-features/card-selection/requirements.md), [session management](../../specs/05-features/session-management/requirements.md).
 
@@ -63,7 +63,7 @@ Add typed Socket.IO game commands and updates, connection-bound authorization, s
 - Static content storage, validation, and bounded session-pool preparation already exist; verify their integration with game setup as part of Task 2.
 - Session lifecycle, team assignment, and initial game setup are implemented; finish their required behavioral verification before treating their gates as passed.
 - Sandbox-specific behavior is defined in [session management](../../specs/05-features/session-management/requirements.md), [application flow](../../specs/02-ux/application-flow.md), and [pages](../../specs/02-ux/pages.md). Keep implementation with the feature that enables each behavior instead of deferring Sandbox creation to Task 6.
-- Decide how the Sheep Sandbox selection defaults fill teams with four or five slots, and define the simulated-player action policy for turn gameplay, before implementing Tasks 3–4; current specifications do not settle these details.
+- Sheep Sandbox defaults repeat Music, Music, Travel until every slot is filled. Define the simulated-player action policy for turn gameplay before implementing Task 4; current specifications do not settle that detail.
 - The standalone results component is present; connect it to authoritative results in Task 5.
 - Before implementing Host match management, specify what **Hoàn Thành** does and when it is available. The current requirements name the control but do not define its state transition.
 - The harness-oriented documents under `specs/` remain in the repository but are intentionally not used as execution requirements for this direct-work plan.

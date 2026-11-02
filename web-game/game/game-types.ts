@@ -6,7 +6,9 @@ export interface GamePlayer {
   name: string;
   isHost: boolean;
   team?: Team;
+  hasCardSlot?: boolean;
   cardCategory?: string;
+  cardChallengeId?: string;
   cardSubmitted?: boolean;
   cardUsed?: boolean;
 }
@@ -17,13 +19,19 @@ export interface GameState {
   round: number;
   rounds: number;
   scores: Readonly<Record<Team, number>>;
+  selectionStartedAtMs?: number;
+  selectionDeadlineMs?: number;
+  cardSelection?: {
+    categoryIdsByTeam: Readonly<Record<Team, readonly string[]>>;
+    challengeIdsByCategory: Readonly<Record<string, readonly string[]>>;
+  };
   winner?: Team | "draw";
 }
 
 export type GameCommand =
   | { type: "start"; actorId: string }
   | { type: "cancel"; actorId: string }
-  | { type: "select-card"; actorId: string; category: string }
+  | { type: "select-card"; actorId: string; categoryId: string; challengeId?: string }
   | { type: "remove-card"; actorId: string }
   | { type: "attack"; actorId: string }
   | { type: "defend"; actorId: string }

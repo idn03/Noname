@@ -84,7 +84,7 @@ export class LobbySession {
     if (players.length < 6 || players.length > 10) return 'NOT_ENOUGH_PLAYERS';
     if (players.length < 10 && !confirmLowPopulation) return 'START_REQUIRES_CONFIRMATION';
     const connectedPlayers = [...this.players.values()].filter((player) => player.connected);
-    const setup = prepareGameSetup(connectedPlayers, actorId, this.categories, this.random);
+    const setup = prepareGameSetup(connectedPlayers, actorId, this.categories, this.random, this.isSandboxRoom);
     if (!setup) return 'INVALID_REQUEST';
     this.gameState = setup.gameState;
     this.sessionPools = setup.pools;

@@ -42,6 +42,24 @@ describe('Host lobby lifecycle', () => {
     if (typeof started !== 'string') expect(started.gameState.players).toHaveLength(10);
   });
 
+  it('submits Sandbox defaults through the engine for every card slot', () => {
+    const random = { nextInt: (upperBound: number) => upperBound === 5 ? 4 : 0 };
+    const session = LobbySession.createSandboxForHost(undefined, random);
+    const host = session.connectHost();
+    const started = session.start(host.playerId);
+    expect(typeof started).not.toBe('string');
+    if (typeof started === 'string') return;
+
+    const state = started.gameState;
+    expect(state.phase).toBe('turns');
+    const wolves = state.players.filter((player) => player.team === 'wolf' && player.hasCardSlot);
+    const sheep = state.players.filter((player) => player.team === 'sheep' && player.hasCardSlot);
+    expect(wolves).toHaveLength(5);
+    expect(wolves.every((player) => player.cardCategory === 'music' && Boolean(player.cardChallengeId))).toBe(true);
+    expect(sheep.map((player) => player.cardCategory)).toEqual(['music', 'music', 'travel', 'music', 'music']);
+    expect(state.players.every((player) => player.cardSubmitted === true)).toBe(true);
+  });
+
   it('invalidates credentials and engine state when the Host ends the session', () => {
     const session = LobbySession.createForHost();
     const host = session.connectHost();

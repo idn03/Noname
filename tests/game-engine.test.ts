@@ -7,12 +7,21 @@ import { shuffled, type RandomSource } from '../web-game/game/randomness';
 const players: GamePlayer[] = [
   { id: 'host', name: 'Host', isHost: true },
   { id: 'guest', name: 'Guest', isHost: false },
+  { id: 'other', name: 'Other', isHost: false },
 ];
 const random: RandomSource = { nextInt: () => 0 };
 const prepareTeams: TeamPreparation = (input) => ({
   ok: true,
-  value: { players: input.map((player, index) => ({ ...player, team: index ? 'sheep' : 'wolf' })), rounds: 1 },
+  value: { players: assignTestTeams(input), rounds: 1 },
 });
+function assignTestTeams(input: readonly GamePlayer[]): GamePlayer[] {
+  let participantIndex = 0;
+  return input.map((player) => player.isHost ? player : {
+    ...player,
+    team: participantIndex++ === 0 ? 'wolf' : 'sheep',
+    hasCardSlot: true,
+  });
+}
 const start = (state: GameState, actorId = 'host', prepare = prepareTeams) =>
   applyGameCommand(state, { type: 'start', actorId }, { random, prepareTeams: prepare });
 
@@ -64,7 +73,7 @@ describe('game engine foundation', () => {
     const result = start(initial);
 
     expect(result).toMatchObject({ ok: true, value: { phase: 'selection', rounds: 1 } });
-    if (result.ok) expect(result.value.players.map((player) => player.team)).toEqual(['wolf', 'sheep']);
+    if (result.ok) expect(result.value.players.filter((player) => !player.isHost).map((player) => player.team)).toEqual(['wolf', 'sheep']);
     expect(initial.phase).toBe('lobby');
     expect(initial.players.every((player) => player.team === undefined)).toBe(true);
   });
