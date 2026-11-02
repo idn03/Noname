@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './lobby.css';
 import './host-lobby.css';
+import './game-card.css';
 
 export const metadata: Metadata = {
   title: 'Noname',
