@@ -8,7 +8,7 @@ interface TeamInstructionScreenProps {
 const teamContent = {
   wolf: {
     name: 'Đội Sói',
-    icon: '/assets/teams/wolf-icon.svg',
+    icon: '/assets/custom-icons/wolf-icon-white.png',
     portrait: '/assets/wolf-fortait.png',
     paragraphs: [
       'Sói, một loài sinh vật ranh mãnh và tàn bạo. Với chúng, giết chóc không đơn thuần là bản năng sinh tồn, mà còn là một thú vui méo mó. Chúng tận hưởng từng tiếng gào thét, từng khoảnh khắc tuyệt vọng của con mồi, biến những cuộc săn đẫm máu thành trò tiêu khiển.',

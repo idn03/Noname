@@ -33,10 +33,9 @@ export default function LobbyScreen() {
       <h1 id="page-title" className="game-title"><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>
       {isLocalHost ? <HostHomeActions connected={connected} pending={pending} error={error} onCreate={createHost} onCreateSandbox={createSandbox} /> : <div className="home-action player-home-action">
         <p className="home-tagline">Hãy để màn đêm định đoạt tất cả</p>
-        <LobbyNameForm label="Tên hiển thị" action="Tham gia phòng" pendingAction="Đang tham gia…" helper="Từ 1 đến 24 ký tự." name={name} error={error} disabled={!connected || pending || !lobby} onNameChange={setName} onSubmit={join} />
+        <LobbyNameForm label="Tên hiển thị" action="Tham gia phòng" pendingAction="Đang tham gia…" name={name} error={error} disabled={!connected || pending || !lobby} onNameChange={setName} onSubmit={join} />
         {!lobby && <p className="waiting-note" role="status">Đang chờ Chủ phòng tạo phòng trên máy chủ.</p>}
       </div>}
-      {!isLocalHost && <div className="connection-footer" role="status"><span className={`presence ${connected ? 'online' : ''}`} />{connected ? 'Đã kết nối với máy chủ' : 'Đang kết nối với máy chủ…'}</div>}
       {!isLocalHost && <>
         {comingSoon && <p className="player-tab-status" role="status">{comingSoon} · Sắp ra mắt</p>}
         <PlayerBottomNav

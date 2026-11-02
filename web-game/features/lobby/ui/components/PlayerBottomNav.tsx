@@ -7,7 +7,7 @@ interface PlayerBottomNavProps {
 const tabs = [
   { label: 'Sách', asset: 'book-icon.png', action: 'soon' },
   { label: 'Thẻ bài', asset: 'card-icon.png', action: 'soon' },
-  { label: 'Đội Sói', asset: 'wolf-icon.png', action: 'wolf' },
+  { label: 'Đội Sói', asset: 'wolf-icon-white.png', action: 'wolf' },
   { label: 'Đội Cừu', asset: 'sheep-icon.png', action: 'sheep' },
 ] as const;
 

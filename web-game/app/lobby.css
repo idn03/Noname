@@ -52,12 +52,12 @@
 .lobby-shell--player .game-title { font-size: clamp(82px, 30vw, 128px); line-height: .97; }
 .lobby-shell--player .player-home-action { align-self: auto; margin: auto 0 8vh; }
 .lobby-shell--player .home-tagline { margin-bottom: 28px; }
-.lobby-shell--player .home-content > .connection-footer { grid-column: 1; margin: -5vh 0 0; }
-.player-bottom-nav { position: absolute; z-index: 2; right: 0; bottom: max(34px, env(safe-area-inset-bottom)); left: 0; display: grid; grid-template-columns: repeat(4, 1fr); width: min(100% - 40px, 360px); height: 32px; margin-inline: auto; }
+.lobby-shell--player.lobby-shell--home .join-row .shared-button { border: 0; }
+.player-bottom-nav { position: fixed; z-index: 9999; bottom: max(34px, env(safe-area-inset-bottom)); left: 50%; display: grid; grid-template-columns: repeat(4, 1fr); width: min(calc(100vw - 40px), 360px); height: 44px; margin: 0; transform: translateX(-50%); }
 .player-bottom-nav__item { display: grid; place-items: center; min-width: 44px; min-height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .player-bottom-nav__item img { display: block; max-width: 24px; max-height: 24px; object-fit: contain; }
 .player-bottom-nav__item:focus-visible, .team-instruction__back:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
-.player-tab-status { position: absolute; z-index: 2; right: 16px; bottom: max(70px, calc(env(safe-area-inset-bottom) + 46px)); left: 16px; margin: 0; color: #fff; font: 14px/1.4 Judson, Georgia, serif; text-align: center; }
+.player-tab-status { position: fixed; z-index: 11; right: 16px; bottom: max(84px, calc(env(safe-area-inset-bottom) + 56px)); left: 16px; margin: 0; color: #fff; font: 14px/1.4 Judson, Georgia, serif; text-align: center; }
 .team-instruction-shell { overflow: visible; background: #000; }
 .team-instruction { width: min(100%, 402px); min-height: 100dvh; margin: 0 auto; padding: 20px 0 32px; overflow: visible; background: #000; color: #fff; }
 .team-instruction__back { display: inline-flex; align-items: center; gap: 8px; margin: 0 20px 36px; padding: 8px 0; border: 0; background: transparent; color: #fff; font: 16px Judson, Georgia, serif; cursor: pointer; }
