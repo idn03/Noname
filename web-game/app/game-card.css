@@ -15,6 +15,7 @@
 }
 .game-card:disabled { opacity: 1; }
 .game-card.is-interactive { cursor: pointer; }
+.game-card.is-draft-selected .game-card__face { outline: 3px solid #722f37; outline-offset: 2px; }
 .game-card:focus-visible { outline: 3px solid #fff; outline-offset: 5px; }
 .game-card__flipper { position: absolute; inset: 0; display: block; transform-style: preserve-3d; transition: transform 500ms cubic-bezier(.2,.72,.18,1); }
 .game-card.is-flipped .game-card__flipper { transform: rotateY(180deg); }

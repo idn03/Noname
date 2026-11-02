@@ -1,32 +1,9 @@
 import { gameError, type GameResult } from '../web-game/game/game-error';
 import type { GamePlayer, GameState, Team } from '../web-game/game/game-types';
 import type { SessionCategoryPool } from './db/session-pool';
+import type { CardCategoryView, HostCardSelectionView, PlayerCardSelectionView } from '../shared/card-selection-contract';
 
-interface SelectionCategoryView {
-  id: string;
-  name: string;
-  challengeCount: number;
-  challenges?: readonly { id: string; text: string }[];
-}
-
-export interface PlayerCardSelectionView {
-  phase: 'selection';
-  team: Team;
-  hasCardSlot: boolean;
-  categories: readonly SelectionCategoryView[];
-  ownCard?: { categoryId: string; challengeId?: string; submitted: boolean };
-  remainingMs: number;
-}
-
-export interface HostCardSelectionView {
-  phase: 'selection';
-  teams: Readonly<Record<Team, {
-    players: readonly { id: string; name: string; hasCardSlot: boolean; ready: boolean }[];
-    ready: number;
-    total: number;
-  }>>;
-  remainingMs: number;
-}
+export type { HostCardSelectionView, PlayerCardSelectionView } from '../shared/card-selection-contract';
 
 export function createPlayerCardSelectionView(
   state: GameState,
@@ -48,8 +25,9 @@ export function createPlayerCardSelectionView(
     ok: true,
     value: {
       phase: 'selection', team, hasCardSlot,
-      categories: categories as SelectionCategoryView[],
+      categories: categories as CardCategoryView[],
       ...(hasCardSlot && player.cardCategory ? { ownCard: ownCardView(player) } : {}),
+      readiness: readinessByTeam(state.players),
       remainingMs: Math.max(0, state.selectionDeadlineMs - now),
     },
   };
@@ -79,7 +57,7 @@ function hostTeamView(players: readonly GamePlayer[], team: Team): HostCardSelec
   };
 }
 
-function playerCategoryView(id: string, team: Team, pools: readonly SessionCategoryPool[], state: GameState): SelectionCategoryView | undefined {
+function playerCategoryView(id: string, team: Team, pools: readonly SessionCategoryPool[], state: GameState): CardCategoryView | undefined {
   const pool = pools.find((candidate) => candidate.categoryId === id);
   const ids = state.cardSelection?.challengeIdsByCategory[id];
   if (!pool || !ids) return undefined;
@@ -88,6 +66,15 @@ function playerCategoryView(id: string, team: Team, pools: readonly SessionCateg
     id, name: pool.categoryName, challengeCount: challenges.length,
     ...(team === 'wolf' ? { challenges } : {}),
   };
+}
+
+function readinessByTeam(players: readonly GamePlayer[]): PlayerCardSelectionView['readiness'] {
+  const readiness = {} as Record<Team, { ready: number; total: number }>;
+  for (const team of ['wolf', 'sheep'] as const) {
+    const slots = players.filter((player) => !player.isHost && player.team === team && player.hasCardSlot);
+    readiness[team] = { ready: slots.filter(isCompleteSelection).length, total: slots.length };
+  }
+  return readiness;
 }
 
 function ownCardView(player: GamePlayer): NonNullable<PlayerCardSelectionView['ownCard']> {
@@ -99,10 +86,13 @@ function ownCardView(player: GamePlayer): NonNullable<PlayerCardSelectionView['o
 }
 
 function hostRosterPlayer(player: GamePlayer): HostCardSelectionView['teams'][Team]['players'][number] {
-  const complete = player.cardSubmitted === true && Boolean(player.cardCategory)
-    && (player.team !== 'wolf' || Boolean(player.cardChallengeId));
   return {
     id: player.id, name: player.name, hasCardSlot: player.hasCardSlot === true,
-    ready: player.hasCardSlot === true && complete,
+    ready: player.hasCardSlot === true && isCompleteSelection(player),
   };
+}
+
+function isCompleteSelection(player: GamePlayer): boolean {
+  return player.cardSubmitted === true && Boolean(player.cardCategory)
+    && (player.team !== 'wolf' || Boolean(player.cardChallengeId));
 }

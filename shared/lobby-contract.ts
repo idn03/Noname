@@ -1,3 +1,5 @@
+import type { LobbyGameView } from './card-selection-contract';
+
 export const LOBBY_EVENTS = {
   hostCreate: 'host:create',
   hostStart: 'host:start',
@@ -5,6 +7,8 @@ export const LOBBY_EVENTS = {
   hostDeleteRoom: 'host:delete-room',
   join: 'player:join',
   resume: 'player:resume',
+  selectCard: 'player:select-card',
+  removeCard: 'player:remove-card',
   identity: 'player:identity',
   state: 'lobby:state',
   credential: 'player:credential',
@@ -25,7 +29,10 @@ export type LobbyErrorCode =
   | 'NOT_ENOUGH_PLAYERS'
   | 'START_REQUIRES_CONFIRMATION'
   | 'SANDBOX_ROOM'
-  | 'SESSION_NOT_ACTIVE';
+  | 'SESSION_NOT_ACTIVE'
+  | 'SELECTION_CLOSED'
+  | 'INVALID_SELECTION'
+  | 'CARD_NOT_FOUND';
 
 export type HostCreateMode = 'regular' | 'sandbox';
 
@@ -48,6 +55,7 @@ export interface LobbyPlayerView {
 export interface LobbyView {
   phase: 'lobby' | 'started';
   players: readonly LobbyPlayerView[];
+  game?: LobbyGameView;
 }
 
 export interface LobbySessionView {

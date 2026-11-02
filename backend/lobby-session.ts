@@ -1,4 +1,3 @@
-import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import type { GameState } from '../web-game/game/game-types';
 import { systemRandom, type RandomSource } from '../web-game/game/randomness';
 import { bundledContent } from './db/bundled-content';
@@ -6,14 +5,13 @@ import type { CategoryContent } from './db/content-validation';
 import { prepareGameSetup } from './game-setup';
 import type { SessionCategoryPool } from './db/session-pool';
 import type { LobbyErrorCode, LobbySessionView, LobbyView } from '../shared/lobby-contract';
-import { parsePlayerName } from '../shared/lobby-contract';
 import { createLobbyView } from './lobby-view';
 import { createSandboxPlayers, type LobbyPlayerRecord } from './lobby-sandbox-players';
-
-type PlayerRecord = LobbyPlayerRecord;
+import { applyLobbyCardSelection } from './lobby-session-card-selection';
+import { LobbySessionPlayers } from './lobby-session-players';
 
 export class LobbySession {
-  private readonly players = new Map<string, PlayerRecord>();
+  private readonly players: LobbySessionPlayers;
   private phase: LobbyView['phase'] = 'lobby';
   private gameState?: GameState;
   private sessionPools: readonly SessionCategoryPool[] = [];
@@ -23,11 +21,9 @@ export class LobbySession {
     private readonly categories: readonly CategoryContent[],
     private readonly random: RandomSource,
     readonly isSandboxRoom = false,
-    simulatedPlayers: readonly PlayerRecord[] = [],
+    simulatedPlayers: readonly LobbyPlayerRecord[] = [],
   ) {
-    const id = randomUUID();
-    this.players.set(id, { id, name: 'Chủ phòng', isHost: true, connected: false, credentialHash: '' });
-    simulatedPlayers.forEach((player) => this.players.set(player.id, player));
+    this.players = new LobbySessionPlayers(simulatedPlayers);
   }
 
   static createForHost(categories: readonly CategoryContent[] = bundledContent, random: RandomSource = systemRandom): LobbySession {
@@ -39,57 +35,43 @@ export class LobbySession {
   }
 
   join(value: unknown): LobbySessionView | LobbyErrorCode {
-    if (this.isSandboxRoom) return 'SANDBOX_ROOM';
-    const name = parsePlayerName(value);
-    if (!name) return 'INVALID_NAME';
-    if (this.phase !== 'lobby' || this.ended) return 'LOBBY_CLOSED';
-    if (this.joiningPlayers().length >= 10) return 'LOBBY_FULL';
-    const id = randomUUID();
-    const credential = randomBytes(32).toString('base64url');
-    this.players.set(id, {
-      id, name, isHost: false, connected: true,
-      credentialHash: this.hash(credential),
-    });
-    return { playerId: id, credential, lobby: this.view() };
+    const result = this.players.join(value, this.isSandboxRoom, this.phase === 'lobby' && !this.ended);
+    return typeof result === 'string' ? result : { ...result, lobby: this.view() };
   }
 
   connectHost(): LobbySessionView {
-    const host = [...this.players.values()].find((player) => player.isHost);
-    if (!host) throw new Error('Host identity is missing');
-    const credential = randomBytes(32).toString('base64url');
-    host.connected = true;
-    host.credentialHash = this.hash(credential);
-    return { playerId: host.id, credential, lobby: this.view() };
+    return { ...this.players.connectHost(), lobby: this.view() };
   }
 
   resume(value: unknown): LobbySessionView | undefined {
     if (typeof value !== 'string' || value.length > 128) return undefined;
-    const hash = this.hash(value);
-    const player = [...this.players.values()].find((candidate) =>
-      candidate.credentialHash !== '' && candidate.credentialHash === hash,
-    );
-    if (!player) return undefined;
-    player.connected = true;
-    const credential = randomBytes(32).toString('base64url');
-    player.credentialHash = this.hash(credential);
-    return { playerId: player.id, credential, lobby: this.view() };
+    const identity = this.players.resume(value);
+    return identity ? { ...identity, lobby: this.view() } : undefined;
   }
 
-  disconnect(playerId: string): LobbyView { const player = this.players.get(playerId); if (player) player.connected = false; return this.view(); }
+  disconnect(playerId: string): LobbyView { this.players.disconnect(playerId); return this.view(); }
 
   start(actorId: string, confirmLowPopulation = false): { lobby: LobbyView; gameState: GameState } | LobbyErrorCode {
     if (!this.isConnectedHost(actorId)) return 'NOT_AUTHORIZED';
     if (this.phase !== 'lobby' || this.ended) return 'SESSION_NOT_ACTIVE';
-    const players = this.joiningPlayers().filter((player) => player.connected);
+    const players = this.players.joiningPlayers().filter((player) => player.connected);
     if (players.length < 6 || players.length > 10) return 'NOT_ENOUGH_PLAYERS';
     if (players.length < 10 && !confirmLowPopulation) return 'START_REQUIRES_CONFIRMATION';
-    const connectedPlayers = [...this.players.values()].filter((player) => player.connected);
+    const connectedPlayers = this.players.all().filter((player) => player.connected);
     const setup = prepareGameSetup(connectedPlayers, actorId, this.categories, this.random, this.isSandboxRoom);
     if (!setup) return 'INVALID_REQUEST';
     this.gameState = setup.gameState;
     this.sessionPools = setup.pools;
     this.phase = 'started';
-    return { lobby: this.view(), gameState: structuredClone(this.gameState) };
+    return { lobby: this.view(actorId), gameState: structuredClone(this.gameState) };
+  }
+
+  selectCard(actorId: string, categoryId: string, challengeId?: string): LobbyErrorCode | undefined {
+    return this.applySelectionCommand({ type: 'select-card', actorId, categoryId, challengeId });
+  }
+
+  removeCard(actorId: string): LobbyErrorCode | undefined {
+    return this.applySelectionCommand({ type: 'remove-card', actorId });
   }
 
   currentGameState(): GameState | undefined { return this.gameState && structuredClone(this.gameState); }
@@ -102,17 +84,19 @@ export class LobbySession {
     this.ended = true;
     this.gameState = undefined;
     this.sessionPools = [];
-    for (const player of this.players.values()) player.credentialHash = '';
+    this.players.clearCredentials();
     return undefined;
   }
 
-  view(viewerId?: string): LobbyView { return createLobbyView(this.phase, [...this.players.values()], this.gameState, viewerId); }
-
-  private joiningPlayers(): PlayerRecord[] {
-    return [...this.players.values()].filter((player) => !player.isHost);
+  view(viewerId?: string, now = Date.now()): LobbyView {
+    return createLobbyView(this.phase, this.players.all(), this.gameState, viewerId, this.sessionPools, now);
   }
 
-  private isConnectedHost(playerId: string): boolean { const player = this.players.get(playerId); return Boolean(player?.isHost && player.connected); }
+  private applySelectionCommand(command: { type: 'select-card'; actorId: string; categoryId: string; challengeId?: string } | { type: 'remove-card'; actorId: string }): LobbyErrorCode | undefined {
+    const result = applyLobbyCardSelection(this.gameState, command, this.random);
+    if ('error' in result) return result.error;
+    this.gameState = result.state;
+  }
 
-  private hash(credential: string): string { return createHash('sha256').update(credential).digest('hex'); }
+  private isConnectedHost(playerId: string): boolean { return this.players.connectedHost(playerId); }
 }

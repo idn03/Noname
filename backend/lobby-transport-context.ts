@@ -66,6 +66,9 @@ function messageFor(code: LobbyErrorCode): string {
     START_REQUIRES_CONFIRMATION: 'Hãy xác nhận bắt đầu với ít hơn 10 người chơi.',
     SANDBOX_ROOM: 'Phòng Sandbox chỉ nhận người chơi giả lập, không nhận người chơi qua liên kết.',
     SESSION_NOT_ACTIVE: 'Phòng không còn hoạt động.',
+    SELECTION_CLOSED: 'Vòng chọn thẻ đã kết thúc.',
+    INVALID_SELECTION: 'Lựa chọn thẻ hoặc thử thách không hợp lệ.',
+    CARD_NOT_FOUND: 'Bạn chưa gửi thẻ nào để gỡ bỏ.',
   };
   return messages[code];
 }

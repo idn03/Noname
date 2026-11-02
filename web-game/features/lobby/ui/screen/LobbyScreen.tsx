@@ -9,6 +9,9 @@ import LobbyNameForm from '@/features/lobby/ui/components/LobbyNameForm';
 import { LobbyPlayerStage } from '@/features/lobby/ui/components/LobbyPlayerStage';
 import { PlayerBottomNav } from '@/features/lobby/ui/components/PlayerBottomNav';
 import { TeamInstructionScreen } from '@/features/lobby/ui/screen/TeamInstructionScreen';
+import { PlayerCardSelection } from '@/features/game/ui/components/PlayerCardSelection';
+import { HostCardSelection } from '@/features/game/ui/components/HostCardSelection';
+import { SelectionWaiting } from '@/features/game/ui/components/SelectionWaiting';
 import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 
 export default function LobbyScreen() {
@@ -17,8 +20,24 @@ export default function LobbyScreen() {
   const screen = useLobbyScreen();
   const {
     name, setName, lobby, error, connected, pending, isLocalHost, host, players,
-    connectedPlayers, currentPlayer, roleClass, createHost, createSandbox, join, start, cancel, deleteRoom,
+    connectedPlayers, currentPlayer, roleClass, createHost, createSandbox, join, start, cancel, deleteRoom, selectCard, removeCard,
   } = screen;
+
+  if (lobby?.game?.phase === 'selection') {
+    return <main className={`lobby-shell ${roleClass} lobby-shell--active card-selection-shell`}>
+      <RuneField />
+      {lobby.game.role === 'host'
+        ? <><HostCardSelection selection={lobby.game.selection} />
+          <LobbyHostActions started playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
+          {error && <p className="error-message" role="alert">{error}</p>}
+        </>
+        : <PlayerCardSelection selection={lobby.game.selection} connected={connected} pending={pending} error={error} onSubmit={selectCard} onRemove={removeCard} />}
+    </main>;
+  }
+  if (lobby?.game?.phase === 'turns') return <main className={`lobby-shell ${roleClass} lobby-shell--active card-selection-shell`}>
+    <RuneField /><SelectionWaiting game={lobby.game} />
+    {host && <LobbyHostActions started playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />}
+  </main>;
 
   if (!lobby && isLocalHost === false && instructionTeam) {
     return <div className="lobby-shell lobby-shell--player team-instruction-shell">

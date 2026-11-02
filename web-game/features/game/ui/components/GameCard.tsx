@@ -11,6 +11,8 @@ export interface GameCardProps {
   phase: 'selection' | 'turns' | 'results';
   challenges?: readonly GameCardChallenge[];
   selectedChallenge?: GameCardChallenge;
+  isDraftSelected?: boolean;
+  onSelectCategory?: () => void;
   onSelectChallenge?: (challenge: GameCardChallenge) => void;
   disabled?: boolean;
 }
@@ -21,15 +23,18 @@ const categoryArt: Record<string, string> = {
 };
 
 export function GameCard({
-  categoryId, categoryName, challengeCount, role, phase, challenges = [], selectedChallenge, onSelectChallenge, disabled = false,
+  categoryId, categoryName, challengeCount, role, phase, challenges = [], selectedChallenge,
+  isDraftSelected = false, onSelectCategory, onSelectChallenge, disabled = false,
 }: GameCardProps) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [flipped, setFlipped] = useState(false);
-  const canChoose = phase === 'selection' && role === 'wolf' && !disabled && Boolean(onSelectChallenge);
+  const canChoose = phase === 'selection' && role !== 'host' && !disabled
+    && (role === 'wolf' ? Boolean(onSelectChallenge) : Boolean(onSelectCategory));
   const canFlip = phase !== 'selection' && Boolean(selectedChallenge);
 
   function activateCard() {
-    if (canChoose) setSheetOpen(true);
+    if (canChoose && role === 'wolf') setSheetOpen(true);
+    else if (canChoose) onSelectCategory?.();
     else if (canFlip) setFlipped((value) => !value);
   }
 
@@ -40,11 +45,11 @@ export function GameCard({
 
   return <>
     <button
-      className={`game-card${flipped ? ' is-flipped' : ''}${canChoose || canFlip ? ' is-interactive' : ''}`}
+      className={`game-card${flipped ? ' is-flipped' : ''}${isDraftSelected ? ' is-draft-selected' : ''}${canChoose || canFlip ? ' is-interactive' : ''}`}
       type="button"
       aria-label={cardLabel(categoryName, challengeCount, selectedChallenge, flipped)}
-      aria-haspopup={canChoose ? 'dialog' : undefined}
-      aria-pressed={canFlip ? flipped : undefined}
+      aria-haspopup={canChoose && role === 'wolf' ? 'dialog' : undefined}
+      aria-pressed={phase === 'selection' ? isDraftSelected : canFlip ? flipped : undefined}
       disabled={disabled || (!canChoose && !canFlip)}
       onClick={activateCard}
     >

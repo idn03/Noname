@@ -6,6 +6,7 @@
 - **CARD-004 — Submit and Revise:** Done submits the player's selection to the Host. While the Selection Phase remains active, the player may replace or remove it; removal or change requires resubmission.
 - **CARD-005 — Phase Gate:** Advance to turn gameplay only after every card slot has a complete submitted selection. Lock selections after the phase advances.
 - **CARD-006 — Challenge Visibility:** During selection, Wolf players may inspect challenge text and Sheep players may see only the number of available challenges per category. Sheep clients do not receive challenge text or Wolf selections before reveal.
+- **CARD-012 — Reveal:** Once every slot is complete and the game advances from selection, reveal the chosen cards and Wolf challenge text to players and the Host. Before that transition, keep Wolf selections private from Sheep and the Host.
 - **CARD-007 — Timer:** Set selection duration in minutes equal to the total number of card slots across both teams. If time expires before all slots are submitted, keep the Selection Phase open until they are complete; do not auto-fill cards or bypass the completion gate.
 - **CARD-008 — Validation:** Reject selection commands from another player's slot, invalid categories, or the wrong phase without changing authoritative state.
 - **CARD-009 — Host Progress View:** Show the Host readiness and completion progress for both teams and all player slots without revealing private card choices.

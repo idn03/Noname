@@ -4,7 +4,7 @@
 
 ## Current baseline
 
-The repository has the Next.js/TypeScript and Socket.IO foundation, local SQLite/Drizzle static content, session lifecycle, balanced team assignment, and game setup with prepared session challenge pools. Automated behavioral tests for team setup remain unverified. Card selection, gameplay, scoring, game-level realtime views, and most specified screens remain to be implemented. Existing feature task checklists are unchecked and are not treated as implementation evidence.
+The repository has the Next.js/TypeScript and Socket.IO foundation, local SQLite/Drizzle static content, session lifecycle, balanced team assignment, game setup with prepared session challenge pools, and card selection with role-filtered realtime views. Gameplay, scoring, and most remaining specified screens still need implementation. Current verification is recorded in the work item reports; feature task checklists alone are not treated as implementation evidence.
 
 ## Ordered work
 
@@ -31,6 +31,8 @@ Add one personal slot per eligible player, equalizing slot counts to the smaller
 **Done when:** Only slot owners can change their selections; the slotless member of an uneven larger team cannot submit and does not block readiness; submitted choices remain private as specified; gameplay begins only after every card slot is complete; timer expiry does not bypass the gate. Sandbox defaults are applied to simulated players through normal validated selection actions.
 
 **Specs:** [card selection](../../specs/05-features/card-selection/requirements.md), [session management](../../specs/05-features/session-management/requirements.md).
+
+**Report:** [Step 3 — Card Selection](step-3-card-selection-report.md).
 
 ### 4. Implement attacks, defenses, and challenge outcomes
 
@@ -61,7 +63,7 @@ Add typed Socket.IO game commands and updates, connection-bound authorization, s
 ## Planning notes
 
 - Static content storage, validation, and bounded session-pool preparation already exist; verify their integration with game setup as part of Task 2.
-- Session lifecycle, team assignment, and initial game setup are implemented; finish their required behavioral verification before treating their gates as passed.
+- Session lifecycle, team assignment, initial game setup, and card selection are implemented; see the [Step 2 report](step-2-game-setup-report.md) and [Step 3 report](step-3-card-selection-report.md) for verification evidence.
 - Sandbox-specific behavior is defined in [session management](../../specs/05-features/session-management/requirements.md), [application flow](../../specs/02-ux/application-flow.md), and [pages](../../specs/02-ux/pages.md). Keep implementation with the feature that enables each behavior instead of deferring Sandbox creation to Task 6.
 - Sheep Sandbox defaults repeat Music, Music, Travel until every slot is filled. Define the simulated-player action policy for turn gameplay before implementing Task 4; current specifications do not settle that detail.
 - The standalone results component is present; connect it to authoritative results in Task 5.

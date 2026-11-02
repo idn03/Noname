@@ -1,10 +1,12 @@
 import type { Socket } from 'socket.io';
 import { LOBBY_EVENTS, type LobbyCommandReply } from '../shared/lobby-contract';
 import { bindIdentity, broadcastLobby, respond, type LobbyTransportContext } from './lobby-transport-context';
+import { attachCardSelectionHandlers } from './lobby-card-handlers';
 
 interface LobbyRequest { name?: unknown; credential?: unknown }
 
 export function attachClientHandlers(context: LobbyTransportContext, socket: Socket): void {
+  attachCardSelectionHandlers(context, socket);
   restoreHandshake(context, socket);
   const initialSession = context.getSession();
   if (initialSession) socket.emit(LOBBY_EVENTS.state, initialSession.view(context.playerBySocket.get(socket.id)));

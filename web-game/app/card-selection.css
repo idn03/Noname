@@ -1,0 +1,75 @@
+.card-selection-shell {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: clamp(1rem, 4vw, 3.5rem);
+}
+
+.card-selection-screen {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 70rem);
+  padding: clamp(1.2rem, 4vw, 3rem);
+  border: 1px solid rgb(239 228 199 / 22%);
+  border-radius: 1.5rem;
+  background: rgb(13 18 17 / 92%);
+  color: #f3eee2;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 28%);
+}
+
+.card-selection-heading { margin-bottom: 1.5rem; }
+.card-selection-eyebrow { margin: 0 0 .65rem; color: #b8b8b8; font-size: .75rem; letter-spacing: .19em; }
+.card-selection-title-row { display: flex; align-items: center; gap: 1rem; }
+.card-selection-title-row > img { width: 2.75rem; height: 2.75rem; object-fit: contain; }
+.card-selection-title-row > div { flex: 1; }
+.card-selection-title-row h1, .card-selection-screen h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 500; }
+.card-selection-title-row p { margin: .35rem 0 0; color: #c2c2b8; }
+.card-selection-clock { min-width: 5.2rem; padding: .65rem .8rem; border: 1px solid #722f37; border-radius: .75rem; color: #fff; font-variant-numeric: tabular-nums; text-align: center; }
+.card-selection-readiness { display: flex; gap: .65rem; margin-top: 1.2rem; }
+.card-selection-readiness span, .card-selection-team-progress header > span { padding: .35rem .7rem; border-radius: 99px; background: rgb(255 255 255 / 8%); color: #ddd6c4; font-size: .82rem; }
+.card-selection-instruction { color: #d4d0c5; }
+.card-selection-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr)); gap: 1rem; align-items: start; }
+.card-selection-card-wrap { position: relative; min-width: 0; }
+.card-selection-card-wrap .game-card { width: 100%; }
+.card-selection-confirmed-tag { position: absolute; z-index: 2; top: .65rem; right: .6rem; padding: .25rem .5rem; border-radius: 99px; background: #314d3d; color: #eff8ef; font-size: .72rem; pointer-events: none; }
+.card-selection-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem; margin-top: 1.35rem; }
+.card-selection-draft-state, .card-selection-host-note { margin: 0; color: #c2c2b8; }
+.card-selection-action-buttons { display: flex; flex-wrap: wrap; gap: .65rem; }
+.card-selection-secondary { border: 1px solid rgb(239 228 199 / 35%); background: transparent; }
+.card-selection-connection, .card-selection-expired { flex-basis: 100%; margin: .25rem 0 0; color: #fff; }
+.card-selection-team-progress { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.card-selection-team { min-width: 0; padding: 1rem; border: 1px solid rgb(239 228 199 / 15%); border-radius: 1rem; background: rgb(255 255 255 / 3%); }
+.card-selection-team > header { display: flex; align-items: center; gap: .6rem; padding-bottom: .8rem; border-bottom: 1px solid rgb(239 228 199 / 12%); }
+.card-selection-team > header img { width: 1.8rem; height: 1.8rem; object-fit: contain; }
+.card-selection-team > header h2 { flex: 1; margin: 0; font-family: Georgia, serif; font-weight: 500; }
+.card-selection-team ul { display: grid; gap: .4rem; margin: .8rem 0 0; padding: 0; list-style: none; }
+.card-selection-team li { display: flex; justify-content: space-between; gap: .8rem; padding: .55rem .65rem; border-radius: .5rem; background: rgb(0 0 0 / 16%); color: #e7e2d5; }
+.card-selection-team li span:last-child { color: #b8b8b8; font-size: .82rem; }
+.card-selection-team li.is-ready span:last-child { color: #fff; }
+.card-selection-host-note { margin-top: 1rem; font-size: .9rem; }
+.card-selection-shell > .host-actions { position: relative; z-index: 2; }
+.card-selection-slotless { max-width: 36rem; margin: 2rem auto; padding: 2rem; border: 1px solid rgb(239 228 199 / 18%); border-radius: 1rem; background: rgb(255 255 255 / 4%); text-align: center; }
+.card-selection-slotless h2 { font-family: Georgia, serif; font-weight: 500; }
+.card-selection-slotless p, .card-selection-screen--waiting > p:not(.card-selection-eyebrow) { color: #c2c2b8; }
+.card-selection-screen--waiting { max-width: 42rem; text-align: center; }
+.card-selection-screen--waiting .card-selection-eyebrow { margin-bottom: 1rem; }
+.card-selection-round { display: inline-block; margin: 1.5rem 0 .4rem; padding: .8rem 1.2rem; border: 1px solid #722f37; border-radius: 99px; color: #fff; }
+.card-selection-team-label { margin: 0; }
+.revealed-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.revealed-card-grid .game-card { justify-self: center; width: min(100%, 12rem); }
+
+@media (max-width: 640px) {
+  .card-selection-shell { align-items: flex-start; padding: .75rem; }
+  .card-selection-screen { padding: 1rem; border-radius: 1rem; }
+  .card-selection-title-row { gap: .65rem; }
+  .card-selection-title-row > img { width: 2.1rem; height: 2.1rem; }
+  .card-selection-clock { min-width: 4.2rem; padding: .5rem; font-size: .88rem; }
+  .card-selection-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+  .card-selection-team-progress { grid-template-columns: 1fr; }
+  .card-selection-actions { align-items: flex-start; }
+  .card-selection-action-buttons { width: 100%; }
+  .card-selection-action-buttons button { flex: 1; }
+  .card-selection-shell > .host-actions { align-self: flex-end; }
+}
