@@ -1,23 +1,179 @@
-# UI Review and Refactor Plan
+# UI/UX Refactor Plan
 
-## Current UI review
+## Goal and scope
 
-The implemented browser flow currently contains Host and player Home/Lobby states and the Host team-assignment view. A Results screen component exists but is not connected to the current route. Card selection and turn gameplay screens are not present in `web-game/features` yet.
+Create a consistent, maintainable interface across the Noname game by using
+Tailwind CSS as the default styling method, a shared typography system, and
+project-styled shadcn foundations for Button, Dialog, and Sheet. Keep custom
+CSS limited to cases where utilities are unsuitable, such as intricate card
+artwork or positioned game-scene decoration. Keep gradients and shadows
+minimal. Preserve the horror-inspired visual direction, legibility, gameplay
+clarity, responsive behavior, accessibility, and all existing game behavior.
 
-- `components.json` was already configured for shadcn, but the project had no shadcn component files or Radix dependency. The Host confirmation modal was a hand-built portal with custom focus and close timing.
-- The confirmation UI now uses a local shadcn `Dialog` component backed by Radix. Its CSS keeps the existing dark overlay, translucent surface, button sizing, and enter/exit motion.
-- One shared project Button is used, but it is a raw HTML wrapper rather than a shadcn-based component. The name form input is also raw HTML. The name form's helper text is omitted from `aria-describedby` whenever an error is present, so both messages should be associated.
-- Screen styles are spread across `globals.css`, `lobby.css`, and `host-lobby.css`; `globals.css` also owns results styles. Repeated colors, typography, button rules, and breakpoints make visual changes harder to apply consistently.
-- Typography uses Judson, Georgia, and Arial by screen or component. These can remain distinct where the design calls for them, but their roles need to be explicit. Some rules use inline SVG or literal bullet glyphs, and some color overrides are embedded in JSX classes.
-- Existing screens include reduced-motion handling, but it is split between global selectors, screen CSS, and component animation logic. Consolidate the policy as screens are refactored.
+This plan covers shared foundations and every existing browser screen. It does
+not add gameplay features or invent missing product behavior. The product
+contract remains [the UX design system](../../specs/02-ux/design-system.md),
+with screen requirements in [Pages and UI States](../../specs/02-ux/pages.md).
+Implementation choices are in [UI Implementation Guidelines](../ui-guidelines.md).
 
-## Ordered work
+## Findings and working assumptions
 
-1. **Dialog foundation — complete.** Add the shadcn Dialog and Radix dependencies, replace the manual portal, retain the current visual treatment, and keep confirmation/cancel/delete behavior under the existing Host actions.
-2. **Shared controls.** Migrate the shared Button onto shadcn's Button foundation with the project's default/mobile sizes. Add a styled shadcn Input and use it in the name form. Associate both helper and error text with the input.
-3. **Design tokens and CSS ownership.** Define shared palette, typography roles, spacing, radii, focus, and state tokens. Keep only reset/tokens/shared structures in global CSS; move results styling into a results stylesheet and keep lobby and Host-lobby styles scoped to their screens.
-4. **Screen passes.** Refactor Home, Lobby, Host team assignment, and Results in that order. Use shadcn primitives for common controls and custom composition for the game's distinctive layouts. Preserve authoritative state, player privacy, and existing behavior.
-5. **Accessibility and responsive pass.** Review keyboard flow, focus restoration, labels, status/error announcements, contrast, touch targets, narrow layouts, and reduced-motion behavior across every implemented state.
-6. **Future screens.** Apply the same tokens and components as card selection and turn gameplay UI are implemented; do not invent screens or interactions as part of this cleanup.
+- `components.json` and local Button, Dialog, and Sheet wrappers exist. The
+  wrappers and installed primitive APIs should be inspected before migration;
+  avoid replacing them wholesale or adding dependencies without need.
+- A project shared Button also exists, creating overlapping ownership with the
+  shadcn-based Button wrapper. Consolidate to one public shared Button API.
+- Styling currently spans `globals.css` and multiple screen CSS files. Tailwind
+  is imported, but the implementation predominantly uses custom CSS selectors.
+- Typography varies among Arial, Judson, Georgia, and page-specific sizes.
+  Preserve distinct font character only where intentional, but define and reuse
+  named type roles and font tokens across screens.
+- Current code includes Home/Join, Lobby, Host team assignment, card selection,
+  team instruction, Results, and a Wolf selection preview route. Gameplay
+  screens and some documented flows may be incomplete or unconnected; verify
+  route reachability and behavior before scheduling their migration. Treat the
+  preview route as development-only unless product requirements say otherwise.
+- Existing UI contracts require privacy boundaries, authoritative server state,
+  reduced-motion support, visible focus, accessible status/error handling, and
+  usable phone, tablet, and desktop layouts. Preserve these during visual work.
 
-Complete each item as a small, reviewable change. Keep [the UX design system](../../specs/02-ux/design-system.md) as the product-level visual contract and use [UI Implementation Guidelines](../ui-guidelines.md) for implementation choices.
+## Target UI rules
+
+1. Use Tailwind utilities for layout, spacing, responsive behavior, typography,
+   colors, borders, and ordinary interaction states by default.
+2. Use shadcn foundations only for Button, Dialog, and Sheet. Customize variants,
+   sizes, and styling to Noname through their props and shared component layer.
+   Do not introduce additional shadcn component types as a default pattern.
+3. Use one shared Button API on all screens. Provide the agreed project sizes
+   and variants without screen-specific button implementations.
+4. Define shared font families and semantic type roles (display, page title,
+   section title, body, supporting text, and label) once. Pages select roles;
+   they do not redefine the system's base scale or font pairing locally.
+5. Keep reusable design values in shared CSS/Tailwind theme tokens. Prefer flat
+   composition and whitespace. Use gradients, shadows, and decorative effects
+   sparingly and only where they support the intended atmosphere or hierarchy.
+6. Keep custom CSS for genuinely complex artwork, animation, or layout that is
+   awkward or unreadable as utilities. Scope it to a component or screen and
+   document the reason briefly in the implementation review.
+7. Do not change the product palette, UX requirements, server-authoritative
+   state, or team privacy as an incidental result of styling migration. Update
+   the UX design-system spec if shared product-level visual behavior changes.
+
+## Ordered implementation stages
+
+Each stage is a separate, reviewable change. Follow the repository workflow:
+plan, implement, review, test, validate, then checkpoint. Do not start a
+dependent stage until its prerequisite is complete.
+
+### 1. Contract and baseline inventory
+
+- Reconcile this plan with `specs/02-ux/design-system.md` and
+  `docs/ui-guidelines.md`; make the component boundary, Tailwind default, and
+  typography reuse explicit in the authoritative design-system spec.
+- Inventory reachable routes, screen roots, shared controls, CSS imports,
+  inline styles, typography declarations, and current interaction states.
+- Record existing behavior and visual baselines at narrow phone and desktop
+  widths. Identify dead or preview-only UI without treating it as a product
+  screen.
+- **Exit:** shared contract is unambiguous; migration scope and order are based
+  on actual reachable screens; no implementation begins with unresolved
+  component ownership.
+
+### 2. Shared tokens and typography
+
+- Establish the palette, font families, semantic type roles, responsive type
+  scale, spacing/radius conventions, focus ring, and state colors as shared
+  tokens usable from Tailwind.
+- Map the existing design-system sizes to roles and resolve inconsistent font
+  assignments without reducing challenge/player-name readability.
+- Remove duplicate global typography rules as consumers migrate; do not create
+  parallel page-specific scales.
+- **Exit:** each role has one definition and documented intended use; the
+  current screens can adopt the roles without losing responsive sizing.
+
+### 3. Shared interactive primitives
+
+- Make the shadcn-based Button wrapper the sole shared Button API; define
+  project variants, default/mobile sizing, focus, disabled, and pending states.
+- Keep Dialog and Sheet wrappers on their shadcn foundations and align their
+  tokens, focus handling, close behavior, and responsive presentation.
+- Use semantic HTML and Tailwind for ordinary form fields such as the name
+  input; do not add a shadcn Input solely for consistency.
+- Associate form labels, helper text, and errors with their controls. Preserve
+  confirmation, cancel, and delete behavior.
+- **Exit:** all current Button/Dialog/Sheet usages use shared wrappers; no
+  duplicate button implementation remains; keyboard and touch behavior is
+  consistent.
+
+### 4. Home, Join, and team instructions
+
+- Migrate Home/Join, host creation, name form, and Wolf/Sheep instruction views
+  to shared tokens, typography roles, and Tailwind-first styling.
+- Preserve host-only creation, join/resume behavior, validation feedback, and
+  return navigation. Retain only necessary backdrop/artwork CSS.
+- **Exit:** layouts work at phone and desktop sizes; form accessibility and
+  existing navigation are preserved; page-local typography overrides are
+  removed where a shared role applies.
+
+### 5. Lobby and Host team assignment
+
+- Migrate player Lobby, Host Lobby, and team assignment surfaces in that order.
+- Standardize roster, connection, phase, count, action, and status typography;
+  keep Host controls and player-visible information correctly separated.
+- Retain custom positioning only for the team-map/roster composition where
+  utility-only markup would be brittle or obscure.
+- **Exit:** shared actions and typography are consistent; responsive layouts
+  preserve all required controls and status information.
+
+### 6. Card selection and challenge Sheet
+
+- Migrate player and Host selection views, cards, readiness, timers, and
+  challenge Sheet. Use shared roles for timer labels, card titles, challenge
+  copy, and supporting metadata.
+- Keep card artwork and precise card-face composition in scoped CSS when needed;
+  keep ordinary surrounding layout and responsive rules in Tailwind.
+- Preserve Wolf/Sheep information boundaries, edit eligibility, countdown,
+  submission status, and Host observation-only behavior.
+- **Exit:** selection flows and privacy match the feature specs; Sheet uses the
+  shared primitive; custom styling is limited to card-specific presentation.
+
+### 7. Gameplay and Results
+
+- First verify whether Gameplay/Manage Game routes are implemented and
+  reachable. Migrate existing screens; if absent, record them as future
+  adoption requirements and do not create gameplay behavior in this refactor.
+- Migrate Results and any existing gameplay surfaces to shared roles, tokens,
+  Tailwind-first layout, and shared controls.
+- Preserve authoritative scores, eligible actions, challenge outcomes, replay,
+  cancellation, and completion states.
+- **Exit:** implemented screens satisfy the existing page and feature
+  requirements; missing screens remain explicitly identified as out of scope.
+
+### 8. Consolidation and quality review
+
+- Remove obsolete screen CSS and duplicate declarations after all consumers
+  migrate. Keep global CSS to Tailwind setup, resets, tokens, and truly shared
+  component rules. Avoid a large one-shot stylesheet rewrite.
+- Review each implemented state at phone, tablet, and desktop widths; check
+  keyboard navigation, focus, labels, announcements, contrast, touch targets,
+  reduced motion, and browser console/network errors.
+- Review visual consistency: typography roles reused, one Button API, only the
+  three designated shadcn foundations, Tailwind as the default, and minimal
+  decorative custom styling.
+- Run focused behavior checks and configured repository validation for each
+  implementation stage. Missing or unavailable required checks do not count as
+  passing. Record evidence and checkpoint completed stages per `RULES.md`.
+- **Exit:** all in-scope gates pass, no known regression remains, and any
+  deferred screen or styling exception is recorded with a clear reason.
+
+## Completion criteria
+
+- The UX spec and implementation guidelines express the same component,
+  typography, and styling boundaries as this plan.
+- Button, Dialog, and Sheet use customized shadcn foundations; no other shadcn
+  component type is introduced as the default styling solution.
+- Tailwind is the ordinary styling method; remaining custom CSS is scoped and
+  justified by a complex visual need.
+- Every implemented screen reuses shared typography roles and tokens.
+- Existing navigation, game behavior, privacy, accessibility, and responsive
+  requirements continue to pass their relevant quality gates.
