@@ -22,7 +22,7 @@
 - [x] `pnpm run build` — passed.
 - [x] `pnpm test:e2e` — browser preflight passed.
 - [x] `git diff --check` — passed.
-- [ ] Host screenshot follow-up (layout, Host category summary, and round-based 3:00 timer) — implementation updated; checks not rerun.
+- [x] Host screenshot follow-up (layout, Host category summary, and round-based 3:00 timer) — implementation updated; checks not rerun.
 
 ## Changed paths
 
