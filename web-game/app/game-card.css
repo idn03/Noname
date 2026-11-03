@@ -58,7 +58,7 @@
 .game-card-sheet__description { display: block; margin-top: 6px; color: #6c6666; font-size: 15px; text-align: center; }
 .game-card-sheet__list { display: grid; gap: 10px; margin-top: 22px; }
 .game-card-sheet__option { display: grid; grid-template-columns: 34px minmax(0, 1fr); align-items: start; gap: 12px; min-height: 54px; padding: 13px 14px; border: 1px solid #d1caca; border-radius: 8px; background: #fff; color: #211c1d; font: 16px/1.45 Judson, Georgia, serif; text-align: left; cursor: pointer; transition: border-color 160ms ease, background-color 160ms ease; }
-.game-card-sheet__option:hover, .game-card-sheet__option.is-selected { border-color: #722f37; background: #f8f1f2; }
+.game-card-sheet__option.is-selected { border-color: #722f37; background: #f8f1f2; }
 .game-card-sheet__option:focus-visible { outline: 2px solid #722f37; outline-offset: 2px; }
 .game-card-sheet__number { color: #722f37; font: 700 14px/1.6 Arial, sans-serif; }
 .game-card-sheet__empty { margin: 0; padding: 22px; color: #6c6666; text-align: center; }
