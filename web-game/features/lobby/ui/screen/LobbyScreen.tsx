@@ -25,7 +25,7 @@ export default function LobbyScreen() {
   } = screen;
 
   if (lobby?.game?.phase === 'selection') {
-    return <main className={`lobby-shell ${roleClass} lobby-shell--active ${lobby.game.role === 'host' ? 'host-card-selection-shell' : 'card-selection-shell'}`}>
+    return <main className={`lobby-shell ${roleClass} lobby-shell--active ${lobby.game.role === 'host' ? 'host-card-selection-shell' : 'player-card-selection-shell'}`}>
       <RuneField />
       {lobby.game.role === 'host'
         ? <><HostCardSelection selection={lobby.game.selection} />

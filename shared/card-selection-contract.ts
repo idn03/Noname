@@ -21,6 +21,8 @@ export interface PlayerCardSelectionView {
   hasCardSlot: boolean;
   categories: readonly CardCategoryView[];
   ownCard?: { categoryId: string; challengeId?: string; submitted: boolean };
+  score: number;
+  teamMembers: readonly { id: string; name: string }[];
   readiness: Readonly<Record<'wolf' | 'sheep', TeamCardReadinessView>>;
   remainingMs: number;
 }

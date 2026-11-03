@@ -27,6 +27,8 @@ export function createPlayerCardSelectionView(
       phase: 'selection', team, hasCardSlot,
       categories: categories as CardCategoryView[],
       ...(hasCardSlot && player.cardCategory ? { ownCard: ownCardView(player) } : {}),
+      score: state.scores[team],
+      teamMembers: state.players.filter((member) => !member.isHost && member.team === team).map(({ id, name }) => ({ id, name })),
       readiness: readinessByTeam(state.players),
       remainingMs: Math.max(0, state.selectionDeadlineMs - now),
     },

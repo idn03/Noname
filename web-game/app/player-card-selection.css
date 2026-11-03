@@ -1,0 +1,42 @@
+.player-card-selection-shell { min-height: 100svh; display: flex; justify-content: center; overflow-x: hidden; overflow-y: auto; padding: 0; background: linear-gradient(180deg, #722f37 0%, #57272d 54%, #080607 100%); }
+.player-card-selection-shell .rune-mark { opacity: .15; }
+.card-selection-screen--player { width: min(100%, 402px); min-height: 100svh; display: flex; flex-direction: column; align-items: stretch; padding: 6.8vh 0 3vh; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #fff; }
+.player-selection-heading { padding: 0 13px; }
+.player-selection-heading h1 { margin: 0; color: #fff; font: 700 32px/1.08 Judson, Georgia, serif; }
+.player-selection-heading p { margin: 8px 0 0; color: #fff; font: 700 16px/1.2 Judson, Georgia, serif; }
+.player-selection-clock { display: block; align-self: center; margin: 3.5vh 0 1.2vh; color: #fff; font: 700 42px/1 Judson, Georgia, serif; font-variant-numeric: tabular-nums; }
+.player-card-carousel { display: flex; gap: 32px; width: 100%; padding: 0 max(1rem, calc((100% - 200px) / 2)); overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: none; touch-action: pan-x pan-y; }
+.player-card-carousel::-webkit-scrollbar { display: none; }
+.player-card-carousel__item { flex: 0 0 200px; scroll-snap-align: center; opacity: .58; transition: opacity 160ms ease; }
+.player-card-carousel__item.is-active { opacity: 1; }
+.player-card-carousel .game-card { width: 200px; aspect-ratio: .65; }
+.player-card-carousel .game-card.is-draft-selected .game-card__face { outline: 0; }
+.player-selection-hint { min-height: 1.25rem; margin: 20px 10px 0; color: #fff; font: 400 14px/1.25 Judson, Georgia, serif; text-align: center; }
+.player-selection-submit { align-self: center; width: 180px; min-height: 66px; margin: 38px auto 0; border: 2px solid #fff; border-radius: 13px; color: #fff; font: 700 14px/1 Judson, Georgia, serif; }
+.player-selection-submit:disabled { opacity: .55; }
+.player-selection-status { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .8rem; margin: auto 12px 2vh; color: #fff; font: 400 18px/1.2 Judson, Georgia, serif; }
+.player-selection-status button { padding: .2rem; border: 0; background: transparent; color: #fff; font: 400 13px/1 Judson, Georgia, serif; text-decoration: underline; }
+.player-selection-team { display: flex; align-items: center; gap: .55rem; min-height: 32px; padding: 0 22px; color: #fff; font-family: Judson, Georgia, serif; }
+.player-selection-team > img { flex: 0 0 auto; width: 25px; height: 25px; object-fit: contain; filter: brightness(0) invert(1); }
+.player-selection-team strong { flex: 0 0 auto; font-size: 16px; }
+.player-selection-team ul { display: flex; flex-wrap: wrap; gap: .55rem; margin: 0; padding: 0; list-style: none; font-size: 12px; }
+.player-selection-error { margin: .6rem 16px 0; color: #fff; font: 400 13px/1.25 Judson, Georgia, serif; text-align: center; }
+.player-card-selection-shell .card-selection-slotless { margin: 2rem 1rem; border-color: rgb(255 255 255 / 42%); background: rgb(0 0 0 / 20%); }
+
+@media (max-height: 760px) and (min-width: 641px) {
+  .card-selection-screen--player { padding-top: 1.5rem; }
+  .player-selection-clock { margin: 1rem 0 .6rem; }
+  .player-card-carousel .game-card { width: 174px; }
+  .player-card-carousel__item { flex-basis: 174px; }
+  .player-selection-hint { margin-top: .8rem; }
+  .player-selection-submit { margin-top: 1rem; }
+}
+
+@media (max-width: 640px) {
+  .card-selection-screen--player { padding-top: max(3.5rem, 6.8vh); }
+  .player-selection-clock { margin-top: 3.5vh; }
+  .player-selection-team { align-items: flex-start; gap: .35rem; padding-inline: 16px; }
+  .player-selection-team ul { gap: .4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) { .player-card-carousel { scroll-behavior: auto; } .player-card-carousel__item { transition: none; } }

@@ -33,7 +33,7 @@ export function GameCard({
   const canFlip = phase !== 'selection' && Boolean(selectedChallenge);
 
   function activateCard() {
-    if (canChoose && role === 'wolf') setSheetOpen(true);
+    if (canChoose && role === 'wolf') { onSelectCategory?.(); setSheetOpen(true); }
     else if (canChoose) onSelectCategory?.();
     else if (canFlip) setFlipped((value) => !value);
   }
