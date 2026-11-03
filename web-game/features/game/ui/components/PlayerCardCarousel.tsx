@@ -15,6 +15,7 @@ interface PlayerCardCarouselProps {
   onFocusCategory: (categoryId: string) => void;
   onSelectCategory: (categoryId: string) => void;
   onSelectChallenge: (categoryId: string, challengeId: string) => void;
+  onClearChallenge: (categoryId: string) => void;
 }
 
 export function PlayerCardCarousel(props: PlayerCardCarouselProps) {
@@ -35,8 +36,9 @@ export function PlayerCardCarousel(props: PlayerCardCarouselProps) {
     if (nearest?.dataset.categoryId) props.onFocusCategory(nearest.dataset.categoryId);
   }
 
-  return <div ref={trackRef} className="player-card-carousel" onScroll={focusNearestCard} role="region"
-    aria-roledescription="carousel" aria-label="Thẻ khả dụng, vuốt ngang để duyệt">
+  return <div className="player-card-carousel-group">
+    <div ref={trackRef} className="player-card-carousel" onScroll={focusNearestCard} role="region"
+      aria-roledescription="carousel" aria-label="Thẻ khả dụng, vuốt ngang hoặc dùng nút để duyệt">
     {props.categories.map((category) => {
       const selectedChallenge = props.draftCategoryId === category.id
         ? category.challenges?.find(({ id }) => id === props.draftChallengeId)
@@ -46,9 +48,12 @@ export function PlayerCardCarousel(props: PlayerCardCarouselProps) {
           role={props.role} phase="selection" challenges={category.challenges} selectedChallenge={selectedChallenge}
           isDraftSelected={props.draftCategoryId === category.id}
           onSelectCategory={() => { props.onFocusCategory(category.id); props.onSelectCategory(category.id); }}
-          onSelectChallenge={(challenge) => props.onSelectChallenge(category.id, challenge.id)} disabled={props.disabled} />
+          onOpenChallengeSheet={() => props.onFocusCategory(category.id)}
+          onSelectChallenge={(challenge) => props.onSelectChallenge(category.id, challenge.id)}
+          onClearChallenge={() => props.onClearChallenge(category.id)} disabled={props.disabled} />
       </div>;
-    })}
+      })}
+    </div>
   </div>;
 }
 

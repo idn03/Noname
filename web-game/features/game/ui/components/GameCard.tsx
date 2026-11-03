@@ -13,7 +13,9 @@ export interface GameCardProps {
   selectedChallenge?: GameCardChallenge;
   isDraftSelected?: boolean;
   onSelectCategory?: () => void;
+  onOpenChallengeSheet?: () => void;
   onSelectChallenge?: (challenge: GameCardChallenge) => void;
+  onClearChallenge?: () => void;
   disabled?: boolean;
 }
 
@@ -24,7 +26,7 @@ const categoryArt: Record<string, string> = {
 
 export function GameCard({
   categoryId, categoryName, challengeCount, role, phase, challenges = [], selectedChallenge,
-  isDraftSelected = false, onSelectCategory, onSelectChallenge, disabled = false,
+  isDraftSelected = false, onSelectCategory, onOpenChallengeSheet, onSelectChallenge, onClearChallenge, disabled = false,
 }: GameCardProps) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [flipped, setFlipped] = useState(false);
@@ -33,7 +35,7 @@ export function GameCard({
   const canFlip = phase !== 'selection' && Boolean(selectedChallenge);
 
   function activateCard() {
-    if (canChoose && role === 'wolf') { onSelectCategory?.(); setSheetOpen(true); }
+    if (canChoose && role === 'wolf') { onOpenChallengeSheet?.(); setSheetOpen(true); }
     else if (canChoose) onSelectCategory?.();
     else if (canFlip) setFlipped((value) => !value);
   }
@@ -75,6 +77,7 @@ export function GameCard({
       selectedId={selectedChallenge?.id}
       onOpenChange={setSheetOpen}
       onChoose={chooseChallenge}
+      onClear={() => { onClearChallenge?.(); setSheetOpen(false); }}
     />}
   </>;
 }

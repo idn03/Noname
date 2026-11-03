@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Button } from '../../../../components/shared/Button';
+import { Button } from '@/components/ui/button';
 import type { PlayerCardSelectionView } from '../../../../../shared/card-selection-contract';
 import { useSelectionCountdown, formatSelectionTime } from '../../hooks/use-selection-countdown';
 import { useCardSelectionDraft } from '../../hooks/use-card-selection-draft';
@@ -18,14 +18,15 @@ interface PlayerCardSelectionProps {
 
 export function PlayerCardSelection({ selection, connected, pending, error, onSubmit, onRemove }: PlayerCardSelectionProps) {
   const remainingMs = useSelectionCountdown(selection.remainingMs);
-  const { draft, resetDraft, selectCategory, selectChallenge } = useCardSelectionDraft(selection);
+  const { draft, setDraft, resetDraft, selectCategory, selectChallenge } = useCardSelectionDraft(selection);
   const [activeCategoryId, setActiveCategoryId] = useState(selection.ownCard?.categoryId ?? selection.categories[0]?.id ?? '');
   const activeCategory = selection.categories.find(({ id }) => id === activeCategoryId);
   const draftCategory = selection.categories.find(({ id }) => id === draft?.categoryId);
   const draftChallenge = draftCategory?.challenges?.find(({ id }) => id === draft?.challengeId);
   const canSubmit = Boolean(activeCategory && (selection.team === 'sheep' || (draftCategory?.id === activeCategoryId && draftChallenge)));
-  const matchesConfirmed = selection.ownCard?.categoryId === draft?.categoryId
-    && (selection.team === 'sheep' || selection.ownCard?.challengeId === draft?.challengeId);
+  const matchesConfirmed = Boolean(selection.ownCard?.submitted && draft
+    && selection.ownCard.categoryId === draft.categoryId
+    && (selection.team === 'sheep' || selection.ownCard.challengeId === draft.challengeId));
   const teamName = selection.team === 'wolf' ? 'Sói' : 'Cừu';
 
   useEffect(() => {
@@ -58,17 +59,14 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
     </section> : <>
       <PlayerCardCarousel categories={selection.categories} role={selection.team} activeCategoryId={activeCategoryId} initialCategoryId={selection.ownCard?.categoryId}
         draftCategoryId={draft?.categoryId} draftChallengeId={draft?.challengeId} disabled={!connected || pending}
-        onFocusCategory={focusCategory} onSelectCategory={selectCategory} onSelectChallenge={selectChallenge} />
-      <p className="player-selection-hint">
-        {selection.team === 'wolf' ? 'Bấm vào thẻ để xem danh sách thử thách' : 'Vuốt ngang để xem thẻ và chọn danh mục'}
-      </p>
-      <Button className="player-selection-submit" type="button" disabled={!connected || pending || !canSubmit} onClick={chooseActiveCard}>
-        {pending ? 'ĐANG GỬI…' : 'CHỌN'}
+        onFocusCategory={focusCategory} onSelectCategory={selectCategory} onSelectChallenge={selectChallenge}
+        onClearChallenge={() => setDraft(undefined)} />
+      <Button variant="outline" className="player-selection-submit" type="button" disabled={!connected || pending || !canSubmit || matchesConfirmed} onClick={chooseActiveCard}>
+        {pending ? 'ĐANG GỬI…' : matchesConfirmed ? 'ĐÃ CHỌN' : selection.ownCard?.submitted ? 'CẬP NHẬT' : 'CHỌN'}
       </Button>
-      <div className="player-selection-status" aria-live="polite">
-        <span>{draftCategory ? `Đã chọn: ${draftCategory.name}` : 'Chưa chọn thẻ'}</span>
-        {draft && !matchesConfirmed && <button type="button" disabled={pending} onClick={resetDraft}>Hoàn tác</button>}
-        {selection.ownCard?.submitted && <button type="button" disabled={!connected || pending} onClick={onRemove}>Gỡ thẻ</button>}
+      <div className="player-selection-actions" aria-live="polite">
+        {!matchesConfirmed && selection.ownCard?.submitted && <Button type="button" variant="ghost" className="player-selection-clear" disabled={pending} onClick={resetDraft}>HỦY SỬA</Button>}
+        {selection.ownCard?.submitted && <Button type="button" variant="outline" className="player-selection-remove" disabled={!connected || pending} onClick={onRemove}>GỠ THẺ</Button>}
       </div>
     </>}
 
