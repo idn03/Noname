@@ -14,7 +14,7 @@ Validate payload shape, bounds, enum values, session membership, authorization, 
 
 Publish lobby presence and player-list changes, game phase transitions, each player's authorized game view, scoring changes, cancellation, and final results. Send a current authorized snapshot after connection or reconnection. 
 
-Do not broadcast hidden team selections, unrevealed cards, or private challenge data to clients that may not see them. After the Selection Phase completes, selected cards and Wolf challenge text are public and included in the authorized gameplay snapshot.
+Do not broadcast hidden team selections, unrevealed cards, or private challenge data to clients that may not see them. During selection, the Host may see submitted category names and readiness, but no challenge text; Sheep cannot see Wolf selections. After the Selection Phase completes, selected cards and Wolf challenge text are public and included in the authorized gameplay snapshot.
 
 ## Errors
 

@@ -12,7 +12,7 @@ describe('card selection logic', () => {
     expect(teamPlayers.filter((player) => player.team === 'sheep')).toHaveLength(3);
     expect(teamPlayers.filter((player) => player.hasCardSlot)).toHaveLength(6);
     expect(teamPlayers.filter((player) => player.hasCardSlot === false).map((player) => player.team)).toEqual(['wolf']);
-    expect(state.selectionDeadlineMs).toBe(1_000 + 6 * 60_000);
+    expect(state.selectionDeadlineMs).toBe(1_000 + 3 * 60_000);
     expect(state.cardSelection?.categoryIdsByTeam.wolf).toHaveLength(4);
     expect(state.cardSelection?.categoryIdsByTeam.sheep).toHaveLength(4);
   });

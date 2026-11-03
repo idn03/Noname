@@ -4,6 +4,7 @@ import './lobby.css';
 import './host-lobby.css';
 import './game-card.css';
 import './card-selection.css';
+import './host-card-selection.css';
 
 export const metadata: Metadata = {
   title: 'Noname',

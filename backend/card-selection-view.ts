@@ -35,6 +35,7 @@ export function createPlayerCardSelectionView(
 
 export function createHostCardSelectionView(
   state: GameState,
+  pools: readonly SessionCategoryPool[],
   hostId: string,
   viewerId: string,
   now = Date.now(),
@@ -44,16 +45,25 @@ export function createHostCardSelectionView(
     return gameError('INVALID_PHASE', 'Card selection is not active.');
   }
   const participants = state.players.filter((player) => !player.isHost);
-  const teams = { wolf: hostTeamView(participants, 'wolf'), sheep: hostTeamView(participants, 'sheep') };
+  const teams = {
+    wolf: hostTeamView(participants, 'wolf', pools),
+    sheep: hostTeamView(participants, 'sheep', pools),
+  };
   return { ok: true, value: { phase: 'selection', teams, remainingMs: Math.max(0, state.selectionDeadlineMs - now) } };
 }
 
-function hostTeamView(players: readonly GamePlayer[], team: Team): HostCardSelectionView['teams'][Team] {
-  const roster = players.filter((player) => player.team === team).map(hostRosterPlayer);
+function hostTeamView(players: readonly GamePlayer[], team: Team, pools: readonly SessionCategoryPool[]): HostCardSelectionView['teams'][Team] {
+  const teamPlayers = players.filter((player) => player.team === team);
+  const roster = teamPlayers.map(hostRosterPlayer);
   return {
     players: roster,
     ready: roster.filter(({ ready }) => ready).length,
     total: roster.filter(({ hasCardSlot }) => hasCardSlot).length,
+    selectedCategories: teamPlayers.flatMap((player) => {
+      if (!player.cardSubmitted || !player.cardCategory) return [];
+      const pool = pools.find((candidate) => candidate.categoryId === player.cardCategory);
+      return pool ? [pool.categoryName] : [];
+    }),
   };
 }
 

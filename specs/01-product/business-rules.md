@@ -44,7 +44,7 @@
 ## Card Selection Phase
 
 - Every card-slot owner selects one card for their slot before the first round begins. A designated slotless member of an uneven larger team does not select a card.
-- The selection duration in minutes equals the total number of card slots across both teams.
+- The selection duration in minutes equals the card slots per team, which is also the number of game rounds.
 - A player may replace or remove their selection while the Selection Phase remains active.
 - Pressing Done submits the player's selection and marks that slot ready. Removing or changing a submitted selection makes that slot unready until submitted again.
 - The game proceeds to the turn phase only after every player's slot has a complete submitted selection. Once the phase advances, selections can no longer be changed.

@@ -31,6 +31,7 @@ export interface HostCardSelectionView {
     players: readonly { id: string; name: string; hasCardSlot: boolean; ready: boolean }[];
     ready: number;
     total: number;
+    selectedCategories: readonly string[];
   }>>;
   remainingMs: number;
 }

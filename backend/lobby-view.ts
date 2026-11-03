@@ -36,7 +36,7 @@ function authorizedGameView(
 ): LobbyGameView | undefined {
   if (state.phase === 'selection') {
     if (viewer.isHost) {
-      const selection = createHostCardSelectionView(state, hostId, viewer.id, now);
+      const selection = createHostCardSelectionView(state, pools, hostId, viewer.id, now);
       return selection.ok ? { phase: 'selection', role: 'host', selection: selection.value } : undefined;
     }
     const selection = createPlayerCardSelectionView(state, pools, viewer.id, now);

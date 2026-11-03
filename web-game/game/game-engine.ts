@@ -46,13 +46,9 @@ export function startGame(
       })),
       rounds: prepared.value.rounds,
       selectionStartedAtMs: startedAt,
-      selectionDeadlineMs: startedAt + countCardSlots(prepared.value.players) * 60_000,
+      selectionDeadlineMs: startedAt + prepared.value.rounds * 60_000,
     },
   };
-}
-
-function countCardSlots(players: readonly GamePlayer[]): number {
-  return players.filter((player) => !player.isHost && player.hasCardSlot === true).length;
 }
 
 function isValidPreparation(players: readonly GamePlayer[], prepared: PreparedGame): boolean {

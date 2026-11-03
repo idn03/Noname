@@ -11,6 +11,7 @@ import { PlayerBottomNav } from '@/features/lobby/ui/components/PlayerBottomNav'
 import { TeamInstructionScreen } from '@/features/lobby/ui/screen/TeamInstructionScreen';
 import { PlayerCardSelection } from '@/features/game/ui/components/PlayerCardSelection';
 import { HostCardSelection } from '@/features/game/ui/components/HostCardSelection';
+import { HostSelectionActions } from '@/features/game/ui/components/HostSelectionActions';
 import { SelectionWaiting } from '@/features/game/ui/components/SelectionWaiting';
 import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 
@@ -24,11 +25,11 @@ export default function LobbyScreen() {
   } = screen;
 
   if (lobby?.game?.phase === 'selection') {
-    return <main className={`lobby-shell ${roleClass} lobby-shell--active card-selection-shell`}>
+    return <main className={`lobby-shell ${roleClass} lobby-shell--active ${lobby.game.role === 'host' ? 'host-card-selection-shell' : 'card-selection-shell'}`}>
       <RuneField />
       {lobby.game.role === 'host'
         ? <><HostCardSelection selection={lobby.game.selection} />
-          <LobbyHostActions started playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
+          <HostSelectionActions playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
           {error && <p className="error-message" role="alert">{error}</p>}
         </>
         : <PlayerCardSelection selection={lobby.game.selection} connected={connected} pending={pending} error={error} onSubmit={selectCard} onRemove={removeCard} />}

@@ -26,11 +26,11 @@ describe('role-filtered card selection views', () => {
     if (!wolf) throw new Error('Expected a Wolf slot');
     const selected = submitSelection(state, wolf.id);
     if (!selected.ok) throw new Error(selected.error.message);
-    const hostView = createHostCardSelectionView(selected.value, 'host', 'host', 1_000);
+    const hostView = createHostCardSelectionView(selected.value, selectionPools, 'host', 'host', 1_000);
 
-    expect(hostView).toMatchObject({ ok: true, value: { teams: { wolf: { total: 3, ready: 1 }, sheep: { total: 3, ready: 0 } } } });
+    expect(hostView).toMatchObject({ ok: true, value: { teams: { wolf: { total: 3, ready: 1, selectedCategories: [expect.any(String)] }, sheep: { total: 3, ready: 0, selectedCategories: [] } } } });
     expect(hostView.ok && JSON.stringify(hostView.value)).not.toMatch(/cardCategory|challengeId|Text/);
-    expect(createHostCardSelectionView(state, 'host', wolf.id)).toMatchObject({
+    expect(createHostCardSelectionView(state, selectionPools, 'host', wolf.id)).toMatchObject({
       ok: false, error: { code: 'NOT_AUTHORIZED' },
     });
   });
