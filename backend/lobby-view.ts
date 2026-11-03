@@ -43,9 +43,13 @@ function authorizedGameView(
     return selection.ok ? { phase: 'selection', role: 'player', selection: selection.value } : undefined;
   }
   if (state.phase === 'turns') {
+    if (viewer.isHost) {
+      const selection = createHostCardSelectionView(state, pools, hostId, viewer.id, now);
+      return selection.ok ? { phase: 'turns', role: 'host', round: state.round, rounds: state.rounds, selection: selection.value } : undefined;
+    }
     const team = teamsForViewer(state, viewer.id);
     return {
-      phase: 'turns', role: viewer.isHost ? 'host' : 'player',
+      phase: 'turns', role: 'player',
       ...(team ? { team } : {}),
       round: state.round, rounds: state.rounds, revealedCards: revealedCards(state, pools),
     };

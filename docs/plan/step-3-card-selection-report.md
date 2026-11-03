@@ -10,7 +10,7 @@
 - [x] Keep editable drafts local and allow players to submit, replace, and remove only their own slot through validated server commands.
 - [x] Track readiness, enforce the all-slot phase gate, and keep selection open after the timer expires until every slot is submitted; timer is one minute per slot on each team.
 - [x] Provide role-filtered player views and a Host roster/readiness view with submitted category names but no challenge text.
-- [x] Reveal selected cards and Wolf challenges to players and Host after selection completes; cards can be flipped to preview a revealed challenge.
+- [x] Reveal selected cards and Wolf challenges to players after selection completes; the Host keeps the two-team roster view with category tags and no card faces or challenge text.
 - [x] Preserve Sandbox defaults: Wolf Music with a random available challenge; Sheep repeats Music, Music, Travel.
 - [x] Restore authoritative submitted choices after reconnect while keeping drafts client-local.
 

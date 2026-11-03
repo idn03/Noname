@@ -35,10 +35,15 @@ export default function LobbyScreen() {
         : <PlayerCardSelection selection={lobby.game.selection} connected={connected} pending={pending} error={error} onSubmit={selectCard} onRemove={removeCard} />}
     </main>;
   }
-  if (lobby?.game?.phase === 'turns') return <main className={`lobby-shell ${roleClass} lobby-shell--active card-selection-shell`}>
-    <RuneField /><SelectionWaiting game={lobby.game} />
-    {host && <LobbyHostActions started playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />}
-  </main>;
+  if (lobby?.game?.phase === 'turns') {
+    if (lobby.game.role === 'host') return <main className={`lobby-shell ${roleClass} lobby-shell--active host-card-selection-shell`}>
+      <RuneField /><HostCardSelection selection={lobby.game.selection} />
+      <HostSelectionActions playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
+    </main>;
+    return <main className={`lobby-shell ${roleClass} lobby-shell--active card-selection-shell`}>
+      <RuneField /><SelectionWaiting game={lobby.game} />
+    </main>;
+  }
 
   if (!lobby && isLocalHost === false && instructionTeam) {
     return <div className="lobby-shell lobby-shell--player team-instruction-shell">

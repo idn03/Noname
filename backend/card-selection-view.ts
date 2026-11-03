@@ -41,7 +41,7 @@ export function createHostCardSelectionView(
   now = Date.now(),
 ): GameResult<HostCardSelectionView> {
   if (viewerId !== hostId) return gameError('NOT_AUTHORIZED', 'Only the Host can view selection progress.');
-  if (state.phase !== 'selection' || !state.cardSelection || state.selectionDeadlineMs === undefined) {
+  if ((state.phase !== 'selection' && state.phase !== 'turns') || !state.cardSelection || state.selectionDeadlineMs === undefined) {
     return gameError('INVALID_PHASE', 'Card selection is not active.');
   }
   const participants = state.players.filter((player) => !player.isHost);
@@ -49,7 +49,7 @@ export function createHostCardSelectionView(
     wolf: hostTeamView(participants, 'wolf', pools),
     sheep: hostTeamView(participants, 'sheep', pools),
   };
-  return { ok: true, value: { phase: 'selection', teams, remainingMs: Math.max(0, state.selectionDeadlineMs - now) } };
+  return { ok: true, value: { phase: state.phase, teams, remainingMs: Math.max(0, state.selectionDeadlineMs - now) } };
 }
 
 function hostTeamView(players: readonly GamePlayer[], team: Team, pools: readonly SessionCategoryPool[]): HostCardSelectionView['teams'][Team] {

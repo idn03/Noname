@@ -26,7 +26,7 @@ export interface PlayerCardSelectionView {
 }
 
 export interface HostCardSelectionView {
-  phase: 'selection';
+  phase: 'selection' | 'turns';
   teams: Readonly<Record<'wolf' | 'sheep', {
     players: readonly { id: string; name: string; hasCardSlot: boolean; ready: boolean }[];
     ready: number;
@@ -48,4 +48,5 @@ export interface RevealedGameCardView {
 export type LobbyGameView =
   | { phase: 'selection'; role: 'player'; selection: PlayerCardSelectionView }
   | { phase: 'selection'; role: 'host'; selection: HostCardSelectionView }
-  | { phase: 'turns'; role: 'player' | 'host'; team?: 'wolf' | 'sheep'; round: number; rounds: number; revealedCards: readonly RevealedGameCardView[] };
+  | { phase: 'turns'; role: 'host'; round: number; rounds: number; selection: HostCardSelectionView }
+  | { phase: 'turns'; role: 'player'; team?: 'wolf' | 'sheep'; round: number; rounds: number; revealedCards: readonly RevealedGameCardView[] };
