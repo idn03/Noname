@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { RuneField } from '@/components/shared/RuneField';
 import { HostHomeActions } from '@/features/lobby/ui/components/HostHomeActions';
 import { HostLobbyLayout } from '@/features/lobby/ui/components/HostLobbyLayout';
@@ -8,7 +9,6 @@ import { LobbyHostActions } from '@/features/lobby/ui/components/LobbyHostAction
 import LobbyNameForm from '@/features/lobby/ui/components/LobbyNameForm';
 import { LobbyPlayerStage } from '@/features/lobby/ui/components/LobbyPlayerStage';
 import { PlayerBottomNav } from '@/features/lobby/ui/components/PlayerBottomNav';
-import { TeamInstructionScreen } from '@/features/lobby/ui/screen/TeamInstructionScreen';
 import { PlayerCardSelection } from '@/features/game/ui/components/PlayerCardSelection';
 import { HostCardSelection } from '@/features/game/ui/components/HostCardSelection';
 import { HostSelectionActions } from '@/features/game/ui/components/HostSelectionActions';
@@ -16,8 +16,8 @@ import { SelectionWaiting } from '@/features/game/ui/components/SelectionWaiting
 import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 
 export default function LobbyScreen() {
-  const [instructionTeam, setInstructionTeam] = useState<'wolf' | 'sheep' | null>(null);
   const [comingSoon, setComingSoon] = useState('');
+  const router = useRouter();
   const screen = useLobbyScreen();
   const {
     name, setName, lobby, error, connected, pending, isLocalHost, host, players,
@@ -45,12 +45,6 @@ export default function LobbyScreen() {
     </main>;
   }
 
-  if (!lobby && isLocalHost === false && instructionTeam) {
-    return <div className="lobby-shell lobby-shell--player team-instruction-shell">
-      <TeamInstructionScreen team={instructionTeam} onBack={() => setInstructionTeam(null)} />
-    </div>;
-  }
-
   return <main className={`lobby-shell ${roleClass} ${lobby ? 'lobby-shell--active' : 'lobby-shell--home'}`}>
     <RuneField />
     {!lobby && isLocalHost === null && <p className="role-resolution" role="status">Đang xác định chế độ kết nối…</p>}
@@ -64,8 +58,8 @@ export default function LobbyScreen() {
       {!isLocalHost && <>
         {comingSoon && <p className="player-tab-status" role="status">{comingSoon} · Sắp ra mắt</p>}
         <PlayerBottomNav
-          onOpenWolf={() => { setComingSoon(''); setInstructionTeam('wolf'); }}
-          onOpenSheep={() => { setComingSoon(''); setInstructionTeam('sheep'); }}
+          onOpenWolf={() => { setComingSoon(''); router.push('/wolf-team'); }}
+          onOpenSheep={() => { setComingSoon(''); router.push('/sheep-team'); }}
           onComingSoon={(item) => setComingSoon(item)}
         />
       </>}
