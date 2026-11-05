@@ -63,10 +63,10 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
       </PressableText>
     </>}
     {!started && playerCount < 6 && <p className="m-0 flex-[1_1_100%] text-[#aaa] text-[13px]">Cần ít nhất 6 người chơi đang kết nối để bắt đầu.</p>}
-    <Dialog open={confirmationOpen} onOpenChange={(open) => { if (!open) closeConfirmation(false); }}>
+    <Dialog open={confirmationOpen && !closingConfirmation} onOpenChange={(open) => { if (!open) closeConfirmation(false); }}>
       {confirmationOpen && <DialogContent
-        className={`flex w-[min(calc(100vw-48px),440px)] flex-col items-stretch gap-[14px] rounded-lg border-0 bg-[rgb(0_0_0/.3)] p-6 shadow-[0_12px_40px_rgb(0_0_0/.24)] animate-[host-confirm-modal-in_220ms_ease-out_both] motion-reduce:animate-[host-confirm-modal-fade-in_180ms_ease-out_both] ${closingConfirmation ? 'animate-[host-confirm-modal-out_180ms_ease-in_both] motion-reduce:animate-[host-confirm-modal-fade-out_180ms_ease-in_both]' : ''}`}
-        overlayClassName={`grid place-items-center bg-[rgb(0_0_0/.58)] p-6 animate-[host-confirm-backdrop-in_180ms_ease-out_both] motion-reduce:animate-[host-confirm-backdrop-in_180ms_ease-out_both] ${closingConfirmation ? 'animate-[host-confirm-backdrop-out_180ms_ease-in_both] motion-reduce:animate-[host-confirm-backdrop-out_180ms_ease-in_both]' : ''}`}
+        className="flex w-[min(calc(100vw-48px),440px)] flex-col items-stretch gap-[14px] rounded-lg border-0 bg-[rgb(0_0_0/.3)] p-6 shadow-[0_12px_40px_rgb(0_0_0/.24)]"
+        overlayClassName="grid place-items-center bg-[rgb(0_0_0/.58)] p-6"
         aria-describedby="host-confirmation-message"
       >
         <DialogTitle className="sr-only">{confirmationLabel}</DialogTitle>

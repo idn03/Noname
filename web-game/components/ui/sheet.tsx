@@ -23,7 +23,7 @@ type SheetContentProps = React.ComponentProps<typeof Dialog.Popup> & {
 };
 
 function SheetContent({ className, children, side = 'right', showCloseButton = true, ...props }: SheetContentProps) {
-  const motionClasses = 'transition-[opacity,transform] duration-300 ease-in-out data-starting-style:opacity-0 data-ending-style:opacity-0 data-[side=bottom]:data-starting-style:translate-y-[2.5rem] data-[side=bottom]:data-ending-style:translate-y-[2.5rem] data-[side=left]:data-starting-style:translate-x-[-2.5rem] data-[side=left]:data-ending-style:translate-x-[-2.5rem] data-[side=right]:data-starting-style:translate-x-[2.5rem] data-[side=right]:data-ending-style:translate-x-[2.5rem] data-[side=top]:data-starting-style:translate-y-[-2.5rem] data-[side=top]:data-ending-style:translate-y-[-2.5rem]';
+  const motionClasses = 'transition-[opacity,translate] duration-300 ease-in-out data-starting-style:opacity-0 data-ending-style:opacity-0 data-[side=bottom]:data-starting-style:translate-y-full data-[side=bottom]:data-ending-style:translate-y-full data-[side=left]:data-starting-style:-translate-x-full data-[side=left]:data-ending-style:-translate-x-full data-[side=right]:data-starting-style:translate-x-full data-[side=right]:data-ending-style:translate-x-full data-[side=top]:data-starting-style:-translate-y-full data-[side=top]:data-ending-style:-translate-y-full';
   return <Dialog.Portal>
     <Dialog.Backdrop data-slot="sheet-overlay" className="fixed inset-0 z-50 bg-[rgb(0_0_0/.62)] transition-opacity duration-150 ease-out data-starting-style:opacity-0 data-ending-style:opacity-0 motion-reduce:transition-none" />
     <Dialog.Viewport className="pointer-events-none fixed inset-0 z-[51] flex items-end justify-center overflow-hidden">

@@ -21,7 +21,7 @@ function DialogClose(props: React.ComponentProps<typeof DialogPrimitive.Close>) 
 }
 
 function DialogOverlay({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
-  return <DialogPrimitive.Overlay data-slot="dialog-overlay" className={cn('fixed inset-0 z-[1000]', className)} {...props} />;
+  return <DialogPrimitive.Overlay data-slot="dialog-overlay" className={cn('fixed inset-0 z-[1000] data-[state=open]:animate-[dialog-overlay-in_180ms_ease-out_both] data-[state=closed]:animate-[dialog-overlay-out_180ms_ease-in_both]', className)} {...props} />;
 }
 
 type DialogContentProps = React.ComponentProps<typeof DialogPrimitive.Content> & {
@@ -32,7 +32,7 @@ function DialogContent({ className, overlayClassName, children, ...props }: Dial
   return (
     <DialogPortal>
       <DialogOverlay className={overlayClassName} />
-      <DialogPrimitive.Content data-slot="dialog-content" className={cn('fixed top-1/2 left-1/2 z-[1001] -translate-x-1/2 -translate-y-1/2 outline-none', className)} {...props}>
+      <DialogPrimitive.Content data-slot="dialog-content" className={cn('fixed top-1/2 left-1/2 z-[1001] -translate-x-1/2 -translate-y-1/2 outline-none data-[state=open]:animate-[dialog-content-in_220ms_ease-out_both] data-[state=closed]:animate-[dialog-content-out_180ms_ease-in_both]', className)} {...props}>
         {children}
       </DialogPrimitive.Content>
     </DialogPortal>
