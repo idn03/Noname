@@ -13,7 +13,7 @@ const INITIAL_SELECTION: PlayerCardSelectionView = {
     { id: 'music', name: 'Âm nhạc', challengeCount: 3 },
     { id: 'travel', name: 'Du lịch', challengeCount: 2 },
     { id: 'geography', name: 'Địa lý', challengeCount: 4 },
-    { id: 'films', name: 'Điện ảnh', challengeCount: 3 },
+    { id: 'folklore', name: 'Dân Gian', challengeCount: 3 },
   ],
   score: 2,
   teamMembers: [

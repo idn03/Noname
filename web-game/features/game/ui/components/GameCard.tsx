@@ -25,6 +25,11 @@ const categoryArt: Record<string, string> = {
   music: 'guitar-sticker.png', travel: 'backpack-sticker.png', geography: 'compass-sticker.png',
   films: 'film-sticker.png', folklore: 'folklore-sticker.png', healthcare: 'healthcare-sticker.png',
 };
+const frontArtLayout: Record<string, string> = {
+  folklore: 'top-[6.25%] h-[65%] w-[90%]',
+  geography: 'top-[11%] h-[50%] w-[75%]',
+};
+const defaultFrontArtLayout = 'top-[6.25%] h-[56.25%] w-[32.5%]';
 
 export function GameCard({
   categoryId, categoryName, challengeCount, role, phase, challenges = [], selectedChallenge,
@@ -62,7 +67,7 @@ export function GameCard({
         <span className={`absolute inset-0 block [transform-style:preserve-3d] transition-transform duration-500 [transition-timing-function:cubic-bezier(.2,.72,.18,1)] motion-reduce:transition-none ${flipped ? '[transform:rotateY(180deg)]' : ''}`}>
         <span className={`absolute inset-0 block overflow-hidden rounded-[12px] bg-white shadow-[0_2px_8px_rgb(0_0_0/.22)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] ${isSelected ? 'outline outline-[3px] outline-[#722f37] outline-offset-2' : ''}`}>
           <span className="pointer-events-none absolute inset-[1%] rounded-[6%] border border-[#111] shadow-[inset_0_2px_16px_rgb(0_0_0/.3)]" aria-hidden="true" />
-          {artPath(categoryId) && <img className="absolute top-[6.25%] left-1/2 h-[56.25%] w-[32.5%] -translate-x-1/2 object-contain" src={artPath(categoryId)} alt="" />}
+          {artPath(categoryId) && <img className={`absolute left-1/2 -translate-x-1/2 object-contain ${frontArtLayout[categoryId.toLocaleLowerCase()] ?? defaultFrontArtLayout}`} src={artPath(categoryId)} alt="" />}
           <span className="absolute top-[65.5%] left-1/2 block w-[calc(100%-24px)] -translate-x-1/2 overflow-hidden text-ellipsis whitespace-nowrap text-center font-type-body text-2xl leading-[1.15] [text-shadow:0_2px_4px_rgb(0_0_0/.25)]">{categoryName}</span>
           <span className="absolute top-[78.5%] left-1/2 block w-[calc(100%-24px)] -translate-x-1/2 text-center font-type-body text-base leading-[1.2] text-[#5a5a5a]">Có {challengeCount} thử thách</span>
         </span>
