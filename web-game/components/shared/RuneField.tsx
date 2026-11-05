@@ -7,6 +7,7 @@ const RUNES = Array.from({ length: 8 }, (_, index) =>
   `/assets/backgrounds/rune-${String(index + 1).padStart(2, '0')}.png`,
 );
 const TOP_OFFSETS = [12, 18, 25, 16, 28, 22, 32, 13];
+const LEFT_CLASSES = ['left-[4%]', 'left-[11%]', 'left-[21%]', 'left-[38%]', 'left-[58%]', 'left-[70%]', 'left-[82%]', 'left-[95%]'] as const;
 const MOTION_SCALE = 1.3;
 const TRAVEL_SCALE = 1.3;
 
@@ -18,7 +19,7 @@ export function RuneField() {
   useEffect(() => setHasMounted(true), []);
 
   return (
-    <div className="rune-field" aria-hidden="true">
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
       {RUNES.map((src, index) => <Rune key={src} src={src} index={index} reduceMotion={shouldReduceMotion} />)}
     </div>
   );
@@ -35,7 +36,7 @@ function Rune({ src, index, reduceMotion }: RuneProps) {
   const placement = { top: `${TOP_OFFSETS[index]}%` };
 
   return <motion.img
-    className={`rune-mark rune-mark--${index + 1}`}
+    className={`absolute top-0 h-auto w-[21px] opacity-[.72] max-[700px]:w-[18px] ${LEFT_CLASSES[index]}`}
     src={src}
     alt=""
     initial={{ x: 0, y: '0vh', opacity: 0.72 }}

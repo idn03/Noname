@@ -8,5 +8,6 @@ type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'size'> & {
 };
 
 export function Button({ className = '', variant = 'default', ...props }: ButtonProps) {
-  return <SharedButton className={`ui-button ui-button--${variant} ${className}`} {...props} />;
+  void variant;
+  return <SharedButton className={className} {...props} />;
 }

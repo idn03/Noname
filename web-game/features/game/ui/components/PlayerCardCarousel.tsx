@@ -36,15 +36,16 @@ export function PlayerCardCarousel(props: PlayerCardCarouselProps) {
     if (nearest?.dataset.categoryId) props.onFocusCategory(nearest.dataset.categoryId);
   }
 
-  return <div className="player-card-carousel-group">
-    <div ref={trackRef} className="player-card-carousel" onScroll={focusNearestCard} role="region"
+  return <div className="w-full overflow-hidden">
+    <div ref={trackRef} className="flex w-full snap-x snap-mandatory gap-8 overflow-x-scroll px-[max(1rem,calc((100%_-_200px)/2))] [overscroll-behavior-x:contain] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-webkit-overflow-scrolling:touch] [touch-action:pan-x_pan-y] motion-reduce:scroll-auto max-[640px]:gap-[.65rem]" onScroll={focusNearestCard} role="region"
       aria-roledescription="carousel" aria-label="Thẻ khả dụng, vuốt ngang hoặc dùng nút để duyệt">
     {props.categories.map((category) => {
       const selectedChallenge = props.draftCategoryId === category.id
         ? category.challenges?.find(({ id }) => id === props.draftChallengeId)
         : undefined;
-      return <div className={`player-card-carousel__item${category.id === props.activeCategoryId ? ' is-active' : ''}`} data-category-id={category.id} key={category.id}>
+      return <div className={`shrink-0 basis-[200px] snap-center opacity-[.58] transition-opacity duration-[160ms] ease-linear motion-reduce:transition-none [@media(max-height:760px)_and_(min-width:641px)]:basis-[174px]${category.id === props.activeCategoryId ? ' opacity-100' : ''}`} data-category-id={category.id} key={category.id}>
         <GameCard categoryId={category.id} categoryName={category.name} challengeCount={category.challengeCount}
+          className="aspect-[.65]"
           role={props.role} phase="selection" challenges={category.challenges} selectedChallenge={selectedChallenge}
           isDraftSelected={props.draftCategoryId === category.id}
           onSelectCategory={() => { props.onFocusCategory(category.id); props.onSelectCategory(category.id); }}

@@ -21,7 +21,7 @@ function DialogClose(props: React.ComponentProps<typeof DialogPrimitive.Close>) 
 }
 
 function DialogOverlay({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
-  return <DialogPrimitive.Overlay data-slot="dialog-overlay" className={cn('dialog-overlay', className)} {...props} />;
+  return <DialogPrimitive.Overlay data-slot="dialog-overlay" className={cn('fixed inset-0 z-[1000]', className)} {...props} />;
 }
 
 type DialogContentProps = React.ComponentProps<typeof DialogPrimitive.Content> & {
@@ -32,7 +32,7 @@ function DialogContent({ className, overlayClassName, children, ...props }: Dial
   return (
     <DialogPortal>
       <DialogOverlay className={overlayClassName} />
-      <DialogPrimitive.Content data-slot="dialog-content" className={cn('dialog-content', className)} {...props}>
+      <DialogPrimitive.Content data-slot="dialog-content" className={cn('fixed top-1/2 left-1/2 z-[1001] -translate-x-1/2 -translate-y-1/2 outline-none', className)} {...props}>
         {children}
       </DialogPrimitive.Content>
     </DialogPortal>
@@ -40,19 +40,19 @@ function DialogContent({ className, overlayClassName, children, ...props }: Dial
 }
 
 function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="dialog-header" className={cn('dialog-header', className)} {...props} />;
+  return <div data-slot="dialog-header" className={className} {...props} />;
 }
 
 function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="dialog-footer" className={cn('dialog-footer', className)} {...props} />;
+  return <div data-slot="dialog-footer" className={className} {...props} />;
 }
 
 function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
-  return <DialogPrimitive.Title data-slot="dialog-title" className={cn('dialog-title', className)} {...props} />;
+  return <DialogPrimitive.Title data-slot="dialog-title" className={className} {...props} />;
 }
 
 function DialogDescription({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Description>) {
-  return <DialogPrimitive.Description data-slot="dialog-description" className={cn('dialog-description', className)} {...props} />;
+  return <DialogPrimitive.Description data-slot="dialog-description" className={className} {...props} />;
 }
 
 export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger };

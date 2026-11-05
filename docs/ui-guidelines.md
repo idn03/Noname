@@ -14,9 +14,12 @@ Use these rules for every screen in `web-game`. The product visual direction and
 
 - Use the named palette, type roles, and button contract from `specs/02-ux/design-system.md`.
 - Define shared colors, typography roles, radii, and spacing as tokens. Avoid repeating raw values across screen stylesheets.
+- Put ordinary styling directly in JSX `className` values with Tailwind utilities. Do not add named CSS classes or IDs solely to express layout, spacing, responsive behavior, typography, colors, borders, or ordinary interaction states.
+- Keep IDs for labels, accessible relationships, and in-page navigation. Keep `data-*` attributes for behavior and animation hooks; do not use either as styling selectors.
 - Keep the horror visual direction, but preserve readable contrast and recognizable focus, disabled, pending, success, and error states.
-- Scope screen styling beneath that screen's root class. Keep resets, tokens, and reusable component structure in global styles.
+- Scope any remaining screen-specific custom CSS beneath that screen's root class. Keep resets and tokens in global styles; express ordinary reusable component styling with Tailwind utilities.
 - Prefer composition and whitespace over nested surfaces. Use a card or border only when it clarifies grouping.
+- Keep custom selectors for complex card artwork, decorative rune placement, choreographed roster/game-scene positioning, and keyframe animations that are awkward or brittle as utilities. Keep dynamic coordinates in inline styles only when they are computed from runtime data.
 
 ## Interaction and accessibility
 

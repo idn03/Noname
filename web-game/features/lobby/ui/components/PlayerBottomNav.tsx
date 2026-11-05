@@ -12,9 +12,9 @@ const tabs = [
 ] as const;
 
 export function PlayerBottomNav({ onOpenWolf, onOpenSheep, onComingSoon }: PlayerBottomNavProps) {
-  return <nav className="player-bottom-nav" aria-label="Điều hướng người chơi">
+  return <nav className="fixed z-[9999] bottom-[max(34px,env(safe-area-inset-bottom))] left-1/2 grid h-11 w-[min(calc(100vw-40px),360px)] -translate-x-1/2 grid-cols-4 m-0" aria-label="Điều hướng người chơi">
     {tabs.map((tab) => <button
-      className="player-bottom-nav__item"
+      className="grid min-h-11 min-w-11 place-items-center border-0 bg-transparent p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-4"
       type="button"
       key={tab.label}
       aria-label={tab.action === 'soon' ? `${tab.label}, sắp ra mắt` : tab.label}
@@ -24,7 +24,7 @@ export function PlayerBottomNav({ onOpenWolf, onOpenSheep, onComingSoon }: Playe
         else onComingSoon(tab.label);
       }}
     >
-      <img src={`/assets/custom-icons/${tab.asset}`} alt="" aria-hidden="true" />
+      <img className="block max-h-6 max-w-6 object-contain" src={`/assets/custom-icons/${tab.asset}`} alt="" aria-hidden="true" />
     </button>)}
   </nav>;
 }

@@ -7,6 +7,11 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/compone
 import { useLobbyHostActions } from '../../hooks/use-lobby-host-actions';
 
 interface LobbyHostActionsProps {
+  className?: string;
+  primaryButtonClassName?: string;
+  secondaryButtonClassName?: string;
+  secondaryPrefix?: string;
+  confirmationButtonClassName?: string;
   started: boolean;
   playerCount: number;
   pending: boolean;
@@ -16,7 +21,7 @@ interface LobbyHostActionsProps {
 }
 
 export function LobbyHostActions(props: LobbyHostActionsProps) {
-  const { started, playerCount, pending, onStart, onCancel, onDelete } = props;
+  const { className = 'mt-6 flex flex-wrap gap-[10px]', primaryButtonClassName = '', secondaryButtonClassName = 'border-current bg-transparent', secondaryPrefix, confirmationButtonClassName = 'py-[6px]', started, playerCount, pending, onStart, onCancel, onDelete } = props;
   const { confirmStart, setConfirmStart, requestStart } = useLobbyHostActions(playerCount, onStart);
   const [closingConfirmation, setClosingConfirmation] = useState(false);
   const [endAction, setEndAction] = useState<'cancel' | 'delete' | null>(null);
@@ -46,26 +51,28 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
     return () => { if (closeTimer.current) clearTimeout(closeTimer.current); };
   }, []);
 
-  return <div className="host-actions">
-    {started ? <Button type="button" className="host-secondary" disabled={pending} onClick={() => setEndAction('cancel')}>Hủy trận</Button> : <>
-      {!confirmStart && <Button type="button" disabled={pending || playerCount < 6} onClick={requestStart}>CHƠI</Button>}
-      <Button type="button" className="host-secondary host-delete-room" onClick={() => setEndAction('delete')}>
+  return <div className={className}>
+    {started ? <Button type="button" className={`border-current bg-transparent ${secondaryButtonClassName}`} disabled={pending} onClick={() => setEndAction('cancel')}>
+      {secondaryPrefix && <span className="font-[var(--font-arial-fallback)] text-[1.3rem] leading-none">{secondaryPrefix}</span>}Hủy trận
+    </Button> : <>
+      {!confirmStart && <Button type="button" className={primaryButtonClassName} disabled={pending || playerCount < 6} onClick={requestStart}>CHƠI</Button>}
+      <Button type="button" className={`inline-flex items-center gap-[10px] border-current bg-transparent ${secondaryButtonClassName}`} onClick={() => setEndAction('delete')}>
         <Trash2 size={20} strokeWidth={1.8} aria-hidden="true" />
         <span>Xóa phòng này</span>
       </Button>
     </>}
-    {!started && playerCount < 6 && <p className="host-requirement">Cần ít nhất 6 người chơi đang kết nối để bắt đầu.</p>}
+    {!started && playerCount < 6 && <p className="m-0 flex-[1_1_100%] text-[#aaa] text-[13px]">Cần ít nhất 6 người chơi đang kết nối để bắt đầu.</p>}
     <Dialog open={confirmationOpen} onOpenChange={(open) => { if (!open) closeConfirmation(false); }}>
       {confirmationOpen && <DialogContent
-        className={`host-confirm-modal ${closingConfirmation ? 'host-confirm-modal--closing' : ''}`}
-        overlayClassName={`host-confirm-overlay ${closingConfirmation ? 'host-confirm-overlay--closing' : ''}`}
+        className={`flex w-[min(calc(100vw-48px),440px)] flex-col items-stretch gap-[14px] rounded-lg border-0 bg-[rgb(0_0_0/.3)] p-6 shadow-[0_12px_40px_rgb(0_0_0/.24)] animate-[host-confirm-modal-in_220ms_ease-out_both] motion-reduce:animate-[host-confirm-modal-fade-in_180ms_ease-out_both] ${closingConfirmation ? 'animate-[host-confirm-modal-out_180ms_ease-in_both] motion-reduce:animate-[host-confirm-modal-fade-out_180ms_ease-in_both]' : ''}`}
+        overlayClassName={`grid place-items-center bg-[rgb(0_0_0/.58)] p-6 animate-[host-confirm-backdrop-in_180ms_ease-out_both] motion-reduce:animate-[host-confirm-backdrop-in_180ms_ease-out_both] ${closingConfirmation ? 'animate-[host-confirm-backdrop-out_180ms_ease-in_both] motion-reduce:animate-[host-confirm-backdrop-out_180ms_ease-in_both]' : ''}`}
         aria-describedby="host-confirmation-message"
       >
         <DialogTitle className="sr-only">{confirmationLabel}</DialogTitle>
-        <DialogDescription id="host-confirmation-message" className="host-confirm-message">{confirmationMessage}</DialogDescription>
-        <div className="host-confirm-actions">
-          <Button type="button" size="mobile" autoFocus disabled={pending || closingConfirmation} onClick={() => closeConfirmation(true)}>Xác nhận</Button>
-          <Button type="button" size="mobile" className="host-secondary" disabled={closingConfirmation} onClick={() => closeConfirmation(false)}>Quay lại</Button>
+        <DialogDescription id="host-confirmation-message" className="mb-1 w-full text-white">{confirmationMessage}</DialogDescription>
+        <div className="flex w-full gap-[14px] [&>button]:min-h-12 [&>button]:flex-1 [&>button]:text-white [&>button]:font-judson [&>button]:text-base [&>button]:font-bold">
+          <Button type="button" size="mobile" className={confirmationButtonClassName} autoFocus disabled={pending || closingConfirmation} onClick={() => closeConfirmation(true)}>Xác nhận</Button>
+          <Button type="button" size="mobile" className={`border-current bg-transparent ${confirmationButtonClassName}`} disabled={closingConfirmation} onClick={() => closeConfirmation(false)}>Quay lại</Button>
         </div>
       </DialogContent>}
     </Dialog>

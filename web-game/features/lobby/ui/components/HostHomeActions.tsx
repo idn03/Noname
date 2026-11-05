@@ -45,25 +45,26 @@ export function HostHomeActions({ connected, pending, error, onCreate, onCreateS
     return clearHold;
   }, [connected, pending]);
 
-  return <div className="home-action host-home-action">
-    <section className="host-rule-overview" aria-labelledby="rules-heading">
-      <h2 id="rules-heading">Luật chơi:</h2>
-      <ul>
+  return <div className="grid grid-cols-2 items-start gap-x-[clamp(28px,4vw,72px)] gap-y-[30px] mt-[30px] max-[700px]:grid-cols-1 max-[700px]:gap-[26px] max-[700px]:mt-0">
+    <section className="row-start-1 col-start-1 max-[700px]:row-auto" aria-labelledby="rules-heading">
+      <h2 id="rules-heading" className="m-0 text-white font-judson text-[40px] font-bold leading-[1.15]">Luật chơi:</h2>
+      <ul className="mt-3 mb-0 pl-5 text-white font-judson text-base leading-[1.8] [&>li+li]:mt-2">
         <li>• Tất cả người chơi (ngoại trừ chủ phòng) sẽ được chia thành 2 đội: <strong>Cừu</strong> và <strong>Sói</strong></li>
         <li>• Mỗi đội sẽ chọn những thẻ bài và thực hiện các thử thách tương ứng để lấy điểm</li>
         <li>• Đội có số điểm lớn hơn ở cuối trận đấu sẽ là đội chiến thắng</li>
       </ul>
     </section>
-    <section className="host-team-rule host-team-rule--sheep" aria-labelledby="sheep-rule-heading">
-      <div className="host-team-heading"><img src="/assets/teams/sheep-icon.svg" alt="" /><h2 id="sheep-rule-heading">Đội Cừu:</h2></div>
-      <p>Đoán các thẻ mà <strong className="!text-black">Đội Sói</strong> chọn để chọn những thẻ phòng thủ phù hợp. Khi đối phương tấn công, nếu Đội Cừu có các thẻ tương ứng sẽ cho phép lật và phòng thủ. Để phòng thủ thành công tuyệt đối, Cừu cần phải thực hiện thành công thử thách được mô tả trong thẻ.</p>
+    <section className="row-start-2 col-start-1 max-[700px]:row-auto" aria-labelledby="sheep-rule-heading">
+      <div className="flex items-center gap-[14px] min-h-[60px]"><img className="size-[60px] object-contain" src="/assets/teams/sheep-icon.svg" alt="" /><h2 id="sheep-rule-heading" className="m-0 text-white font-judson text-[40px] font-bold leading-[1.15]">Đội Cừu:</h2></div>
+      <p className="mt-5 mb-0 ml-[30px] text-white font-judson text-base leading-[1.9]">Đoán các thẻ mà <strong>Đội Sói</strong> chọn để chọn những thẻ phòng thủ phù hợp. Khi đối phương tấn công, nếu Đội Cừu có các thẻ tương ứng sẽ cho phép lật và phòng thủ. Để phòng thủ thành công tuyệt đối, Cừu cần phải thực hiện thành công thử thách được mô tả trong thẻ.</p>
     </section>
-    <section className="host-team-rule host-team-rule--wolf" aria-labelledby="wolf-rule-heading">
-      <div className="host-team-heading"><img src="/assets/teams/wolf-icon.svg" alt="" /><h2 id="wolf-rule-heading" className="!text-black">Đội Sói:</h2></div>
-      <p className="!text-black">Đội của bạn sẽ chọn các thẻ và thử thách mà trò chơi cung cấp. Khi bắt đầu lượt, lật 1 thẻ đã chọn để tấn công, lượt tấn công thành công là khi <strong>Đội Cừu</strong> không có thẻ cùng loại để phòng thủ hoặc không hoàn thành thử thách. Nếu tấn công thành công, đội của bạn sẽ được cộng điểm và bắt cóc một chú <strong>Cừu</strong>.</p>
+    <section className="row-start-2 col-start-2 max-[700px]:row-auto max-[700px]:col-auto" aria-labelledby="wolf-rule-heading">
+      <div className="flex items-center gap-[14px] min-h-[60px]"><img className="size-[60px] object-contain" src="/assets/teams/wolf-icon.svg" alt="" /><h2 id="wolf-rule-heading" className="m-0 text-white font-judson text-[40px] font-bold leading-[1.15]">Đội Sói:</h2></div>
+      <p className="mt-5 mb-0 ml-[30px] text-white font-judson text-base leading-[1.9]">Đội của bạn sẽ chọn các thẻ và thử thách mà trò chơi cung cấp. Khi bắt đầu lượt, lật 1 thẻ đã chọn để tấn công, lượt tấn công thành công là khi <strong>Đội Cừu</strong> không có thẻ cùng loại để phòng thủ hoặc không hoàn thành thử thách. Nếu tấn công thành công, đội của bạn sẽ được cộng điểm và bắt cóc một chú <strong>Cừu</strong>.</p>
     </section>
-    <div className="host-create">
+    <div className="row-start-3 col-span-2 mx-auto mt-[140px] w-full max-w-[480px] text-center max-[700px]:row-auto max-[700px]:col-auto">
       <Button
+        className="min-h-[140px] w-full max-w-[480px] text-white font-judson text-[60px] font-bold leading-none max-[700px]:min-h-[78px] max-[700px]:text-[44px]"
         type="button"
         disabled={!connected || pending}
         aria-describedby="host-create-note"
@@ -85,8 +86,8 @@ export function HostHomeActions({ connected, pending, error, onCreate, onCreateS
         onBlur={clearHold}
         onContextMenu={(event) => event.preventDefault()}
       >{pending ? 'ĐANG TẠO…' : 'TẠO'}</Button>
-      <p id="host-create-note" className="host-create-note">Tạo phòng trên máy chủ này và tham gia với tư cách Host.</p>
-      {error && <p className="error-message" role="alert">{error}</p>}
+      <p id="host-create-note" className="mt-3 text-white font-judson text-[14px] leading-[1.4]">Tạo phòng trên máy chủ này và tham gia với tư cách Host.</p>
+      {error && <p className="my-[14px] text-[#ffb6bd] text-[14px]" role="alert">{error}</p>}
     </div>
   </div>;
 }

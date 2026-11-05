@@ -1,0 +1,63 @@
+@theme static {
+  --color-blood-red: #722F37;
+  --color-ink-black: #000000;
+  --color-project-gray: #8D8D8D;
+  --color-paper-white: #FFFFFF;
+  --color-focus-ring: #FFFFFF;
+  --color-state-error: #FFB6BD;
+  --color-state-success: #314D3D;
+  --color-state-success-foreground: #EFF8EF;
+
+  --font-judson: Judson, Georgia, serif;
+  --font-georgia: Georgia, 'Times New Roman', serif;
+  --font-georgia-fallback: Georgia, serif;
+  --font-ui: Arial, Helvetica, sans-serif;
+  --font-arial-fallback: Arial, sans-serif;
+
+  --text-heading1: 128px;
+  --text-heading2: 80px;
+  --text-heading3: 48px;
+  --text-heading4: 40px;
+  --text-heading5: 36px;
+  --text-heading6: 32px;
+  --text-title1: 24px;
+  --text-title2: 20px;
+  --text-subtitle: 16px;
+  --text-content: 14px;
+
+  --text-display: var(--text-heading1);
+  --text-page-title: var(--text-heading3);
+  --text-section-title: var(--text-heading4);
+  --text-body: var(--text-content);
+  --text-supporting: var(--text-subtitle);
+  --text-label: var(--text-content);
+
+  --spacing-layout-unit: 4px;
+  --radius-control: 16px;
+  --radius-surface: 8px;
+  --radius-card: 14px;
+  --radius-pill: 999px;
+  --outline-width-focus: 3px;
+}
+
+:root {
+  --type-display-size: var(--text-display);
+  --type-page-title-size: var(--text-page-title);
+  --type-section-title-size: var(--text-section-title);
+  --type-body-size: var(--text-body);
+  --type-supporting-size: var(--text-supporting);
+  --type-label-size: var(--text-label);
+
+  --type-display-family: var(--font-judson);
+  --type-page-title-family: var(--font-judson);
+  --type-section-title-family: var(--font-judson);
+  --type-body-family: var(--font-judson);
+  --type-supporting-family: var(--font-judson);
+  --type-label-family: var(--font-ui);
+  --type-result-title-family: var(--font-georgia);
+
+  --blood-red: var(--color-blood-red);
+  --black: var(--color-ink-black);
+  --gray: var(--color-project-gray);
+  --white: var(--color-paper-white);
+}

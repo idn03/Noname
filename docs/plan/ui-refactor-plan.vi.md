@@ -40,58 +40,31 @@ Lựa chọn triển khai được mô tả trong [Hướng dẫn triển khai U
 
 ## Quy tắc UI mục tiêu
 
-1. Mặc định dùng Tailwind utilities cho layout, spacing, responsive, typography,
-   màu sắc, border và các trạng thái tương tác thông thường.
-2. Chỉ dùng nền tảng shadcn cho Button, Dialog và Sheet. Tùy chỉnh variant,
-   kích thước và giao diện theo Noname thông qua props và lớp component dùng
-   chung. Không xem các loại component shadcn khác là lựa chọn mặc định.
-3. Dùng một API Button dùng chung trên mọi màn hình. Cung cấp các kích thước và
-   variant của dự án mà không tạo Button riêng cho từng màn hình.
-4. Định nghĩa một lần các font family dùng chung và vai trò chữ theo ngữ nghĩa
-   (display, tiêu đề trang, tiêu đề mục, nội dung, chữ hỗ trợ và nhãn). Mỗi trang
-   chọn vai trò phù hợp, không tự định nghĩa lại thang cỡ chữ hoặc cặp font.
-5. Đặt giá trị thiết kế có thể tái sử dụng trong token CSS/Tailwind dùng chung.
-   Ưu tiên bố cục phẳng và khoảng trắng. Chỉ dùng gradient, shadow và hiệu ứng
-   trang trí ở mức tiết chế, khi chúng hỗ trợ bầu không khí hoặc thứ bậc thị giác.
-6. Chỉ giữ CSS tùy chỉnh cho artwork, animation hoặc layout thực sự phức tạp,
-   khó diễn đạt hoặc khó đọc bằng utilities. Giới hạn trong component/màn hình
-   và ghi ngắn gọn lý do trong phần review triển khai.
-7. Không vô tình thay đổi bảng màu, yêu cầu UX, trạng thái có thẩm quyền từ
-   server hoặc quyền riêng tư giữa các đội trong lúc chuyển đổi styling. Cập nhật
-   đặc tả hệ thống thiết kế UX nếu hành vi thị giác cấp sản phẩm thay đổi.
+1. Mặc định dùng Tailwind utilities cho layout, spacing, responsive, typography, màu sắc, border và các trạng thái tương tác thông thường.
+2. Chỉ dùng nền tảng shadcn cho Button, Dialog và Sheet. Tùy chỉnh variant, kích thước và giao diện theo Noname thông qua props và lớp component dùng chung. Không xem các loại component shadcn khác là lựa chọn mặc định.
+3. Dùng một API Button dùng chung trên mọi màn hình. Cung cấp các kích thước và variant của dự án mà không tạo Button riêng cho từng màn hình.
+4. Định nghĩa một lần các font family dùng chung và vai trò chữ theo ngữ nghĩa (display, tiêu đề trang, tiêu đề mục, nội dung, chữ hỗ trợ và nhãn). Mỗi trang chọn vai trò phù hợp, không tự định nghĩa lại thang cỡ chữ hoặc cặp font.
+5. Đặt giá trị thiết kế có thể tái sử dụng trong token CSS/Tailwind dùng chung. Ưu tiên bố cục phẳng và khoảng trắng. Chỉ dùng gradient, shadow và hiệu ứng trang trí ở mức tiết chế, khi chúng hỗ trợ bầu không khí hoặc thứ bậc thị giác.
+6. Chỉ giữ CSS tùy chỉnh cho artwork, animation hoặc layout thực sự phức tạp, khó diễn đạt hoặc khó đọc bằng utilities. Giới hạn trong component/màn hình và ghi ngắn gọn lý do trong phần review triển khai.
+7. Không vô tình thay đổi bảng màu, yêu cầu UX, trạng thái có thẩm quyền từ server hoặc quyền riêng tư giữa các đội trong lúc chuyển đổi styling. Cập nhật đặc tả hệ thống thiết kế UX nếu hành vi thị giác cấp sản phẩm thay đổi.
 
 ## Các giai đoạn triển khai theo thứ tự
 
-Mỗi giai đoạn là một thay đổi riêng, có thể review. Tuân theo workflow của repo:
-lập kế hoạch, triển khai, review, kiểm thử, xác thực rồi checkpoint. Không bắt
-đầu giai đoạn phụ thuộc trước khi giai đoạn tiên quyết hoàn tất.
+Mỗi giai đoạn là một thay đổi riêng, có thể review. Tuân theo workflow của repo: lập kế hoạch, triển khai, review, kiểm thử, xác thực rồi checkpoint. Không bắt đầu giai đoạn phụ thuộc trước khi giai đoạn tiên quyết hoàn tất.
 
 ### 1. Hợp đồng và kiểm kê hiện trạng
 
-- Đối chiếu kế hoạch này với `specs/02-ux/design-system.md` và
-  `docs/ui-guidelines.md`; nêu rõ ranh giới component, Tailwind mặc định và việc
-  tái sử dụng typography trong đặc tả hệ thống thiết kế có thẩm quyền.
-- Kiểm kê route truy cập được, root của màn hình, control dùng chung, CSS import,
-  inline style, khai báo typography và trạng thái tương tác hiện tại.
-- Ghi lại hành vi và hiện trạng thị giác ở kích thước điện thoại hẹp và desktop.
-  Xác định UI không còn dùng hoặc chỉ dành cho preview, không coi đó là màn hình
-  sản phẩm.
-- **Điều kiện hoàn tất:** hợp đồng dùng chung rõ ràng; phạm vi và thứ tự chuyển
-  đổi dựa trên màn hình thực tế; không bắt đầu triển khai khi quyền sở hữu
-  component còn mơ hồ.
+- Đối chiếu kế hoạch này với `specs/02-ux/design-system.md` và `docs/ui-guidelines.md`; nêu rõ ranh giới component, Tailwind mặc định và việc tái sử dụng typography trong đặc tả hệ thống thiết kế có thẩm quyền.
+- Kiểm kê route truy cập được, root của màn hình, control dùng chung, CSS import, inline style, khai báo typography và trạng thái tương tác hiện tại.
+- Ghi lại hành vi và hiện trạng thị giác ở kích thước điện thoại hẹp và desktop. Xác định UI không còn dùng hoặc chỉ dành cho preview, không coi đó là màn hình sản phẩm.
+- **Điều kiện hoàn tất:** hợp đồng dùng chung rõ ràng; phạm vi và thứ tự chuyển đổi dựa trên màn hình thực tế; không bắt đầu triển khai khi quyền sở hữu component còn mơ hồ.
 
 ### 2. Token dùng chung và typography
 
-- Thiết lập palette, font family, vai trò chữ theo ngữ nghĩa, thang cỡ chữ đáp
-  ứng, quy ước spacing/radius, focus ring và màu trạng thái thành token dùng
-  chung được Tailwind sử dụng.
-- Ánh xạ các cỡ chữ trong design system hiện tại vào từng vai trò; xử lý font
-  không nhất quán mà không làm giảm khả năng đọc challenge hoặc tên người chơi.
-- Loại bỏ quy tắc typography global trùng lặp khi các thành phần chuyển đổi;
-  không tạo thêm thang chữ riêng theo trang.
-- **Điều kiện hoàn tất:** mỗi vai trò chỉ có một định nghĩa và mục đích sử dụng
-  được ghi rõ; các màn hình hiện tại dùng được vai trò chung mà vẫn giữ cỡ chữ
-  thích ứng.
+- Thiết lập palette, font family, vai trò chữ theo ngữ nghĩa, thang cỡ chữ đáp ứng, quy ước spacing/radius, focus ring và màu trạng thái thành token dùng chung được Tailwind sử dụng.
+- Ánh xạ các cỡ chữ trong design system hiện tại vào từng vai trò; xử lý font không nhất quán mà không làm giảm khả năng đọc challenge hoặc tên người chơi.
+- Loại bỏ quy tắc typography global trùng lặp khi các thành phần chuyển đổi; không tạo thêm thang chữ riêng theo trang.
+- **Điều kiện hoàn tất:** mỗi vai trò chỉ có một định nghĩa và mục đích sử dụng được ghi rõ; các màn hình hiện tại dùng được vai trò chung mà vẫn giữ cỡ chữ thích ứng.
 
 ### 3. Primitive tương tác dùng chung
 

@@ -2,10 +2,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './lobby.css';
 import './host-lobby.css';
-import './game-card.css';
-import './card-selection.css';
-import './host-card-selection.css';
-import './player-card-selection.css';
 
 export const metadata: Metadata = {
   title: 'Noname',
@@ -16,7 +12,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="vi">
-      <body>{children}</body>
+      <body className="min-h-screen bg-black text-white">{children}</body>
     </html>
   );
 }

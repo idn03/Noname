@@ -9,6 +9,10 @@ CSS limited to cases where utilities are unsuitable, such as intricate card
 artwork or positioned game-scene decoration. Keep gradients and shadows
 minimal. Preserve the horror-inspired visual direction, legibility, gameplay
 clarity, responsive behavior, accessibility, and all existing game behavior.
+This is a code-organization and styling-consistency refactor, not a redesign:
+the current rendered UI is the visual baseline, and migrations must preserve
+its appearance and responsive behavior unless a separate product change is
+requested.
 
 This plan covers shared foundations and every existing browser screen. It does
 not add gameplay features or invent missing product behavior. The product
@@ -39,8 +43,10 @@ Implementation choices are in [UI Implementation Guidelines](../ui-guidelines.md
 
 ## Target UI rules
 
-1. Use Tailwind utilities for layout, spacing, responsive behavior, typography,
-   colors, borders, and ordinary interaction states by default.
+1. Put ordinary styling in JSX `className` values using Tailwind utilities for
+   layout, spacing, responsive behavior, typography, colors, borders, and
+   interaction states. Do not create named CSS classes or IDs solely to style
+   those concerns.
 2. Use shadcn foundations only for Button, Dialog, and Sheet. Customize variants,
    sizes, and styling to Noname through their props and shared component layer.
    Do not introduce additional shadcn component types as a default pattern.
@@ -53,11 +59,19 @@ Implementation choices are in [UI Implementation Guidelines](../ui-guidelines.md
    composition and whitespace. Use gradients, shadows, and decorative effects
    sparingly and only where they support the intended atmosphere or hierarchy.
 6. Keep custom CSS for genuinely complex artwork, animation, or layout that is
-   awkward or unreadable as utilities. Scope it to a component or screen and
-   document the reason briefly in the implementation review.
+   awkward or unreadable as utilities. Current candidates are card-face
+   artwork, decorative rune positioning, roster choreography, and keyframes.
+   Scope each exception and document its reason briefly in the implementation
+   review. Runtime-computed positions may remain inline styles.
 7. Do not change the product palette, UX requirements, server-authoritative
    state, or team privacy as an incidental result of styling migration. Update
    the UX design-system spec if shared product-level visual behavior changes.
+
+IDs remain for labels, accessible relationships, and in-page navigation; they
+are not styling hooks. Keep `data-*` attributes for behavior and animation
+hooks. During migration, move existing declarations into equivalent utilities
+without changing their computed values. Remove each CSS rule only after the
+screen has been compared against its visual baseline.
 
 ## Ordered implementation stages
 
@@ -72,9 +86,9 @@ dependent stage until its prerequisite is complete.
   typography reuse explicit in the authoritative design-system spec.
 - Inventory reachable routes, screen roots, shared controls, CSS imports,
   inline styles, typography declarations, and current interaction states.
-- Record existing behavior and visual baselines at narrow phone and desktop
-  widths. Identify dead or preview-only UI without treating it as a product
-  screen.
+- Record existing behavior and rendered visual baselines at a narrow phone and
+  desktop width. Identify dead or preview-only UI without treating it as a
+  product screen.
 - **Exit:** shared contract is unambiguous; migration scope and order are based
   on actual reachable screens; no implementation begins with unresolved
   component ownership.
@@ -108,7 +122,8 @@ dependent stage until its prerequisite is complete.
 ### 4. Home, Join, and team instructions
 
 - Migrate Home/Join, host creation, name form, and Wolf/Sheep instruction views
-  to shared tokens, typography roles, and Tailwind-first styling.
+  from selector-based styling to Tailwind utilities in `className`, using
+  shared tokens and typography roles.
 - Preserve host-only creation, join/resume behavior, validation feedback, and
   return navigation. Retain only necessary backdrop/artwork CSS.
 - **Exit:** layouts work at phone and desktop sizes; form accessibility and
@@ -118,6 +133,9 @@ dependent stage until its prerequisite is complete.
 ### 5. Lobby and Host team assignment
 
 - Migrate player Lobby, Host Lobby, and team assignment surfaces in that order.
+- Move ordinary layout, spacing, typography, color, border, and responsive
+  declarations to `className` utilities; retain only justified roster
+  choreography and runtime placement rules in scoped CSS.
 - Standardize roster, connection, phase, count, action, and status typography;
   keep Host controls and player-visible information correctly separated.
 - Retain custom positioning only for the team-map/roster composition where
@@ -130,8 +148,9 @@ dependent stage until its prerequisite is complete.
 - Migrate player and Host selection views, cards, readiness, timers, and
   challenge Sheet. Use shared roles for timer labels, card titles, challenge
   copy, and supporting metadata.
-- Keep card artwork and precise card-face composition in scoped CSS when needed;
-  keep ordinary surrounding layout and responsive rules in Tailwind.
+- Move ordinary surrounding layout and responsive rules to `className`
+  utilities. Keep card artwork and precise card-face composition in scoped CSS
+  when utilities would make it brittle or obscure.
 - Preserve Wolf/Sheep information boundaries, edit eligibility, countdown,
   submission status, and Host observation-only behavior.
 - **Exit:** selection flows and privacy match the feature specs; Sheet uses the
@@ -153,7 +172,8 @@ dependent stage until its prerequisite is complete.
 
 - Remove obsolete screen CSS and duplicate declarations after all consumers
   migrate. Keep global CSS to Tailwind setup, resets, tokens, and truly shared
-  component rules. Avoid a large one-shot stylesheet rewrite.
+  component rules; ordinary screen styling should no longer depend on named
+  CSS selectors. Avoid a large one-shot stylesheet rewrite.
 - Review each implemented state at phone, tablet, and desktop widths; check
   keyboard navigation, focus, labels, announcements, contrast, touch targets,
   reduced motion, and browser console/network errors.
@@ -173,7 +193,8 @@ dependent stage until its prerequisite is complete.
 - Button, Dialog, and Sheet use customized shadcn foundations; no other shadcn
   component type is introduced as the default styling solution.
 - Tailwind is the ordinary styling method; remaining custom CSS is scoped and
-  justified by a complex visual need.
+  justified by a complex visual need. Ordinary screen styling lives in
+  Tailwind utilities in JSX `className`, and IDs are not styling hooks.
 - Every implemented screen reuses shared typography roles and tokens.
 - Existing navigation, game behavior, privacy, accessibility, and responsive
   requirements continue to pass their relevant quality gates.

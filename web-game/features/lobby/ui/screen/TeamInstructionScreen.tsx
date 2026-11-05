@@ -31,17 +31,17 @@ const teamContent = {
 
 export function TeamInstructionScreen({ team, onBack }: TeamInstructionScreenProps) {
   const content = teamContent[team];
-  return <main className={`team-instruction team-instruction--${team}`}>
-    <button className="team-instruction__back" type="button" onClick={onBack}>
-      <span aria-hidden="true">←</span> Trang chủ
+  return <main className="mx-auto min-h-dvh w-[min(100%,402px)] overflow-visible bg-black pt-5 pb-8 text-white">
+    <button className="mx-5 mt-0 mb-9 inline-flex items-center gap-2 border-0 bg-transparent px-0 py-2 font-judson text-base text-white cursor-pointer focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-4" type="button" onClick={onBack}>
+      <span className="font-arial-fallback text-[22px] leading-none" aria-hidden="true">←</span> Trang chủ
     </button>
-    <header className="team-instruction__heading">
-      <img src={content.icon} alt="" />
-      <h1>{content.name}</h1>
+    <header className="flex min-h-[181px] flex-col items-center gap-[10px]">
+      <img className="size-[60px] object-contain" src={content.icon} alt="" />
+      <h1 className="m-0 font-judson text-[40px] font-bold leading-[1.2]">{content.name}</h1>
     </header>
-    <img className="team-instruction__portrait" src={content.portrait} alt={`Hình minh họa ${content.name}`} />
-    <article className="team-instruction__copy" aria-label={`Hướng dẫn ${content.name}`}>
-      {content.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+    <img className="block h-[603px] w-full rounded-xl object-cover" src={content.portrait} alt={`Hình minh họa ${content.name}`} />
+    <article className="px-[19px] pt-6 font-judson text-[14px] leading-[30px]" aria-label={`Hướng dẫn ${content.name}`}>
+      {content.paragraphs.map((paragraph) => <p className="mb-6" key={paragraph}>{paragraph}</p>)}
     </article>
   </main>;
 }
