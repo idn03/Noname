@@ -18,6 +18,7 @@ V0 is a single-session game with phase-based screens rather than a multi-section
 ## Transitions and Access
 
 - Joining successfully opens the lobby. An invalid or closed join remains on Join with a safe explanation.
+- A visitor without a valid player identity remains on Home when the session has already started; do not route them to a partial lobby or expose another player's game view.
 - Opening either team rules view from Join does not change the session; browser back restores Join so the player can continue.
 - Starting moves all players from Lobby to team assignment and card selection.
 - Complete submitted selections move all players to Gameplay. Selection controls are then unavailable.

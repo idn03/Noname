@@ -49,6 +49,22 @@ export default function LobbyScreen() {
     </main>;
   }
 
+  if (lobby?.phase === 'started' && !currentPlayer && !host) return <main className={shellClassName}>
+    <RuneField density="player" />
+    <section className={getHomeContentClassName(false)} aria-labelledby="page-title">
+      <h1 id="page-title" className={getHomeTitleClassName(false)}><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>
+      <div className="min-w-0 self-auto my-0 mt-[clamp(40px,11vh,112px)] max-[700px]:mt-2">
+        <p className="m-0 mb-7 text-white font-type-body text-lg font-normal leading-[1.4]">Hãy để màn đêm định đoạt tất cả</p>
+        <p className="m-0 rounded-lg border border-white/35 bg-black/15 p-4 text-white font-type-body text-base leading-[1.4]" role="status">Ván chơi đã bắt đầu và không nhận thêm người chơi mới.</p>
+      </div>
+      <PlayerBottomNav
+        onOpenWolf={() => { setComingSoon(''); router.push('/wolf-team'); }}
+        onOpenSheep={() => { setComingSoon(''); router.push('/sheep-team'); }}
+        onComingSoon={(item) => setComingSoon(item)}
+      />
+    </section>
+  </main>;
+
   return <main className={`${shellClassName} ${!lobby ? 'flex items-stretch' : ''}`}>
     <RuneField density={isPlayerView ? 'player' : 'default'} />
     {!lobby && isLocalHost === null && <p className="relative z-[1] grid min-h-dvh place-items-center m-0 text-white font-type-body text-lg" role="status">Đang xác định chế độ kết nối…</p>}
