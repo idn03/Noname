@@ -25,6 +25,7 @@ export default function LobbyScreen() {
     connectedPlayers, currentPlayer, roleClass, createHost, createSandbox, join, start, cancel, deleteRoom, selectCard, removeCard,
   } = screen;
   const isPlayerView = roleClass === 'lobby-shell--player';
+  const isStartedGuest = lobby?.phase === 'started' && !currentPlayer && isLocalHost !== true;
   const shellClassName = getLobbyShellClassName(isPlayerView, Boolean(lobby));
   const hostCardShellClassName = `${shellClassName} relative isolate overflow-hidden bg-scroll px-[clamp(1rem,4.2vw,5rem)] !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`;
 
@@ -49,31 +50,17 @@ export default function LobbyScreen() {
     </main>;
   }
 
-  if (lobby?.phase === 'started' && !currentPlayer && !host) return <main className={shellClassName}>
-    <RuneField density="player" />
-    <section className={getHomeContentClassName(false)} aria-labelledby="page-title">
-      <h1 id="page-title" className={getHomeTitleClassName(false)}><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>
-      <div className="min-w-0 self-auto my-0 mt-[clamp(40px,11vh,112px)] max-[700px]:mt-2">
-        <p className="m-0 mb-7 text-white font-type-body text-lg font-normal leading-[1.4]">Hãy để màn đêm định đoạt tất cả</p>
-        <p className="m-0 rounded-lg border border-white/35 bg-black/15 p-4 text-white font-type-body text-base leading-[1.4]" role="status">Ván chơi đã bắt đầu và không nhận thêm người chơi mới.</p>
-      </div>
-      <PlayerBottomNav
-        onOpenWolf={() => { setComingSoon(''); router.push('/wolf-team'); }}
-        onOpenSheep={() => { setComingSoon(''); router.push('/sheep-team'); }}
-        onComingSoon={(item) => setComingSoon(item)}
-      />
-    </section>
-  </main>;
-
   return <main className={`${shellClassName} ${!lobby ? 'flex items-stretch' : ''}`}>
     <RuneField density={isPlayerView ? 'player' : 'default'} />
     {!lobby && isLocalHost === null && <p className="relative z-[1] grid min-h-dvh place-items-center m-0 text-white font-type-body text-lg" role="status">Đang xác định chế độ kết nối…</p>}
-    {!lobby && isLocalHost !== null && <section className={getHomeContentClassName(isLocalHost)} aria-labelledby="page-title">
+    {(!lobby || isStartedGuest) && isLocalHost !== null && <section className={getHomeContentClassName(isLocalHost)} aria-labelledby="page-title">
       <h1 id="page-title" className={getHomeTitleClassName(isLocalHost)}><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>
       {isLocalHost ? <HostHomeActions connected={connected} pending={pending} error={error} onCreate={createHost} onCreateSandbox={createSandbox} /> : <div className="min-w-0 self-auto my-0 mt-[clamp(40px,11vh,112px)] max-[700px]:mt-2">
         <p className="m-0 mb-7 text-white font-type-body text-lg font-normal leading-[1.4]">Hãy để màn đêm định đoạt tất cả</p>
-        <LobbyNameForm label="Tên hiển thị" action="Tham gia phòng" pendingAction="Đang tham gia…" name={name} error={error} disabled={!connected || pending || !lobby} onNameChange={setName} onSubmit={join} />
-        {!lobby && <p className="m-0 mt-1 ml-2 text-[#aaa] font-type-body text-sm" role="status">Đang chờ Chủ phòng tạo phòng trên máy chủ.</p>}
+        <LobbyNameForm label="Tên hiển thị" action="Tham gia phòng" pendingAction="Đang tham gia…" name={name} error={error} disabled={!connected || pending || !lobby || isStartedGuest} onNameChange={setName} onSubmit={join} />
+        {isStartedGuest
+          ? <p className="m-0 mt-1 ml-2 text-[#aaa] font-type-body text-sm" role="status">Ván chơi đã bắt đầu và không nhận thêm người chơi mới.</p>
+          : !lobby && <p className="m-0 mt-1 ml-2 text-[#aaa] font-type-body text-sm" role="status">Đang chờ Chủ phòng tạo phòng trên máy chủ.</p>}
       </div>}
       {!isLocalHost && <>
         {comingSoon && <p className="fixed z-[11] right-4 bottom-[max(84px,calc(env(safe-area-inset-bottom)+56px))] left-4 m-0 text-white font-type-body text-sm leading-[1.4] text-center" role="status">{comingSoon} · Sắp ra mắt</p>}
@@ -95,7 +82,7 @@ export default function LobbyScreen() {
       onCancel={cancel}
       onDelete={deleteRoom}
     />}
-    {lobby && !host && <section className="relative mx-auto w-[calc(100%_-_40px)] max-w-[680px] pt-[clamp(52px,11vh,112px)] pb-12" aria-labelledby="page-title">
+    {lobby && !host && !isStartedGuest && <section className="relative mx-auto w-[calc(100%_-_40px)] max-w-[680px] pt-[clamp(52px,11vh,112px)] pb-12" aria-labelledby="page-title">
       <p className="m-0 mb-[14px] text-[#bd858a] text-[11px] font-bold tracking-[.16em]">PHÒNG CHƠI</p>
       <h1 id="page-title" className="m-0 font-type-page-title text-[clamp(34px,6vw,52px)] leading-[1.08] tracking-[-.04em]">Cùng vào phòng</h1>
       <p className="mt-4 mb-[38px] max-w-[48ch] font-type-body text-[#b5b5b5] leading-[1.65]">{lobby.phase === 'started' ? 'Các đội đã được Game Engine phân chia.' : isLocalHost ? 'Phòng đã sẵn sàng. Chờ mọi người tham gia trước khi bắt đầu.' : 'Nhập tên hiển thị để tham gia ván chơi cùng mọi người trong mạng nội bộ.'}</p>
