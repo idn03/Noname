@@ -35,16 +35,16 @@ export function GameCardChallengeSheet({
         {challenges.map((challenge, index) => {
           const isSelected = selectedId === challenge.id;
           return <button
-            className={`grid min-h-[54px] cursor-pointer grid-cols-[34px_minmax(0,1fr)_auto] items-start gap-3 rounded-lg bg-white px-[14px] py-[13px] text-left font-judson text-base leading-[1.45] text-[#211c1d] transition-[border-color,background-color] duration-150 focus-visible:outline-2 focus-visible:outline-[#722f37] focus-visible:outline-offset-2 ${isSelected ? 'border-2 border-[#722f37] bg-[#f1dfe2] font-bold [box-shadow:inset_5px_0_#722f37]' : 'border border-[#d1caca]'}`}
+            className={`grid min-h-[54px] cursor-pointer grid-cols-[34px_minmax(0,1fr)_auto] items-start gap-3 rounded-lg bg-white px-[14px] py-[13px] text-left font-type-body text-base leading-[1.45] text-[#211c1d] transition-[border-color,background-color] duration-150 focus-visible:outline-2 focus-visible:outline-[#722f37] focus-visible:outline-offset-2 ${isSelected ? 'border-2 border-[#722f37] bg-[#f1dfe2] font-bold [box-shadow:inset_5px_0_#722f37]' : 'border border-[#d1caca]'}`}
             data-selected={isSelected}
             type="button"
             aria-pressed={isSelected}
             key={challenge.id}
             onClick={() => isSelected ? onClear() : onChoose(challenge)}
           >
-            <span className="text-[#722f37] font-[var(--font-arial-fallback)] text-sm leading-[1.6] font-bold" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <span className="text-[#722f37] font-arial-fallback text-sm leading-[1.6] font-bold" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
             <span>{challenge.text}</span>
-            <span className="flex min-h-5 items-center gap-[5px] whitespace-nowrap text-[#722f37] font-[var(--font-arial-fallback)] text-[10px] leading-none font-bold">
+            <span className="flex min-h-5 items-center gap-[5px] whitespace-nowrap text-[#722f37] font-arial-fallback text-[10px] leading-none font-bold">
               {isSelected && <><Check className="size-[18px] stroke-[3]" aria-hidden="true" /><span>ĐÃ CHỌN</span></>}
             </span>
           </button>;

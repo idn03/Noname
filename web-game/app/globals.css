@@ -3,7 +3,7 @@
 
 :root {
   color-scheme: dark;
-  font-family: var(--font-ui);
+  font-family: var(--type-label-family);
   background: var(--black);
   color: var(--white);
 }

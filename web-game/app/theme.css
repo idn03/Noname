@@ -14,6 +14,14 @@
   --font-ui: Arial, Helvetica, sans-serif;
   --font-arial-fallback: Arial, sans-serif;
 
+  --font-type-display: var(--type-display-family);
+  --font-type-page-title: var(--type-page-title-family);
+  --font-type-section-title: var(--type-section-title-family);
+  --font-type-body: var(--type-body-family);
+  --font-type-supporting: var(--type-supporting-family);
+  --font-type-label: var(--type-label-family);
+  --font-type-result-title: var(--type-result-title-family);
+
   --text-heading1: 128px;
   --text-heading2: 80px;
   --text-heading3: 48px;

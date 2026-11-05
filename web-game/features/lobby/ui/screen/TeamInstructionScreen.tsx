@@ -33,10 +33,10 @@ export function TeamInstructionScreen({ team }: TeamInstructionScreenProps) {
   return <main className="mx-auto min-h-dvh w-[min(100%,402px)] overflow-visible bg-black pt-5 pb-8 text-white">
     <header className="flex min-h-[181px] flex-col items-center gap-[10px]">
       <img className="size-[60px] object-contain" src={content.icon} alt="" />
-      <h1 className="m-0 font-judson text-[40px] font-bold leading-[1.2]">{content.name}</h1>
+      <h1 className="m-0 font-type-page-title text-[40px] font-bold leading-[1.2]">{content.name}</h1>
     </header>
     <img className="block h-[603px] w-full rounded-xl object-cover" src={content.portrait} alt={`Hình minh họa ${content.name}`} />
-    <article className="px-[19px] pt-6 font-judson text-[14px] leading-[30px]" aria-label={`Hướng dẫn ${content.name}`}>
+    <article className="px-[19px] pt-6 font-type-body text-[14px] leading-[30px]" aria-label={`Hướng dẫn ${content.name}`}>
       {content.paragraphs.map((paragraph) => <p className="mb-6" key={paragraph}>{paragraph}</p>)}
     </article>
   </main>;
