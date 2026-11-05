@@ -57,7 +57,7 @@ export default function LobbyScreen() {
       {isLocalHost ? <HostHomeActions connected={connected} pending={pending} error={error} onCreate={createHost} onCreateSandbox={createSandbox} /> : <div className="min-w-0 self-auto my-0 mt-[clamp(40px,11vh,112px)] max-[700px]:mt-2">
         <p className="m-0 mb-7 text-white font-judson text-lg font-normal leading-[1.4]">Hãy để màn đêm định đoạt tất cả</p>
         <LobbyNameForm label="Tên hiển thị" action="Tham gia phòng" pendingAction="Đang tham gia…" name={name} error={error} disabled={!connected || pending || !lobby} onNameChange={setName} onSubmit={join} />
-        {!lobby && <p className="m-0 mt-1 text-[#aaa] font-judson text-sm" role="status">Đang chờ Chủ phòng tạo phòng trên máy chủ.</p>}
+        {!lobby && <p className="m-0 mt-1 ml-2 text-[#aaa] font-judson text-sm" role="status">Đang chờ Chủ phòng tạo phòng trên máy chủ.</p>}
       </div>}
       {!isLocalHost && <>
         {comingSoon && <p className="fixed z-[11] right-4 bottom-[max(84px,calc(env(safe-area-inset-bottom)+56px))] left-4 m-0 text-white font-judson text-sm leading-[1.4] text-center" role="status">{comingSoon} · Sắp ra mắt</p>}
