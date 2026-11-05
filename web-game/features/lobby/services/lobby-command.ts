@@ -39,6 +39,7 @@ export function errorText(code: LobbyErrorCode): string {
     SELECTION_CLOSED: 'Vòng chọn thẻ đã kết thúc.',
     INVALID_SELECTION: 'Lựa chọn thẻ hoặc thử thách không hợp lệ.',
     CARD_NOT_FOUND: 'Bạn chưa gửi thẻ nào để gỡ bỏ.',
+  INVALID_TURN: 'Thao tác không hợp lệ ở lượt chơi hiện tại.',
   };
   return messages[code];
 }

@@ -46,9 +46,11 @@ describe('card selection logic', () => {
     let state: GameState = { ...createSelectionState(), selectionDeadlineMs: 1 };
     const slots = state.players.filter((player) => !player.isHost && player.hasCardSlot);
     const categories = state.cardSelection?.categoryIdsByTeam;
+    let wolfChallengeIndex = 0;
     for (const [index, player] of slots.entries()) {
       const categoryId = player.team && categories?.[player.team][0];
-      const result = submitSelection(state, player.id, true, categoryId);
+      const challengeIndex = player.team === 'wolf' ? wolfChallengeIndex++ : 0;
+      const result = submitSelection(state, player.id, true, categoryId, challengeIndex);
       expect(result.ok).toBe(true);
       if (!result.ok) return;
       state = result.value;
@@ -80,6 +82,44 @@ describe('card selection logic', () => {
       expect(unselected?.cardChallengeId).toBeUndefined();
       expect(unselected?.cardSubmitted).toBe(false);
     }
+  });
+
+  it('allows duplicate Wolf categories but prevents teammates from selecting the same challenge', () => {
+    const initial = createSelectionState();
+    const wolves = initial.players.filter((player) => player.team === 'wolf' && player.hasCardSlot);
+    const first = wolves[0];
+    const second = wolves[1];
+    if (!first || !second) throw new Error('Expected two Wolf card slots');
+    const category = initial.cardSelection?.categoryIdsByTeam.wolf[0];
+    const challengeIds = category && initial.cardSelection?.challengeIdsByCategory[category];
+    const firstChallenge = challengeIds?.[0];
+    const alternativeChallenge = challengeIds?.[1];
+    if (!category || !firstChallenge || !alternativeChallenge) throw new Error('Expected two challenges in one category');
+    const selected = submitSelection(initial, first.id, true, category);
+    if (!selected.ok) throw new Error('Expected first Wolf selection');
+
+    const duplicate = applyGameCommand(selected.value, {
+      type: 'select-card', actorId: second.id, categoryId: category, challengeId: firstChallenge,
+    }, { random: selectionRandom, prepareTeams: prepareBalancedTeams });
+    expect(duplicate).toMatchObject({ ok: false, error: { code: 'INVALID_INPUT' } });
+    expect(selected.value.players.find(({ id }) => id === second.id)?.cardCategory).toBeUndefined();
+
+    const distinct = applyGameCommand(selected.value, {
+      type: 'select-card', actorId: second.id, categoryId: category, challengeId: alternativeChallenge,
+    }, { random: selectionRandom, prepareTeams: prepareBalancedTeams });
+    expect(distinct).toMatchObject({ ok: true });
+    if (!distinct.ok) return;
+    const replacementConflict = applyGameCommand(distinct.value, {
+      type: 'select-card', actorId: first.id, categoryId: category, challengeId: alternativeChallenge,
+    }, { random: selectionRandom, prepareTeams: prepareBalancedTeams });
+    expect(replacementConflict).toMatchObject({ ok: false, error: { code: 'INVALID_INPUT' } });
+    const removed = applyGameCommand(distinct.value, { type: 'remove-card', actorId: second.id }, {
+      random: selectionRandom, prepareTeams: prepareBalancedTeams,
+    });
+    if (!removed.ok) throw new Error('Expected teammate selection removal');
+    expect(applyGameCommand(removed.value, {
+      type: 'select-card', actorId: first.id, categoryId: category, challengeId: alternativeChallenge,
+    }, { random: selectionRandom, prepareTeams: prepareBalancedTeams })).toMatchObject({ ok: true });
   });
 
 });

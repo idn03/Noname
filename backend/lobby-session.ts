@@ -9,6 +9,7 @@ import { createLobbyView } from './lobby-view';
 import { createSandboxPlayers, type LobbyPlayerRecord } from './lobby-sandbox-players';
 import { applyLobbyCardSelection } from './lobby-session-card-selection';
 import { LobbySessionPlayers } from './lobby-session-players';
+import { advanceSandboxTurn, applyLobbyTurnCommand } from './lobby-session-turns';
 
 export class LobbySession {
   private readonly players: LobbySessionPlayers;
@@ -60,7 +61,7 @@ export class LobbySession {
     const connectedPlayers = this.players.all().filter((player) => player.connected);
     const setup = prepareGameSetup(connectedPlayers, actorId, this.categories, this.random, this.isSandboxRoom);
     if (!setup) return 'INVALID_REQUEST';
-    this.gameState = setup.gameState;
+    this.gameState = this.isSandboxRoom ? advanceSandboxTurn(setup.gameState, this.random) : setup.gameState;
     this.sessionPools = setup.pools;
     this.phase = 'started';
     return { lobby: this.view(actorId), gameState: structuredClone(this.gameState) };
@@ -72,6 +73,12 @@ export class LobbySession {
 
   removeCard(actorId: string): LobbyErrorCode | undefined {
     return this.applySelectionCommand({ type: 'remove-card', actorId });
+  }
+
+  attack(actorId: string, round: number): LobbyErrorCode | undefined { return this.applyTurn({ type: 'attack', actorId, round }); }
+  defend(actorId: string, round: number): LobbyErrorCode | undefined { return this.applyTurn({ type: 'defend', actorId, round }); }
+  recordChallengeOutcome(actorId: string, round: number, succeeded: boolean): LobbyErrorCode | undefined {
+    return this.applyTurn({ type: 'record-challenge-outcome', actorId, round, succeeded });
   }
 
   currentGameState(): GameState | undefined { return this.gameState && structuredClone(this.gameState); }
@@ -96,6 +103,14 @@ export class LobbySession {
     const result = applyLobbyCardSelection(this.gameState, command, this.random);
     if ('error' in result) return result.error;
     this.gameState = result.state;
+  }
+
+  private applyTurn(command: { type: 'attack' | 'defend'; actorId: string; round: number } | { type: 'record-challenge-outcome'; actorId: string; round: number; succeeded: boolean }): LobbyErrorCode | undefined {
+    const result = applyLobbyTurnCommand(this.gameState, command, this.random);
+    if ('error' in result) return result.error;
+    this.gameState = this.isSandboxRoom && command.type === 'record-challenge-outcome'
+      ? advanceSandboxTurn(result.state, this.random)
+      : result.state;
   }
 
   private isConnectedHost(playerId: string): boolean { return this.players.connectedHost(playerId); }

@@ -1,6 +1,7 @@
 import type { Server, Socket } from 'socket.io';
 import { describe, expect, it } from 'vitest';
 import { attachLobbyTransport } from '../backend/lobby-transport';
+import { bundledContent } from '../backend/db/bundled-content';
 import type { LobbySession } from '../backend/lobby-session';
 import { LOBBY_EVENTS, type LobbyCommandReply, type LobbyView } from '../shared/lobby-contract';
 
@@ -51,6 +52,7 @@ describe('card selection transport', () => {
     expect(invalidReply[0]).toMatchObject({ ok: false, error: { code: 'INVALID_SELECTION' } });
     expect(sheep.socket.outbound(LOBBY_EVENTS.state).at(-1)).toMatchObject({ game: { phase: 'selection' } });
 
+    let wolfChallengeIndex = 1;
     for (const { socket, id } of guests) {
       const player = state.players.find((candidate) => candidate.id === id);
       if (!player?.hasCardSlot || player.id === wolf.id) continue;
@@ -58,12 +60,12 @@ describe('card selection transport', () => {
       const selection = view.game?.phase === 'selection' && view.game.role === 'player' ? view.game.selection : undefined;
       const category = selection?.categories[0];
       if (!category) throw new Error('Expected category while selection remains open');
-      const selectedChallenge = player.team === 'wolf' ? category.challenges?.[0]?.id : undefined;
+      const selectedChallenge = player.team === 'wolf' ? category.challenges?.[wolfChallengeIndex++]?.id : undefined;
       const reply: LobbyCommandReply[] = [];
       socket.trigger(LOBBY_EVENTS.selectCard, {
         categoryId: category.id, ...(selectedChallenge ? { challengeId: selectedChallenge } : {}),
       }, (value: LobbyCommandReply) => reply.push(value));
-      expect(reply[0]).toMatchObject({ ok: true });
+      expect(reply[0], `selection failed for ${id}: ${reply[0]?.error?.code}`).toMatchObject({ ok: true });
     }
     const revealed = sheep.socket.outbound(LOBBY_EVENTS.state).at(-1) as LobbyView;
     expect(revealed.game?.phase).toBe('turns');
@@ -75,7 +77,13 @@ describe('card selection transport', () => {
 function createHarness() {
   const io = new FakeIo();
   let session: LobbySession | undefined;
-  attachLobbyTransport(io as unknown as Server, () => session, (value) => { session = value; });
+  const categories = bundledContent.map((category) => ({
+    ...category,
+    challenges: Array.from({ length: 4 }, (_, index) => ({
+      id: `${category.id}-fixture-${index}`, text: `Fixture challenge ${index}`, categoryId: category.id,
+    })),
+  }));
+  attachLobbyTransport(io as unknown as Server, () => session, (value) => { session = value; }, categories);
   return { io, getSession: () => session };
 }
 

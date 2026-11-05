@@ -2,7 +2,7 @@
 
 ## Unit and Integration Coverage
 
-- Each player can select only their own slot; duplicate categories are accepted.
+- Each player can select only their own slot; duplicate categories are accepted, but Wolf teammates cannot select the same challenge within a category.
 - When teams are uneven, one member of the larger team has no slot and is excluded from selection readiness.
 - An unsubmitted draft does not change server state.
 - Done accepts a complete valid selection and marks only that player's slot ready.

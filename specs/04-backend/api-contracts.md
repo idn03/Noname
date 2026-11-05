@@ -6,7 +6,7 @@ Socket.IO is the V0 real-time transport between browsers and the Host. Clients s
 
 ## Client Commands
 
-Commands cover local Host session creation from TẠO, joining with a display name, requesting the current session view, Host start and cancel actions, selecting, replacing, or removing the connected player's own card slot, revealing that player's own Wolf card, Sheep defense with that player's own matching card, and Host recording the outcome of the active challenge. Session creation is accepted only from a loopback connection while no session is active. The server permits up to 10 joining-player identities independently of the Host identity. Each command identifies the requested operation and carries only the data needed for that operation. The server derives player identity from the connection session, never from a client-supplied player identifier.
+Commands cover local Host session creation from TẠO, joining with a display name, requesting the current session view, Host start and cancel actions, selecting, replacing, or removing the connected player's own card slot, Wolf attacks, Sheep defense, and Host recording the outcome of the active challenge. Turn actions include the round number shown in the authorized game view so the server can reject stale actions. Session creation is accepted only from a loopback connection while no session is active. The server permits up to 10 joining-player identities independently of the Host identity. Each command identifies the requested operation and carries only the data needed for that operation. The server derives player identity from the connection session, never from a client-supplied player identifier.
 
 Validate payload shape, bounds, enum values, session membership, authorization, and current game phase before mutation. Reject unknown events and stale or invalid actions without changing state. Clients cannot submit authoritative scores, teams, turns, ownership, phase, or challenge outcomes as trusted values.
 
@@ -14,7 +14,7 @@ Validate payload shape, bounds, enum values, session membership, authorization, 
 
 Publish lobby presence and player-list changes, game phase transitions, each player's authorized game view, scoring changes, cancellation, and final results. Send a current authorized snapshot after connection or reconnection. 
 
-Do not broadcast hidden team selections, unrevealed cards, or private challenge data to clients that may not see them. During selection, the Host may see submitted category names and readiness, but no challenge text; Sheep cannot see Wolf selections. After the Selection Phase completes, players receive revealed card faces and Wolf challenge text. The Host continues to receive only category tags, team rosters, and readiness.
+Do not broadcast hidden team selections, unrevealed cards, or private challenge data to clients that may not see them. During selection, the Host may see submitted category names and readiness, but no challenge text; Sheep cannot see Wolf selections. Once every slot is complete, reveal submitted card faces and Wolf challenge text to players. Share the active challenge and used-card status with players, and provide the Host with the active turn and completed-round history.
 
 ## Errors
 

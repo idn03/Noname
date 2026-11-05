@@ -1,5 +1,6 @@
 import { gameError, type GameResult } from "./game-error";
 import { applyCardSelectionCommand } from "./game-card-selection";
+import { applyTurnCommand } from './game-turns';
 import type { GameCommand, GamePlayer, GameState } from "./game-types";
 import type { RandomSource } from "./randomness";
 
@@ -38,6 +39,7 @@ export function startGame(
     ok: true,
     value: {
       ...state,
+      hostId: actorId,
       phase: "selection",
       players: state.players.map((player) => ({
         ...player,
@@ -81,6 +83,9 @@ export function applyGameCommand(
   if (command.type === "start") return startGame(state, command.actorId, dependencies.prepareTeams, dependencies.random, dependencies.now);
   if (command.type === "select-card" || command.type === "remove-card") {
     return applyCardSelectionCommand(state, command);
+  }
+  if (command.type === 'attack' || command.type === 'defend' || command.type === 'record-challenge-outcome') {
+    return applyTurnCommand(state, command, dependencies.random);
   }
   return gameError("INVALID_COMMAND", "This command is not implemented in the current engine stage.");
 }

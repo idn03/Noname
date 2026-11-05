@@ -43,6 +43,8 @@ describe('game engine foundation', () => {
       round: 0,
       rounds: 0,
       scores: { wolf: 0, sheep: 0 },
+      usedChallengeIds: [],
+      roundHistory: [],
     });
     expect(players).toEqual(original);
     expect(state.players).not.toBe(players);

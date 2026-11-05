@@ -56,8 +56,15 @@ describe('Host lobby lifecycle', () => {
     const sheep = state.players.filter((player) => player.team === 'sheep' && player.hasCardSlot);
     expect(wolves).toHaveLength(5);
     expect(wolves.every((player) => player.cardCategory === 'music' && Boolean(player.cardChallengeId))).toBe(true);
+    expect(new Set(wolves.map((player) => player.cardChallengeId)).size).toBe(wolves.length);
     expect(sheep.map((player) => player.cardCategory)).toEqual(['music', 'music', 'travel', 'music', 'music']);
     expect(state.players.every((player) => player.cardSubmitted === true)).toBe(true);
+    expect(state.activeTurn?.defenderId).toBeDefined();
+    expect(wolves.filter((player) => player.cardUsed)).toHaveLength(1);
+    expect(sheep.filter((player) => player.cardUsed)).toHaveLength(1);
+
+    expect(session.recordChallengeOutcome(host.playerId, state.round, false)).toBeUndefined();
+    expect(session.currentGameState()).toMatchObject({ round: 2, activeTurn: { round: 2, defenderId: expect.any(String) } });
   });
 
   it('invalidates credentials and engine state when the Host ends the session', () => {

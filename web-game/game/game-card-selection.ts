@@ -43,6 +43,11 @@ function selectCard(
   if (team === 'sheep' && challengeId !== undefined) {
     return gameError('INVALID_INPUT', 'Sheep selections cannot include challenge details.');
   }
+  if (team === 'wolf' && state.players.some((candidate) => candidate.team === 'wolf'
+    && candidate.id !== player.id && candidate.cardSubmitted === true
+    && candidate.cardCategory === categoryId && candidate.cardChallengeId === challengeId)) {
+    return gameError('INVALID_INPUT', 'This challenge is already selected by a Wolf teammate.');
+  }
 
   return replacePlayer(state, player.id, {
     cardCategory: categoryId,

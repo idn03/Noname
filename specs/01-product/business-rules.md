@@ -49,13 +49,14 @@
 - Pressing Done submits the player's selection and marks that slot ready. Removing or changing a submitted selection makes that slot unready until submitted again.
 - The game proceeds to the turn phase only after every player's slot has a complete submitted selection. Once the phase advances, selections can no longer be changed.
 - Each selected card remains associated with its selecting player and team for the current game.
+- Wolf teammates may select cards from the same category, but they must choose different challenges within that category.
 - A card may only be used once unless another rule explicitly states otherwise.
 
 ## Turn Rules
 
 - Wolf is the attacking team in V0.
 - Sheep is the defending team in V0.
-- Each round begins when a Wolf player reveals an unused card from their own slot.
+- At the start of each round, any Wolf player who has not attacked before may reveal an unused card from their own slot. The first valid attack starts the round; other Wolf teammates wait until the next round.
 - A Wolf player may reveal only a card they selected. The server permits only one active attack at a time.
 - A Sheep player may defend only with an unused card from their own slot that matches the attack category; that player handles the defense and corresponding challenge.
 - If multiple Sheep players hold unused cards of the matching category, the first valid defense accepted by the server handles the attack.
@@ -66,7 +67,8 @@
 
 - An attack card produces one challenge from its available challenge pool.
 - The selected challenge must belong to the attacking card's category.
-- The same challenge should not be repeated within the same game when alternatives are available.
+- Use the Wolf card's selected challenge unless it has already appeared; then select an unused challenge from that category. Repeat only when all category alternatives have been used.
+- Sandbox automatically submits actions for the first unused Wolf slot and first eligible matching Sheep slot in stable player order, through the same engine validation used for player actions. The Host records challenge outcomes.
 - If Sheep successfully matches the category, the challenge may be attempted.
 - Challenge completion is determined by the participating players or Host in V0; the Host records the outcome in the game.
 

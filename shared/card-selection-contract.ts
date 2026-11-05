@@ -45,10 +45,41 @@ export interface RevealedGameCardView {
   categoryName: string;
   challengeCount: number;
   challenge?: CardChallengeView;
+  used: boolean;
+}
+
+export interface ActiveTurnView {
+  round: number;
+  attackerId: string;
+  attackCategoryId: string;
+  attackCategoryName: string;
+  challenge: CardChallengeView;
+  defenderId?: string;
+  defenseCategoryId?: string;
+}
+
+export interface OwnTurnCardView {
+  categoryId: string;
+  categoryName: string;
+  challenge?: CardChallengeView;
+  used: boolean;
+  canAttack: boolean;
+  canDefend: boolean;
+}
+
+export interface CompletedRoundView {
+  round: number;
+  attackerId: string;
+  attackCategoryId: string;
+  attackChallengeId: string;
+  defenderId?: string;
+  defenseCategoryId?: string;
+  challengeSucceeded?: boolean;
+  scoreChange: Readonly<Record<'wolf' | 'sheep', number>>;
 }
 
 export type LobbyGameView =
   | { phase: 'selection'; role: 'player'; selection: PlayerCardSelectionView }
   | { phase: 'selection'; role: 'host'; selection: HostCardSelectionView }
-  | { phase: 'turns'; role: 'host'; round: number; rounds: number; selection: HostCardSelectionView }
-  | { phase: 'turns'; role: 'player'; team?: 'wolf' | 'sheep'; round: number; rounds: number; revealedCards: readonly RevealedGameCardView[] };
+  | { phase: 'turns'; role: 'host'; round: number; rounds: number; scores: Readonly<Record<'wolf' | 'sheep', number>>; activeTurn?: ActiveTurnView; roundHistory: readonly CompletedRoundView[]; selection: HostCardSelectionView }
+  | { phase: 'turns'; role: 'player'; team?: 'wolf' | 'sheep'; round: number; rounds: number; scores: Readonly<Record<'wolf' | 'sheep', number>>; activeTurn?: ActiveTurnView; ownCard?: OwnTurnCardView; roundHistory: readonly CompletedRoundView[]; revealedCards: readonly RevealedGameCardView[] };

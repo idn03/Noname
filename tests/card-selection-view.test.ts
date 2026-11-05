@@ -15,7 +15,7 @@ describe('role-filtered card selection views', () => {
     const slotlessView = createPlayerCardSelectionView(state, selectionPools, slotless.id, 1_000);
     expect(wolfView.ok && wolfView.value.categories[0].challenges?.length).toBeGreaterThan(0);
     expect(sheepView.ok && sheepView.value.categories.every((category) => category.challenges === undefined)).toBe(true);
-    expect(sheepView).toMatchObject({ ok: true, value: { remainingMs: 360_000 } });
+    expect(sheepView).toMatchObject({ ok: true, value: { remainingMs: 180_000 } });
     expect(slotlessView).toMatchObject({ ok: true, value: { hasCardSlot: false, categories: [] } });
     if (sheepView.ok) expect(JSON.stringify(sheepView.value)).not.toMatch(/Text|music-1/);
   });

@@ -9,6 +9,9 @@ export const LOBBY_EVENTS = {
   resume: 'player:resume',
   selectCard: 'player:select-card',
   removeCard: 'player:remove-card',
+  attack: 'turn:attack',
+  defend: 'turn:defend',
+  recordChallengeOutcome: 'turn:record-challenge-outcome',
   identity: 'player:identity',
   state: 'lobby:state',
   credential: 'player:credential',
@@ -32,7 +35,8 @@ export type LobbyErrorCode =
   | 'SESSION_NOT_ACTIVE'
   | 'SELECTION_CLOSED'
   | 'INVALID_SELECTION'
-  | 'CARD_NOT_FOUND';
+  | 'CARD_NOT_FOUND'
+  | 'INVALID_TURN';
 
 export type HostCreateMode = 'regular' | 'sandbox';
 

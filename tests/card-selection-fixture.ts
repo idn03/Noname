@@ -11,7 +11,7 @@ export const selectionPlayers: GamePlayer[] = [
 export const selectionPools = ['music', 'travel', 'geography', 'films', 'healthcare', 'folklore'].map((categoryId) => ({
   categoryId,
   categoryName: categoryId,
-  challenges: [1, 2].map((index) => ({ id: `${categoryId}-${index}`, text: `Text ${categoryId}-${index}` })),
+  challenges: [1, 2, 3].map((index) => ({ id: `${categoryId}-${index}`, text: `Text ${categoryId}-${index}` })),
 }));
 
 export function createSelectionState(): GameState {
@@ -24,12 +24,12 @@ export function createSelectionState(): GameState {
   return configured.value;
 }
 
-export function submitSelection(state: GameState, playerId: string, challenge = true, category?: string) {
+export function submitSelection(state: GameState, playerId: string, challenge = true, category?: string, challengeIndex = 0) {
   const player = state.players.find(({ id }) => id === playerId);
   if (!player?.team) throw new Error('Expected an assigned player');
   const categoryId = category ?? state.cardSelection?.categoryIdsByTeam[player.team][0];
   if (!categoryId) throw new Error('Expected an allowed category');
-  const challengeId = state.cardSelection?.challengeIdsByCategory[categoryId][0];
+  const challengeId = state.cardSelection?.challengeIdsByCategory[categoryId][challengeIndex];
   return applyGameCommand(state, {
     type: 'select-card', actorId: playerId, categoryId,
     ...(player.team === 'wolf' && challenge ? { challengeId } : {}),

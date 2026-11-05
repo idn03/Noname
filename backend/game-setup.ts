@@ -51,9 +51,14 @@ function applySandboxDefaults(state: GameState, random: RandomSource): GameState
   const wolf = current.players.filter((player) => !player.isHost && player.team === 'wolf' && player.hasCardSlot);
 
   for (const player of wolf) {
+    const usedChallengeIds = new Set(current.players
+      .filter((candidate) => candidate.team === 'wolf' && candidate.cardSubmitted)
+      .map((candidate) => candidate.cardChallengeId));
+    const availableChallengeIds = challengeIds.filter((id) => !usedChallengeIds.has(id));
+    if (!availableChallengeIds.length) return undefined;
     const result = applyGameCommand(current, {
       type: 'select-card', actorId: player.id, categoryId: 'music',
-      challengeId: challengeIds[random.nextInt(challengeIds.length)],
+      challengeId: availableChallengeIds[random.nextInt(availableChallengeIds.length)],
     }, { random, prepareTeams: prepareBalancedTeams });
     if (!result.ok) return undefined;
     current = result.value;
