@@ -68,16 +68,11 @@ Mỗi giai đoạn là một thay đổi riêng, có thể review. Tuân theo wo
 
 ### 3. Primitive tương tác dùng chung
 
-- Dùng wrapper Button dựa trên shadcn làm API Button dùng chung duy nhất; định
-  nghĩa variant dự án, kích thước desktop/mobile, focus, disabled và pending.
-- Giữ wrapper Dialog và Sheet dựa trên nền tảng shadcn; đồng bộ token, quản lý
-  focus, hành vi đóng và cách hiển thị thích ứng.
-- Dùng HTML ngữ nghĩa và Tailwind cho field biểu mẫu thông thường như ô nhập tên;
-  không thêm shadcn Input chỉ để đồng nhất.
-- Liên kết label, nội dung trợ giúp và lỗi với control. Giữ nguyên hành vi xác
-  nhận, hủy và xóa.
-- **Điều kiện hoàn tất:** mọi Button/Dialog/Sheet hiện tại dùng wrapper chung;
-  không còn triển khai Button trùng lặp; hành vi bàn phím và cảm ứng nhất quán.
+- Dùng wrapper Button dựa trên shadcn làm API Button dùng chung duy nhất; định nghĩa variant dự án, kích thước desktop/mobile, focus, disabled và pending.
+- Giữ wrapper Dialog và Sheet dựa trên nền tảng shadcn; đồng bộ token, quản lý focus, hành vi đóng và cách hiển thị thích ứng.
+- Dùng HTML ngữ nghĩa và Tailwind cho field biểu mẫu thông thường như ô nhập tên; không thêm shadcn Input chỉ để đồng nhất.
+- Liên kết label, nội dung trợ giúp và lỗi với control. Giữ nguyên hành vi xác nhận, hủy và xóa.
+- **Điều kiện hoàn tất:** mọi Button/Dialog/Sheet hiện tại dùng wrapper chung; không còn triển khai Button trùng lặp; hành vi bàn phím và cảm ứng nhất quán.
 
 ### 4. Home, Join và hướng dẫn đội
 
