@@ -26,7 +26,7 @@ const categoryArt: Record<string, string> = {
   films: 'film-sticker.png', folklore: 'folklore-sticker.png', healthcare: 'healthcare-sticker.png',
 };
 const frontArtLayout: Record<string, string> = {
-  folklore: 'top-0 left-0 h-[65%] w-[90%]',
+  folklore: '!top-0 !left-1 h-[65%] w-[90%]',
   geography: 'top-[11%] left-1/2 h-[50%] w-[75%] -translate-x-1/2',
 };
 const defaultFrontArtLayout = 'top-[6.25%] left-1/2 h-[56.25%] w-[32.5%] -translate-x-1/2';
