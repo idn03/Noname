@@ -2,6 +2,7 @@
 
 import { Trash2 } from 'lucide-react';
 import { Button } from '../../../../components/shared/Button';
+import { PressableText } from '../../../../components/shared/PressableText';
 import { useEffect, useRef, useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { useLobbyHostActions } from '../../hooks/use-lobby-host-actions';
@@ -52,14 +53,14 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
   }, []);
 
   return <div className={className}>
-    {started ? <Button type="button" className={`border-current bg-transparent ${secondaryButtonClassName}`} disabled={pending} onClick={() => setEndAction('cancel')}>
+    {started ? <PressableText className={secondaryButtonClassName} disabled={pending} onClick={() => setEndAction('cancel')}>
       {secondaryPrefix && <span className="font-[var(--font-arial-fallback)] text-[1.3rem] leading-none">{secondaryPrefix}</span>}Hủy trận
-    </Button> : <>
+    </PressableText> : <>
       {!confirmStart && <Button type="button" className={primaryButtonClassName} disabled={pending || playerCount < 6} onClick={requestStart}>CHƠI</Button>}
-      <Button type="button" className={`inline-flex items-center gap-[10px] border-current bg-transparent ${secondaryButtonClassName}`} onClick={() => setEndAction('delete')}>
+      <PressableText className={`inline-flex items-center gap-[10px] ${secondaryButtonClassName}`} onClick={() => setEndAction('delete')}>
         <Trash2 size={20} strokeWidth={1.8} aria-hidden="true" />
         <span>Xóa phòng này</span>
-      </Button>
+      </PressableText>
     </>}
     {!started && playerCount < 6 && <p className="m-0 flex-[1_1_100%] text-[#aaa] text-[13px]">Cần ít nhất 6 người chơi đang kết nối để bắt đầu.</p>}
     <Dialog open={confirmationOpen} onOpenChange={(open) => { if (!open) closeConfirmation(false); }}>

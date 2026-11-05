@@ -27,7 +27,9 @@ Refactoring styling methods must preserve the current rendered interface and exi
 
 Use project-styled shadcn foundations for Button, Dialog, and Sheet only. Keep their shared wrappers as the public component boundary and style them to match this palette and visual direction. Use semantic HTML and Tailwind for ordinary form fields; do not add other shadcn component types as the default styling pattern. Keep interaction states consistent for default, hover, focus, disabled, pending, success, and error. Provide visible keyboard focus, accessible names, and touch-sized controls. Do not rely on hover for essential behavior.
 
-Use one shared Button component across screens. Buttons have a transparent background, 12px corner radius, and two sizes: default uses 4px top, 6px left and right, and 10px bottom border widths; mobile uses 1px top, 2px left and right, and 4px bottom widths.
+Use one shared Button component across screens, with default, outline, mobile, and ghost variants. Default and outline preserve the project button frame; mobile uses the compact frame; ghost removes the frame. Buttons have a transparent background, 12px corner radius, and default/mobile sizes: default uses 4px top, 6px left and right, and 10px bottom border widths; mobile uses 1px top, 2px left and right, and 4px bottom widths. Keep utility typography overrides effective on button labels.
+
+Use the shared PressableText component for actions presented as interactive text. It remains a semantic button with keyboard focus, disabled, and touch target behavior.
 
 Use motion sparingly for phase changes or card reveals. Respect reduced-motion preferences, and ensure animation never delays or conceals the authoritative result of an action. Avoid decorative effects that reduce legibility or slow play.
 

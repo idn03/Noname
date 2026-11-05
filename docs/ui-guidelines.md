@@ -8,6 +8,7 @@ Use these rules for every screen in `web-game`. The product visual direction and
 - Keep shadcn component source in `web-game/components/ui/`; customize its variants and scoped styles to match Noname instead of accepting default colors, radii, or spacing.
 - Put project-wide composed controls in `web-game/components/shared/`. Keep feature-specific composition beside its feature.
 - Reuse the shared Button and established icon family. Do not create screen-specific button or icon implementations when the shared component can express the design.
+- Use `PressableText` for actions presented as interactive text instead of styling a plain text element to look clickable.
 - Keep component props focused on behavior and meaning. Avoid broad components with unrelated display options.
 
 ## Visual system
