@@ -67,7 +67,8 @@ describe('card selection transport', () => {
     }
     const revealed = sheep.socket.outbound(LOBBY_EVENTS.state).at(-1) as LobbyView;
     expect(revealed.game?.phase).toBe('turns');
-    expect(revealed.game?.phase === 'turns' && revealed.game.revealedCards.some((card) => card.team === 'wolf' && Boolean(card.challenge?.text))).toBe(true);
+    expect(revealed.game?.phase === 'turns' && revealed.game.role === 'player'
+      && revealed.game.revealedCards.some((card) => card.team === 'wolf' && Boolean(card.challenge?.text))).toBe(true);
   });
 });
 
