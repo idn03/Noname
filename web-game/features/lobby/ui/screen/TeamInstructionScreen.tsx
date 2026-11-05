@@ -2,7 +2,6 @@ type Team = 'wolf' | 'sheep';
 
 interface TeamInstructionScreenProps {
   team: Team;
-  onBack: () => void;
 }
 
 const teamContent = {
@@ -29,12 +28,9 @@ const teamContent = {
   },
 } satisfies Record<Team, { name: string; icon: string; portrait: string; paragraphs: string[] }>;
 
-export function TeamInstructionScreen({ team, onBack }: TeamInstructionScreenProps) {
+export function TeamInstructionScreen({ team }: TeamInstructionScreenProps) {
   const content = teamContent[team];
   return <main className="mx-auto min-h-dvh w-[min(100%,402px)] overflow-visible bg-black pt-5 pb-8 text-white">
-    <button className="mx-5 mt-0 mb-9 inline-flex items-center gap-2 border-0 bg-transparent px-0 py-2 font-judson text-base text-white cursor-pointer focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-4" type="button" onClick={onBack}>
-      <span className="font-arial-fallback text-[22px] leading-none" aria-hidden="true">←</span> Trang chủ
-    </button>
     <header className="flex min-h-[181px] flex-col items-center gap-[10px]">
       <img className="size-[60px] object-contain" src={content.icon} alt="" />
       <h1 className="m-0 font-judson text-[40px] font-bold leading-[1.2]">{content.name}</h1>
