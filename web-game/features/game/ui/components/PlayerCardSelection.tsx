@@ -21,10 +21,12 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
   const remainingMs = useSelectionCountdown(selection.remainingMs);
   const { draft, setDraft, selectCategory, selectChallenge } = useCardSelectionDraft(selection);
   const [activeCategoryId, setActiveCategoryId] = useState(selection.ownCard?.categoryId ?? selection.categories[0]?.id ?? '');
+  const [categoryToChange, setCategoryToChange] = useState<string>();
   const activeCategory = selection.categories.find(({ id }) => id === activeCategoryId);
   const draftCategory = selection.categories.find(({ id }) => id === draft?.categoryId);
   const draftChallenge = draftCategory?.challenges?.find(({ id }) => id === draft?.challengeId);
-  const canSubmit = Boolean(activeCategory && (selection.team === 'sheep' || (draftCategory?.id === activeCategoryId && draftChallenge)));
+  const canSubmit = Boolean(activeCategory && activeCategory.id !== categoryToChange
+    && (selection.team === 'sheep' || (draftCategory?.id === activeCategoryId && draftChallenge)));
   const matchesConfirmed = Boolean(selection.ownCard?.submitted && draft
     && selection.ownCard.categoryId === draft.categoryId
     && (selection.team === 'sheep' || selection.ownCard.challengeId === draft.challengeId));
@@ -45,10 +47,11 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
 
   function focusCategory(categoryId: string) {
     setActiveCategoryId(categoryId);
+    if (categoryId !== categoryToChange) setCategoryToChange(undefined);
   }
 
   function removeSelection() {
-    setActiveCategoryId('');
+    setCategoryToChange(selection.ownCard?.categoryId ?? activeCategoryId);
     onRemove();
   }
 
