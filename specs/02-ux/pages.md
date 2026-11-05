@@ -13,7 +13,7 @@ On the server machine's local browser page, let the Host press TẠO to create t
 
 ## Lobby
 
-Show the session status, joined-player list, and joined-player count against the 6–10 range, excluding the Host. Identify the Host separately and distinguish disconnected participants where relevant. In the Host view, show CHƠI and explain that starting below ten joined players requires confirmation; at least six joined players are required. Show “Xóa phòng này” for the Host to discard and recreate a room. Provide Host match-history and cancel-match actions in the shared footer.
+Show the session status, joined-player list, and joined-player count against the 6–10 range, excluding the Host. Identify the Host separately and distinguish disconnected participants where relevant. In the Host view, show CHƠI and explain that starting below ten joined players requires confirmation; at least six joined players are required. Show “Xóa phòng này” for the Host to discard and recreate a room. Provide Host match-history and cancel-match actions in the shared footer. Keep Host footer actions raised clear of the viewport edge and browser safe area, reserving content space so they remain visible without scrolling at the target screen size. Reuse this placement on subsequent Host screens.
 
 ## Team Assignment and Card Selection
 
@@ -23,7 +23,7 @@ The Host view shows both team rosters, selected-card counts, and remaining time.
 
 ## Host Match Management
 
-ManageGameScreen is Host-only. Show the current round and the Wolf attack card for that round, with Hoàn Thành and X controls. Provide match history, cancel-match, and replay actions in the shared footer on Lobby, selection, and match-management screens. History is a concise, text-based report grouped by round and team, showing score changes and attack, defense, and challenge outcomes. Replay retains team assignments and returns everyone to card selection. Cancel ends the match and returns everyone to HomeScreen.
+ManageGameScreen is Host-only. Show the current round and the Wolf attack card for that round, with Hoàn Thành and X controls. Provide match history, cancel-match, and replay actions in the shared footer on Lobby, selection, and match-management screens. Keep the footer raised clear of the viewport edge and browser safe area, reserving content space so Host actions remain visible without scrolling at the target screen size. Reuse this placement on subsequent Host screens. History is a concise, text-based report grouped by round and team, showing score changes and attack, defense, and challenge outcomes. Replay retains team assignments and returns everyone to card selection. Cancel ends the match and returns everyone to HomeScreen.
 
 ## Sandbox
 
