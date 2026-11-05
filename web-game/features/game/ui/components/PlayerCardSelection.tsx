@@ -55,12 +55,12 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
     onRemove();
   }
 
-  return <main className="relative z-[1] flex min-h-svh w-full max-w-[402px] flex-col items-stretch border-0 rounded-none bg-transparent px-0 pt-[6.8vh] pb-[3vh] text-white shadow-none [@media(max-height:760px)_and_(min-width:641px)]:pt-6 max-[640px]:pt-[max(3.5rem,6.8vh)]" aria-labelledby="card-selection-title">
+  return <main className="relative z-[1] flex min-h-svh w-full max-w-[402px] flex-col items-stretch border-0 rounded-none bg-transparent px-0 pt-[6.8vh] pb-[3vh] text-white shadow-none [@media(max-height:760px)]:pt-6 max-[640px]:pt-[max(2rem,env(safe-area-inset-top))]" aria-labelledby="card-selection-title">
     <header className="px-[13px]">
       <h1 id="card-selection-title" className="m-0 text-white font-type-page-title text-[32px] leading-[1.08] font-bold">Vòng Chọn Thẻ</h1>
       <p className="mt-2 mb-0 text-white font-type-body text-base leading-[1.2] font-bold">Điểm: {selection.score}</p>
     </header>
-      <time className="mt-[3.5vh] mb-[1.2vh] block self-center text-white font-type-display text-[42px] leading-none font-bold tabular-nums [@media(max-height:760px)_and_(min-width:641px)]:mt-4 [@media(max-height:760px)_and_(min-width:641px)]:mb-[.6rem] max-[640px]:mt-[3.5vh]" aria-label={`Còn ${formatSelectionTime(remainingMs)}`}>
+      <time className="mt-[3.5vh] mb-[1.2vh] block self-center text-white font-type-display text-[42px] leading-none font-bold tabular-nums [@media(max-height:760px)]:mt-4 [@media(max-height:760px)]:mb-[.6rem] max-[640px]:mt-[3.5vh]" aria-label={`Còn ${formatSelectionTime(remainingMs)}`}>
       {formatSelectionTime(remainingMs)}
     </time>
 
@@ -71,10 +71,10 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
         draftCategoryId={draft?.categoryId} draftChallengeId={draft?.challengeId} locked={selectionLocked} disabled={!connected || pending}
         onFocusCategory={focusCategory} onSelectCategory={selectCategory} onSelectChallenge={selectChallenge}
         onClearChallenge={() => setDraft(undefined)} />
-      <Button variant="outline" className="mx-auto mt-[38px] mb-0 min-h-[66px] w-[180px] self-center text-white font-type-body text-sm leading-none font-bold disabled:opacity-[.55] [@media(max-height:760px)_and_(min-width:641px)]:mt-4" type="button" disabled={!connected || pending || !canSubmit || matchesConfirmed} onClick={chooseActiveCard}>
+      <Button variant="outline" className="mx-auto mt-[38px] mb-0 min-h-[66px] w-[180px] self-center text-white font-type-body text-sm leading-none font-bold disabled:opacity-[.55] [@media(max-height:760px)]:mt-4" type="button" disabled={!connected || pending || !canSubmit || matchesConfirmed} onClick={chooseActiveCard}>
         {pending ? 'ĐANG GỬI…' : matchesConfirmed ? 'ĐÃ CHỌN' : 'CHỌN'}
       </Button>
-      <div className="mx-3 mt-[10px] mb-auto flex min-h-[38px] items-center justify-center gap-[.65rem] text-white font-type-body text-[13px] leading-[1.2]">
+      <div className="mx-3 mt-[10px] flex min-h-[38px] items-center justify-center gap-[.65rem] text-white font-type-body text-[13px] leading-[1.2]">
         {selection.ownCard?.submitted && <PressableText className="min-h-[38px] px-[10px] font-type-body text-[13px] leading-[1.2] font-bold" disabled={!connected || pending} onClick={removeSelection}>BỎ CHỌN</PressableText>}
       </div>
     </>}

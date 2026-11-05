@@ -45,7 +45,7 @@ export function PlayerCardCarousel(props: PlayerCardCarouselProps) {
         ? category.challenges?.find(({ id }) => id === props.draftChallengeId)
         : undefined;
       const isActive = category.id === props.activeCategoryId;
-      return <div className={`shrink-0 basis-[200px] snap-center ${isActive ? 'opacity-100' : 'opacity-[.58]'} transition-opacity duration-[160ms] ease-linear motion-reduce:transition-none [@media(max-height:760px)_and_(min-width:641px)]:basis-[174px]`} data-category-id={category.id} key={category.id}>
+      return <div className={`shrink-0 basis-[200px] snap-center ${isActive ? 'opacity-100' : 'opacity-[.58]'} transition-opacity duration-[160ms] ease-linear motion-reduce:transition-none [@media(max-height:760px)]:basis-[174px]`} data-category-id={category.id} key={category.id}>
         <GameCard categoryId={category.id} categoryName={category.name} challengeCount={category.challengeCount}
           className="aspect-[.65]"
           role={props.role} phase="selection" challenges={category.challenges} selectedChallenge={selectedChallenge}

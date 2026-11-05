@@ -19,6 +19,8 @@ Show the session status, joined-player list, and joined-player count against the
 
 Show the player's team and card slot when assigned. A member of the larger team without a slot sees that they do not select a card. Provide category choices, selection submission status, and overall readiness for players with slots. Let players edit their own selection only while the Selection Phase is active. Show the timer and explain that selection remains open after expiry until all slots are submitted. Wolf views include challenge text; Sheep views show only the number of available challenges per category and do not expose challenge text or Wolf selections.
 
+Keep the Player card-selection controls and team footer within the viewport on common phone heights, avoiding vertical scrolling for the selection flow.
+
 The Host view shows both team rosters, selected-card counts, and remaining time. The Host observes the full selection state but has no team or card slot. In Sandbox, player selections are populated automatically.
 
 ## Host Match Management
