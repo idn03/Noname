@@ -72,8 +72,8 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
         <DialogTitle className="sr-only">{confirmationLabel}</DialogTitle>
         <DialogDescription id="host-confirmation-message" className="mb-1 w-full text-white">{confirmationMessage}</DialogDescription>
         <div className="flex w-full gap-[14px] [&>button]:min-h-12 [&>button]:flex-1 [&>button]:text-white [&>button]:font-judson [&>button]:text-base [&>button]:font-bold">
-          <Button type="button" size="mobile" className={confirmationButtonClassName} autoFocus disabled={pending || closingConfirmation} onClick={() => closeConfirmation(true)}>Xác nhận</Button>
-          <Button type="button" size="mobile" className={`border-current bg-transparent ${confirmationButtonClassName}`} disabled={closingConfirmation} onClick={() => closeConfirmation(false)}>Quay lại</Button>
+          <Button type="button" variant="mobile" className={confirmationButtonClassName} autoFocus disabled={pending || closingConfirmation} onClick={() => closeConfirmation(true)}>Xác nhận</Button>
+          <Button type="button" variant="mobile" className={`border-current bg-transparent ${confirmationButtonClassName}`} disabled={closingConfirmation} onClick={() => closeConfirmation(false)}>Quay lại</Button>
         </div>
       </DialogContent>}
     </Dialog>
