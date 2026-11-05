@@ -8,11 +8,7 @@
   --color-state-success: #314D3D;
   --color-state-success-foreground: #EFF8EF;
 
-  --font-judson: Judson, Georgia, serif;
-  --font-georgia: Georgia, 'Times New Roman', serif;
-  --font-georgia-fallback: Georgia, serif;
-  --font-ui: Arial, Helvetica, sans-serif;
-  --font-arial-fallback: Arial, sans-serif;
+  --font-judson: Judson;
 
   --font-type-display: var(--type-display-family);
   --font-type-page-title: var(--type-page-title-family);
@@ -61,8 +57,8 @@
   --type-section-title-family: var(--font-judson);
   --type-body-family: var(--font-judson);
   --type-supporting-family: var(--font-judson);
-  --type-label-family: var(--font-ui);
-  --type-result-title-family: var(--font-georgia);
+  --type-label-family: var(--font-judson);
+  --type-result-title-family: var(--font-judson);
 
   --blood-red: var(--color-blood-red);
   --black: var(--color-ink-black);

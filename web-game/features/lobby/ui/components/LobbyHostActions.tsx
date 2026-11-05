@@ -54,7 +54,7 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
 
   return <div className={className}>
     {started ? <PressableText className={secondaryButtonClassName} disabled={pending} onClick={() => setEndAction('cancel')}>
-      {secondaryPrefix && <span className="font-arial-fallback text-[1.3rem] leading-none">{secondaryPrefix}</span>}Hủy trận
+      {secondaryPrefix && <span className="font-type-label text-[1.3rem] leading-none">{secondaryPrefix}</span>}Hủy trận
     </PressableText> : <>
       {!confirmStart && <Button type="button" className={primaryButtonClassName} disabled={pending || playerCount < 6} onClick={requestStart}>CHƠI</Button>}
       <PressableText className={`inline-flex items-center gap-[10px] ${secondaryButtonClassName}`} onClick={() => setEndAction('delete')}>

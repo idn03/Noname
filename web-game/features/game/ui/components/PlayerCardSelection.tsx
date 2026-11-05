@@ -55,7 +55,7 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
     </time>
 
     {!selection.hasCardSlot ? <section className="mx-4 my-8 max-w-[36rem] border border-white/40 rounded-2xl bg-black/20 p-8 text-center" role="status">
-      <h2 className="font-georgia-fallback font-medium">Bạn không có thẻ cá nhân trong vòng này</h2><p className="text-[#c2c2b8]">Hãy chờ các thành viên có thẻ hoàn tất lựa chọn.</p>
+      <h2 className="font-type-result-title font-medium">Bạn không có thẻ cá nhân trong vòng này</h2><p className="text-[#c2c2b8]">Hãy chờ các thành viên có thẻ hoàn tất lựa chọn.</p>
     </section> : <>
       <PlayerCardCarousel categories={selection.categories} role={selection.team} activeCategoryId={activeCategoryId} initialCategoryId={selection.ownCard?.categoryId}
         draftCategoryId={draft?.categoryId} draftChallengeId={draft?.challengeId} disabled={!connected || pending}

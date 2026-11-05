@@ -37,7 +37,7 @@ function TeamColumn({ team, data }: {
       {data.players.map((player, index) => <li className="flex min-w-0 items-baseline gap-2 font-type-body text-[clamp(.9rem,1.1vw,1.05rem)] leading-[1.25] max-[760px]:flex-wrap max-[760px]:text-[.8rem]" key={player.id}>
         <span className="shrink-0 font-type-body text-[1.15em] leading-none tabular-nums max-[760px]:text-base">{String(index + 1).padStart(2, '0')}</span>
         <span>{player.name}</span>
-        {!player.hasCardSlot && <span className="ml-auto font-arial-fallback text-[.78rem] leading-none opacity-75">Không có thẻ</span>}
+        {!player.hasCardSlot && <span className="ml-auto font-type-label text-[.78rem] leading-none opacity-75">Không có thẻ</span>}
       </li>)}
     </ol>
     <h3 className="mt-0 mr-0 mb-3 ml-8 font-type-section-title text-[clamp(1.5rem,2vw,2rem)] leading-[1.15] font-bold max-[760px]:ml-0 max-[760px]:text-[1.1rem]">Thẻ đã chọn:</h3>

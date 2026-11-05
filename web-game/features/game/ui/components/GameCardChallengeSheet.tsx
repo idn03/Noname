@@ -42,9 +42,9 @@ export function GameCardChallengeSheet({
             key={challenge.id}
             onClick={() => isSelected ? onClear() : onChoose(challenge)}
           >
-            <span className="text-[#722f37] font-arial-fallback text-sm leading-[1.6] font-bold" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <span className="text-[#722f37] font-type-label text-sm leading-[1.6] font-bold" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
             <span>{challenge.text}</span>
-            <span className="flex min-h-5 items-center gap-[5px] whitespace-nowrap text-[#722f37] font-arial-fallback text-[10px] leading-none font-bold">
+            <span className="flex min-h-5 items-center gap-[5px] whitespace-nowrap text-[#722f37] font-type-label text-[10px] leading-none font-bold">
               {isSelected && <><Check className="size-[18px] stroke-[3]" aria-hidden="true" /><span>ĐÃ CHỌN</span></>}
             </span>
           </button>;
