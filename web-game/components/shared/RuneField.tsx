@@ -6,21 +6,23 @@ import { useEffect, useState } from 'react';
 const RUNES = Array.from({ length: 8 }, (_, index) =>
   `/assets/backgrounds/rune-${String(index + 1).padStart(2, '0')}.png`,
 );
+const PLAYER_RUNE_INDICES = [0, 2, 4, 6];
 const TOP_OFFSETS = [12, 18, 25, 16, 28, 22, 32, 13];
 const LEFT_CLASSES = ['left-[4%]', 'left-[11%]', 'left-[21%]', 'left-[38%]', 'left-[58%]', 'left-[70%]', 'left-[82%]', 'left-[95%]'] as const;
 const MOTION_SCALE = 1.3;
 const TRAVEL_SCALE = 1.3;
 
-export function RuneField() {
+export function RuneField({ density = 'default' }: { density?: 'default' | 'player' }) {
   const prefersReducedMotion = useReducedMotion();
   const [hasMounted, setHasMounted] = useState(false);
   const shouldReduceMotion = hasMounted && prefersReducedMotion === true;
+  const indices = density === 'player' ? PLAYER_RUNE_INDICES : RUNES.map((_, index) => index);
 
   useEffect(() => setHasMounted(true), []);
 
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-      {RUNES.map((src, index) => <Rune key={src} src={src} index={index} reduceMotion={shouldReduceMotion} />)}
+      {indices.map((index) => <Rune key={RUNES[index]} src={RUNES[index]} index={index} reduceMotion={shouldReduceMotion} />)}
     </div>
   );
 }

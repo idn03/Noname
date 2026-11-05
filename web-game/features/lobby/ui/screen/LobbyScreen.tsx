@@ -30,7 +30,7 @@ export default function LobbyScreen() {
 
   if (lobby?.game?.phase === 'selection') {
     return <main className={lobby.game.role === 'host' ? hostCardShellClassName : `${shellClassName} flex !min-h-svh justify-center overflow-x-hidden !overflow-y-auto !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`}>
-      <RuneField />
+      <RuneField density={isPlayerView ? 'player' : 'default'} />
       {lobby.game.role === 'host'
         ? <><HostCardSelection selection={lobby.game.selection} />
           <HostSelectionActions playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
@@ -45,12 +45,12 @@ export default function LobbyScreen() {
       <HostSelectionActions playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
     </main>;
     return <main className={`${shellClassName} flex !min-h-svh items-center justify-center gap-6 p-[clamp(1rem,4vw,3.5rem)] max-[640px]:items-start max-[640px]:p-3`}>
-      <RuneField /><SelectionWaiting game={lobby.game} />
+      <RuneField density="player" /><SelectionWaiting game={lobby.game} />
     </main>;
   }
 
   return <main className={`${shellClassName} ${!lobby ? 'flex items-stretch' : ''}`}>
-    <RuneField />
+    <RuneField density={isPlayerView ? 'player' : 'default'} />
     {!lobby && isLocalHost === null && <p className="relative z-[1] grid min-h-dvh place-items-center m-0 text-white font-judson text-lg" role="status">Đang xác định chế độ kết nối…</p>}
     {!lobby && isLocalHost !== null && <section className={getHomeContentClassName(isLocalHost)} aria-labelledby="page-title">
       <h1 id="page-title" className={getHomeTitleClassName(isLocalHost)}><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>

@@ -17,7 +17,7 @@ export function EndGameScreen({ result, audience, onReturnHome }: EndGameScreenP
 
   return (
     <main className={`relative isolate flex min-h-dvh flex-col items-center justify-center overflow-hidden gap-[34px] bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)] px-6 py-14 text-center text-white ${audience === 'player' ? 'mx-auto w-[min(100%,402px)] gap-7 px-5 pt-11 pb-9 max-[520px]:justify-start' : ''}`} aria-labelledby="endgame-title">
-      <RuneField />
+      <RuneField density={audience === 'player' ? 'player' : 'default'} />
       <header className="relative z-[1] w-full">
         <p className="m-0 mb-[13px] text-[#f0dfe0] font-ui text-[11px] leading-[1.4] font-bold tracking-[.16em]">TRẬN ĐẤU ĐÃ KẾT THÚC · {result.rounds} LƯỢT</p>
         <h1 id="endgame-title" className="m-0 font-georgia text-[clamp(38px,8vw,72px)] leading-[1.04] font-normal tracking-[-.045em]">{headline}</h1>
