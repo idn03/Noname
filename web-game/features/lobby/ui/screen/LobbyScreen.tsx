@@ -13,6 +13,7 @@ import { PlayerCardSelection } from '@/features/game/ui/components/PlayerCardSel
 import { HostCardSelection } from '@/features/game/ui/components/HostCardSelection';
 import { HostSelectionActions } from '@/features/game/ui/components/HostSelectionActions';
 import { SelectionWaiting } from '@/features/game/ui/components/SelectionWaiting';
+import { TeamAssignmentScreen } from './TeamAssignmentScreen';
 import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 import { getHomeContentClassName, getHomeTitleClassName, getLobbyShellClassName } from './lobby-screen-classes';
 
@@ -28,6 +29,18 @@ export default function LobbyScreen() {
   const isStartedGuest = lobby?.phase === 'started' && !currentPlayer && isLocalHost !== true;
   const shellClassName = getLobbyShellClassName(isPlayerView, Boolean(lobby));
   const hostCardShellClassName = `${shellClassName} relative isolate overflow-hidden bg-scroll px-[clamp(1rem,4.2vw,5rem)] !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`;
+
+  if (lobby?.game?.phase === 'team-assignment') {
+    if (lobby.game.role === 'host') return <main className={shellClassName}>
+      <RuneField />
+      <HostLobbyLayout players={players} connectedPlayers={connectedPlayers} connected={connected} pending={pending} error={error}
+        started assignmentRemainingMs={lobby.game.remainingMs} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
+    </main>;
+    return <main className={`${shellClassName} flex items-center justify-center`}>
+      <RuneField density="player" />
+      <TeamAssignmentScreen team={lobby.game.team} remainingMs={lobby.game.remainingMs} />
+    </main>;
+  }
 
   if (lobby?.game?.phase === 'selection') {
     return <main className={lobby.game.role === 'host' ? hostCardShellClassName : `${shellClassName} flex !min-h-svh justify-center overflow-x-hidden !overflow-y-auto !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`}>

@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef } from 'react';
 import type { LobbyPlayerView } from '@shared/lobby-contract';
 import { LobbyHostActions } from '@/features/lobby/ui/components/LobbyHostActions';
 import { LobbyPlayerStage } from '@/features/lobby/ui/components/LobbyPlayerStage';
+import { formatSelectionTime, useSelectionCountdown } from '@/features/game/hooks/use-selection-countdown';
 
 interface HostLobbyLayoutProps {
   players: readonly LobbyPlayerView[];
@@ -13,10 +14,12 @@ interface HostLobbyLayoutProps {
   onStart: (confirmed: boolean) => void;
   onCancel: () => void;
   onDelete: () => void;
+  assignmentRemainingMs?: number;
 }
 
 export function HostLobbyLayout(props: HostLobbyLayoutProps) {
-  const { players, connectedPlayers, connected, pending, error, started, onStart, onCancel, onDelete } = props;
+  const { players, connectedPlayers, connected, pending, error, started, onStart, onCancel, onDelete, assignmentRemainingMs } = props;
+  const assignmentTime = useSelectionCountdown(assignmentRemainingMs ?? 0);
   const joinedPlayers = players.filter((player) => !player.isHost);
   const layoutRef = useRef<HTMLElement>(null);
 
@@ -28,9 +31,12 @@ export function HostLobbyLayout(props: HostLobbyLayoutProps) {
     const animations: Animation[] = [];
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    root.querySelectorAll<HTMLElement>('[data-team-player-id]').forEach((target, index) => {
+    const teamIndexes: Record<'wolf' | 'sheep', number> = { wolf: 0, sheep: 0 };
+    root.querySelectorAll<HTMLElement>('[data-team-player-id]').forEach((target) => {
       const source = rosterNames.get(target.dataset.teamPlayerId);
       if (!source) { target.style.opacity = '1'; return; }
+      const team = target.closest<HTMLElement>('[data-team-roster]')?.dataset.teamRoster;
+      const teamIndex = team === 'wolf' || team === 'sheep' ? teamIndexes[team]++ : 0;
       const from = source.getBoundingClientRect();
       const to = target.getBoundingClientRect();
       const offsetX = from.left + from.width / 2 - to.left - to.width / 2;
@@ -38,7 +44,7 @@ export function HostLobbyLayout(props: HostLobbyLayoutProps) {
       const animation = target.animate([
         { transform: `translate(${offsetX}px, ${offsetY}px)`, opacity: 0 },
         { transform: 'translate(0, 0)', opacity: 1 },
-      ], { duration: reducedMotion ? 180 : 1000, delay: reducedMotion ? 0 : index * 65, easing: 'cubic-bezier(.22,.7,.2,1)', fill: 'both' });
+      ], { duration: reducedMotion ? 180 : 1000, delay: reducedMotion ? 0 : teamIndex * 1000, easing: 'cubic-bezier(.22,.7,.2,1)', fill: 'both' });
       animation.onfinish = () => { target.style.opacity = '1'; animation.cancel(); };
       animations.push(animation);
     });
@@ -62,6 +68,7 @@ export function HostLobbyLayout(props: HostLobbyLayoutProps) {
         <div>
           <h2 id="host-lobby-roster-title" className="m-0 text-white font-type-section-title text-[clamp(30px,2.5vw,44px)] font-bold leading-[1.1] max-[700px]:text-[30px]">Danh sách người chơi</h2>
           <p className="mt-[10px] mb-0 text-white/82 font-type-body text-lg leading-[1.4] max-[700px]:text-[15px]">{joinedPlayers.length}/10 người chơi đã tham gia · {connectedPlayers} đang kết nối</p>
+          {assignmentRemainingMs !== undefined && <p className="mt-3 mb-0 text-[#f1d3d5] font-type-body text-sm" role="status">Đang chia đội · Vòng Chọn Thẻ sau {formatSelectionTime(assignmentTime)}</p>}
         </div>
         <span className="shrink-0 mb-1 text-white text-[13px]" role="status">{connected ? 'Đã kết nối' : 'Đang kết nối lại'}</span>
       </header>
@@ -74,13 +81,13 @@ export function HostLobbyLayout(props: HostLobbyLayoutProps) {
     <aside className={`flex min-h-[620px] flex-col justify-start gap-[clamp(130px,22vh,250px)] pt-[70px] ${started ? 'visible' : 'invisible'} max-[1550px]:col-start-2 max-[1550px]:min-h-0 max-[1550px]:flex-row max-[1550px]:justify-between max-[1550px]:gap-6 max-[1550px]:pt-[10px] max-[900px]:col-start-1 max-[700px]:min-h-0 max-[700px]:gap-[18px]`} aria-label="Hai đội trong trận đấu" aria-hidden={!started}>
       <div className={`flex flex-1 flex-col items-start gap-[14px] text-[#080607] max-[700px]:gap-[10px] ${started ? 'animate-[host-lobby-team-fade-in_520ms_ease-out_both] motion-reduce:[animation-duration:180ms]' : ''}`}>
         <div className="flex items-center gap-5 max-[1550px]:gap-3 max-[700px]:gap-2"><img className="h-[clamp(58px,5vw,86px)] w-[clamp(48px,4.4vw,76px)] object-contain max-[700px]:h-[50px] max-[700px]:w-[40px]" src="/assets/teams/wolf-icon.svg" alt="" /><h2 className="m-0 font-type-section-title text-[clamp(38px,3vw,56px)] font-bold leading-none max-[1550px]:text-[clamp(30px,4vw,44px)] max-[700px]:text-[26px]">Đội Sói:</h2></div>
-        {started && <ul className="m-0 grid gap-[10px] list-none p-0 pl-24 text-white font-type-body text-[20px] leading-[1.25] max-[1550px]:pl-[60px] max-[1550px]:text-[18px] max-[700px]:pl-12 max-[700px]:text-[16px]" aria-label="Người chơi đội Sói">
+        {started && <ul data-team-roster="wolf" className="m-0 grid gap-[10px] list-none p-0 pl-24 text-white font-type-body text-[20px] leading-[1.25] max-[1550px]:pl-[60px] max-[1550px]:text-[18px] max-[700px]:pl-12 max-[700px]:text-[16px]" aria-label="Người chơi đội Sói">
           {wolfPlayers.map((player) => <li className="opacity-0" key={player.id} data-team-player-id={player.id}>{player.name}</li>)}
         </ul>}
       </div>
       <div className={`flex flex-1 flex-col items-start gap-[14px] text-white max-[700px]:gap-[10px] ${started ? 'animate-[host-lobby-team-fade-in_520ms_ease-out_both] [animation-delay:100ms] motion-reduce:[animation-duration:180ms]' : ''}`}>
         <div className="flex items-center gap-5 max-[1550px]:gap-3 max-[700px]:gap-2"><img className="h-[clamp(58px,5vw,86px)] w-[clamp(48px,4.4vw,76px)] object-contain max-[700px]:h-[50px] max-[700px]:w-[40px]" src="/assets/teams/sheep-icon.svg" alt="" /><h2 className="m-0 font-type-section-title text-[clamp(38px,3vw,56px)] font-bold leading-none max-[1550px]:text-[clamp(30px,4vw,44px)] max-[700px]:text-[26px]">Đội Cừu:</h2></div>
-        {started && <ul className="m-0 grid gap-[10px] list-none p-0 pl-24 text-white font-type-body text-[20px] leading-[1.25] max-[1550px]:pl-[60px] max-[1550px]:text-[18px] max-[700px]:pl-12 max-[700px]:text-[16px]" aria-label="Người chơi đội Cừu">
+        {started && <ul data-team-roster="sheep" className="m-0 grid gap-[10px] list-none p-0 pl-24 text-white font-type-body text-[20px] leading-[1.25] max-[1550px]:pl-[60px] max-[1550px]:text-[18px] max-[700px]:pl-12 max-[700px]:text-[16px]" aria-label="Người chơi đội Cừu">
           {sheepPlayers.map((player) => <li className="opacity-0" key={player.id} data-team-player-id={player.id}>{player.name}</li>)}
         </ul>}
       </div>
