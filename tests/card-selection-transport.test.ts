@@ -1,5 +1,5 @@
 import type { Server, Socket } from 'socket.io';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { attachLobbyTransport } from '../backend/lobby-transport';
 import { bundledContent } from '../backend/db/bundled-content';
 import type { LobbySession } from '../backend/lobby-session';
@@ -7,6 +7,7 @@ import { LOBBY_EVENTS, type LobbyCommandReply, type LobbyView } from '../shared/
 
 describe('card selection transport', () => {
   it('accepts private team-appropriate selections and broadcasts role-filtered state', () => {
+    vi.useFakeTimers();
     const harness = createHarness();
     const host = new FakeSocket('host', '127.0.0.1');
     harness.io.connect(host);
@@ -19,6 +20,7 @@ describe('card selection transport', () => {
       return { socket, id: reply[0]?.playerId ?? '', credential: socket.outbound(LOBBY_EVENTS.credential).at(-1) as string };
     });
     host.trigger(LOBBY_EVENTS.hostStart, { confirmLowPopulation: true }, () => undefined);
+    vi.advanceTimersByTime(10_000);
     const state = harness.getSession()?.currentGameState();
     if (!state) throw new Error('Expected started game state');
     const wolf = guests.find(({ id }) => state.players.some((player) => player.id === id && player.team === 'wolf' && player.hasCardSlot));
@@ -71,6 +73,7 @@ describe('card selection transport', () => {
     expect(revealed.game?.phase).toBe('turns');
     expect(revealed.game?.phase === 'turns' && revealed.game.role === 'player'
       && revealed.game.revealedCards.some((card) => card.team === 'wolf' && Boolean(card.challenge?.text))).toBe(true);
+    vi.useRealTimers();
   });
 });
 

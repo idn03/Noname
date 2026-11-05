@@ -2,6 +2,26 @@ import { describe, expect, it } from 'vitest';
 import { LobbySession } from '../backend/lobby-session';
 
 describe('Host lobby lifecycle', () => {
+  it('keeps the assigned teams visible for ten seconds before opening selection', () => {
+    const session = LobbySession.createForHost();
+    const host = session.connectHost();
+    const guests = Array.from({ length: 6 }, (_, index) => session.join(`P${index}`));
+    const first = guests[0];
+    if (typeof first === 'string') throw new Error('Expected player admission');
+    const now = Date.now();
+
+    const started = session.start(host.playerId, true, now);
+    if (typeof started === 'string') throw new Error('Expected game start');
+    expect(started.lobby.game).toMatchObject({ phase: 'team-assignment', role: 'host', remainingMs: 10_000 });
+    expect(session.view(first.playerId, now + 4_000).game).toMatchObject({
+      phase: 'team-assignment', role: 'player', team: expect.any(String), remainingMs: 6_000,
+    });
+    expect(session.completeTeamAssignment(now + 9_999)).toBe(false);
+    expect(session.completeTeamAssignment(now + 10_000)).toBe(true);
+    expect(session.view(host.playerId, now + 10_000).game?.phase).toBe('selection');
+    expect(session.currentGameState()?.selectionStartedAtMs).toBe(now + 10_000);
+  });
+
   it('starts only with six connected players and requires confirmation below ten', () => {
     const session = LobbySession.createForHost();
     const host = session.connectHost();
@@ -51,6 +71,7 @@ describe('Host lobby lifecycle', () => {
     if (typeof started === 'string') return;
 
     const state = started.gameState;
+    expect(session.completeTeamAssignment(Date.now() + 10_000)).toBe(true);
     expect(state.phase).toBe('turns');
     const wolves = state.players.filter((player) => player.team === 'wolf' && player.hasCardSlot);
     const sheep = state.players.filter((player) => player.team === 'sheep' && player.hasCardSlot);

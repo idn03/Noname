@@ -12,12 +12,17 @@ export function createLobbyView(
   viewerId?: string,
   pools: readonly SessionCategoryPool[] = [],
   now = Date.now(),
+  assignmentDeadlineMs?: number,
 ): LobbyView {
   const teams = new Map(gameState?.players.map(({ id, team }) => [id, team]));
   const viewer = players.find((player) => player.id === viewerId);
   const hostViewer = viewer?.isHost === true;
   const hostId = players.find((player) => player.isHost)?.id;
-  const game = gameState && viewer && hostId ? authorizedGameView(gameState, pools, hostId, viewer, now) : undefined;
+  const game = gameState && viewer && hostId
+    ? assignmentDeadlineMs && assignmentDeadlineMs > now
+      ? assignmentView(gameState, viewer, assignmentDeadlineMs - now)
+      : authorizedGameView(gameState, pools, hostId, viewer, now)
+    : undefined;
   return {
     phase,
     ...(game ? { game } : {}),
@@ -26,6 +31,14 @@ export function createLobbyView(
       return { id, name, isHost, connected, ...(team && (hostViewer || id === viewerId) ? { team } : {}) };
     }),
   };
+}
+
+function assignmentView(state: GameState, viewer: LobbyPlayerView, remainingMs: number): LobbyGameView | undefined {
+  if (!viewer.isHost) {
+    const team = state.players.find(({ id }) => id === viewer.id)?.team;
+    return team ? { phase: 'team-assignment', role: 'player', team, remainingMs } : undefined;
+  }
+  return { phase: 'team-assignment', role: 'host', remainingMs };
 }
 
 function authorizedGameView(

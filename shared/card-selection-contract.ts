@@ -79,6 +79,8 @@ export interface CompletedRoundView {
 }
 
 export type LobbyGameView =
+  | { phase: 'team-assignment'; role: 'player'; team: 'wolf' | 'sheep'; remainingMs: number }
+  | { phase: 'team-assignment'; role: 'host'; remainingMs: number }
   | { phase: 'selection'; role: 'player'; selection: PlayerCardSelectionView }
   | { phase: 'selection'; role: 'host'; selection: HostCardSelectionView }
   | { phase: 'turns'; role: 'host'; round: number; rounds: number; scores: Readonly<Record<'wolf' | 'sheep', number>>; activeTurn?: ActiveTurnView; roundHistory: readonly CompletedRoundView[]; selection: HostCardSelectionView }

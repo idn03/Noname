@@ -1,5 +1,5 @@
 import type { Server, Socket } from 'socket.io';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { attachLobbyTransport } from '../backend/lobby-transport';
 import { bundledContent } from '../backend/db/bundled-content';
 import type { LobbySession } from '../backend/lobby-session';
@@ -7,6 +7,7 @@ import { LOBBY_EVENTS, type LobbyCommandReply } from '../shared/lobby-contract';
 
 describe('turn gameplay transport', () => {
   it('authenticates turn actions, broadcasts challenges, and rejects duplicate and stale submissions', () => {
+    vi.useFakeTimers();
     const io = new FakeIo();
     let session: LobbySession | undefined;
     const categories = bundledContent.map((category) => ({
@@ -27,6 +28,7 @@ describe('turn gameplay transport', () => {
       return { socket, id: replies[0]?.playerId ?? '' };
     });
     host.trigger(LOBBY_EVENTS.hostStart, { confirmLowPopulation: true }, () => undefined);
+    vi.advanceTimersByTime(10_000);
     const state = session?.currentGameState();
     if (!state?.cardSelection) throw new Error('Expected initialized card selection');
     const wolves = guests.filter(({ id }) => state.players.some((player) => player.id === id && player.team === 'wolf' && player.hasCardSlot));
@@ -66,6 +68,7 @@ describe('turn gameplay transport', () => {
     host.trigger(LOBBY_EVENTS.recordChallengeOutcome, { round: 1, succeeded: false }, (reply: LobbyCommandReply) => stale.push(reply));
     expect(stale[0]).toMatchObject({ ok: false, error: { code: 'INVALID_TURN' } });
     expect(session?.currentGameState()).toMatchObject({ round: 2, scores: { wolf: 0, sheep: 2 } });
+    vi.useRealTimers();
   });
 });
 

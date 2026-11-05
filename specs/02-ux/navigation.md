@@ -10,7 +10,8 @@ V0 is a single-session game with phase-based screens rather than a multi-section
 - **Player HomeScreen tabs:** Show Book, Card, Wolf, and Sheep icon actions. Book and Card announce that they are coming soon. Wolf and Sheep open their team instruction views.
 - **Team rules:** Read the team-specific rules from Join and use browser navigation to return to Join. These are informational views and do not reveal private session state.
 - **LobbyScreen:** View player presence and, for the Host, start, delete-room, match-history, and cancel-match controls.
-- **SelectCardScreen:** View team and selection progress. Host can observe both teams' rosters, selected-card counts, and remaining time without a player slot; players manage their own slot. Wolf players can view challenge text; Sheep players can view only the number of available challenges per category.
+- **Team Assignment:** View the assigned teams for 10 seconds after the Host starts. The Host sees team formation; each player sees only their own team and the remaining preparation time.
+- **SelectCardScreen:** View team and selection progress after the preparation period. Host can observe both teams' rosters, selected-card counts, and remaining time without a player slot; players manage their own slot. Wolf players can view challenge text; Sheep players can view only the number of available challenges per category.
 - **ManageGameScreen:** Host view of current round and Wolf attack card, with Hoàn Thành and X controls, match history, cancel, and replay actions.
 - **GameScreen:** Follow the active round, reveal or defend when eligible, view the current challenge, and track scores.
 - **Results:** View final team scores and the winner or draw.

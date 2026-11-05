@@ -7,3 +7,4 @@
 - **TEAM-005 — Stability:** Keep assignments unchanged until the game ends or is cancelled.
 - **TEAM-006 — Authority:** Clients cannot choose, alter, or report authoritative team assignments.
 - **TEAM-007 — Atomic Start:** Do not expose partial assignment if start validation or the transition fails.
+- **TEAM-008 — Preparation Period:** Keep team assignment visible for 10 seconds before card selection opens; the server controls this transition and preserves the remaining time across client refresh or reconnection.

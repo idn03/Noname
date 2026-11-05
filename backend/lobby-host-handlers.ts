@@ -1,6 +1,6 @@
 import type { Server, Socket } from 'socket.io';
 import { LOBBY_EVENTS, type HostCreateRequest, type LobbyCommandReply } from '../shared/lobby-contract';
-import { LobbySession } from './lobby-session';
+import { LobbySession, TEAM_ASSIGNMENT_DURATION_MS } from './lobby-session';
 import { bindIdentity, broadcastLobby, endSession, isLoopbackAddress, respond, type LobbyTransportContext } from './lobby-transport-context';
 
 interface StartRequest { confirmLowPopulation?: unknown }
@@ -34,6 +34,10 @@ export function attachHostHandlers(context: LobbyTransportContext, socket: Socke
     const result = session.start(actorId, request?.confirmLowPopulation === true);
     if (typeof result === 'string') return respond(socket, reply, result);
     broadcastLobby(context, session);
+    setTimeout(() => {
+      if (context.getSession() !== session || !session.completeTeamAssignment()) return;
+      broadcastLobby(context, session);
+    }, TEAM_ASSIGNMENT_DURATION_MS);
     reply?.({ ok: true });
   });
 
