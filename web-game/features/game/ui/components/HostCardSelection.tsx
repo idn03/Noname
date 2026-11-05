@@ -16,10 +16,6 @@ export function HostCardSelection({ selection }: HostCardSelectionProps) {
       </time>
       <TeamColumn team="sheep" data={selection.teams.sheep} />
     </div>
-    <nav className="fixed right-[clamp(1rem,4.2vw,5rem)] bottom-[3.5vh] z-20 grid w-[3.75rem] rounded-[.4rem] border border-[#722f37] bg-[rgb(0_0_0/.55)] p-[.3rem] max-[760px]:right-[.6rem] max-[760px]:bottom-3 max-[760px]:w-[3.2rem]" aria-label="Đi tới đội">
-      <a className="grid min-h-[2.6rem] place-items-center rounded-[.25rem] focus-visible:outline-2 focus-visible:outline-white focus-visible:-outline-offset-2" href="#host-team-wolf" aria-label="Đi tới Đội Sói"><img className="size-[1.8rem] object-contain [filter:brightness(0)_saturate(100%)_invert(28%)_sepia(21%)_saturate(1580%)_hue-rotate(300deg)]" src="/assets/teams/wolf-icon.svg" alt="" /></a>
-      <a className="grid min-h-[2.6rem] place-items-center rounded-[.25rem] focus-visible:outline-2 focus-visible:outline-white focus-visible:-outline-offset-2" href="#host-team-sheep" aria-label="Đi tới Đội Cừu"><img className="size-[1.8rem] object-contain [filter:brightness(0)_saturate(100%)_invert(28%)_sepia(21%)_saturate(1580%)_hue-rotate(300deg)]" src="/assets/teams/sheep-icon.svg" alt="" /></a>
-    </nav>
   </main>;
 }
 
