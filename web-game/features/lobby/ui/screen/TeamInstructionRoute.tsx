@@ -5,7 +5,7 @@ import { TeamInstructionScreen } from '@/features/lobby/ui/screen/TeamInstructio
 type Team = 'wolf' | 'sheep';
 
 export function TeamInstructionRoute({ team }: { team: Team }) {
-  return <div className="relative isolate min-h-dvh overflow-visible bg-black">
+  return <div className="relative isolate mx-auto min-h-dvh w-[min(100%,402px)] overflow-visible bg-black">
     <TeamInstructionScreen team={team} />
   </div>;
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { PressableText } from '@/components/shared/PressableText';
 import type { PlayerCardSelectionView } from '../../../../../shared/card-selection-contract';
 import { useSelectionCountdown, formatSelectionTime } from '../../hooks/use-selection-countdown';
 import { useCardSelectionDraft } from '../../hooks/use-card-selection-draft';
@@ -18,7 +19,7 @@ interface PlayerCardSelectionProps {
 
 export function PlayerCardSelection({ selection, connected, pending, error, onSubmit, onRemove }: PlayerCardSelectionProps) {
   const remainingMs = useSelectionCountdown(selection.remainingMs);
-  const { draft, setDraft, resetDraft, selectCategory, selectChallenge } = useCardSelectionDraft(selection);
+  const { draft, setDraft, selectCategory, selectChallenge } = useCardSelectionDraft(selection);
   const [activeCategoryId, setActiveCategoryId] = useState(selection.ownCard?.categoryId ?? selection.categories[0]?.id ?? '');
   const activeCategory = selection.categories.find(({ id }) => id === activeCategoryId);
   const draftCategory = selection.categories.find(({ id }) => id === draft?.categoryId);
@@ -28,6 +29,7 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
     && selection.ownCard.categoryId === draft.categoryId
     && (selection.team === 'sheep' || selection.ownCard.challengeId === draft.challengeId));
   const teamName = selection.team === 'wolf' ? 'Sói' : 'Cừu';
+  const selectionLocked = Boolean(selection.ownCard?.submitted) || pending;
 
   useEffect(() => {
     if (selection.ownCard?.categoryId) setActiveCategoryId(selection.ownCard.categoryId);
@@ -45,6 +47,11 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
     setActiveCategoryId(categoryId);
   }
 
+  function removeSelection() {
+    setActiveCategoryId('');
+    onRemove();
+  }
+
   return <main className="relative z-[1] flex min-h-svh w-full max-w-[402px] flex-col items-stretch border-0 rounded-none bg-transparent px-0 pt-[6.8vh] pb-[3vh] text-white shadow-none [@media(max-height:760px)_and_(min-width:641px)]:pt-6 max-[640px]:pt-[max(3.5rem,6.8vh)]" aria-labelledby="card-selection-title">
     <header className="px-[13px]">
       <h1 id="card-selection-title" className="m-0 text-white font-type-page-title text-[32px] leading-[1.08] font-bold">Vòng Chọn Thẻ</h1>
@@ -58,15 +65,14 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
       <h2 className="font-type-result-title font-medium">Bạn không có thẻ cá nhân trong vòng này</h2><p className="text-[#c2c2b8]">Hãy chờ các thành viên có thẻ hoàn tất lựa chọn.</p>
     </section> : <>
       <PlayerCardCarousel categories={selection.categories} role={selection.team} activeCategoryId={activeCategoryId} initialCategoryId={selection.ownCard?.categoryId}
-        draftCategoryId={draft?.categoryId} draftChallengeId={draft?.challengeId} disabled={!connected || pending}
+        draftCategoryId={draft?.categoryId} draftChallengeId={draft?.challengeId} locked={selectionLocked} disabled={!connected || pending}
         onFocusCategory={focusCategory} onSelectCategory={selectCategory} onSelectChallenge={selectChallenge}
         onClearChallenge={() => setDraft(undefined)} />
       <Button variant="outline" className="mx-auto mt-[38px] mb-0 min-h-[66px] w-[180px] self-center text-white font-type-body text-sm leading-none font-bold disabled:opacity-[.55] [@media(max-height:760px)_and_(min-width:641px)]:mt-4" type="button" disabled={!connected || pending || !canSubmit || matchesConfirmed} onClick={chooseActiveCard}>
-        {pending ? 'ĐANG GỬI…' : matchesConfirmed ? 'ĐÃ CHỌN' : selection.ownCard?.submitted ? 'CẬP NHẬT' : 'CHỌN'}
+        {pending ? 'ĐANG GỬI…' : matchesConfirmed ? 'ĐÃ CHỌN' : 'CHỌN'}
       </Button>
       <div className="mx-3 mt-[10px] mb-auto flex min-h-[38px] items-center justify-center gap-[.65rem] text-white font-type-body text-[13px] leading-[1.2]">
-        {!matchesConfirmed && selection.ownCard?.submitted && <Button type="button" variant="ghost" className="min-h-[34px] px-[10px] text-white font-type-body text-[11px] leading-none font-bold" disabled={pending} onClick={resetDraft}>HỦY SỬA</Button>}
-        {selection.ownCard?.submitted && <Button type="button" variant="outline" className="min-h-[34px] px-[10px] text-white font-type-body text-[11px] leading-none font-bold" disabled={!connected || pending} onClick={onRemove}>GỠ THẺ</Button>}
+        {selection.ownCard?.submitted && <PressableText className="min-h-[38px] px-[10px] font-type-body text-[13px] leading-[1.2] font-bold" disabled={!connected || pending} onClick={removeSelection}>BỎ CHỌN</PressableText>}
       </div>
     </>}
 

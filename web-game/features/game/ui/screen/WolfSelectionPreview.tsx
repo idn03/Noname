@@ -49,7 +49,7 @@ export function WolfSelectionPreview() {
     setSelection((current) => ({ ...current, ownCard: undefined }));
   }
 
-  return <div className="relative flex min-h-svh justify-center overflow-x-hidden overflow-y-auto bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]">
+  return <div className="relative mx-auto flex min-h-svh w-[min(100%,402px)] justify-center overflow-x-hidden overflow-y-auto bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]">
     <RuneField />
     <PlayerCardSelection selection={selection} connected pending={false} error="" onSubmit={submit} onRemove={remove} />
   </div>;
