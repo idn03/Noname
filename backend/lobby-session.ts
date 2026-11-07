@@ -12,6 +12,7 @@ import { LobbySessionPlayers } from './lobby-session-players';
 import { advanceSandboxTurn, applyLobbyTurnCommand } from './lobby-session-turns';
 
 export const TEAM_ASSIGNMENT_DURATION_MS = 10_000;
+export const SANDBOX_SELECTION_TO_MANAGE_DELAY_MS = 10_000;
 
 export class LobbySession {
   private readonly players: LobbySessionPlayers;
@@ -19,6 +20,7 @@ export class LobbySession {
   private gameState?: GameState;
   private sessionPools: readonly SessionCategoryPool[] = [];
   private assignmentDeadlineMs?: number;
+  private sandboxManageDeadlineMs?: number;
   private ended = false;
 
   private constructor(
@@ -75,6 +77,9 @@ export class LobbySession {
   completeTeamAssignment(now = Date.now()): boolean {
     if (!this.assignmentDeadlineMs || now < this.assignmentDeadlineMs || this.ended) return false;
     this.assignmentDeadlineMs = undefined;
+    if (this.isSandboxRoom && this.gameState?.phase === 'turns') {
+      this.sandboxManageDeadlineMs = now + SANDBOX_SELECTION_TO_MANAGE_DELAY_MS;
+    }
     if (this.gameState?.selectionDeadlineMs !== undefined) {
       this.gameState = {
         ...this.gameState,
@@ -82,6 +87,12 @@ export class LobbySession {
         selectionDeadlineMs: now + this.gameState.rounds * 60_000,
       };
     }
+    return true;
+  }
+
+  completeSandboxSelectionDelay(now = Date.now()): boolean {
+    if (!this.sandboxManageDeadlineMs || now < this.sandboxManageDeadlineMs || this.ended) return false;
+    this.sandboxManageDeadlineMs = undefined;
     return true;
   }
 
@@ -110,12 +121,14 @@ export class LobbySession {
     this.gameState = undefined;
     this.sessionPools = [];
     this.assignmentDeadlineMs = undefined;
+    this.sandboxManageDeadlineMs = undefined;
     this.players.clearCredentials();
     return undefined;
   }
 
   view(viewerId?: string, now = Date.now()): LobbyView {
-    return createLobbyView(this.phase, this.players.all(), this.gameState, viewerId, this.sessionPools, now, this.assignmentDeadlineMs);
+    return createLobbyView(this.phase, this.players.all(), this.gameState, viewerId, this.sessionPools, now,
+      this.assignmentDeadlineMs, this.sandboxManageDeadlineMs);
   }
 
   private applySelectionCommand(command: { type: 'select-card'; actorId: string; categoryId: string; challengeId?: string } | { type: 'remove-card'; actorId: string }): LobbyErrorCode | undefined {
@@ -129,6 +142,7 @@ export class LobbySession {
   }
 
   private applyTurn(command: { type: 'attack' | 'defend'; actorId: string; round: number } | { type: 'record-challenge-outcome'; actorId: string; round: number; succeeded: boolean }): LobbyErrorCode | undefined {
+    if (this.isSandboxRoom && this.sandboxManageDeadlineMs !== undefined && Date.now() < this.sandboxManageDeadlineMs) return 'INVALID_TURN';
     const isHost = this.players.connectedHost(command.actorId);
     if (command.type === 'record-challenge-outcome' ? !isHost : isHost) return 'NOT_AUTHORIZED';
     const player = this.gameState?.players.find(({ id }) => id === command.actorId);

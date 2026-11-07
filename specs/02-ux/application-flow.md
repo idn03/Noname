@@ -30,6 +30,7 @@
 - The Host match-management view shows the current round, separate team scores, and Wolf attack card. Match cancellation is available through the shared Host footer; do not show a floating X control.
 - The Host can cancel the match, returning all players to HomeScreen, or replay it with the same team assignments from card selection.
 - Sandbox selection automatically fills every Wolf slot with Music and a random challenge, and fills Sheep with two Music cards and one Travel card.
+- After Sandbox selection is filled, keep the Host on the completed selection view for 10 seconds before showing match management.
 
 ## Cancellation and Recovery
 

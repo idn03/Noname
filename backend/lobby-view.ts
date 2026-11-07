@@ -13,6 +13,7 @@ export function createLobbyView(
   pools: readonly SessionCategoryPool[] = [],
   now = Date.now(),
   assignmentDeadlineMs?: number,
+  sandboxManageDeadlineMs?: number,
 ): LobbyView {
   const teams = new Map(gameState?.players.map(({ id, team }) => [id, team]));
   const viewer = players.find((player) => player.id === viewerId);
@@ -21,7 +22,9 @@ export function createLobbyView(
   const game = gameState && viewer && hostId
     ? assignmentDeadlineMs && assignmentDeadlineMs > now
       ? assignmentView(gameState, viewer, assignmentDeadlineMs - now)
-      : authorizedGameView(gameState, pools, hostId, viewer, now)
+      : sandboxManageDeadlineMs && sandboxManageDeadlineMs > now && viewer.isHost
+        ? sandboxSelectionView(gameState, pools, hostId, viewer, sandboxManageDeadlineMs - now, now)
+        : authorizedGameView(gameState, pools, hostId, viewer, now)
     : undefined;
   return {
     phase,
@@ -31,6 +34,21 @@ export function createLobbyView(
       return { id, name, isHost, connected, ...(team && (hostViewer || id === viewerId) ? { team } : {}) };
     }),
   };
+}
+
+function sandboxSelectionView(
+  state: GameState,
+  pools: readonly SessionCategoryPool[],
+  hostId: string,
+  viewer: LobbyPlayerView,
+  remainingMs: number,
+  now: number,
+): LobbyGameView | undefined {
+  if (state.phase !== 'turns') return undefined;
+  const selection = createHostCardSelectionView(state, pools, hostId, viewer.id, now);
+  return selection.ok
+    ? { phase: 'selection', role: 'host', selection: { ...selection.value, remainingMs } }
+    : undefined;
 }
 
 function assignmentView(state: GameState, viewer: LobbyPlayerView, remainingMs: number): LobbyGameView | undefined {

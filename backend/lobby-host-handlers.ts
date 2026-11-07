@@ -1,6 +1,6 @@
 import type { Server, Socket } from 'socket.io';
 import { LOBBY_EVENTS, type HostCreateRequest, type LobbyCommandReply } from '../shared/lobby-contract';
-import { LobbySession, TEAM_ASSIGNMENT_DURATION_MS } from './lobby-session';
+import { LobbySession, SANDBOX_SELECTION_TO_MANAGE_DELAY_MS, TEAM_ASSIGNMENT_DURATION_MS } from './lobby-session';
 import { bindIdentity, broadcastLobby, endSession, isLoopbackAddress, respond, type LobbyTransportContext } from './lobby-transport-context';
 
 interface StartRequest { confirmLowPopulation?: unknown }
@@ -37,6 +37,11 @@ export function attachHostHandlers(context: LobbyTransportContext, socket: Socke
     setTimeout(() => {
       if (context.getSession() !== session || !session.completeTeamAssignment()) return;
       broadcastLobby(context, session);
+      if (!session.isSandboxRoom) return;
+      setTimeout(() => {
+        if (context.getSession() !== session || !session.completeSandboxSelectionDelay()) return;
+        broadcastLobby(context, session);
+      }, SANDBOX_SELECTION_TO_MANAGE_DELAY_MS);
     }, TEAM_ASSIGNMENT_DURATION_MS);
     reply?.({ ok: true });
   });
