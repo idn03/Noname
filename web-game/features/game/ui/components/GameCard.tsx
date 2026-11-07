@@ -25,6 +25,14 @@ const categoryArt: Record<string, string> = {
   music: 'guitar-sticker.png', travel: 'backpack-sticker.png', geography: 'compass-sticker.png',
   films: 'film-sticker.png', folklore: 'folklore-sticker.png', healthcare: 'healthcare-sticker.png',
 };
+const challengeArtBackground: Record<string, string> = {
+  music: "bg-[url('/assets/card-stickers/guitar-sticker.png')]",
+  travel: "bg-[url('/assets/card-stickers/backpack-sticker.png')]",
+  geography: "bg-[url('/assets/card-stickers/compass-sticker.png')]",
+  films: "bg-[url('/assets/card-stickers/film-sticker.png')]",
+  folklore: "bg-[url('/assets/card-stickers/folklore-sticker.png')]",
+  healthcare: "bg-[url('/assets/card-stickers/healthcare-sticker.png')]",
+};
 const frontArtLayout: Record<string, string> = {
   folklore: '!top-0 !left-1 h-[65%] w-[90%]',
   geography: 'top-[11%] left-1/2 h-[50%] w-[75%] -translate-x-1/2',
@@ -59,6 +67,7 @@ export function GameCard({
       className={`relative block aspect-[5/8] w-full max-w-[200px] overflow-visible rounded-[12px] border-0 bg-transparent p-0 text-black [perspective:1000px] [-webkit-tap-highlight-color:transparent] disabled:opacity-100 ${canChoose || canFlip ? 'cursor-pointer' : 'cursor-default'} focus-visible:outline-[3px] focus-visible:outline-white focus-visible:outline-offset-[5px] ${className}`}
       type="button"
       aria-label={cardLabel(categoryName, challengeCount, selectedChallenge, flipped)}
+      title={canFlip ? flipped ? 'Nhấn để lật lại' : 'Nhấn để xem thử thách' : undefined}
       aria-haspopup={canChoose && role === 'wolf' ? 'dialog' : undefined}
       aria-pressed={phase === 'selection' ? isSelected : canFlip ? flipped : undefined}
       disabled={disabled || (!canChoose && !canFlip)}
@@ -73,9 +82,9 @@ export function GameCard({
         </span>
         <span className="absolute inset-0 block [transform:rotateY(180deg)] overflow-hidden rounded-[12px] bg-white shadow-[0_2px_8px_rgb(0_0_0/.22)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]" aria-hidden={!flipped}>
           <span className="pointer-events-none absolute inset-[1%] rounded-[6%] border border-[#111] shadow-[inset_0_2px_16px_rgb(0_0_0/.3)]" aria-hidden="true" />
+          <span className={`pointer-events-none absolute top-[48%] left-1/2 h-[45%] w-[50%] -translate-x-1/2 bg-center bg-no-repeat bg-contain opacity-20 ${challengeArtBackground[categoryId.toLocaleLowerCase()] ?? ''}`} aria-hidden="true" />
           <span className="absolute top-[4.4%] left-1/2 block w-[calc(100%-24px)] -translate-x-1/2 text-center font-type-body text-2xl leading-[1.15]">Thử thách</span>
           <span className="absolute top-[18%] left-1/2 block max-h-[36%] w-[81%] -translate-x-1/2 overflow-auto text-center font-type-body text-sm leading-[1.25] [scrollbar-width:none]">{selectedChallenge?.text}</span>
-          {artPath(categoryId) && <img className="absolute top-[58%] left-1/2 h-[37.5%] w-[21.7%] -translate-x-1/2 object-contain" src={artPath(categoryId)} alt="" />}
         </span>
       </span>
     </button>
@@ -98,5 +107,5 @@ function artPath(categoryId: string): string | undefined {
 
 function cardLabel(name: string, count: number, challenge?: GameCardChallenge, flipped = false): string {
   return flipped ? `Mặt sau thẻ ${name}: ${challenge?.text ?? ''}. Nhấn để lật lại.`
-    : `Thẻ ${name}, có ${count} thử thách.${challenge ? ' Đã chọn thử thách.' : ''}`;
+    : `Thẻ ${name}, có ${count} thử thách.${challenge ? ' Đã chọn thử thách.' : ''}${challenge ? ' Nhấn để lật xem thử thách.' : ''}`;
 }

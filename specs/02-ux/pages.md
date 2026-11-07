@@ -27,7 +27,7 @@ The Host view shows both team rosters, selected-card counts, and remaining time.
 
 ## Host Match Management
 
-ManageGameScreen is Host-only. Show the current round and the Wolf attack card for that round, with Hoàn Thành and X controls. Provide match history, cancel-match, and replay actions in the shared footer on Lobby, selection, and match-management screens. Keep the footer raised clear of the viewport edge and browser safe area, reserving content space so Host actions remain visible without scrolling at the target screen size. Reuse this placement on subsequent Host screens. History is a concise, text-based report grouped by round and team, showing score changes and attack, defense, and challenge outcomes. Replay retains team assignments and returns everyone to card selection. Cancel ends the match and returns everyone to HomeScreen.
+ManageGameScreen is Host-only. Show the current round, separate team scores, and the Wolf attack card for that round. Provide match history, cancel-match, and replay actions in the shared footer; do not use a floating X control. Keep the footer raised clear of the viewport edge and browser safe area, reserving content space so Host actions remain visible without scrolling at the target screen size. Reuse this placement on subsequent Host screens. History is a concise, text-based report grouped by round and team, showing score changes and attack, defense, and challenge outcomes. Replay retains team assignments and returns everyone to card selection. Cancel ends the match and returns everyone to HomeScreen.
 
 ## Sandbox
 

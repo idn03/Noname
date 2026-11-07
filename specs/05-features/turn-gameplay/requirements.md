@@ -11,6 +11,6 @@
 - **TURN-009 — Challenge Variety:** Avoid repeating a challenge in the same game while alternatives remain.
 - **TURN-010 — Validation:** Invalid, stale, wrong-owner, or wrong-phase actions do not change game state. Turn actions must match the active round shown in the authorized game view.
 - **TURN-011 — Host Outcome Controls:** While a Sheep player is handling the active challenge, show the Host Thành Công and Thất Bại controls. Only the Host may record one outcome for that active challenge; reject duplicate, stale, or unauthorized outcomes without changing state.
-- **TURN-012 — Host Match View:** Show the Host the current round and the Wolf attack card used in that round, with Hoàn Thành and X controls.
+- **TURN-012 — Host Match View:** Show the Host the current round, separate team scores, and the Wolf attack card used in that round. Provide match cancellation through the shared Host footer; do not show a floating X control.
 - **TURN-013 — Match History:** Preserve a concise text report of completed rounds, grouped by round and team, including score changes and attack, defense, and challenge outcomes. Make it available to the Host from lobby, selection, and match-management screens.
 - **TURN-014 — Sandbox Turns:** Sandbox selects the first unused Wolf slot and first eligible matching Sheep slot in stable player order, submitting each action through the same Game Engine validation as player actions. The Host records each challenge outcome.

@@ -27,7 +27,7 @@
 ## Host Match Management
 
 - The Host can open a concise round-by-round text history from the footer in the lobby, selection, or match-management view.
-- The Host match-management view shows the current round and Wolf attack card and provides Hoàn Thành and X controls.
+- The Host match-management view shows the current round, separate team scores, and Wolf attack card. Match cancellation is available through the shared Host footer; do not show a floating X control.
 - The Host can cancel the match, returning all players to HomeScreen, or replay it with the same team assignments from card selection.
 - Sandbox selection automatically fills every Wolf slot with Music and a random challenge, and fills Sheep with two Music cards and one Travel card.
 

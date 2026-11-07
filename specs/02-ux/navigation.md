@@ -12,7 +12,7 @@ V0 is a single-session game with phase-based screens rather than a multi-section
 - **LobbyScreen:** View player presence and, for the Host, start, delete-room, match-history, and cancel-match controls.
 - **Team Assignment:** View the assigned teams for 10 seconds after the Host starts. The Host sees team formation; each player sees only their own team and the remaining preparation time.
 - **SelectCardScreen:** View team and selection progress after the preparation period. Host can observe both teams' rosters, selected-card counts, and remaining time without a player slot; players manage their own slot. Wolf players can view challenge text; Sheep players can view only the number of available challenges per category.
-- **ManageGameScreen:** Host view of current round and Wolf attack card, with Hoàn Thành and X controls, match history, cancel, and replay actions.
+- **ManageGameScreen:** Host view of current round, separate team scores, and Wolf attack card, with match history, cancel, and replay actions in the shared footer.
 - **GameScreen:** Follow the active round, reveal or defend when eligible, view the current challenge, and track scores.
 - **Results:** View final team scores and the winner or draw.
 
