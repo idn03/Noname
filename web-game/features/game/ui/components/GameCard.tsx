@@ -82,7 +82,7 @@ export function GameCard({
         </span>
         <span className="absolute inset-0 block [transform:rotateY(180deg)] overflow-hidden rounded-[12px] bg-white shadow-[0_2px_8px_rgb(0_0_0/.22)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]" aria-hidden={!flipped}>
           <span className="pointer-events-none absolute inset-[1%] rounded-[6%] border border-[#111] shadow-[inset_0_2px_16px_rgb(0_0_0/.3)]" aria-hidden="true" />
-          <span className={`pointer-events-none absolute top-[48%] left-1/2 h-[45%] w-[50%] -translate-x-1/2 bg-center bg-no-repeat bg-contain opacity-20 ${challengeArtBackground[categoryId.toLocaleLowerCase()] ?? ''}`} aria-hidden="true" />
+          <span className={`pointer-events-none absolute mt-8 bg-center bg-no-repeat bg-contain opacity-20 ${frontArtLayout[categoryId.toLocaleLowerCase()] ?? defaultFrontArtLayout} ${challengeArtBackground[categoryId.toLocaleLowerCase()] ?? ''}`} aria-hidden="true" />
           <span className="absolute top-[4.4%] left-1/2 block w-[calc(100%-24px)] -translate-x-1/2 text-center font-type-body text-2xl leading-[1.15]">Thử thách</span>
           <span className="absolute top-[18%] left-1/2 block max-h-[36%] w-[81%] -translate-x-1/2 overflow-auto text-center font-type-body text-sm leading-[1.25] [scrollbar-width:none]">{selectedChallenge?.text}</span>
         </span>
