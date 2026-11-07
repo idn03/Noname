@@ -32,5 +32,13 @@ export function ManageGameScreen({ game, players, pending, error, onOutcome, onC
 
 function Team({ title, score, team, game, nameOf }: { title: string; score: number; team: 'wolf' | 'sheep'; game: Game; nameOf: (id?: string) => string }) {
   const players = game.selection.teams[team].players;
-  return <section className={`pt-2 ${team === 'sheep' ? 'text-right' : ''}`}><h2 className="mb-1 mt-0 text-[clamp(23px,3vw,38px)] max-[640px]:text-[21px]">{title}</h2><p className="mb-[18px] mt-0 text-[17px] font-bold">Điểm: {score}</p><ol className="m-0 list-none p-0 text-[15px] max-[640px]:text-[13px]">{players.map((player) => <li className="mb-[18px]" key={player.id}>{nameOf(player.id)}{player.id === game.activeTurn?.attackerId ? ' · tấn công' : ''}{player.id === game.activeTurn?.defenderId ? ' · phòng thủ' : ''}</li>)}</ol></section>;
+  const isWolf = team === 'wolf';
+  return <section className={`pt-2 ${isWolf ? 'text-black' : 'text-white'}`}>
+    <p className="mb-1 ml-3 mt-0 text-[32px] font-bold">Điểm: {score}</p>
+    <div className="mb-[18px] flex items-center gap-3">
+      <img className={`size-[60px] object-contain ${isWolf ? '' : 'brightness-0 invert'}`} src={`/assets/teams/${team}-icon.svg`} alt="" />
+      <h2 className="m-0 text-[48px] font-bold leading-[1.1] max-[760px]:text-[32px]">{title}</h2>
+    </div>
+    <ol className="m-0 list-none p-0 text-[15px] max-[640px]:text-[13px]">{players.map((player) => <li className="mb-[18px]" key={player.id}>{nameOf(player.id)}{player.id === game.activeTurn?.attackerId ? ' · tấn công' : ''}{player.id === game.activeTurn?.defenderId ? ' · phòng thủ' : ''}</li>)}</ol>
+  </section>;
 }
