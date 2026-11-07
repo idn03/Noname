@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import type { LobbyGameView } from '@shared/card-selection-contract';
 import type { LobbyPlayerView } from '@shared/lobby-contract';
 import { Button } from '@/components/shared/Button';
@@ -8,6 +9,7 @@ type Game = Extract<LobbyGameView, { phase: 'turns'; role: 'host' }>;
 interface Props { game: Game; players: readonly LobbyPlayerView[]; pending: boolean; error: string; onOutcome: (round: number, succeeded: boolean) => void; onCancel: () => void }
 
 export function ManageGameScreen({ game, players, pending, error, onOutcome, onCancel }: Props) {
+  const historyRef = useRef<HTMLDetailsElement>(null);
   const active = game.activeTurn;
   const nameOf = (id?: string) => players.find((player) => player.id === id)?.name ?? 'Đang chờ';
   return <main className="relative z-[1] min-h-dvh px-[4vw] pt-[clamp(42px,7vh,84px)] pb-[110px] font-type-body text-white max-[640px]:px-[14px] max-[640px]:pt-[46px] max-[640px]:pb-[92px]" aria-label="Quản lý trận đấu">
@@ -23,8 +25,8 @@ export function ManageGameScreen({ game, players, pending, error, onOutcome, onC
       </section>
       <Team title="Đội Cừu" score={game.scores.sheep} team="sheep" game={game} nameOf={nameOf} />
     </div>
-    <details className="fixed bottom-[max(18px,env(safe-area-inset-bottom))] left-[clamp(18px,3vw,50px)] z-[3] max-w-[min(420px,65vw)] text-[13px] max-[640px]:bottom-[max(12px,env(safe-area-inset-bottom))] max-[640px]:left-3 max-[640px]:max-w-[calc(100vw-92px)] max-[640px]:text-xs open:rounded-lg open:border open:border-white/45 open:bg-[#351519] open:p-3"><summary className="cursor-pointer">Xem lịch sử giao đấu</summary>{game.roundHistory.length ? game.roundHistory.map((round) => <p className="my-2" key={`${round.round}-${round.attackerId}`}>Lượt {round.round}: {nameOf(round.attackerId)} tấn công · {round.defenderId ? `${nameOf(round.defenderId)} phòng thủ` : 'không phòng thủ'} · Sói +{round.scoreChange.wolf}, Cừu +{round.scoreChange.sheep}</p>) : <p className="my-2">Chưa có lượt nào hoàn thành.</p>}</details>
-    <HostSelectionActions compact playerCount={players.filter((player) => !player.isHost && player.connected).length} pending={pending} onCancel={onCancel} onStart={() => undefined} onDelete={() => undefined} />
+    <details ref={historyRef} className="fixed bottom-[max(18px,env(safe-area-inset-bottom))] left-[clamp(18px,3vw,50px)] z-[3] max-w-[min(420px,65vw)] text-[13px] max-[640px]:bottom-[max(12px,env(safe-area-inset-bottom))] max-[640px]:left-3 max-[640px]:max-w-[calc(100vw-92px)] max-[640px]:text-xs open:rounded-lg open:border open:border-white/45 open:bg-[#351519] open:p-3"><summary className="sr-only">Lịch sử giao đấu</summary>{game.roundHistory.length ? game.roundHistory.map((round) => <p className="my-2" key={`${round.round}-${round.attackerId}`}>Lượt {round.round}: {nameOf(round.attackerId)} tấn công · {round.defenderId ? `${nameOf(round.defenderId)} phòng thủ` : 'không phòng thủ'} · Sói +{round.scoreChange.wolf}, Cừu +{round.scoreChange.sheep}</p>) : <p className="my-2">Chưa có lượt nào hoàn thành.</p>}</details>
+    <HostSelectionActions playerCount={players.filter((player) => !player.isHost && player.connected).length} pending={pending} onCancel={onCancel} onStart={() => undefined} onDelete={() => undefined} onHistory={() => { if (historyRef.current) historyRef.current.open = !historyRef.current.open; }} />
   </main>;
 }
 
