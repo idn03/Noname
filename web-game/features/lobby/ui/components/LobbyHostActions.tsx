@@ -54,7 +54,7 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
 
   return <div className={className}>
     {started ? <PressableText className={secondaryButtonClassName} disabled={pending} onClick={() => setEndAction('cancel')}>
-      {secondaryPrefix && <span className="font-type-label text-[1.3rem] leading-none">{secondaryPrefix}</span>}Hủy trận
+      {secondaryPrefix && <span className="font-type-label text-title2 leading-none">{secondaryPrefix}</span>}Hủy trận
     </PressableText> : <>
       {!confirmStart && <Button type="button" className={primaryButtonClassName} disabled={pending || playerCount < 6} onClick={requestStart}>CHƠI</Button>}
       <PressableText className={`inline-flex items-center gap-[10px] ${secondaryButtonClassName}`} onClick={() => setEndAction('delete')}>
@@ -62,7 +62,7 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
         <span>Xóa phòng này</span>
       </PressableText>
     </>}
-    {!started && playerCount < 6 && <p className="m-0 flex-[1_1_100%] text-[#aaa] text-[13px]">Cần ít nhất 6 người chơi đang kết nối để bắt đầu.</p>}
+    {!started && playerCount < 6 && <p className="m-0 flex-[1_1_100%] text-[#aaa] text-content">Cần ít nhất 6 người chơi đang kết nối để bắt đầu.</p>}
     <Dialog open={confirmationOpen && !closingConfirmation} onOpenChange={(open) => { if (!open) closeConfirmation(false); }}>
       {confirmationOpen && <DialogContent
         className="flex w-[min(calc(100vw-48px),440px)] flex-col items-stretch gap-[14px] rounded-lg border-0 bg-[rgb(0_0_0/.3)] p-6 shadow-[0_12px_40px_rgb(0_0_0/.24)]"
@@ -71,7 +71,7 @@ export function LobbyHostActions(props: LobbyHostActionsProps) {
       >
         <DialogTitle className="sr-only">{confirmationLabel}</DialogTitle>
         <DialogDescription id="host-confirmation-message" className="mb-1 w-full text-white">{confirmationMessage}</DialogDescription>
-        <div className="flex w-full gap-[14px] [&>button]:min-h-12 [&>button]:flex-1 [&>button]:text-white [&>button]:font-type-body [&>button]:text-base [&>button]:font-bold">
+        <div className="flex w-full gap-[14px] [&>button]:min-h-12 [&>button]:flex-1 [&>button]:text-white [&>button]:font-type-body [&>button]:text-subtitle [&>button]:font-bold">
           <Button type="button" variant="mobile" className={confirmationButtonClassName} autoFocus disabled={pending || closingConfirmation} onClick={() => closeConfirmation(true)}>Xác nhận</Button>
           <Button type="button" variant="mobile" className={`border-current bg-transparent ${confirmationButtonClassName}`} disabled={closingConfirmation} onClick={() => closeConfirmation(false)}>Quay lại</Button>
         </div>

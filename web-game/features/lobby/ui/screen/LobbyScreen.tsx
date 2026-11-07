@@ -49,7 +49,7 @@ export default function LobbyScreen() {
       {lobby.game.role === 'host'
         ? <><HostCardSelection selection={lobby.game.selection} />
           <HostSelectionActions playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
-          {error && <p className="relative z-[1] my-[14px] text-[#ffb6bd] text-[14px]" role="alert">{error}</p>}
+          {error && <p className="relative z-[1] my-[14px] text-[#ffb6bd] text-content" role="alert">{error}</p>}
         </>
         : <PlayerCardSelection selection={lobby.game.selection} connected={connected} pending={pending} error={error} onSubmit={selectCard} onRemove={removeCard} />}
     </main>;
@@ -65,18 +65,18 @@ export default function LobbyScreen() {
 
   return <main className={`${shellClassName} ${!lobby ? 'flex items-stretch' : ''}`}>
     <RuneField density={isPlayerView ? 'player' : 'default'} />
-    {!lobby && isLocalHost === null && <p className="relative z-[1] grid min-h-dvh place-items-center m-0 text-white font-type-body text-lg" role="status">Đang xác định chế độ kết nối…</p>}
+    {!lobby && isLocalHost === null && <p className="relative z-[1] grid min-h-dvh place-items-center m-0 text-white font-type-body text-subtitle" role="status">Đang xác định chế độ kết nối…</p>}
     {(!lobby || isStartedGuest) && isLocalHost !== null && <section className={getHomeContentClassName(isLocalHost)} aria-labelledby="page-title">
       <h1 id="page-title" className={getHomeTitleClassName(isLocalHost)}><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>
       {isLocalHost ? <HostHomeActions connected={connected} pending={pending} error={error} onCreate={createHost} onCreateSandbox={createSandbox} /> : <div className="min-w-0 self-auto my-0 mt-[clamp(40px,11vh,112px)] max-[700px]:mt-2">
-        <p className="m-0 mb-7 text-white font-type-body text-lg font-normal leading-[1.4]">Hãy để màn đêm định đoạt tất cả</p>
+        <p className="m-0 mb-7 text-white font-type-body text-subtitle font-normal leading-[1.4]">Hãy để màn đêm định đoạt tất cả</p>
         <LobbyNameForm label="Tên hiển thị" action="Tham gia phòng" pendingAction="Đang tham gia…" name={name} error={error} disabled={!connected || pending || !lobby || isStartedGuest} onNameChange={setName} onSubmit={join} />
         {isStartedGuest
-          ? <p className="m-0 mt-1 ml-2 text-[#aaa] font-type-body text-sm" role="status">Ván chơi đã bắt đầu và không nhận thêm người chơi mới.</p>
-          : !lobby && <p className="m-0 mt-1 ml-2 text-[#aaa] font-type-body text-sm" role="status">Đang chờ Chủ phòng tạo phòng trên máy chủ.</p>}
+          ? <p className="m-0 mt-1 ml-2 text-[#aaa] font-type-body text-content" role="status">Ván chơi đã bắt đầu và không nhận thêm người chơi mới.</p>
+          : !lobby && <p className="m-0 mt-1 ml-2 text-[#aaa] font-type-body text-content" role="status">Đang chờ Chủ phòng tạo phòng trên máy chủ.</p>}
       </div>}
       {!isLocalHost && <>
-        {comingSoon && <p className="fixed z-[11] right-4 bottom-[max(84px,calc(env(safe-area-inset-bottom)+56px))] left-4 m-0 text-white font-type-body text-sm leading-[1.4] text-center" role="status">{comingSoon} · Sắp ra mắt</p>}
+        {comingSoon && <p className="fixed z-[11] right-4 bottom-[max(84px,calc(env(safe-area-inset-bottom)+56px))] left-4 m-0 text-white font-type-body text-content leading-[1.4] text-center" role="status">{comingSoon} · Sắp ra mắt</p>}
         <PlayerBottomNav
           onOpenWolf={() => { setComingSoon(''); router.push('/wolf-team'); }}
           onOpenSheep={() => { setComingSoon(''); router.push('/sheep-team'); }}
@@ -96,25 +96,25 @@ export default function LobbyScreen() {
       onDelete={deleteRoom}
     />}
     {lobby && !host && !isStartedGuest && <section className="relative mx-auto w-[calc(100%_-_40px)] max-w-[680px] pt-[clamp(52px,11vh,112px)] pb-12" aria-labelledby="page-title">
-      <p className="m-0 mb-[14px] text-[#bd858a] text-[11px] font-bold tracking-[.16em]">PHÒNG CHƠI</p>
-      <h1 id="page-title" className="m-0 font-type-page-title text-[clamp(34px,6vw,52px)] leading-[1.08] tracking-[-.04em]">Cùng vào phòng</h1>
+      <p className="m-0 mb-[14px] text-[#bd858a] text-content font-bold tracking-[.16em]">PHÒNG CHƠI</p>
+      <h1 id="page-title" className="m-0 font-type-page-title text-[length:clamp(var(--text-heading6),6vw,var(--text-heading3))] leading-[1.08] tracking-[-.04em]">Cùng vào phòng</h1>
       <p className="mt-4 mb-[38px] max-w-[48ch] font-type-body text-[#b5b5b5] leading-[1.65]">{lobby.phase === 'started' ? 'Các đội đã được Game Engine phân chia.' : isLocalHost ? 'Phòng đã sẵn sàng. Chờ mọi người tham gia trước khi bắt đầu.' : 'Nhập tên hiển thị để tham gia ván chơi cùng mọi người trong mạng nội bộ.'}</p>
       <section className="mt-[42px]" aria-label="Danh sách người chơi">
         <div className="flex items-center justify-between gap-4 border-b border-[#414141] pb-4 max-[520px]:flex-col max-[520px]:items-start">
-          <div><h2 className="m-0 font-type-section-title text-xl">Người chơi</h2><p className="mt-[7px] mb-0 text-[#b5b5b5] text-sm font-type-supporting">{connectedPlayers} đang kết nối · {players.filter((player) => !player.isHost).length}/10 chỗ</p></div>
-          {!connected && <span className="text-[#c9a1a4] text-[13px]" role="status">Đang kết nối lại</span>}
+          <div><h2 className="m-0 font-type-section-title text-title2">Người chơi</h2><p className="mt-[7px] mb-0 text-[#b5b5b5] text-content font-type-supporting">{connectedPlayers} đang kết nối · {players.filter((player) => !player.isHost).length}/10 chỗ</p></div>
+          {!connected && <span className="text-[#c9a1a4] text-content" role="status">Đang kết nối lại</span>}
         </div>
-        <p className="my-[18px] flex w-fit items-center gap-[10px] text-white font-type-body text-base">Chủ phòng <span className={`inline-block size-[9px] flex-[0_0_9px] rounded-full border border-[#888] ${players.find((player) => player.isHost)?.connected ? 'border-[#b85c66] bg-[#b85c66]' : ''}`} aria-hidden="true" /></p>
+        <p className="my-[18px] flex w-fit items-center gap-[10px] text-white font-type-body text-subtitle">Chủ phòng <span className={`inline-block size-[9px] flex-[0_0_9px] rounded-full border border-[#888] ${players.find((player) => player.isHost)?.connected ? 'border-[#b85c66] bg-[#b85c66]' : ''}`} aria-hidden="true" /></p>
         <LobbyPlayerStage players={players} started={lobby.phase === 'started'} canSeeAllTeams={host} />
-        {error && <p className="my-[14px] text-[#ffb6bd] text-[14px]" role="alert">{error}</p>}
+        {error && <p className="my-[14px] text-[#ffb6bd] text-content" role="alert">{error}</p>}
         {lobby.phase === 'lobby' && <>
           {!currentPlayer && <LobbyNameForm label="Tên hiển thị" action="Tham gia phòng" pendingAction="Đang tham gia…" helper="Từ 1 đến 24 ký tự." name={name} error="" disabled={!connected || pending} onNameChange={setName} onSubmit={join} />}
-          {host ? <LobbyHostActions started={false} playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} /> : <p className="text-[#aaa] text-sm font-type-body">Đang chờ Chủ phòng bắt đầu trò chơi.</p>}
+          {host ? <LobbyHostActions started={false} playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} /> : <p className="text-[#aaa] text-content font-type-body">Đang chờ Chủ phòng bắt đầu trò chơi.</p>}
         </>}
         {lobby.phase === 'started' && host && <LobbyHostActions started playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />}
-        {lobby.phase === 'started' && !host && <p className="text-[#aaa] text-sm font-type-body">Phòng đã bắt đầu. Đang chờ thông tin ván chơi.</p>}
+        {lobby.phase === 'started' && !host && <p className="text-[#aaa] text-content font-type-body">Phòng đã bắt đầu. Đang chờ thông tin ván chơi.</p>}
       </section>
-      <div className="mt-12 flex items-center gap-[9px] text-[#999] text-xs font-type-body" role="status"><span className={`inline-block size-[9px] flex-[0_0_9px] rounded-full border border-[#888] ${connected ? 'border-[#b85c66] bg-[#b85c66]' : ''}`} />{connected ? 'Kết nối với máy chủ phòng chơi' : 'Đang kết nối với máy chủ…'}</div>
+      <div className="mt-12 flex items-center gap-[9px] text-[#999] text-content font-type-body" role="status"><span className={`inline-block size-[9px] flex-[0_0_9px] rounded-full border border-[#888] ${connected ? 'border-[#b85c66] bg-[#b85c66]' : ''}`} />{connected ? 'Kết nối với máy chủ phòng chơi' : 'Đang kết nối với máy chủ…'}</div>
     </section>}
   </main>;
 }

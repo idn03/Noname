@@ -7,10 +7,9 @@ and its UI-focused coverage to inspect screenshots at relevant viewport sizes,
 trace artifacts, console errors, failed requests, and relevant interactions.
 Return test output and artifact paths as browser evidence; mark unavailable
 required UI evidence as unavailable, never as pass.
-For `web-game` UI, also check the implementation's Design Read and design
-rationale against the applicable anti-default guidance from the installed
-`design-taste-frontend` skill, while prioritizing product requirements,
-accessibility, and clear gameplay over inapplicable marketing-page recipes.
+For `web-game` UI, also check the implementation's design rationale against
+the project design system and product requirements, including accessibility
+and clear gameplay.
 
 Review the diff, relevant specs, `RULES.md`, and the stage contract. Check
 scope, correctness, safety, type quality, separation of concerns, and error

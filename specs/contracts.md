@@ -40,9 +40,9 @@ A stage result contains stage identity, ordered implementation/review cycles,
 phase results, checkpoint result, and final status. Each cycle records its
 number (1–3), implementation result, frontend/backend scope review, browser UI
 evidence or a not-applicable reason, focused behavior checks, findings, and
-repair outcome. For `web-game` interface stages, the result also records the
-Design Read, chosen design dials, and applicable design rationale from the
-installed `design-taste-frontend` skill.
+repair outcome. For `web-game` interface stages, the result also records
+applicable design rationale from the project design system and product
+requirements.
 
 The feature run records its Playwright Test browser preflight separately from
 numbered cycles, including status, commands, outcome, and whether the runner

@@ -15,8 +15,8 @@ export function getHomeContentClassName(isHost: boolean) {
 
 export function getHomeTitleClassName(isHost: boolean) {
   const base = 'flex m-0 text-white font-type-display font-normal [text-shadow:0_4px_20px_rgb(0_0_0/.2)]';
-  if (!isHost) return `${base} flex-col text-[clamp(82px,30vw,128px)] leading-[.97]`;
-  return `${base} flex-col text-[clamp(72px,9vw,128px)] leading-[.98] max-[700px]:flex-row max-[700px]:gap-[.25em] max-[700px]:text-[clamp(48px,13vw,76px)]`;
+  if (!isHost) return `${base} flex-col text-[length:clamp(var(--text-heading2),30vw,var(--text-heading1))] leading-[.97]`;
+  return `${base} flex-col text-[length:clamp(var(--text-heading2),9vw,var(--text-heading1))] leading-[.98] max-[700px]:flex-row max-[700px]:gap-[.25em] max-[700px]:text-[length:clamp(var(--text-heading3),13vw,var(--text-heading2))]`;
 }
 
 export const playerHomeActionClassName = 'min-w-0 self-auto my-0 mt-[clamp(40px,11vh,112px)]';
