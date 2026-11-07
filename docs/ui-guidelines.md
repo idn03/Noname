@@ -5,7 +5,7 @@ Use these rules for every screen in `web-game`. The product visual direction and
 ## Components
 
 - Check `web-game/components/ui/` for a shadcn/ui component before building a common interaction from scratch.
-- Keep shadcn component source in `web-game/components/ui/`; customize its variants and scoped styles to match Noname instead of accepting default colors, radii, or spacing.
+- Keep shadcn component source in `web-game/components/ui/`; customize its variants with Tailwind utilities to match Noname instead of accepting default colors, radii, or spacing.
 - Put project-wide composed controls in `web-game/components/shared/`. Keep feature-specific composition beside its feature.
 - Reuse the shared Button and established icon family. Do not create screen-specific button or icon implementations when the shared component can express the design.
 - Use `PressableText` for actions presented as interactive text instead of styling a plain text element to look clickable.
@@ -14,13 +14,13 @@ Use these rules for every screen in `web-game`. The product visual direction and
 ## Visual system
 
 - Use the named palette, type roles, and button contract from `specs/02-ux/design-system.md`.
-- Define shared colors, typography roles, radii, and spacing as tokens. Avoid repeating raw values across screen stylesheets.
-- Put ordinary styling directly in JSX `className` values with Tailwind utilities. Do not add named CSS classes or IDs solely to express layout, spacing, responsive behavior, typography, colors, borders, or ordinary interaction states.
+- Define shared colors, typography roles, radii, and spacing as Tailwind theme tokens. Avoid screen-specific stylesheets.
+- Style every screen and component with Tailwind utilities in JSX `className` values. Do not add screen/component stylesheets, named CSS classes, or CSS ID selectors for presentation, including complex artwork, animation, and compositions.
+- Keep global CSS limited to Tailwind setup, resets, font loading, and shared theme tokens. Do not use inline `style` props for visual styling; use them only when a behavior requires a runtime-computed value that cannot be represented by Tailwind classes.
 - Keep IDs for labels, accessible relationships, and in-page navigation. Keep `data-*` attributes for behavior and animation hooks; do not use either as styling selectors.
 - Keep the horror visual direction, but preserve readable contrast and recognizable focus, disabled, pending, success, and error states.
-- Scope any remaining screen-specific custom CSS beneath that screen's root class. Keep resets and tokens in global styles; express ordinary reusable component styling with Tailwind utilities.
+- Keep all responsive and interactive presentation states in Tailwind classes, including reduced-motion variants where applicable.
 - Prefer composition and whitespace over nested surfaces. Use a card or border only when it clarifies grouping.
-- Keep custom selectors for complex card artwork, decorative rune placement, choreographed roster/game-scene positioning, and keyframe animations that are awkward or brittle as utilities. Keep dynamic coordinates in inline styles only when they are computed from runtime data.
 
 ## Interaction and accessibility
 

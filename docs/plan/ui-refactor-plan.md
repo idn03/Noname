@@ -58,11 +58,12 @@ Implementation choices are in [UI Implementation Guidelines](../ui-guidelines.md
 5. Keep reusable design values in shared CSS/Tailwind theme tokens. Prefer flat
    composition and whitespace. Use gradients, shadows, and decorative effects
    sparingly and only where they support the intended atmosphere or hierarchy.
-6. Keep custom CSS for genuinely complex artwork, animation, or layout that is
-   awkward or unreadable as utilities. Current candidates are card-face
-   artwork, decorative rune positioning, roster choreography, and keyframes.
-   Scope each exception and document its reason briefly in the implementation
-   review. Runtime-computed positions may remain inline styles.
+6. Use Tailwind utilities in JSX `className` values for all screen and
+   component presentation, including artwork, animation, and complex layouts.
+   Do not add screen/component stylesheets or named CSS selectors. Keep global
+   CSS for Tailwind setup, resets, font loading, and shared theme tokens.
+   Runtime-computed inline style values are allowed only when required by
+   behavior and impossible to represent with Tailwind classes.
 7. Do not change the product palette, UX requirements, server-authoritative
    state, or team privacy as an incidental result of styling migration. Update
    the UX design-system spec if shared product-level visual behavior changes.
