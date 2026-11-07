@@ -7,7 +7,10 @@ export type LobbyCommand = typeof LOBBY_EVENTS.hostCreate
   | typeof LOBBY_EVENTS.hostDeleteRoom
   | typeof LOBBY_EVENTS.join
   | typeof LOBBY_EVENTS.selectCard
-  | typeof LOBBY_EVENTS.removeCard;
+  | typeof LOBBY_EVENTS.removeCard
+  | typeof LOBBY_EVENTS.attack
+  | typeof LOBBY_EVENTS.defend
+  | typeof LOBBY_EVENTS.recordChallengeOutcome;
 
 export function emitLobbyCommand(
   socket: Socket | null,

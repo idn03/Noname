@@ -12,10 +12,12 @@ import { PlayerBottomNav } from '@/features/lobby/ui/components/PlayerBottomNav'
 import { PlayerCardSelection } from '@/features/game/ui/components/PlayerCardSelection';
 import { HostCardSelection } from '@/features/game/ui/components/HostCardSelection';
 import { HostSelectionActions } from '@/features/game/ui/components/HostSelectionActions';
-import { SelectionWaiting } from '@/features/game/ui/components/SelectionWaiting';
+import { PlayerGameScreen } from '@/features/game/ui/screen/PlayerGameScreen';
+import { ManageGameScreen } from '@/features/game/ui/screen/ManageGameScreen';
 import { TeamAssignmentScreen } from './TeamAssignmentScreen';
 import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 import { getHomeContentClassName, getHomeTitleClassName, getLobbyShellClassName } from './lobby-screen-classes';
+import './gameplay.css';
 
 export default function LobbyScreen() {
   const [comingSoon, setComingSoon] = useState('');
@@ -23,7 +25,7 @@ export default function LobbyScreen() {
   const screen = useLobbyScreen();
   const {
     name, setName, lobby, error, connected, pending, isLocalHost, host, players,
-    connectedPlayers, currentPlayer, roleClass, createHost, createSandbox, join, start, cancel, deleteRoom, selectCard, removeCard,
+    connectedPlayers, currentPlayer, roleClass, createHost, createSandbox, join, start, cancel, deleteRoom, selectCard, removeCard, attack, defend, recordOutcome,
   } = screen;
   const isPlayerView = roleClass === 'lobby-shell--player';
   const isStartedGuest = lobby?.phase === 'started' && !currentPlayer && isLocalHost !== true;
@@ -55,11 +57,10 @@ export default function LobbyScreen() {
   }
   if (lobby?.game?.phase === 'turns') {
     if (lobby.game.role === 'host') return <main className={hostCardShellClassName}>
-      <RuneField /><HostCardSelection selection={lobby.game.selection} />
-      <HostSelectionActions playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
+      <RuneField /><ManageGameScreen game={lobby.game} players={players} pending={pending} error={error} onOutcome={recordOutcome} onCancel={cancel} />
     </main>;
-    return <main className={`${shellClassName} flex !min-h-svh items-center justify-center gap-6 p-[clamp(1rem,4vw,3.5rem)] max-[640px]:items-start max-[640px]:p-3`}>
-      <RuneField density="player" /><SelectionWaiting game={lobby.game} />
+    return <main className={`${shellClassName} !min-h-svh !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`}>
+      <RuneField density="player" /><PlayerGameScreen game={lobby.game} selfId={screen.selfId} players={players} pending={pending} error={error} onAttack={attack} onDefend={defend} />
     </main>;
   }
 

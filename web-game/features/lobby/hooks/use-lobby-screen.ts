@@ -35,6 +35,9 @@ export function useLobbyScreen() {
   const deleteRoom = () => command(LOBBY_EVENTS.hostDeleteRoom, {});
   const selectCard = (selection: { categoryId: string; challengeId?: string }) => command(LOBBY_EVENTS.selectCard, selection);
   const removeCard = () => command(LOBBY_EVENTS.removeCard, {});
+  const attack = (round: number) => command(LOBBY_EVENTS.attack, { round });
+  const defend = (round: number) => command(LOBBY_EVENTS.defend, { round });
+  const recordOutcome = (round: number, succeeded: boolean) => command(LOBBY_EVENTS.recordChallengeOutcome, { round, succeeded });
   const players = lobby?.players ?? [];
   const connectedPlayers = players.filter((player) => player.connected && !player.isHost).length;
   const currentPlayer = players.find((player) => player.id === selfId);
@@ -42,8 +45,8 @@ export function useLobbyScreen() {
   const roleClass = isLocalHost === null ? 'lobby-shell--resolving' : isLocalHost ? 'lobby-shell--host' : 'lobby-shell--player';
 
   return {
-    name, setName, lobby, error, connected, pending, isLocalHost, host,
+    name, setName, lobby, error, connected, pending, isLocalHost, host, selfId,
     players, connectedPlayers, currentPlayer, roleClass,
-    createHost, createSandbox, join, start, cancel, deleteRoom, selectCard, removeCard,
+    createHost, createSandbox, join, start, cancel, deleteRoom, selectCard, removeCard, attack, defend, recordOutcome,
   };
 }
