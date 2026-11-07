@@ -33,9 +33,10 @@ export function ManageGameScreen({ game, players, pending, error, onOutcome, onC
 function Team({ title, score, team, game, nameOf }: { title: string; score: number; team: 'wolf' | 'sheep'; game: Game; nameOf: (id?: string) => string }) {
   const players = game.selection.teams[team].players;
   const isWolf = team === 'wolf';
-  return <section className={`pt-2 ${isWolf ? 'text-black' : 'text-white'}`}>
+  const alignRight = team === 'sheep';
+  return <section className={`pt-2 ${isWolf ? 'text-black' : 'text-white'} ${alignRight ? 'text-right' : ''}`}>
     <p className="mb-1 ml-3 mt-0 text-[32px] font-bold">Điểm: {score}</p>
-    <div className="mb-[18px] flex items-center gap-3">
+    <div className={`mb-[18px] flex items-center gap-3 ${alignRight ? 'justify-end' : ''}`}>
       <img className={`size-[60px] object-contain ${isWolf ? '' : 'brightness-0 invert'}`} src={`/assets/teams/${team}-icon.svg`} alt="" />
       <h2 className="m-0 text-[48px] font-bold leading-[1.1] max-[760px]:text-[32px]">{title}</h2>
     </div>
