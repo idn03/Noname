@@ -17,7 +17,6 @@ import { ManageGameScreen } from '@/features/game/ui/screen/ManageGameScreen';
 import { TeamAssignmentScreen } from './TeamAssignmentScreen';
 import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 import { getHomeContentClassName, getHomeTitleClassName, getLobbyShellClassName } from './lobby-screen-classes';
-import './gameplay.css';
 
 export default function LobbyScreen() {
   const [comingSoon, setComingSoon] = useState('');
