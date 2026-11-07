@@ -20,14 +20,6 @@ repository.
     noise that is not part of the intended behavior.
 13. Do not uncritically accept requirements or agent claims; verify evidence.
 
-## Web UI styling
-
-- Style `web-game` screens and components with Tailwind utilities in JSX
-  `className` values. Do not add screen/component stylesheets or named CSS
-  selectors for presentation. Keep global CSS limited to Tailwind setup, resets,
-  font loading, and shared theme tokens. Follow the same boundary in
-  [UI guidelines](docs/ui-guidelines.md) and the [design system](specs/02-ux/design-system.md).
-
 ## Workflow
 
 14. Treat `specs/` as the source of truth and update it when behavior changes.
