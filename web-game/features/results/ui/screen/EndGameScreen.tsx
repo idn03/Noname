@@ -1,11 +1,11 @@
 'use client';
 
-import { useEndGameScreen, type EndGameResult } from '../../hooks/use-end-game-screen';
-import { RuneField } from '../../../../components/shared/RuneField';
-import { Button } from '../../../../components/shared/Button';
-import { PressableText } from '../../../../components/shared/PressableText';
+import { Button } from '@/components/shared/Button';
+import { PressableText } from '@/components/shared/PressableText';
+import { RuneField } from '@/components/shared/RuneField';
+import { useEndGameScreen, type EndGameResult } from '@/features/results/hooks/use-end-game-screen';
 
-export type { EndGameResult } from '../../hooks/use-end-game-screen';
+export type { EndGameResult } from '@/features/results/hooks/use-end-game-screen';
 
 interface EndGameScreenProps {
   result: EndGameResult;
