@@ -27,7 +27,7 @@ The Host view shows both team rosters, selected-card counts, and remaining time.
 
 ## Host Match Management
 
-ManageGameScreen is Host-only. Show the current round, each team score above its title, a black Wolf sticker and title, a white Sheep sticker and title, and the Wolf attack card for that round. The Wolf column is left-aligned and the Sheep column is right-aligned; team titles use 48px text. Provide match history, cancel-match, and replay actions in the shared footer; do not use a floating X control. Keep the footer raised clear of the viewport edge and browser safe area, reserving content space so Host actions remain visible without scrolling at the target screen size. Reuse this placement on subsequent Host screens. History is a concise, text-based report grouped by round and team, showing score changes and attack, defense, and challenge outcomes. Replay retains team assignments and returns everyone to card selection. Cancel ends the match and returns everyone to HomeScreen.
+ManageGameScreen is Host-only. Show the current round, each team score above its title, a black Wolf sticker and title, a white Sheep sticker and title, and the Wolf attack card for that round. The Wolf column is left-aligned and the Sheep column is right-aligned; team titles use 48px text. Provide match history, cancel-match, and replay actions in the shared footer; do not use a floating X control. Keep the footer raised clear of the viewport edge and browser safe area, reserving content space so Host actions remain visible without scrolling at the target screen size. Reuse this placement on subsequent Host screens. History is a concise, text-based report grouped by round and team, showing score changes and attack, defense, and challenge outcomes. Replay clears team assignments and match state and returns everyone to the lobby. Cancel ends the match and returns everyone to HomeScreen.
 
 ## Sandbox
 
@@ -45,7 +45,7 @@ When a Sheep player is handling a challenge, the Host sees the active challenge 
 
 ## Results
 
-Show both final team scores, the winning team or draw, and that the session is complete. Present the result consistently to all connected players.
+Show both final team scores and team rosters, the winning team or draw, and that the session is complete. Highlight and celebrate the winning team consistently for all connected players.
 
 ## Shared States
 

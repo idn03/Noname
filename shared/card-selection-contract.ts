@@ -78,10 +78,18 @@ export interface CompletedRoundView {
   scoreChange: Readonly<Record<'wolf' | 'sheep', number>>;
 }
 
+export interface FinalResultView {
+  scores: Readonly<Record<'wolf' | 'sheep', number>>;
+  winner: 'wolf' | 'sheep' | 'draw';
+  rounds: number;
+  members: Readonly<Record<'wolf' | 'sheep', readonly { id: string; name: string }[]>>;
+}
+
 export type LobbyGameView =
   | { phase: 'team-assignment'; role: 'player'; team: 'wolf' | 'sheep'; remainingMs: number }
   | { phase: 'team-assignment'; role: 'host'; remainingMs: number }
   | { phase: 'selection'; role: 'player'; selection: PlayerCardSelectionView }
   | { phase: 'selection'; role: 'host'; selection: HostCardSelectionView }
+  | ({ phase: 'results'; role: 'host' | 'player' } & FinalResultView)
   | { phase: 'turns'; role: 'host'; round: number; rounds: number; scores: Readonly<Record<'wolf' | 'sheep', number>>; activeTurn?: ActiveTurnView; roundHistory: readonly CompletedRoundView[]; selection: HostCardSelectionView }
   | { phase: 'turns'; role: 'player'; team?: 'wolf' | 'sheep'; round: number; rounds: number; scores: Readonly<Record<'wolf' | 'sheep', number>>; activeTurn?: ActiveTurnView; ownCard?: OwnTurnCardView; roundHistory: readonly CompletedRoundView[]; revealedCards: readonly RevealedGameCardView[] };

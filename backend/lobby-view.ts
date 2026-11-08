@@ -74,6 +74,13 @@ function authorizedGameView(
     const selection = createPlayerCardSelectionView(state, pools, viewer.id, now);
     return selection.ok ? { phase: 'selection', role: 'player', selection: selection.value } : undefined;
   }
+  if (state.phase === 'results' && state.winner) {
+    const members = {
+      wolf: state.players.filter((player) => player.team === 'wolf').map(({ id, name }) => ({ id, name })),
+      sheep: state.players.filter((player) => player.team === 'sheep').map(({ id, name }) => ({ id, name })),
+    };
+    return { phase: 'results', role: viewer.isHost ? 'host' : 'player', scores: state.scores, winner: state.winner, rounds: state.rounds, members };
+  }
   if (state.phase === 'turns') {
     if (viewer.isHost) {
       const selection = createHostCardSelectionView(state, pools, hostId, viewer.id, now);

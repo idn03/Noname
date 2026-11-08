@@ -45,3 +45,14 @@
   from { opacity: 1; transform: translateY(0) scale(1); }
   to { opacity: 0; transform: translateY(8px) scale(.97); }
 }
+
+@keyframes winner-celebration {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(255 255 255 / 0), inset 0 0 0 1px rgb(255 255 255 / .28); }
+  50% { box-shadow: 0 0 28px 2px rgb(255 235 235 / .28), inset 0 0 0 1px rgb(255 255 255 / .8); }
+}
+
+.winner-celebration { animation: winner-celebration 3s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .winner-celebration { animation: none; }
+}

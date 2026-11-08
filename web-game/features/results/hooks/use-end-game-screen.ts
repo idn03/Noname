@@ -4,6 +4,7 @@ export interface EndGameResult {
   scores: Readonly<Record<Team, number>>;
   winner: Team | 'draw';
   rounds: number;
+  members: Readonly<Record<Team, readonly { id: string; name: string }[]>>;
 }
 
 const TEAM_LABEL: Record<Team, string> = { wolf: 'Đội Sói', sheep: 'Đội Cừu' };

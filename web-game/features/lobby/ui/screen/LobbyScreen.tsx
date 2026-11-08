@@ -14,6 +14,7 @@ import { HostCardSelection } from '@/features/game/ui/components/HostCardSelecti
 import { HostSelectionActions } from '@/features/game/ui/components/HostSelectionActions';
 import { PlayerGameScreen } from '@/features/game/ui/screen/PlayerGameScreen';
 import { ManageGameScreen } from '@/features/game/ui/screen/ManageGameScreen';
+import { EndGameScreen } from '@/features/results/ui/screen/EndGameScreen';
 import { TeamAssignmentScreen } from './TeamAssignmentScreen';
 import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 import { getHomeContentClassName, getHomeTitleClassName, getLobbyShellClassName } from './lobby-screen-classes';
@@ -61,6 +62,9 @@ export default function LobbyScreen() {
     return <main className={`${shellClassName} !min-h-svh !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`}>
       <RuneField density="player" /><PlayerGameScreen game={lobby.game} selfId={screen.selfId} players={players} pending={pending} error={error} onAttack={attack} onDefend={defend} />
     </main>;
+  }
+  if (lobby?.game?.phase === 'results') {
+    return <EndGameScreen result={lobby.game} audience={lobby.game.role} onReturnHome={host ? cancel : undefined} onReplay={host ? replay : undefined} pending={pending} />;
   }
 
   return <main className={`${shellClassName} ${!lobby ? 'flex items-stretch' : ''}`}>
