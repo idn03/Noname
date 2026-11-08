@@ -126,6 +126,16 @@ export class LobbySession {
     return undefined;
   }
 
+  replay(actorId: string): LobbyErrorCode | undefined {
+    if (!this.isConnectedHost(actorId)) return 'NOT_AUTHORIZED';
+    if (this.ended || this.phase !== 'started' || !this.gameState) return 'INVALID_REQUEST';
+    this.phase = 'lobby';
+    this.gameState = undefined;
+    this.sessionPools = [];
+    this.assignmentDeadlineMs = undefined;
+    this.sandboxManageDeadlineMs = undefined;
+  }
+
   view(viewerId?: string, now = Date.now()): LobbyView {
     return createLobbyView(this.phase, this.players.all(), this.gameState, viewerId, this.sessionPools, now,
       this.assignmentDeadlineMs, this.sandboxManageDeadlineMs);

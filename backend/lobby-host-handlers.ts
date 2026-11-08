@@ -52,6 +52,16 @@ export function attachHostHandlers(context: LobbyTransportContext, socket: Socke
   socket.on(LOBBY_EVENTS.hostDeleteRoom, (_request?: unknown, reply?: (result: LobbyCommandReply) => void) => {
     finishSession(context, socket, reply, 'deleted');
   });
+  socket.on(LOBBY_EVENTS.hostReplay, (_request?: unknown, reply?: (result: LobbyCommandReply) => void) => {
+    const session = context.getSession();
+    const actorId = context.playerBySocket.get(socket.id);
+    if (!actorId) return respond(socket, reply, 'NOT_AUTHORIZED');
+    if (!session) return respond(socket, reply, 'SESSION_NOT_ACTIVE');
+    const error = session.replay(actorId);
+    if (error) return respond(socket, reply, error);
+    broadcastLobby(context, session);
+    reply?.({ ok: true });
+  });
 }
 
 function finishSession(

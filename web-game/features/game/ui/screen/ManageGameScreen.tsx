@@ -6,9 +6,9 @@ import { GameCard } from '@/features/game/ui/components/GameCard';
 import { HostSelectionActions } from '@/features/game/ui/components/HostSelectionActions';
 
 type Game = Extract<LobbyGameView, { phase: 'turns'; role: 'host' }>;
-interface Props { game: Game; players: readonly LobbyPlayerView[]; pending: boolean; error: string; onOutcome: (round: number, succeeded: boolean) => void; onCancel: () => void }
+interface Props { game: Game; players: readonly LobbyPlayerView[]; pending: boolean; error: string; onOutcome: (round: number, succeeded: boolean) => void; onCancel: () => void; onReplay: () => void }
 
-export function ManageGameScreen({ game, players, pending, error, onOutcome, onCancel }: Props) {
+export function ManageGameScreen({ game, players, pending, error, onOutcome, onCancel, onReplay }: Props) {
   const historyRef = useRef<HTMLDetailsElement>(null);
   const active = game.activeTurn;
   const nameOf = (id?: string) => players.find((player) => player.id === id)?.name ?? 'Đang chờ';
@@ -26,7 +26,7 @@ export function ManageGameScreen({ game, players, pending, error, onOutcome, onC
       <Team title="Đội Cừu" score={game.scores.sheep} team="sheep" game={game} nameOf={nameOf} />
     </div>
     <details ref={historyRef} className="fixed bottom-[calc(env(safe-area-inset-bottom)+8rem)] left-[clamp(18px,3vw,50px)] z-[30] max-h-[45dvh] max-w-[min(420px,65vw)] overflow-auto text-content max-[640px]:bottom-[calc(env(safe-area-inset-bottom)+7rem)] max-[640px]:left-3 max-[640px]:max-w-[calc(100vw-92px)] max-[640px]:text-content open:rounded-lg open:border open:border-white/45 open:bg-[#351519] open:p-3"><summary className="sr-only">Lịch sử giao đấu</summary>{game.roundHistory.length ? game.roundHistory.map((round) => <p className="my-2" key={`${round.round}-${round.attackerId}`}>Lượt {round.round}: {nameOf(round.attackerId)} tấn công · {round.defenderId ? `${nameOf(round.defenderId)} phòng thủ` : 'không phòng thủ'} · Sói +{round.scoreChange.wolf}, Cừu +{round.scoreChange.sheep}</p>) : <p className="my-2">Chưa có lượt nào hoàn thành.</p>}</details>
-    <HostSelectionActions playerCount={players.filter((player) => !player.isHost && player.connected).length} pending={pending} onCancel={onCancel} onStart={() => undefined} onDelete={() => undefined} onHistory={() => { if (historyRef.current) historyRef.current.open = !historyRef.current.open; }} />
+    <HostSelectionActions playerCount={players.filter((player) => !player.isHost && player.connected).length} pending={pending} onCancel={onCancel} onReplay={onReplay} onStart={() => undefined} onDelete={() => undefined} onHistory={() => { if (historyRef.current) historyRef.current.open = !historyRef.current.open; }} />
   </main>;
 }
 

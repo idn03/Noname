@@ -10,7 +10,7 @@
 - **SES-007 — Host Observer:** The Host is not a player, is not assigned to a team, and has no card slot or player turn. The Host can observe and manage the whole session through Host controls.
 - **SES-009 — Low-Population Confirmation:** Permit Host start with 6–9 joining players only after explicit confirmation; reject starts below six or above ten.
 - **SES-010 — Delete Room:** Allow the Host to discard the active room and create a replacement; notify connected clients and clear its session state.
-- **SES-011 — Replay Match:** Allow the Host to restart selection while retaining the current team assignments.
+- **SES-011 — Replay Match:** Allow the Host to return the active session to the lobby; clear team assignments and match state while keeping the room and its players.
 - **SES-012 — Sandbox Room:** A three-second TẠO hold creates a room with 6–10 simulated players in addition to the Host for Playwright Test interface and feature testing. Reject real-player link joins to Sandbox rooms.
 
 Detailed player admission and identity requirements are in [authentication](../authentication/requirements.md).

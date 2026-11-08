@@ -10,6 +10,7 @@ interface HostSelectionActionsProps {
   onCancel: () => void;
   onStart: (confirmed: boolean) => void;
   onDelete: () => void;
+  onReplay: () => void;
   onHistory?: () => void;
 }
 
@@ -21,7 +22,7 @@ export function HostSelectionActions(props: HostSelectionActionsProps) {
     </PressableText>
     <LobbyHostActions className="m-0 flex flex-wrap gap-[.4rem]" secondaryButtonClassName={`${actionButtonClasses} max-[760px]:gap-[.25rem]`} started playerCount={props.playerCount} pending={props.pending}
       onStart={props.onStart} onCancel={props.onCancel} onDelete={props.onDelete} />
-    <PressableText className={actionButtonClasses} type="button" disabled title="Tính năng chưa khả dụng">
+    <PressableText className={actionButtonClasses} type="button" disabled={props.pending} onClick={props.onReplay}>
       <RotateCcw aria-hidden="true" /><span>Làm lại trận</span>
     </PressableText>
   </nav>;

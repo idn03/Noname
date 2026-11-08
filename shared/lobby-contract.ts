@@ -5,6 +5,7 @@ export const LOBBY_EVENTS = {
   hostStart: 'host:start',
   hostCancel: 'host:cancel',
   hostDeleteRoom: 'host:delete-room',
+  hostReplay: 'host:replay',
   join: 'player:join',
   resume: 'player:resume',
   selectCard: 'player:select-card',

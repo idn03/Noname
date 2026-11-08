@@ -24,7 +24,7 @@ export default function LobbyScreen() {
   const screen = useLobbyScreen();
   const {
     name, setName, lobby, error, connected, pending, isLocalHost, host, players,
-    connectedPlayers, currentPlayer, roleClass, createHost, createSandbox, join, start, cancel, deleteRoom, selectCard, removeCard, attack, defend, recordOutcome,
+    connectedPlayers, currentPlayer, roleClass, createHost, createSandbox, join, start, cancel, deleteRoom, replay, selectCard, removeCard, attack, defend, recordOutcome,
   } = screen;
   const isPlayerView = roleClass === 'lobby-shell--player';
   const isStartedGuest = lobby?.phase === 'started' && !currentPlayer && isLocalHost !== true;
@@ -48,7 +48,7 @@ export default function LobbyScreen() {
       <RuneField density={isPlayerView ? 'player' : 'default'} />
       {lobby.game.role === 'host'
         ? <><HostCardSelection selection={lobby.game.selection} />
-          <HostSelectionActions playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
+          <HostSelectionActions playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} onReplay={replay} />
           {error && <p className="relative z-[1] my-[14px] text-[#ffb6bd] text-content" role="alert">{error}</p>}
         </>
         : <PlayerCardSelection selection={lobby.game.selection} connected={connected} pending={pending} error={error} onSubmit={selectCard} onRemove={removeCard} />}
@@ -56,7 +56,7 @@ export default function LobbyScreen() {
   }
   if (lobby?.game?.phase === 'turns') {
     if (lobby.game.role === 'host') return <main className={hostCardShellClassName}>
-      <RuneField /><ManageGameScreen game={lobby.game} players={players} pending={pending} error={error} onOutcome={recordOutcome} onCancel={cancel} />
+      <RuneField /><ManageGameScreen game={lobby.game} players={players} pending={pending} error={error} onOutcome={recordOutcome} onCancel={cancel} onReplay={replay} />
     </main>;
     return <main className={`${shellClassName} !min-h-svh !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`}>
       <RuneField density="player" /><PlayerGameScreen game={lobby.game} selfId={screen.selfId} players={players} pending={pending} error={error} onAttack={attack} onDefend={defend} />

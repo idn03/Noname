@@ -5,6 +5,7 @@ export type LobbyCommand = typeof LOBBY_EVENTS.hostCreate
   | typeof LOBBY_EVENTS.hostStart
   | typeof LOBBY_EVENTS.hostCancel
   | typeof LOBBY_EVENTS.hostDeleteRoom
+  | typeof LOBBY_EVENTS.hostReplay
   | typeof LOBBY_EVENTS.join
   | typeof LOBBY_EVENTS.selectCard
   | typeof LOBBY_EVENTS.removeCard

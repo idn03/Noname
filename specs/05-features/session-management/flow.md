@@ -20,7 +20,7 @@ Players cannot start or cancel a session by changing client state or submitting 
 ## Delete and Replay
 
 - The Host may delete the active room; the server ends it, notifies connected clients, and clears session state for room recreation.
-- The Host may replay a match; the server retains team assignments, resets match and selection state, and returns all players to card selection.
+- The Host may replay a match; the server clears team assignments and match state, keeps the active room and its players, and returns everyone to the lobby.
 
 ## Sandbox
 

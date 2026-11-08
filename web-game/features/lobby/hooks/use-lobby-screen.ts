@@ -33,6 +33,7 @@ export function useLobbyScreen() {
   const start = (confirmed: boolean) => command(LOBBY_EVENTS.hostStart, { confirmLowPopulation: confirmed });
   const cancel = () => command(LOBBY_EVENTS.hostCancel, {});
   const deleteRoom = () => command(LOBBY_EVENTS.hostDeleteRoom, {});
+  const replay = () => command(LOBBY_EVENTS.hostReplay, {});
   const selectCard = (selection: { categoryId: string; challengeId?: string }) => command(LOBBY_EVENTS.selectCard, selection);
   const removeCard = () => command(LOBBY_EVENTS.removeCard, {});
   const attack = (round: number) => command(LOBBY_EVENTS.attack, { round });
@@ -47,6 +48,6 @@ export function useLobbyScreen() {
   return {
     name, setName, lobby, error, connected, pending, isLocalHost, host, selfId,
     players, connectedPlayers, currentPlayer, roleClass,
-    createHost, createSandbox, join, start, cancel, deleteRoom, selectCard, removeCard, attack, defend, recordOutcome,
+    createHost, createSandbox, join, start, cancel, deleteRoom, replay, selectCard, removeCard, attack, defend, recordOutcome,
   };
 }
