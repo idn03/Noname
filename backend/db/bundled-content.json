@@ -29,7 +29,8 @@
     "contentVersion": 1,
     "challenges": [
       { "id": "geography-1", "categoryId": "geography", "text": "Kể tên 5 đặc sản ứng với 5 tỉnh thành Việt Nam." },
-      { "id": "geography-2", "categoryId": "geography", "text": "So sánh và giải thích sự khác nhau về trồng trọt cây ăn quả giữa miền bắc và miền nam Việt Nam." }
+      { "id": "geography-2", "categoryId": "geography", "text": "So sánh và giải thích sự khác nhau về trồng trọt cây ăn quả giữa miền bắc và miền nam Việt Nam." },
+      { "id": "geography-3", "categoryId": "geography", "text": "Kể tên 10 địa danh nổi tiếng tại Việt Nam trong 15 giây." }
     ]
   },
   {
@@ -48,9 +49,10 @@
     "name": "Sức Khỏe",
     "contentVersion": 1,
     "challenges": [
-      { "id": "healthcare-1", "categoryId": "healthcare", "text": "Thực hiện 50 - 80 cái chống đẩy." },
+      { "id": "healthcare-1", "categoryId": "healthcare", "text": "Thực hiện 60 - 100 cái chống đẩy (nữ có thể thay thế bằng Squat)." },
       { "id": "healthcare-2", "categoryId": "healthcare", "text": "Cả 2 đội cùng tìm một món đồ mà Quản Trò cần. Đội Cừu cần mang về trước để hoàn thành thử thách." },
-      { "id": "healthcare-3", "categoryId": "healthcare", "text": "Làm kiệu và chở các thành viên Đội Sói đi qua sông." }
+      { "id": "healthcare-3", "categoryId": "healthcare", "text": "Làm kiệu và chở các thành viên Đội Sói đi qua sông." },
+      { "id": "healthcare-4", "categoryId": "healthcare", "text": "Cả Đội Cừu sếp thành hình cái thang." }
     ]
   },
   {
