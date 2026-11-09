@@ -23,7 +23,10 @@ export function EndGameScreen({ result, audience, onReturnHome, onReplay, pendin
       <RuneField density={audience === 'player' ? 'player' : 'default'} />
       <header className="relative z-[1] w-full">
         <p className="m-0 mb-[13px] text-[#f0dfe0] font-type-label text-content leading-[1.4] font-bold tracking-[.16em]">TRẬN ĐẤU ĐÃ KẾT THÚC · {result.rounds} LƯỢT</p>
-        <h1 id="endgame-title" className="m-0 font-type-result-title text-[length:clamp(var(--text-heading5),8vw,var(--text-heading2))] leading-[1.04] font-normal tracking-[-.045em]">{headline}</h1>
+        <h1 id="endgame-title" className="m-0 flex items-center justify-center gap-3 font-type-result-title text-[length:clamp(var(--text-heading5),8vw,var(--text-heading2))] leading-[1.04] font-normal tracking-[-.045em] max-[520px]:gap-2">
+          {result.winner !== 'draw' && <img className="size-[clamp(38px,7vw,72px)] shrink-0 object-contain" src={result.winner === 'wolf' ? '/assets/custom-icons/wolf-icon-white.png' : '/assets/teams/sheep-icon.svg'} alt="" />}
+          <span className="uppercase">{headline}</span>
+        </h1>
         <p className="mt-[14px] mb-0 text-[#f1e7e7] font-type-result-title text-subtitle leading-[1.4]" role="status">
           {result.winner === 'draw' ? 'Hai đội có cùng số điểm.' : `Chúc mừng ${teamLabel(result.winner)}!`}
         </p>
@@ -49,7 +52,7 @@ export function EndGameScreen({ result, audience, onReturnHome, onReplay, pendin
 
       <p className="relative z-[1] m-0 max-w-[42ch] text-[#d2c5c6] text-content leading-[1.5]">Kết quả đã được xác nhận cho tất cả người chơi.</p>
       {(onReplay || onReturnHome) && <div className="relative z-[1] flex flex-wrap justify-center gap-3">
-        {onReplay && <Button className="min-h-12 px-[26px] text-white font-type-label text-content leading-none font-semibold" type="button" disabled={pending} onClick={onReplay}>Làm lại trận</Button>}
+        {onReplay && <Button variant="small" className="min-h-12 px-[26px] text-white font-type-label text-content leading-none font-semibold" type="button" disabled={pending} onClick={onReplay}>Làm lại trận</Button>}
         {onReturnHome && <PressableText className="min-h-12 px-[20px] text-white font-type-label text-content font-semibold" type="button" disabled={pending} onClick={onReturnHome}>Về trang chủ</PressableText>}
       </div>}
     </main>

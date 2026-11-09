@@ -91,7 +91,6 @@ export default function LobbyScreen() {
     {lobby && host && <HostLobbyLayout
       players={players}
       connectedPlayers={connectedPlayers}
-      connected={connected}
       pending={pending}
       error={error}
       started={lobby.phase === 'started'}

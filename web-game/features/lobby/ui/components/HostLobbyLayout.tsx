@@ -7,7 +7,6 @@ import { formatSelectionTime, useSelectionCountdown } from '@/features/game/hook
 interface HostLobbyLayoutProps {
   players: readonly LobbyPlayerView[];
   connectedPlayers: number;
-  connected: boolean;
   pending: boolean;
   error: string;
   started: boolean;
@@ -18,7 +17,7 @@ interface HostLobbyLayoutProps {
 }
 
 export function HostLobbyLayout(props: HostLobbyLayoutProps) {
-  const { players, connectedPlayers, connected, pending, error, started, onStart, onCancel, onDelete, assignmentRemainingMs } = props;
+  const { players, connectedPlayers, pending, error, started, onStart, onCancel, onDelete, assignmentRemainingMs } = props;
   const assignmentTime = useSelectionCountdown(assignmentRemainingMs ?? 0);
   const joinedPlayers = players.filter((player) => !player.isHost);
   const layoutRef = useRef<HTMLElement>(null);
@@ -67,10 +66,9 @@ export function HostLobbyLayout(props: HostLobbyLayoutProps) {
       <header className="mb-[18px] flex items-end justify-between gap-6 max-[700px]:flex-col max-[700px]:items-start max-[700px]:gap-[10px]">
         <div>
           <h2 id="host-lobby-roster-title" className="m-0 text-white font-type-section-title text-[length:clamp(var(--text-heading6),2.5vw,var(--text-heading4))] font-bold leading-[1.1] max-[700px]:text-heading6">Danh sách người chơi</h2>
-          <p className="mt-[10px] mb-0 text-white/82 font-type-body text-subtitle leading-[1.4] max-[700px]:text-content">{joinedPlayers.length}/10 người chơi đã tham gia · {connectedPlayers} đang kết nối</p>
+          <p className="mt-[10px] mb-0 text-white/82 font-type-body text-subtitle leading-[1.4] max-[700px]:text-content">{joinedPlayers.length}/10 người chơi đã tham gia</p>
           {assignmentRemainingMs !== undefined && <p className="mt-3 mb-0 text-[#f1d3d5] font-type-body text-content" role="status">Đang chia đội · Vòng Chọn Thẻ sau {formatSelectionTime(assignmentTime)}</p>}
         </div>
-        <span className="shrink-0 mb-1 text-white text-content" role="status">{connected ? 'Đã kết nối' : 'Đang kết nối lại'}</span>
       </header>
       <div className="min-h-[620px] overflow-hidden rounded-xl bg-[rgb(141_141_141/.34)] max-[1550px]:min-h-[540px] max-[700px]:min-h-[440px]">
         <LobbyPlayerStage players={players} started={started} canSeeAllTeams />
