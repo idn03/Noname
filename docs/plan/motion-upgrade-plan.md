@@ -20,6 +20,9 @@ UI hiện tại đã hoàn thiện toàn bộ, không thêm bất kỳ thành ph
 
 ## Mô tả hiệu ứng và tương tác
 
+Thêm hiệu ứng chuyển cảnh chung cho toàn bộ dự án khi chuyển giữa các giai đoạn trong game. Bắt đầu từ:
+    Home -> Lobby -> Chia đội -> Gameplay / Quản lý trận -> Kết quả
+
 ### Home / Join
 HOST:
 - Thêm hiệu ứng xuất hiện cho tất cả phần chữ, xuất hiện sau background 1s với hiệu ứng Float-in và Fly-in. Chi tiết (xuất hiện theo thứ tự):
@@ -31,10 +34,11 @@ HOST:
 PLAYER:
 - Thêm hiệu ứng xuất hiện cho tất cả phần chữ, xuất hiện sau background 1s. Chi tiết (xuất hiện theo thứ tự):
     1. Heading "SÓI VÀ CỪU" hiệu ứng Fly-in từ trái qua (start from left).
-
+    2. Input bar và các components xuất hiện từ phải qua vời cùng hiệu ứng.
 
 ### Lobby
-
+HOST:
+- 
 
 ### Chia đội
 
@@ -52,9 +56,13 @@ PLAYER:
 
 
 ### Thành phần dùng chung
-- Sheet:
-- Dialog:
-- Button:
+- Sheet: Thêm hiệu ứng xuất hiện fly-in từ dưới lên (chỉ bao gồm phần SheetView, không bao gồm overlay)
+- Dialog: Thêm hiệu ứng xuất hiện fly-in từ dưới lên (chỉ bao gồm phần Dialog, không bao gồm overlay)
+- Button: Thêm transition-duration: 500ms cho tất cả component nút. Hiệu ứng chi tiết cho từng variant:
+    - Disable (ghost) -> Enable: Hiệu ứng nảy lên 1 lần
+    - Khi hover vào nút có variant là default: Đặt border-bottom là 4px (bằng với border-top), đặt border opacity là 1 (#FFFFFF 100%)
+    - Khi hover vào nút có variant là small: Đặt border-bottom là 2px (bằng với border-top), đặt border opacity là 1 (#FFFFFF 100%)
+    - Khi hover vào nút có variant là small: Đặt border-bottom là 1px (bằng với border-top), đặt border opacity là 1 (#FFFFFF 100%)
 
 ### Hiệu ứng hoặc tương tác khác
 - 
