@@ -5,9 +5,7 @@ import { useRouter } from 'next/navigation';
 import { RuneField } from '@/components/shared/RuneField';
 import { HostHomeActions } from '@/features/lobby/ui/components/HostHomeActions';
 import { HostLobbyLayout } from '@/features/lobby/ui/components/HostLobbyLayout';
-import { LobbyHostActions } from '@/features/lobby/ui/components/LobbyHostActions';
 import LobbyNameForm from '@/features/lobby/ui/components/LobbyNameForm';
-import { LobbyPlayerStage } from '@/features/lobby/ui/components/LobbyPlayerStage';
 import { PlayerBottomNav } from '@/features/lobby/ui/components/PlayerBottomNav';
 import { PlayerCardSelection } from '@/features/game/ui/components/PlayerCardSelection';
 import { HostCardSelection } from '@/features/game/ui/components/HostCardSelection';
@@ -35,7 +33,7 @@ export default function LobbyScreen() {
   if (lobby?.game?.phase === 'team-assignment') {
     if (lobby.game.role === 'host') return <main className={shellClassName}>
       <RuneField />
-      <HostLobbyLayout players={players} connectedPlayers={connectedPlayers} connected={connected} pending={pending} error={error}
+      <HostLobbyLayout players={players} connectedPlayers={connectedPlayers} pending={pending} error={error}
         started assignmentRemainingMs={lobby.game.remainingMs} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
     </main>;
     return <main className={`${shellClassName} flex items-center justify-center`}>
@@ -98,26 +96,5 @@ export default function LobbyScreen() {
       onCancel={cancel}
       onDelete={deleteRoom}
     />}
-    {lobby && !host && !isStartedGuest && <section className="relative mx-auto w-[calc(100%_-_40px)] max-w-[680px] pt-[clamp(52px,11vh,112px)] pb-12" aria-labelledby="page-title">
-      <p className="m-0 mb-[14px] text-[#bd858a] text-content font-bold tracking-[.16em]">PHÒNG CHƠI</p>
-      <h1 id="page-title" className="m-0 font-type-page-title text-[length:clamp(var(--text-heading6),6vw,var(--text-heading3))] leading-[1.08] tracking-[-.04em]">Cùng vào phòng</h1>
-      <p className="mt-4 mb-[38px] max-w-[48ch] font-type-body text-[#b5b5b5] leading-[1.65]">{lobby.phase === 'started' ? 'Các đội đã được Game Engine phân chia.' : isLocalHost ? 'Phòng đã sẵn sàng. Chờ mọi người tham gia trước khi bắt đầu.' : 'Nhập tên hiển thị để tham gia ván chơi cùng mọi người trong mạng nội bộ.'}</p>
-      <section className="mt-[42px]" aria-label="Danh sách người chơi">
-        <div className="flex items-center justify-between gap-4 border-b border-[#414141] pb-4 max-[520px]:flex-col max-[520px]:items-start">
-          <div><h2 className="m-0 font-type-section-title text-title2">Người chơi</h2><p className="mt-[7px] mb-0 text-[#b5b5b5] text-content font-type-supporting">{connectedPlayers} đang kết nối · {players.filter((player) => !player.isHost).length}/10 chỗ</p></div>
-          {!connected && <span className="text-[#c9a1a4] text-content" role="status">Đang kết nối lại</span>}
-        </div>
-        <p className="my-[18px] flex w-fit items-center gap-[10px] text-white font-type-body text-subtitle">Chủ phòng <span className={`inline-block size-[9px] flex-[0_0_9px] rounded-full border border-[#888] ${players.find((player) => player.isHost)?.connected ? 'border-[#b85c66] bg-[#b85c66]' : ''}`} aria-hidden="true" /></p>
-        <LobbyPlayerStage players={players} started={lobby.phase === 'started'} canSeeAllTeams={host} />
-        {error && <p className="my-[14px] text-[#ffb6bd] text-content" role="alert">{error}</p>}
-        {lobby.phase === 'lobby' && <>
-          {!currentPlayer && <LobbyNameForm label="Tên hiển thị" action="Tham gia phòng" pendingAction="Đang tham gia…" helper="Từ 1 đến 24 ký tự." name={name} error="" disabled={!connected || pending} onNameChange={setName} onSubmit={join} />}
-          {host ? <LobbyHostActions started={false} playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} /> : <p className="text-[#aaa] text-content font-type-body">Đang chờ Chủ phòng bắt đầu trò chơi.</p>}
-        </>}
-        {lobby.phase === 'started' && host && <LobbyHostActions started playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} />}
-        {lobby.phase === 'started' && !host && <p className="text-[#aaa] text-content font-type-body">Phòng đã bắt đầu. Đang chờ thông tin ván chơi.</p>}
-      </section>
-      <div className="mt-12 flex items-center gap-[9px] text-[#999] text-content font-type-body" role="status"><span className={`inline-block size-[9px] flex-[0_0_9px] rounded-full border border-[#888] ${connected ? 'border-[#b85c66] bg-[#b85c66]' : ''}`} />{connected ? 'Kết nối với máy chủ phòng chơi' : 'Đang kết nối với máy chủ…'}</div>
-    </section>}
   </main>;
 }
