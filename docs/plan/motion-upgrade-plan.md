@@ -37,23 +37,36 @@ PLAYER:
     2. Input bar và các components xuất hiện từ phải qua vời cùng hiệu ứng.
 
 ### Lobby
-HOST:
-- 
+HOST: Không cần nâng cấp
+
+PLAYER: Không cần nâng cấp
 
 ### Chia đội
+HOST: Không cần nâng cấp
 
+PLAYER: Thêm hiệu ứng xuất hiện fade cho ĐỘI SÓI hoặc ĐỘI CỪU và danh sách thành viên sau khi HOST bấm chia đội. 
 
 ### Chọn card
+HOST: Không cần nâng cấp
 
+PLAYER: Thêm hiệu ứng sau khi người chơi bấm CHỌN cho GameCard. Tôi muốn hiệu ứng giống như hiệu ứng khóa Tướng trong các tựa game khác.
 
 ### Gameplay
-
+PLAYER: Thêm hiệu ứng cho tính năng Lật Thẻ cho GameCard khi người chơi bấm vào thẻ (Áp dụng cho thẻ đang được đem ra tấn công).
+- Khi tấn công thất bại, thêm hiệu ứng phá hủy thẻ tấn công.
+- Sau khi tấn công thành công, thêm hiệu ứng slash và rung trên Đội Cừu như vừa chịu sát thương.
+- Sau khi tấn công/phòng thủ mới đến hiệu ứng cho việc cộng điểm. Thêm hiệu ứng cộng điểm.
 
 ### Quản lý trận của Host
-
+HOST:
+- Sau khi bấm Thành Công, thêm hiệu ứng phá hủy thẻ tấn công.
+- Sau khi bấm Thất Bại hoặc không có thẻ phòng thủ, thêm hiệu ứng slash và rung trên Đội Cừu như vừa chịu sát thương.
+- Sau khi tấn công/phòng thủ mới đến hiệu ứng cho việc cộng điểm. Thêm hiệu ứng cộng điểm.
 
 ### Kết quả
+HOST: Không cần nâng cấp
 
+PLAYER: Không cần nâng cấp
 
 ### Thành phần dùng chung
 - Sheet: Thêm hiệu ứng xuất hiện fly-in từ dưới lên (chỉ bao gồm phần SheetView, không bao gồm overlay)
@@ -65,8 +78,7 @@ HOST:
     - Khi hover vào nút có variant là small: Đặt border-bottom là 1px (bằng với border-top), đặt border opacity là 1 (#FFFFFF 100%)
 
 ### Hiệu ứng hoặc tương tác khác
-- 
-
+- Lưu ý: Dùng chung hiệu ứng phá hủy thẻ và hiệu ứng gây sát thương cho cả Host và Player.
 
 ## Thứ tự triển khai đề xuất
 
