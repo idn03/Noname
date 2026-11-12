@@ -11,7 +11,9 @@
       { "id": "music-5", "categoryId": "music", "text": "Đội Sói sẽ ngân nga giai điệu của một bài hát bằng: na na na hoặc từng tưng tưng. Đội Cừu đoán tên bài." },
       { "id": "music-6", "categoryId": "music", "text": "Đội Sói chọn một ca sĩ Việt Nam nổi tiếng. Đội Cừu phải hát 3 bài hát của ca sĩ đó." },
       { "id": "music-7", "categoryId": "music", "text": "Cả Đội Cừu cùng hát một bài hát, hát không cùng nhịp, hát sai sẽ không hoàn thành." },
-      { "id": "music-8", "categoryId": "music", "text": "Đội Cừu sẽ trình bày một bài song ca, Đội Sói sẽ phá để bài hát đứt đoạn." }
+      { "id": "music-8", "categoryId": "music", "text": "Đội Cừu sẽ trình bày một bài song ca, Đội Sói sẽ phá để bài hát đứt đoạn." },
+      { "id": "music-9", "categoryId": "music", "text": "Đội Cừu sẽ trình bày 2 câu của 1 bài hát, mỗi thành viên hát 1 chữ luân phiên nhau." },
+      { "id": "music-10", "categoryId": "music", "text": "Đội Cừu hát 3 bài hát mà trong đó có tên của 1 thành viên Đội Sói." }
     ]
   },
   {
@@ -20,7 +22,13 @@
     "contentVersion": 1,
     "challenges": [
       { "id": "travel-1", "categoryId": "travel", "text": "Hóa thân thành hướng dẫn viên, giới thiệu về Vịnh Hạ Long." },
-      { "id": "travel-2", "categoryId": "travel", "text": "Lên danh sách gồm 20 các món đồ đem đi Đà Lạt trong 3 ngày 2 đêm." }
+      { "id": "travel-2", "categoryId": "travel", "text": "Lên danh sách gồm 20 các món đồ đem đi Đà Lạt trong 3 ngày 2 đêm." },
+      { "id": "travel-3", "categoryId": "travel", "text": "Kể tên 10 đặc sản địa phương của 10 tỉnh thành ở Việt Nam." },
+      { "id": "travel-4", "categoryId": "travel", "text": "Một thành viên Đội Sói đóng vai khách du lịch nước ngoài bị lạc, các thành viên Đội Cừu đóng vai người dân địa phương và hướng dẫn đường." },
+      { "id": "travel-5", "categoryId": "travel", "text": "Đội Sói chọn hai trong ba loại hình: biển, núi, đảo hoặc thành phố. Đội Cừu phải đề xuất 5 địa danh phù hợp với loại hình đó." },
+      { "id": "travel-6", "categoryId": "travel", "text": "Trong 30 giây, liệt kê 12 món đồ cần thiết cho một chuyến cắm trại qua đêm." },
+      { "id": "travel-7", "categoryId": "travel", "text": "Đội Cừu phải chọn 5 món đồ tào lao để mang theo nếu bị đưa lên một hòn đảo hoang và giải thích lý do lựa chọn." },
+      { "id": "travel-8", "categoryId": "travel", "text": "Một thành viên Đội Cừu mô tả một tỉnh thành Việt Nam (do Đội Sói chọn). Đồng đội phải đoán trong 30 giây." }
     ]
   },
   {
@@ -30,7 +38,9 @@
     "challenges": [
       { "id": "geography-1", "categoryId": "geography", "text": "Kể tên 5 đặc sản ứng với 5 tỉnh thành Việt Nam." },
       { "id": "geography-2", "categoryId": "geography", "text": "So sánh và giải thích sự khác nhau về trồng trọt cây ăn quả giữa miền bắc và miền nam Việt Nam." },
-      { "id": "geography-3", "categoryId": "geography", "text": "Kể tên 10 địa danh nổi tiếng tại Việt Nam trong 15 giây." }
+      { "id": "geography-3", "categoryId": "geography", "text": "Kể tên 10 địa danh nổi tiếng tại Việt Nam trong 15 giây." },
+      { "id": "geography-4", "categoryId": "geography", "text": "Đội Sói chọn một châu lục. Đội Cừu phải kể tên 8 quốc gia thuộc châu lục đó trong 20 giây." },
+      { "id": "geography-5", "categoryId": "geography", "text": "Sắp xếp 10 địa điểm Đội Sói chọn theo thứ tự từ Bắc xuống Nam trong 20 giây." }
     ]
   },
   {
@@ -41,7 +51,10 @@
       { "id": "films-1", "categoryId": "films", "text": "Cả Đội thực hiện phân vai, diễn lại một phân cảnh trong phim MAI." },
       { "id": "films-2", "categoryId": "films", "text": "Kể tên 5 bộ phim AI được chiếu trên Tiktok." },
       { "id": "films-3", "categoryId": "films", "text": "Đội Sói sẽ chọn 3 phim điện ảnh Việt Nam, Đội Cừu cử ra một người để xem đáp án và người đó sẽ diễn tả lại phim bằng 3 cụm từ." },
-      { "id": "films-4", "categoryId": "films", "text": "Đội Cừu sẽ chọn ra các thành viên để đóng các vai: Chằn Tinh, Người Nhện, Thủy Thủ Mặt Trăng." }
+      { "id": "films-4", "categoryId": "films", "text": "Đội Cừu sẽ chọn ra các thành viên để đóng các vai: Chằn Tinh, Người Nhện, Thủy Thủ Mặt Trăng." },
+      { "id": "films-5", "categoryId": "films", "text": "Kể tên 5 bộ phim Việt có doanh thu trên 100 tỷ." },
+      { "id": "films-6", "categoryId": "films", "text": "Một thành viên Đội Cừu diễn tả 3 nhân vật điện ảnh Việt (Đội Sói chọn). Đồng đội có 30 giây để đoán." },
+      { "id": "films-7", "categoryId": "films", "text": "Đội Sói đưa ra 3 từ khóa. Đội Cừu có 30 giây để nghĩ ra kịch bản cho một bộ phim có chứa cả ba yếu tố đó." }
     ]
   },
   {
@@ -52,7 +65,11 @@
       { "id": "healthcare-1", "categoryId": "healthcare", "text": "Thực hiện 60 - 100 cái chống đẩy (nữ có thể thay thế bằng Squat)." },
       { "id": "healthcare-2", "categoryId": "healthcare", "text": "Cả 2 đội cùng tìm một món đồ mà Quản Trò cần. Đội Cừu cần mang về trước để hoàn thành thử thách." },
       { "id": "healthcare-3", "categoryId": "healthcare", "text": "Làm kiệu và chở các thành viên Đội Sói đi qua sông." },
-      { "id": "healthcare-4", "categoryId": "healthcare", "text": "Cả Đội Cừu sếp thành hình cái thang." }
+      { "id": "healthcare-4", "categoryId": "healthcare", "text": "Cả Đội Cừu sếp thành hình cái thang." },
+      { "id": "healthcare-5", "categoryId": "healthcare", "text": "Cả Đội Cừu (Quản trò đếm) thực hiện đồng thời 15 lần squat. Nếu một thành viên dừng hoặc mất nhịp, đội phải bắt đầu lại." },
+      { "id": "healthcare-6", "categoryId": "healthcare", "text": "Mỗi thành viên Đội Cừu phải đứng bằng một tư thế Yoga trong 20 giây." },
+      { "id": "healthcare-7", "categoryId": "healthcare", "text": "Đội Cừu cử một thành viên thực hiện động tác plank trong 30 giây trong khi Đội Sói cố làm người đó cười nhưng không được chạm vào." },
+      { "id": "healthcare-8", "categoryId": "healthcare", "text": "Trong 20 giây, kể tên 15 loại thực phẩm thường được xem là nguồn cung cấp protein." }
     ]
   },
   {
@@ -61,7 +78,10 @@
     "contentVersion": 1,
     "challenges": [
       { "id": "folklore-1", "categoryId": "folklore", "text": "Đóng vai và diễn lại một phân đoạn trong truyện Tấm Cám." },
-      { "id": "folklore-2", "categoryId": "folklore", "text": "Kể ngắn gọn 3 truyền thuyết đô thị tại Việt Nam." }
+      { "id": "folklore-2", "categoryId": "folklore", "text": "Kể ngắn gọn 3 truyền thuyết đô thị tại Việt Nam." },
+      { "id": "folklore-3", "categoryId": "folklore", "text": "Trong 15 giây, kể tên 5 trò chơi dân gian Việt Nam." },
+      { "id": "folklore-7", "categoryId": "folklore", "text": "Đội Sói đọc nửa đầu của một câu tục ngữ hoặc thành ngữ quen thuộc. Đội Cừu phải hoàn thành phần còn lại. Thực hiện đúng 5 câu để hoàn thành." },
+      { "id": "folklore-8", "categoryId": "folklore", "text": "Đội Cừu có 30 giây để kể lại truyện Thánh Gióng nhưng mỗi thành viên chỉ được nói một câu rồi phải chuyển lượt cho người tiếp theo." }
     ]
   }
 ]
