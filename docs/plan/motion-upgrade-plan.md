@@ -80,7 +80,7 @@ PLAYER: Không cần nâng cấp
 - Dialog: Thêm hiệu ứng xuất hiện fly-in từ dưới lên (chỉ bao gồm phần Dialog, không bao gồm overlay) — **Tailwind utilities**.
 - Button: Thêm transition-duration: 500ms cho tất cả component nút — **Tailwind utilities** trong shared Button. Hiệu ứng chi tiết:
     - Disabled (ghost) → enabled: hiệu ứng nảy lên một lần — **Tailwind utilities**.
-    - Hover variant `default`: border-bottom 4px (bằng border-top), border opacity 1 (#FFFFFF 100%) — **Tailwind utilities**.
+    - Hover variant `default`: border-bottom 4px, border-top 2px, border opacity 1 (#FFFFFF 100%), thêm margin-top 6px — **Tailwind utilities**.
     - Hover variant `small`: bản kế hoạch nêu hai giá trị border-bottom khác nhau (2px và 1px); cần xác nhận giá trị/variant dự định trước triển khai. Cách áp dụng sau khi chốt: **Tailwind utilities**.
 
 ### Hiệu ứng hoặc tương tác khác

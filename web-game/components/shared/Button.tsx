@@ -34,7 +34,7 @@ export function Button({ className = '', size = 'default', variant = 'default', 
   const hoverClasses = variant === 'small'
     ? 'hover:border-b-2 hover:border-white'
     : variant === 'default'
-      ? 'hover:border-b-4 hover:border-white'
+      ? 'hover:border-b-4 hover:border-white hover:mt-[6px] hover:border-t-2'
       : '';
   const classes = ['cursor-pointer rounded-[var(--radius-control)]', shape, sizeClasses, 'text-inherit [font-family:inherit] transition-[background-color,border-color,color,transform] duration-500 ease-[ease] enabled:active:translate-y-px focus-visible:[outline-width:var(--outline-width-focus)] focus-visible:outline-[var(--color-focus-ring)] focus-visible:outline-offset-4 disabled:cursor-wait disabled:opacity-[.65]', hoverClasses, justEnabled ? 'animate-[button-enable-bounce_500ms_ease-out] motion-reduce:animate-none' : '', className].filter(Boolean).join(' ');
   return <button className={classes} {...props} />;
