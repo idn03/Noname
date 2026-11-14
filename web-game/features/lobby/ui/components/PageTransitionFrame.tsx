@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { AnimatePresence, motion, useIsPresent, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion, useIsPresent, useReducedMotion, type Variants } from 'motion/react';
 import { RuneField } from '@/components/shared/RuneField';
 
 interface PageTransitionFrameProps {
@@ -26,10 +26,10 @@ export function PageTransitionFrame({ screenKey, animateTransitions, className, 
 function TransitionPage({ children, animateTransitions }: { children: ReactNode; animateTransitions: boolean }) {
   const isPresent = useIsPresent();
   const prefersReducedMotion = useReducedMotion();
-  const variants = {
+  const variants: Variants = {
     enter: (enabled: boolean) => enabled && !prefersReducedMotion ? { opacity: 0, top: 12 } : { opacity: 1, top: 0 },
-    visible: { opacity: 1, top: 0, transition: { duration: prefersReducedMotion ? 0 : 0.22, ease: 'easeOut' } },
-    exit: (enabled: boolean) => ({ opacity: 0, transition: { duration: enabled && !prefersReducedMotion ? 0.18 : 0, ease: 'easeOut' } }),
+    visible: { opacity: 1, top: 0, transition: { duration: prefersReducedMotion ? 0 : 0.5, ease: 'easeOut' } },
+    exit: (enabled: boolean) => ({ opacity: 0, transition: { duration: enabled && !prefersReducedMotion ? 0.5 : 0, ease: 'easeOut' } }),
   };
 
   return <motion.div
