@@ -15,6 +15,14 @@ pnpm test
 pnpm run typecheck
 ```
 
+## Continuous Integration
+
+GitHub Actions runs the unit and integration tests, TypeScript typecheck,
+production build, and Playwright end-to-end tests for pull requests targeting
+`main` and pushes to `main`. Configure a branch ruleset for `main` that
+requires the `quality-gates` status check before merging. V0 is intended for
+local-network play and does not use an automatic cloud deployment.
+
 This project uses spec-driven development. Product requirements, gameplay
 rules, and technical decisions live under `specs/`; the workflow specifications
 define how agent-assisted work is planned, checked, and resumed.
