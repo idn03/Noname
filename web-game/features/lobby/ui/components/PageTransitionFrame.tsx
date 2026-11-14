@@ -27,9 +27,9 @@ function TransitionPage({ children, animateTransitions }: { children: ReactNode;
   const isPresent = useIsPresent();
   const prefersReducedMotion = useReducedMotion();
   const variants = {
-    enter: (enabled: boolean) => enabled && !prefersReducedMotion ? { opacity: 0, top: 6 } : { opacity: 1, top: 0 },
-    visible: { opacity: 1, top: 0, transition: { duration: prefersReducedMotion ? 0 : 0.18, ease: 'easeOut' } },
-    exit: (enabled: boolean) => ({ opacity: 0, transition: { duration: enabled && !prefersReducedMotion ? 0.14 : 0, ease: 'easeOut' } }),
+    enter: (enabled: boolean) => enabled && !prefersReducedMotion ? { opacity: 0, top: 12 } : { opacity: 1, top: 0 },
+    visible: { opacity: 1, top: 0, transition: { duration: prefersReducedMotion ? 0 : 0.22, ease: 'easeOut' } },
+    exit: (enabled: boolean) => ({ opacity: 0, transition: { duration: enabled && !prefersReducedMotion ? 0.18 : 0, ease: 'easeOut' } }),
   };
 
   return <motion.div

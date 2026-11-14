@@ -49,7 +49,7 @@ Show both final team scores and team rosters, the winning team or draw, and that
 
 ## Shared States
 
-When the server confirms a new game phase, transition between its screens with a brief fade and subtle vertical movement. Respect reduced-motion preferences by showing the destination immediately. Refresh and reconnection show the current authorized screen without replaying earlier phase transitions; animation never delays an action or authoritative state.
+When the server confirms a new game phase, transition between its screens with a brief fade and subtle vertical movement, including the Host's Lobby-to-team-assignment phase change. Respect reduced-motion preferences by showing the destination immediately. Refresh and reconnection show the current authorized screen without replaying earlier phase transitions; animation never delays an action or authoritative state.
 
 - **Connecting or reconnecting:** Indicate that the client is restoring its authorized session view.
 - **Waiting:** Explain which player action or phase gate is pending without exposing private information.

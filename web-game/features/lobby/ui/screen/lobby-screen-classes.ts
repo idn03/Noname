@@ -1,7 +1,7 @@
 const shellBase = 'relative isolate min-h-dvh overflow-hidden bg-[#080607] bg-[url(/assets/backgrounds/background.png)] bg-center bg-cover font-type-body [&>*]:relative [&>*]:z-[1] [&>div:first-child]:!absolute [&>div:first-child]:!z-0';
 
 export function getLobbyShellClassName(isPlayer: boolean, isActive: boolean) {
-  return [shellBase, isPlayer ? 'w-[min(100%,402px)] mx-auto bg-scroll' : 'bg-fixed', isPlayer && !isActive && 'rounded-[8px]', isActive && !isPlayer && 'max-[700px]:bg-scroll']
+  return [shellBase, isPlayer ? 'w-[min(100%,402px)] mx-auto bg-scroll rounded-[8px]' : 'bg-fixed', isActive && !isPlayer && 'max-[700px]:bg-scroll']
     .filter(Boolean)
     .join(' ');
 }

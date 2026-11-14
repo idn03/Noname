@@ -49,7 +49,7 @@ HOST: Không cần nâng cấp
 PLAYER: Không cần nâng cấp
 
 ### Chia đội
-HOST: Không cần nâng cấp
+HOST: Dùng chuyển cảnh chung từ Lobby sang chia đội; giữ nguyên hiệu ứng đội hình hiện có.
 
 PLAYER: Thêm hiệu ứng xuất hiện fade cho ĐỘI SÓI hoặc ĐỘI CỪU và danh sách thành viên sau khi HOST bấm chia đội. **Phương án:** `motion/react` cho stagger roster nếu cần; Tailwind utilities cho fade đơn giản. Bắt đầu khi client nhận phase/phân đội đã xác nhận từ server.
 
