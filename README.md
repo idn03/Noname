@@ -1,125 +1,64 @@
-# Noname
+<h1 align="center">
+  <img src="web-game/public/assets/splash-image.png" width="600" alt="Sói và Cừu — trò chơi thẻ bài nhiều người chơi">
+</h1>
 
-Noname is a web-based multiplayer card game for small groups playing together
-on the same local network. Version 0 focuses on a complete, host-managed game
-loop with team-based card play and challenges.
+<h3 align="center">Trò chơi thẻ bài theo đội, chơi cùng nhau trên mạng nội bộ.</h3>
 
-## Local Development
+**Noname** là trò chơi nhiều người chơi theo lượt dành cho một nhóm đang ở
+cùng địa điểm. Người chơi được chia thành hai đội Sói và Cừu, chọn bài theo
+danh mục rồi lần lượt tấn công, phòng thủ và thực hiện thử thách. Một máy tính
+làm Host điều khiển ván chơi; mọi người kết nối bằng trình duyệt qua cùng mạng
+Wi-Fi hoặc LAN.
 
-Use pnpm to install dependencies and run project commands:
+## Luật chơi
+
+- Một ván cần **6–10 người chơi**; Host điều khiển ván và không tính vào số
+  người chơi.
+- Khi Host bắt đầu, máy chủ chia người chơi ngẫu nhiên và cân bằng vào đội Sói
+  và đội Cừu.
+- Hai đội chọn bài theo danh mục trước khi vào lượt chơi. Mỗi người quản lý ô
+  bài của mình.
+- Sói tấn công bằng một lá bài. Cừu chỉ có thể phòng thủ bằng lá bài chưa dùng
+  thuộc cùng danh mục; người phòng thủ sẽ xử lý thử thách tương ứng.
+- Nếu Cừu không phòng thủ được, Sói nhận **2 điểm**. Nếu Cừu phòng thủ đúng
+  danh mục, Cừu nhận **1 điểm**; hoàn thành thử thách thành công được thêm
+  **1 điểm**.
+- Ván kết thúc sau số lượt đã định. Đội nhiều điểm hơn thắng; bằng điểm thì
+  hòa.
+
+## Cài đặt và chơi
+
+### Yêu cầu
+
+- Node.js 22 trở lên
+- pnpm 10.32.0
+- 6–10 người chơi (không tính Host) trong cùng mạng Wi-Fi hoặc LAN; mỗi người
+  chơi dùng một trình duyệt
+
+### Chạy trên máy Host
 
 ```sh
+git clone https://github.com/idn03/Noname.git
+cd Noname
 pnpm install
 pnpm dev
-pnpm test
-pnpm run typecheck
 ```
 
-## Continuous Integration
+Mở `http://127.0.0.1:3000` trên máy Host để tạo phòng. Người chơi khác mở địa
+chỉ LAN mà máy chủ hiển thị trong terminal, hoặc địa chỉ IP nội bộ của máy Host
+kèm cổng `3000`. Nếu không kết nối được, hãy cho phép Node.js nhận kết nối qua
+tường lửa của mạng nội bộ.
 
-GitHub Actions runs the unit and integration tests, TypeScript typecheck,
-production build, and Playwright end-to-end tests for pull requests targeting
-`main` and pushes to `main`. Configure a branch ruleset for `main` that
-requires the `quality-gates` status check before merging. V0 is intended for
-local-network play and does not use an automatic cloud deployment.
+## Phát triển
 
-This project uses spec-driven development. Product requirements, gameplay
-rules, and technical decisions live under `specs/`; the workflow specifications
-define how agent-assisted work is planned, checked, and resumed.
-
-## Spec-Driven Workflow
-
-Specifications are the source of truth for implementation:
-
-```text
-Epic → Plan → Implement → Review → Test → Validate → Checkpoint
+```sh
+pnpm test             # Unit và integration tests
+pnpm run typecheck    # Kiểm tra TypeScript
+pnpm run build        # Build ứng dụng
+pnpm run test:e2e     # Kiểm tra luồng trên trình duyệt
 ```
 
-An epic is divided into dependency-ordered stages. Each stage has one primary
-concern, explicit completion criteria, and a stable identity for resumption.
-Stages are completed only when the required quality gates produce passing
-evidence and the stage is checkpointed.
-
-Failed review, test, or validation may enter a bounded, scoped repair loop. If
-repair is exhausted, a required check is unavailable, or checkpointing fails,
-the run halts with its state and failure information preserved.
-
-Independent planning or read-only checks may run in parallel. Shared
-mutations remain serialized unless they have explicit isolation.
-
-## Quality model
-
-The orchestrator decides completion from structured results and executed engine
-checks. An agent’s claim that work is complete is not a quality gate.
-
-Every run should make these facts inspectable:
-
-- what was planned and why stages are ordered;
-- which agent performed each bounded concern;
-- what changed and what checks actually ran;
-- which repairs were attempted and why they stopped;
-- which stages were completed, skipped, or left unattempted;
-- where execution halted and whether it can resume.
-
-## Provider boundary
-
-The core workflow does not depend on a particular coding-agent product.
-Provider adapters translate a shared agent request into provider execution and
-map the result back to the shared contract.
-
-Codex and OpenCode belong at this boundary. Authentication, model selection,
-command-line flags, process handling, and provider-specific output stay inside
-their adapters. The same workflow and stage contracts should remain usable by
-either provider.
-
-## Repository map
-
-- [`specs/00-context/`](specs/00-context/) — product overview, terminology, and
-  constraints.
-- [`specs/01-product/`](specs/01-product/) — product requirements, rules, and
-  user stories.
-- [`specs/02-ux/`](specs/02-ux/) — user flows, navigation, screens, and design.
-- [`specs/03-technical/`](specs/03-technical/) and
-  [`specs/04-backend/`](specs/04-backend/) — technical and backend contracts.
-- [`specs/05-features/`](specs/05-features/) — feature-level requirements and
-  acceptance criteria.
-- [`specs/06-testing/`](specs/06-testing/) — project testing strategy.
-- [`specs/07-planning/`](specs/07-planning/) and
-  [`specs/08-decisions/`](specs/08-decisions/) — planning and architecture
-  decisions.
-- [`specs/workflow.md`](specs/workflow.md) — lifecycle, ordering, recovery, and
-  parallelism.
-- [`specs/contracts.md`](specs/contracts.md) — plan, agent, gate, stage, and run
-  result contracts.
-- [`specs/providers.md`](specs/providers.md) — provider adapter boundary and
-  obligations.
-- [`specs/memory.md`](specs/memory.md) — cross-run knowledge capture and
-  memory precedence.
-- [`agents/`](agents/) — focused responsibilities used during a run.
-- [`RULES.md`](RULES.md) — repository and workflow invariants.
-- [`AGENTS.md`](AGENTS.md) — instructions for agents working in this repository.
-
-The specifications are concise, human-managed, and authoritative. Runtime
-behavior must not introduce workflow semantics that are absent from `specs/`
-without updating the relevant contract first.
-
-## When to use it
-
-This model is most useful when implementing the wrong behavior costs more than
-additional planning and validation: large features, cross-cutting changes,
-migrations, or work that must be resumed and audited.
-
-For small or obvious changes, a direct coding-agent loop may be more efficient.
-The right stage boundaries, roles, checks, retry limits, and checkpoint policy
-remain project-specific.
-
-## Design goals
-
-- small core;
-- explicit, serializable contracts;
-- deterministic orchestration;
-- dependency-aware execution;
-- bounded recovery;
-- engine-derived quality gates;
-- resumable checkpoints;
-- portable provider integrations.
+GitHub Actions tự chạy các bước kiểm tra trên với pull request vào `main` và
+mỗi lần push lên `main`. Workflow phát triển chi tiết nằm trong
+[`specs/workflow.md`](specs/workflow.md); luật sản phẩm và luật chơi đầy đủ nằm
+trong [`specs/`](specs/).

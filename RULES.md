@@ -42,10 +42,13 @@ repository.
 
 ## Repository hygiene
 
-29. Create a git checkpoint when a requested implementation is complete.
-30. Keep temporary investigation or run documents in `docs/temps/`, using a UTC
+29. Create or resume a task branch before planning or editing; never deliver
+    task changes directly on the base branch.
+30. Run and record required local checks before each completion commit, then
+    push the task branch after completed commits or a resumable recovery commit.
+31. Keep temporary investigation or run documents in `docs/temps/`, using a UTC
     timestamp prefix, and report their paths.
-31. Do not modify generated files or dependency lockfiles without a reason tied
+32. Do not modify generated files or dependency lockfiles without a reason tied
     to the requested change.
-32. Keep documentation minimal and limited to behavior needed to use or
+33. Keep documentation minimal and limited to behavior needed to use or
     maintain the harness.

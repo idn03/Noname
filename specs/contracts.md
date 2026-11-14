@@ -59,7 +59,11 @@ or satisfy dependencies.
 ## Run result
 
 A run result contains run identity, plan identity, stage results, counts,
-resumption information, halt information, and archival result.
+resumption information, halt information, repository delivery result, and
+archival result. The repository delivery result records the task branch,
+ordered task commit identities, and branch push outcome. The push outcome
+records status, command or engine source, observed result, and a failure reason
+when unsuccessful.
 
 The result distinguishes attempted, completed, skipped, and unattempted
 stages. Halt information is present whenever execution does not reach the end

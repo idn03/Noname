@@ -7,11 +7,31 @@ executes each stage through a deterministic quality pipeline.
 
 ## Lifecycle
 
-`plan → implement → review → test → validate → checkpoint → archive`
+`create branch → plan → implement → review → test → validate → commit → push branch → archive`
 
-The first six phases repeat for every stage. Checkpointing completes a stage;
-archival runs once after the run when all planned stages complete. A run may
+Implementation through commit repeats for every stage. Checkpointing completes
+a stage; branch push happens after the run's completed-stage commits are ready.
+Archival runs once after the run when all planned stages complete. A run may
 resume from completed checkpoints.
+
+## Repository task lifecycle
+
+- After repository safety checks, create or resume one task branch from the
+  current base branch before planning or changing files. Keep the task branch
+  across all stages and repairs in the run.
+- Execute stages in plan order. Run required checks locally and record their
+  commands and outcomes before creating each completion checkpoint commit.
+- Commit only task changes after their required local checks pass. Keep
+  unrelated pre-existing work out of task commits.
+- If a stage halts at the repair limit, create a separately identified recovery
+  commit after recording the attempted local checks and their outcomes. Never
+  label it a completion commit.
+- Push the task branch after the run's completed-stage commits are ready, or
+  after a halted run has a resumable recovery commit. Record the push result;
+  a failed push halts delivery and leaves the branch available for retry.
+- Do not commit or push directly to the base branch as part of task execution.
+- Resumption reuses the original task branch and plan. It does not create a
+  replacement branch or rewrite existing stage commits.
 
 ## Planning
 
@@ -94,10 +114,11 @@ resume from completed checkpoints.
 
 ## Checkpoints and halting
 
-- A passing stage is checkpointed with a stage-identifying commit.
+- A passing stage is checkpointed with a stage-identifying commit, created only
+  after its required local gates pass.
 - A failed stage at the cycle limit receives a separately identified temporary
-  recovery checkpoint. It preserves the worktree and task state but never
-  counts as a completed-stage checkpoint.
+  recovery commit. It preserves the worktree and task state but never counts
+  as a completed-stage checkpoint.
 - Checkpoint failure halts the run.
 - A failed stage halts the run; later stages are not attempted.
 - The result records the halt stage, cause, and recoverable state.
