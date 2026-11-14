@@ -38,8 +38,8 @@ function Team({ title, score, team, game, nameOf }: { title: string; score: numb
     <p className="mb-1 ml-3 mt-0 text-heading6 font-bold">Điểm: {score}</p>
     <div className={`mb-[18px] flex items-center gap-3 ${alignRight ? 'justify-end' : ''}`}>
       <img className={`size-[60px] object-contain ${isWolf ? '' : 'brightness-0 invert'}`} src={`/assets/teams/${team}-icon.svg`} alt="" />
-      <h2 className="m-0 text-heading3 font-bold leading-[1.1] max-[760px]:text-heading6">{title}</h2>
+      <h2 className={`m-0 text-heading3 font-bold leading-[1.1] max-[760px]:text-heading6 ${isWolf ? '[text-shadow:0_4px_0_#ffffff50]' : '[text-shadow:0_4px_0_#00000050]'}`}>{title}</h2>
     </div>
-    <ol className="m-0 list-none p-0 text-content max-[640px]:text-content">{players.map((player) => <li className="mb-[18px]" key={player.id}>{nameOf(player.id)}{player.id === game.activeTurn?.attackerId ? ' · tấn công' : ''}{player.id === game.activeTurn?.defenderId ? ' · phòng thủ' : ''}</li>)}</ol>
+    <ol className="m-0 list-none p-0 text-content max-[640px]:text-content">{players.map((player) => <li className={`mb-[18px] ${isWolf ? '[text-shadow:0_1px_0_#ffffff50]' : '[text-shadow:0_1px_0_#00000050]'}`} key={player.id}>{nameOf(player.id)}{player.id === game.activeTurn?.attackerId ? ' · tấn công' : ''}{player.id === game.activeTurn?.defenderId ? ' · phòng thủ' : ''}</li>)}</ol>
   </section>;
 }
