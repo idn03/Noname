@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/shared/Button';
 import { PressableText } from '@/components/shared/PressableText';
-import { RuneField } from '@/components/shared/RuneField';
 import { useEndGameScreen, type EndGameResult } from '@/features/results/hooks/use-end-game-screen';
 
 export type { EndGameResult } from '@/features/results/hooks/use-end-game-screen';
@@ -20,7 +19,6 @@ export function EndGameScreen({ result, audience, onReturnHome, onReplay, pendin
 
   return (
     <main className={`relative isolate flex min-h-dvh flex-col items-center justify-center overflow-hidden gap-[34px] bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)] px-6 py-14 text-center text-white ${audience === 'player' ? 'mx-auto w-[min(100%,402px)] gap-7 px-5 pt-11 pb-9 max-[520px]:justify-start' : ''}`} aria-labelledby="endgame-title">
-      <RuneField density={audience === 'player' ? 'player' : 'default'} />
       <header className="relative z-[1] w-full">
         <p className="m-0 mb-[13px] text-[#f0dfe0] font-type-label text-content leading-[1.4] font-bold tracking-[.16em]">TRẬN ĐẤU ĐÃ KẾT THÚC · {result.rounds} LƯỢT</p>
         <h1 id="endgame-title" className="m-0 flex items-center justify-center gap-3 font-type-result-title text-[length:clamp(var(--text-heading5),8vw,var(--text-heading2))] leading-[1.04] font-normal tracking-[-.045em] max-[520px]:gap-2">

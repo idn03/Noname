@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { RuneField } from '@/components/shared/RuneField';
 import { HostHomeActions } from '@/features/lobby/ui/components/HostHomeActions';
 import { HostLobbyLayout } from '@/features/lobby/ui/components/HostLobbyLayout';
 import LobbyNameForm from '@/features/lobby/ui/components/LobbyNameForm';
@@ -14,6 +13,7 @@ import { PlayerGameScreen } from '@/features/game/ui/screen/PlayerGameScreen';
 import { ManageGameScreen } from '@/features/game/ui/screen/ManageGameScreen';
 import { EndGameScreen } from '@/features/results/ui/screen/EndGameScreen';
 import { TeamAssignmentScreen } from './TeamAssignmentScreen';
+import { PageTransitionFrame } from '@/features/lobby/ui/components/PageTransitionFrame';
 import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 import { getHomeContentClassName, getHomeTitleClassName, getLobbyShellClassName } from './lobby-screen-classes';
 
@@ -22,51 +22,57 @@ export default function LobbyScreen() {
   const router = useRouter();
   const screen = useLobbyScreen();
   const {
-    name, setName, lobby, error, connected, pending, isLocalHost, host, players,
+    name, setName, lobby, error, connected, pending, animatePageTransitions, isLocalHost, host, players,
     connectedPlayers, currentPlayer, roleClass, createHost, createSandbox, join, start, cancel, deleteRoom, replay, selectCard, removeCard, attack, defend, recordOutcome,
   } = screen;
   const isPlayerView = roleClass === 'lobby-shell--player';
   const isStartedGuest = lobby?.phase === 'started' && !currentPlayer && isLocalHost !== true;
   const shellClassName = getLobbyShellClassName(isPlayerView, Boolean(lobby));
   const hostCardShellClassName = `${shellClassName} relative isolate overflow-hidden bg-scroll px-[clamp(1rem,4.2vw,5rem)] !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`;
+  const screenKey = getScreenKey(lobby?.game?.phase, lobby?.game?.role, host);
 
   if (lobby?.game?.phase === 'team-assignment') {
-    if (lobby.game.role === 'host') return <main className={shellClassName}>
-      <RuneField />
+    if (lobby.game.role === 'host') return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={shellClassName}>
+      <main className="relative z-[1] min-h-dvh">
       <HostLobbyLayout players={players} connectedPlayers={connectedPlayers} pending={pending} error={error}
         started assignmentRemainingMs={lobby.game.remainingMs} onStart={start} onCancel={cancel} onDelete={deleteRoom} />
-    </main>;
-    return <main className={`${shellClassName} flex items-center justify-center`}>
-      <RuneField density="player" />
+      </main>
+    </PageTransitionFrame>;
+    return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={shellClassName} density="player">
+      <main className="relative z-[1] flex min-h-dvh items-center justify-center">
       <TeamAssignmentScreen team={lobby.game.team} remainingMs={lobby.game.remainingMs} />
-    </main>;
+      </main>
+    </PageTransitionFrame>;
   }
 
   if (lobby?.game?.phase === 'selection') {
-    return <main className={lobby.game.role === 'host' ? hostCardShellClassName : `${shellClassName} flex !min-h-svh justify-center overflow-x-hidden !overflow-y-auto !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`}>
-      <RuneField density={isPlayerView ? 'player' : 'default'} />
+    return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={shellClassName} density={isPlayerView ? 'player' : 'default'}>
+      <main className={lobby.game.role === 'host' ? hostCardShellClassName : 'relative z-[1] flex !min-h-svh justify-center overflow-x-hidden !overflow-y-auto !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]'}>
       {lobby.game.role === 'host'
         ? <><HostCardSelection selection={lobby.game.selection} />
           <HostSelectionActions playerCount={connectedPlayers} pending={pending} onStart={start} onCancel={cancel} onDelete={deleteRoom} onReplay={replay} />
           {error && <p className="relative z-[1] my-[14px] text-[#ffb6bd] text-content" role="alert">{error}</p>}
         </>
         : <PlayerCardSelection selection={lobby.game.selection} connected={connected} pending={pending} error={error} onSubmit={selectCard} onRemove={removeCard} />}
-    </main>;
+      </main>
+    </PageTransitionFrame>;
   }
   if (lobby?.game?.phase === 'turns') {
-    if (lobby.game.role === 'host') return <main className={hostCardShellClassName}>
-      <RuneField /><ManageGameScreen game={lobby.game} players={players} pending={pending} error={error} onOutcome={recordOutcome} onCancel={cancel} onReplay={replay} />
-    </main>;
-    return <main className={`${shellClassName} !min-h-svh !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`}>
-      <RuneField density="player" /><PlayerGameScreen game={lobby.game} selfId={screen.selfId} players={players} pending={pending} error={error} onAttack={attack} onDefend={defend} />
-    </main>;
+    if (lobby.game.role === 'host') return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={shellClassName}>
+      <main className={hostCardShellClassName}><ManageGameScreen game={lobby.game} players={players} pending={pending} error={error} onOutcome={recordOutcome} onCancel={cancel} onReplay={replay} /></main>
+    </PageTransitionFrame>;
+    return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={shellClassName} density="player">
+      <main className="relative z-[1] !min-h-svh !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]"><PlayerGameScreen game={lobby.game} selfId={screen.selfId} players={players} pending={pending} error={error} onAttack={attack} onDefend={defend} /></main>
+    </PageTransitionFrame>;
   }
   if (lobby?.game?.phase === 'results') {
-    return <EndGameScreen result={lobby.game} audience={lobby.game.role} onReturnHome={host ? cancel : undefined} onReplay={host ? replay : undefined} pending={pending} />;
+    return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={shellClassName} density={lobby.game.role === 'player' ? 'player' : 'default'}>
+      <EndGameScreen result={lobby.game} audience={lobby.game.role} onReturnHome={host ? cancel : undefined} onReplay={host ? replay : undefined} pending={pending} />
+    </PageTransitionFrame>;
   }
 
-  return <main className={`${shellClassName} ${!lobby ? 'flex items-stretch' : ''}`}>
-    <RuneField density={isPlayerView ? 'player' : 'default'} />
+  return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={shellClassName} density={isPlayerView ? 'player' : 'default'}>
+    <main className={`relative z-[1] min-h-dvh ${!lobby ? 'flex items-stretch' : ''}`}>
     {!lobby && isLocalHost === null && <p className="relative z-[1] grid min-h-dvh place-items-center m-0 text-white font-type-body text-subtitle" role="status">Đang xác định chế độ kết nối…</p>}
     {(!lobby || isStartedGuest) && isLocalHost !== null && <section className={getHomeContentClassName(isLocalHost)} aria-labelledby="page-title">
       <h1 id="page-title" className={getHomeTitleClassName(isLocalHost)}><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>
@@ -96,5 +102,13 @@ export default function LobbyScreen() {
       onCancel={cancel}
       onDelete={deleteRoom}
     />}
-  </main>;
+    </main>
+  </PageTransitionFrame>;
+}
+
+function getScreenKey(phase: string | undefined, role: string | undefined, host: boolean) {
+  if (phase === 'team-assignment' && role === 'host') return 'lobby:host';
+  if (phase && role) return `${phase}:${role}`;
+  if (host) return 'lobby:host';
+  return 'home';
 }

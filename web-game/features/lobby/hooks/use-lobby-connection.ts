@@ -12,10 +12,15 @@ export function useLobbyConnection() {
   const [error, setError] = useState('');
   const [connected, setConnected] = useState(false);
   const [pending, setPending] = useState(false);
+  const [animatePageTransitions, setAnimatePageTransitions] = useState(false);
   const [isLocalHost, setIsLocalHost] = useState<boolean | null>(null);
   const [selfId, setSelfId] = useState('');
   const credentialRejected = useRef(false);
   const connectionRef = useRef<Socket | null>(null);
+  const hasConnectedOnce = useRef(false);
+  const hasReceivedState = useRef(false);
+  const skipReconnectState = useRef(false);
+  const animateFirstState = useRef(false);
 
   useEffect(() => {
     const hostname = window.location.hostname.toLowerCase();
@@ -26,6 +31,8 @@ export function useLobbyConnection() {
     connectionRef.current = connection;
     setSocket(connection);
     connection.on('connect', () => {
+      if (hasConnectedOnce.current) skipReconnectState.current = true;
+      hasConnectedOnce.current = true;
       console.info('[Noname] Lobby server connected', { socketId: connection.id, isLocalHost: localHost });
       setConnected(true);
       setError('');
@@ -42,6 +49,11 @@ export function useLobbyConnection() {
     });
     connection.on(LOBBY_EVENTS.identity, setSelfId);
     connection.on(LOBBY_EVENTS.state, (state: LobbyView) => {
+      const animate = !skipReconnectState.current && (hasReceivedState.current || animateFirstState.current);
+      hasReceivedState.current = true;
+      skipReconnectState.current = false;
+      animateFirstState.current = false;
+      setAnimatePageTransitions(animate);
       setLobby(state);
       setPending(false);
       setError(credentialRejected.current ? 'Không thể khôi phục phiên chơi. Hãy nhập tên để tham gia phòng.' : '');
@@ -69,6 +81,7 @@ export function useLobbyConnection() {
   }
 
   function clearSession() {
+    setAnimatePageTransitions(hasReceivedState.current && !skipReconnectState.current);
     window.localStorage.removeItem(CREDENTIAL_KEY);
     if (connectionRef.current) connectionRef.current.auth = {};
     setLobby(null);
@@ -77,5 +90,8 @@ export function useLobbyConnection() {
     setError('');
   }
 
-  return { socket, lobby, setLobby, error, setError, connected, pending, setPending, isLocalHost, selfId, setSelfId };
+  const markFirstStateTransition = () => { animateFirstState.current = true; };
+  const clearFirstStateTransition = () => { animateFirstState.current = false; };
+
+  return { socket, lobby, setLobby, error, setError, connected, pending, setPending, animatePageTransitions, markFirstStateTransition, clearFirstStateTransition, isLocalHost, selfId, setSelfId };
 }

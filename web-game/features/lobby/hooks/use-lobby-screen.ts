@@ -8,26 +8,34 @@ import { useLobbyConnection } from './use-lobby-connection';
 export function useLobbyScreen() {
   const [name, setName] = useState('');
   const connection = useLobbyConnection();
-  const { socket, lobby, error, setError, connected, pending, setPending, isLocalHost, selfId, setSelfId } = connection;
+  const { socket, lobby, error, setError, connected, pending, setPending, animatePageTransitions, markFirstStateTransition, clearFirstStateTransition, isLocalHost, selfId, setSelfId } = connection;
 
   const command = (event: LobbyCommand, payload: unknown, done?: (reply: LobbyCommandReply) => void) => {
     setPending(true);
     setError('');
     emitLobbyCommand(socket, event, payload, (reply, timedOut) => {
       setPending(false);
-      if (timedOut) return setError('Máy chủ chưa phản hồi. Hãy kiểm tra kết nối rồi thử lại.');
-      if (!reply?.ok) return setError(reply?.error ? errorText(reply.error.code) : 'Đã xảy ra lỗi. Vui lòng thử lại.');
+      if (timedOut) {
+        clearFirstStateTransition();
+        return setError('Máy chủ chưa phản hồi. Hãy kiểm tra kết nối rồi thử lại.');
+      }
+      if (!reply?.ok) {
+        clearFirstStateTransition();
+        return setError(reply?.error ? errorText(reply.error.code) : 'Đã xảy ra lỗi. Vui lòng thử lại.');
+      }
       if (reply) done?.(reply);
     });
   };
 
-  const createRoom = (mode: HostCreateMode) => command(
-    LOBBY_EVENTS.hostCreate, { mode }, (reply) => setSelfId(reply.playerId ?? ''),
-  );
+  const createRoom = (mode: HostCreateMode) => {
+    markFirstStateTransition();
+    command(LOBBY_EVENTS.hostCreate, { mode }, (reply) => setSelfId(reply.playerId ?? ''));
+  };
   const createHost = () => createRoom('regular');
   const createSandbox = () => createRoom('sandbox');
   const join = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    markFirstStateTransition();
     command(LOBBY_EVENTS.join, { name }, (reply) => setSelfId(reply.playerId ?? ''));
   };
   const start = (confirmed: boolean) => command(LOBBY_EVENTS.hostStart, { confirmLowPopulation: confirmed });
@@ -46,7 +54,7 @@ export function useLobbyScreen() {
   const roleClass = isLocalHost === null ? 'lobby-shell--resolving' : isLocalHost ? 'lobby-shell--host' : 'lobby-shell--player';
 
   return {
-    name, setName, lobby, error, connected, pending, isLocalHost, host, selfId,
+    name, setName, lobby, error, connected, pending, animatePageTransitions, isLocalHost, host, selfId,
     players, connectedPlayers, currentPlayer, roleClass,
     createHost, createSandbox, join, start, cancel, deleteRoom, replay, selectCard, removeCard, attack, defend, recordOutcome,
   };
