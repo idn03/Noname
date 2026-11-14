@@ -29,8 +29,8 @@ function TeamColumn({ team, data }: {
     <header className="flex items-center gap-[.7rem] max-[760px]:gap-[.4rem]">
       <img className={`h-[clamp(2.5rem,3.2vw,3.75rem)] w-[clamp(2.5rem,3.2vw,3.75rem)] object-contain max-[760px]:size-8 ${team === 'sheep' ? 'brightness-0 invert' : ''}`} src={`/assets/teams/${team}-icon.svg`} alt="" /><h2 className={`m-0 font-type-section-title text-[length:clamp(var(--text-title1),2.5vw,var(--text-heading4))] leading-[1.1] font-bold max-[760px]:text-[length:clamp(var(--text-subtitle),4vw,var(--text-title1))] ${team === 'wolf' ? '[text-shadow:0_4px_0_#ffffff50]' : '[text-shadow:0_4px_0_#00000050]'}`}>Đội {label}:</h2>
     </header>
-    <ol className="mt-[clamp(1.5rem,4.5vh,3.2rem)] mb-10 grid list-none gap-[clamp(1rem,2.4vh,1.8rem)] p-0 pl-8 max-[760px]:mt-8 max-[760px]:mb-8 max-[760px]:gap-4 max-[760px]:pl-1">
-      {data.players.map((player, index) => <li className={`flex min-w-0 items-baseline gap-2 font-type-body text-[length:clamp(var(--text-content),1.1vw,var(--text-subtitle))] leading-[1.25] max-[760px]:flex-wrap max-[760px]:text-content ${team === 'wolf' ? '[text-shadow:0_1px_0_#ffffff50]' : '[text-shadow:0_1px_0_#00000050]'}`} key={player.id}>
+    <ol className="mt-[clamp(1.5rem,4.5vh,3.2rem)] mb-10 grid list-none gap-[clamp(1rem,2.4vh,1.8rem)] p-0 pl-8 text-white max-[760px]:mt-8 max-[760px]:mb-8 max-[760px]:gap-4 max-[760px]:pl-1">
+      {data.players.map((player, index) => <li className="flex min-w-0 items-baseline gap-2 font-type-body text-[length:clamp(var(--text-content),1.1vw,var(--text-subtitle))] leading-[1.25] max-[760px]:flex-wrap max-[760px]:text-content" key={player.id}>
         <span className="shrink-0 font-type-body text-title2 leading-none tabular-nums max-[760px]:text-subtitle">{String(index + 1).padStart(2, '0')}</span>
         <span>{player.name}</span>
         {!player.hasCardSlot && <span className="ml-auto font-type-label text-content leading-none opacity-75">Không có thẻ</span>}
