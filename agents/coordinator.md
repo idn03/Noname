@@ -14,6 +14,8 @@ specifications define behavior. Provider output is evidence, not authority.
 ## Responsibilities
 
 - establish the run context and repository safety checks;
+- create or resume the task branch before planning or editing, preserve
+  unrelated work, and never deliver task changes directly on the base branch;
 - for feature runs with `NONAME_BROWSER_PREFLIGHT=passed`, use the supplied
   `NONAME_APP_URL` and never start or bind a second application server;
 - create or load a stable, dependency-ordered plan;
@@ -29,6 +31,9 @@ specifications define behavior. Provider output is evidence, not authority.
   when Cycle 3 cannot satisfy required gates; update the task as blocked with
   findings, remaining acceptance criteria, and a resume action;
 - serialize shared mutations and permit only safe isolated parallel work;
+- run and record required local gates before each completion commit, push the
+  task branch after completion or a resumable recovery commit, and halt if the
+  push fails;
 - checkpoint completed stages and halt on unrecoverable failure;
 - resume from the original plan without renumbering or reordering;
 - return a complete structured run result.
@@ -48,6 +53,8 @@ checkpoints through repository interfaces.
 - unavailable required evidence is a failure to satisfy the gate;
 - later stages are not attempted after an unrecoverable halt;
 - every halt identifies the stage, cause, and resumable state.
+- resumption reuses the same task branch and never rewrites its existing
+  checkpoint commits.
 
 ## Handoff
 

@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { LobbySession } from '../backend/lobby-session';
+import {
+  LobbySession,
+  SANDBOX_SELECTION_TO_MANAGE_DELAY_MS,
+  TEAM_ASSIGNMENT_DURATION_MS,
+} from '../backend/lobby-session';
 
 describe('Host lobby lifecycle', () => {
   it('keeps the assigned teams visible for ten seconds before opening selection', () => {
@@ -66,12 +70,13 @@ describe('Host lobby lifecycle', () => {
     const random = { nextInt: (upperBound: number) => upperBound === 5 ? 4 : 0 };
     const session = LobbySession.createSandboxForHost(undefined, random);
     const host = session.connectHost();
-    const started = session.start(host.playerId);
+    const startedAt = Date.now();
+    const started = session.start(host.playerId, false, startedAt);
     expect(typeof started).not.toBe('string');
     if (typeof started === 'string') return;
 
     const state = started.gameState;
-    expect(session.completeTeamAssignment(Date.now() + 10_000)).toBe(true);
+    expect(session.completeTeamAssignment(startedAt + TEAM_ASSIGNMENT_DURATION_MS)).toBe(true);
     expect(state.phase).toBe('turns');
     const wolves = state.players.filter((player) => player.team === 'wolf' && player.hasCardSlot);
     const sheep = state.players.filter((player) => player.team === 'sheep' && player.hasCardSlot);
@@ -84,8 +89,15 @@ describe('Host lobby lifecycle', () => {
     expect(wolves.filter((player) => player.cardUsed)).toHaveLength(1);
     expect(sheep.filter((player) => player.cardUsed)).toHaveLength(1);
 
+    expect(session.recordChallengeOutcome(host.playerId, state.round, false)).toBe('INVALID_TURN');
+    expect(session.currentGameState()).toEqual(state);
+    const sandboxManageAt = startedAt + TEAM_ASSIGNMENT_DURATION_MS + SANDBOX_SELECTION_TO_MANAGE_DELAY_MS;
+    expect(session.completeSandboxSelectionDelay(sandboxManageAt)).toBe(true);
     expect(session.recordChallengeOutcome(host.playerId, state.round, false)).toBeUndefined();
-    expect(session.currentGameState()).toMatchObject({ round: 2, activeTurn: { round: 2, defenderId: expect.any(String) } });
+    expect(session.currentGameState()).toMatchObject({
+      round: 2,
+      activeTurn: { round: 2, defenderId: expect.any(String) },
+    });
   });
 
   it('invalidates credentials and engine state when the Host ends the session', () => {
