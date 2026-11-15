@@ -16,7 +16,7 @@ Nâng cấp chuyển động và phản hồi tương tác trên toàn bộ giao
 
 Các khu vực cần xem xét: Home/Join, Lobby, chia đội, chọn card, gameplay, quản lý trận của Host, kết quả và các thành phần dùng chung như Button, Dialog, Sheet, thông báo/trạng thái.
 
-UI hiện tại đã hoàn thiện toàn bộ, không thêm bất kỳ thành phần nào vào giao diện người dùng khi thực hiện nâng cấp trải nghiệm. Tập trung hoàn toàn vào nâng cấp hiệu ứng.
+UI hiện tại đã hoàn thiện. Không thêm thành phần ngoài phạm vi hiệu ứng; cho phép dùng LoadingPage làm trạng thái chuyển tiếp giữa các màn.
 
 ## Phương án kỹ thuật đề xuất
 
@@ -27,8 +27,15 @@ UI hiện tại đã hoàn thiện toàn bộ, không thêm bất kỳ thành ph
 
 ## Mô tả hiệu ứng và tương tác
 
-Thêm hiệu ứng chuyển cảnh chung cho toàn bộ dự án khi chuyển giữa các giai đoạn trong game. **Phương án:** `motion/react` cho enter/exit giữa phase; giữ nội dung và phase server hiện tại làm nguồn sự thật, không animate dự đoán trước. Bắt đầu từ:
-    Home -> Lobby -> Chia đội -> Gameplay / Quản lý trận -> Kết quả
+Thêm hiệu ứng chuyển cảnh chung cho toàn bộ dự án khi chuyển giữa các giai đoạn trong game. **Phương án:** Hiển thị LoadingPage trong lúc xử lý và trước khi vào màn đích. Bắt đầu từ:
+    Home -> LoadingPage -> Lobby -> ... (tương tự)
+
+- Bắt đầu xử lý ngay khi người dùng thực hiện thao tác; hiệu ứng không trì hoãn việc gửi yêu cầu lên server.
+- Màn đích chỉ xuất hiện sau khi có xác nhận từ server. Nếu xử lý hoàn tất trước 1 giây, giữ LoadingPage đến khi đủ 1 giây tính từ lúc bắt đầu thao tác rồi chuyển trang.
+- Nếu xử lý lâu hơn 1 giây, chuyển trang ngay khi nhận xác nhận từ server, nhưng thời gian chờ xác nhận tối đa là 3 giây tính từ lúc bắt đầu thao tác.
+- LoadingPage chờ xác nhận tối đa 3 giây. Nếu hết thời gian vẫn chưa có xác nhận, kết thúc trạng thái chờ, giữ màn cuối đã được xác nhận và hiện lỗi; vẫn tiếp nhận state đến muộn từ server. Không tự chuyển sang phase chưa được server xác nhận.
+- Với cập nhật phase từ server không gắn với thao tác tại máy người chơi, hiển thị LoadingPage tối thiểu 1 giây trước màn đích.
+- Reduced motion tắt chuyển động của rune và fade nhưng vẫn giữ LoadingPage tối thiểu 1 giây; vẫn phải đợi xác nhận server và không vượt giới hạn chờ 3 giây.
 
 ### Home / Join
 HOST:
@@ -49,7 +56,7 @@ HOST: Không cần nâng cấp
 PLAYER: Không cần nâng cấp
 
 ### Chia đội
-HOST: Không cần nâng cấp
+HOST: Dùng chuyển cảnh chung từ Lobby sang chia đội; giữ nguyên hiệu ứng đội hình hiện có.
 
 PLAYER: Thêm hiệu ứng xuất hiện fade cho ĐỘI SÓI hoặc ĐỘI CỪU và danh sách thành viên sau khi HOST bấm chia đội. **Phương án:** `motion/react` cho stagger roster nếu cần; Tailwind utilities cho fade đơn giản. Bắt đầu khi client nhận phase/phân đội đã xác nhận từ server.
 

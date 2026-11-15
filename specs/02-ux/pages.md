@@ -49,6 +49,8 @@ Show both final team scores and team rosters, the winning team or draw, and that
 
 ## Shared States
 
+When a user action starts a page transition, process the request immediately and show LoadingPage while it runs. Show the server-confirmed destination after at least one second from the action; if processing takes longer than one second, show the destination as soon as confirmation arrives. Keep LoadingPage for no more than three seconds while awaiting confirmation. On timeout or rejection, keep the last confirmed screen and show a recoverable error; apply any later authoritative update when it arrives, and never show an unconfirmed phase. For server phase updates without a local action, show LoadingPage for at least one second before the destination. Reduced motion disables rune and fade movement but keeps the one-second LoadingPage minimum and does not skip server confirmation. Refresh and reconnection restore the current authorized screen without replaying earlier phase transitions.
+
 - **Connecting or reconnecting:** Indicate that the client is restoring its authorized session view.
 - **Waiting:** Explain which player action or phase gate is pending without exposing private information.
 - **Action pending:** Prevent duplicate submission where practical and wait for server confirmation.

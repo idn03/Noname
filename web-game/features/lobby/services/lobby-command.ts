@@ -18,9 +18,10 @@ export function emitLobbyCommand(
   event: LobbyCommand,
   payload: unknown,
   onReply: (reply: LobbyCommandReply | undefined, timedOut: boolean) => void,
+  timeoutMs = 8000,
 ): void {
   if (!socket) return onReply(undefined, true);
-  socket.timeout(8000).emit(event, payload, (error: Error | null, reply: LobbyCommandReply) => {
+  socket.timeout(timeoutMs).emit(event, payload, (error: Error | null, reply: LobbyCommandReply) => {
     onReply(error ? undefined : reply, Boolean(error));
   });
 }
