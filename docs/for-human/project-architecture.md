@@ -1,121 +1,93 @@
 # Project Architecture and Structure
 
-## What This Document Describes
+This guide describes the architecture present in the repository today. The product and technical specifications define the intended V0 contract; where a feature is specified but its full user interface is not yet wired, that distinction is called out.
 
-This guide explains the intended V0 architecture described in `specs/`. The current checkout contains the project specifications and workflow documents, but no `web-game/`, `backend/`, or application package manifest yet. The technologies and directories below describe the planned application; they are not a claim that the game runtime is already implemented here.
+## Runtime at a glance
 
-## The System at a Glance
-
-Noname V0 is a local multiplayer game. One Host machine runs the web application, game server, Game Engine, and local database. Every player, including the Host, uses a browser connected to that machine over the same LAN or Wi-Fi network.
-
-The server is authoritative: a browser asks to do something, such as select or reveal a card, and the server decides whether that action is valid. The server then updates the game and sends each browser the information that player is allowed to see.
+The repository is one TypeScript application. `backend/server.ts` starts the Host process: it opens the local content database, prepares Next.js from `web-game/`, creates one HTTP server, attaches Socket.IO, and registers the lobby transport. The Host listens on `0.0.0.0` by default and prints its loopback and detected private IPv4 addresses. Browsers connect to this same Host over HTTP and Socket.IO.
 
 ```mermaid
-flowchart LR
-    Browser[Browser: Next.js, React, Zustand]
-    Shared[Shared contracts and types]
-    Socket[Socket.IO handlers]
-    Services[Backend application services]
-    Engine[Game Engine]
-    DB[SQLite through Drizzle]
+%%{init: {'themeVariables': {'fontSize': '20px'}, 'flowchart': {'nodeSpacing': 70, 'rankSpacing': 90, 'curve': 'basis'}}}%%
+flowchart TB
+    subgraph CLIENT[Browser]
+        direction LR
+        Browser[Host and player browsers]
+        UI[Next.js screens and React state]
+        Browser --> UI
+    end
 
-    Browser <-->|commands and authorized updates| Socket
-    Shared --- Browser
-    Shared --- Socket
-    Socket --> Services
-    Services --> Engine
-    Services --> DB
-    Engine --> Services
+    subgraph HOST[Host process]
+        direction LR
+        Socket[Socket.IO handlers]
+        Session[In-memory LobbySession]
+        Engine[Game Engine]
+        Socket --> Session
+        Session <--> Engine
+    end
+
+    DB[(SQLite content\nDrizzle access)]
+    UI <-->|intent and authorized view| Socket
+    DB -->|content at startup| Session
+    Contracts[Root shared contracts]
+    Contracts -. types .-> UI
+    Contracts -. types .-> Socket
+
+    classDef app fill:#e9f0f7,stroke:#31536f,stroke-width:2px,color:#142b3d,font-size:20px;
+    classDef domain fill:#edf3e8,stroke:#48663c,stroke-width:2px,color:#1d3217,font-size:20px;
+    classDef storage fill:#f8efe0,stroke:#876533,stroke-width:2px,color:#3c2c12,font-size:20px;
+    class Browser,UI,Socket,Session,Contracts app;
+    class Engine domain;
+    class DB storage;
 ```
 
-The Game Engine returns validated state transitions to backend services. Services apply the successful transition before the Socket.IO layer broadcasts updates. The diagram shows responsibilities, not a required process or deployment split.
+The diagram shows code responsibilities, not separate deployed services. The browser does not connect to SQLite or make authoritative game decisions.
 
-## Technology Stack
+## What is implemented
 
-| Area | Technology | Why it is used |
-| --- | --- | --- |
-| Web application | Next.js, React, TypeScript | Build browser screens and organize routes, layouts, and page composition. |
-| Interface styling | Tailwind CSS, shadcn/ui | Style the interface and reuse UI building blocks. |
-| Browser state | Zustand | Keep a convenient client-side view of server updates; it is not the source of game truth. |
-| Server runtime | Node.js, TypeScript | Run the Host-side application services and game server. |
-| Realtime communication | Socket.IO | Carry player commands to the Host and game updates back to browsers. |
-| Game rules | Custom TypeScript Game Engine | Validate commands and compute authoritative gameplay transitions. |
-| Local persistence | SQLite, Drizzle ORM | Store data that must survive a Host restart, such as static game content. |
-| Verification | Vitest, Playwright | Test game rules and backend behavior, then exercise complete browser flows. |
+| Area | Current implementation |
+| --- | --- |
+| Browser application | Next.js App Router under `web-game/app/`; React screens and feature-specific hooks/components under `web-game/features/`; shared visual components under `web-game/components/`. |
+| Client/server contract | Serializable lobby and card-selection views and event names in root `shared/`. |
+| Realtime transport | One Socket.IO server attached to the HTTP server; lobby, Host, card, and turn handlers under `backend/`. |
+| Session/application behavior | `backend/lobby-session.ts` and focused session modules maintain the active room, players, timers, and game state in process memory. Handler modules authenticate socket identity and delegate operations. |
+| Game rules | Pure TypeScript state and commands under `web-game/game/`; team assignment, card-selection transitions, turn resolution, scoring, and results are kept independent of React and Socket.IO. Backend setup calls this engine. |
+| Persistent data | `backend/db/` uses Drizzle with `@libsql/client` and SQLite. It migrates, seeds, validates, and loads category/challenge content. The active lobby and match are not persisted. |
+| Verification | Vitest tests cover engine, sessions, transport, views, and content; Playwright covers browser flows. |
 
-The stack is intentionally local and small. V0 does not require a cloud service, public matchmaking, or multiple backend servers.
+The package has Zustand as a dependency, but the current source contains no Zustand store: the active UI receives server snapshots through React state in feature hooks. Do not describe Zustand as current state infrastructure until a store is added and used.
 
-## Project Structure
+## Request and state flow
 
-The intended application directories are grouped by responsibility:
+1. A browser creates a Socket.IO connection. The client lobby hook stores the returned credential in `localStorage`; reconnect presents it to the Host.
+2. A player sends an intent through a shared event contract. The transport binds each socket to a server-created Host or player identity; event payloads do not grant authority themselves.
+3. A handler checks the request, identity, and relevant session/phase constraints, then calls a `LobbySession` operation.
+4. The session delegates game-changing commands to the Game Engine. Accepted commands replace authoritative state; rejected commands return a stable error and leave state unchanged.
+5. The backend builds a viewer-specific lobby/game snapshot and emits it over Socket.IO. Views filter information by role and phase, including unrevealed Wolf choices.
+6. Feature hooks update React state from the received snapshot. Client drafts are local conveniences; the Host remains the source of truth.
 
-- **`web-game/app/`** — Next.js routes, layouts, and page composition.
-- **`web-game/components/`** — reusable React interface components.
-- **`web-game/features/`** — feature-specific screens and browser behavior, such as joining a session or selecting a card.
-- **`web-game/stores/`** — shared Zustand state and explicit client state actions.
-- **`web-game/shared/`** — browser-side types and utilities shared by web-game features.
-- **`web-game/game/`** — the custom Game Engine, domain types, game rules, and state transitions. Backend services execute this code on the Host; it must not be bundled into the browser or depend on React, Next.js, Socket.IO, or database code.
-- **`backend/`** — Host-side application services, Socket.IO setup, and event handlers.
-- **`backend/db/`** — Drizzle schema, database access, and SQLite migrations.
-- **Root `shared/`** — contracts and types used by both the browser application and backend.
-- **`tests/`** — shared test setup and end-to-end coverage. Focused tests may also live near the code they cover.
+## Main boundaries
 
-This separation helps each area change for its own reasons. For example, a page can be redesigned without changing scoring rules, and storage details can change without putting database calls into the Game Engine.
+- `web-game/app/` owns route entry and page composition. The home route renders the lobby screen; team and game phases are selected from the current server view.
+- `web-game/features/` owns browser workflows. `lobby/` coordinates connection, identity, lobby actions, and phase rendering; `game/` renders card selection and turn views; `results/` renders the end-game view.
+- `web-game/game/` owns domain types, commands, validation, randomness abstraction, and transitions. It must not depend on browser, transport, or persistence code.
+- `backend/` owns Host runtime, Socket.IO handlers, the in-memory session, view shaping, and orchestration around engine commands.
+- `backend/db/` owns schema, migrations, content validation, seed, and repository access. Database code does not implement game rules.
+- Root `shared/` holds contracts shared by browser and backend. Keep feature-specific behavior in its feature or domain module.
 
-## What Next.js Does
+## Persistence and runtime limits
 
-Next.js provides the web application that players open in their browsers. Its `app/` area organizes routes, layouts, and page composition; React components render those pages and handle local interactions.
+SQLite stores static categories and challenges under `.data/noname.db`. Startup migrates the database, seeds bundled content, validates relationships/content, and loads it for session setup. A per-session challenge pool is then prepared for gameplay. Live identities, credentials, lobby presence, timers, and game state live in memory, so a Host process restart ends the recoverable session. A browser refresh can resume only while that Host process and session are still running.
 
-Next.js is not the authority for the game. The browser can collect a card choice and send it to the Host, but it cannot decide that a card was valid, change the score, assign teams, or advance the phase by itself. Those decisions belong to server-side application services and the Game Engine.
+The checked-in source includes server and engine operations for attacks, defenses, challenge outcomes, scores, and results, plus corresponding phase views/screens. Product specifications describe broader requirements; consult each feature page for implementation boundaries and any difference between a contract and the visible UI.
 
-## The Game Engine
+## Feature workflow guides
 
-The custom Game Engine is the rulebook turned into state transitions. It receives the current authoritative game state and a requested action, checks the relevant game rules, and returns either a valid next state or a predictable domain error.
+- [Player identity and lobby](features/player-identity-and-lobby.md) ([Tiếng Việt](features/player-identity-and-lobby.vi.md))
+- [Team assignment](features/team-assignment.md) ([Tiếng Việt](features/team-assignment.vi.md))
+- [Card selection](features/card-selection.md) ([Tiếng Việt](features/card-selection.vi.md))
+- [Turns and results](features/turns-and-results.md) ([Tiếng Việt](features/turns-and-results.vi.md))
+- [Game content and realtime updates](features/content-and-realtime.md) ([Tiếng Việt](features/content-and-realtime.vi.md))
 
-It owns team assignment, card selection, phase and round changes, attacks and defenses, card-use tracking, scoring, and the final winner or draw. Random choices are kept controllable so the rules can be tested. The engine does not know about browser components, Socket.IO connections, or SQLite. This makes gameplay rules easier to test and prevents a UI change from creating a second, conflicting version of the rules.
+## Authoritative references
 
-## Backend and Communication
-
-The backend connects the browser transport to application behavior:
-
-1. A browser sends an intent through Socket.IO, using the player's server-issued session identity.
-2. A Socket.IO handler checks the message shape, the player's identity and permissions, and whether the action is allowed in the current phase.
-3. An application service calls the Game Engine with the validated action and current state.
-4. If the engine accepts the action, the service applies its state transition. Invalid actions leave the game unchanged.
-5. The server sends updated views to connected browsers. It filters private information for each player; for example, Sheep players do not receive unrevealed Wolf selections.
-6. Zustand keeps the browser's displayed state in sync with those server updates. Refreshing the page requests the current view from the still-running Host.
-
-The client sends intentions, not trusted outcomes. It does not submit authoritative scores, teams, card ownership, turn order, or game phase. Socket.IO handlers coordinate and validate requests; they do not contain the core game rules themselves.
-
-## Database and Persistence
-
-SQLite is a local database on the Host machine. The specifications place its schema, access, and migrations in `backend/db/`; Drizzle ORM is the only database access layer. Browsers never connect directly to SQLite.
-
-The database is for information that needs to survive process restarts, especially predefined card categories and challenge content. The active session and live game state stay in server memory for V0. That is why a browser refresh can recover from a running Host, while recovery after the Host process itself restarts is not promised.
-
-The exact SQLite file path and final schema are not specified yet. They will be defined during implementation without moving database responsibilities into the Game Engine or browser.
-
-## A Game from Start to Finish
-
-Players join the Host's lobby with display names. When at least six players are connected, the Host can start. The server assigns everyone, including the Host, to balanced Wolf and Sheep teams.
-
-During card selection, each player manages one personal card slot. The server records submitted choices. The turn phase begins after every player has submitted a complete choice; if the selection timer reaches zero first, selection stays open until all slots are complete.
-
-In each round, only the Wolf player who selected a card can reveal it. A Sheep player with an unused card in the matching category handles the defense and challenge. If several Sheep players qualify, the first valid defense accepted by the server resolves the attack. Participants or the Host determine whether the challenge succeeded, and the Host records the outcome. The Game Engine applies the score and advances the game. At the end, the server sends every player the final scores and winner or draw.
-
-## Why the Architecture Is Designed This Way
-
-- **One authority avoids conflicting games:** The Host decides state changes, so players do not calculate different scores or phases on their own.
-- **The Game Engine stays testable:** Pure game rules can be exercised without a browser, network connection, or database.
-- **Responsibilities stay separate:** UI, transport, game rules, and persistence can evolve without being tightly coupled.
-- **Private information stays on the server:** Each client receives only the game view it is permitted to see.
-- **V0 stays practical for local play:** One Host machine and SQLite meet the local-network goal without cloud infrastructure.
-
-## Further Reading
-
-- [Project structure](../../specs/03-technical/project-structure.md)
-- [System architecture](../../specs/03-technical/architecture.md)
-- [Technology stack](../../specs/03-technical/tech-stack.md)
-- [Backend architecture](../../specs/04-backend/architecture.md)
-- [Database rules](../../specs/04-backend/database.md)
-- [Gameplay business rules](../../specs/01-product/business-rules.md)
+The specifications remain the product and technical contract: [architecture](../../specs/03-technical/architecture.md), [project structure](../../specs/03-technical/project-structure.md), [backend architecture](../../specs/04-backend/architecture.md), [database](../../specs/04-backend/database.md), and [feature overview](../../specs/05-features/features-overview.md).
