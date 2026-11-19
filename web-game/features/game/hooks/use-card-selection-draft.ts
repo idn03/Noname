@@ -11,12 +11,11 @@ export interface CardSelectionDraft {
 export function useCardSelectionDraft(selection: PlayerCardSelectionView) {
   const categoryId = selection.ownCard?.categoryId ?? '';
   const challengeId = selection.ownCard?.challengeId;
-  const submitted = selection.ownCard?.submitted ?? false;
   const [draft, setDraft] = useState<CardSelectionDraft | undefined>(() => toDraft(categoryId, challengeId));
 
   useEffect(() => {
     setDraft(toDraft(categoryId, challengeId));
-  }, [categoryId, challengeId, submitted]);
+  }, [categoryId, challengeId]);
 
   const resetDraft = () => setDraft(toDraft(categoryId, challengeId));
   const selectCategory = (nextCategoryId: string) => setDraft({ categoryId: nextCategoryId });

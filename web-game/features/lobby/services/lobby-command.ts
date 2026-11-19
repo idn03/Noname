@@ -1,5 +1,5 @@
 import type { Socket } from 'socket.io-client';
-import { LOBBY_EVENTS, type LobbyCommandReply, type LobbyErrorCode } from '../../../../shared/lobby-contract';
+import type { LOBBY_EVENTS, LobbyCommandReply, LobbyErrorCode } from '../../../../shared/lobby-contract';
 
 export type LobbyCommand = typeof LOBBY_EVENTS.hostCreate
   | typeof LOBBY_EVENTS.hostStart
@@ -20,7 +20,10 @@ export function emitLobbyCommand(
   onReply: (reply: LobbyCommandReply | undefined, timedOut: boolean) => void,
   timeoutMs = 8000,
 ): void {
-  if (!socket) return onReply(undefined, true);
+  if (!socket) {
+    onReply(undefined, true);
+    return;
+  }
   socket.timeout(timeoutMs).emit(event, payload, (error: Error | null, reply: LobbyCommandReply) => {
     onReply(error ? undefined : reply, Boolean(error));
   });

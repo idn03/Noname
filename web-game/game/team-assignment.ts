@@ -1,6 +1,6 @@
 import { gameError } from './game-error';
 import type { GamePlayer } from './game-types';
-import { shuffled, type RandomSource } from './randomness';
+import { shuffled } from './randomness';
 import type { PreparedGame, TeamPreparation } from './game-engine';
 
 export const prepareBalancedTeams: TeamPreparation = (players, random) => {

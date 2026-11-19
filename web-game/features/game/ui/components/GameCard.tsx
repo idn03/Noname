@@ -7,7 +7,7 @@ export interface GameCardProps {
   categoryId: string;
   categoryName: string;
   challengeCount: number;
-  role: 'wolf' | 'sheep' | 'host';
+  viewerRole: 'wolf' | 'sheep' | 'host';
   phase: 'selection' | 'turns' | 'results';
   challenges?: readonly GameCardChallenge[];
   selectedChallenge?: GameCardChallenge;
@@ -40,17 +40,17 @@ const frontArtLayout: Record<string, string> = {
 const defaultFrontArtLayout = 'top-[6.25%] left-1/2 h-[56.25%] w-[32.5%] -translate-x-1/2';
 
 export function GameCard({
-  categoryId, categoryName, challengeCount, role, phase, challenges = [], selectedChallenge,
+  categoryId, categoryName, challengeCount, viewerRole, phase, challenges = [], selectedChallenge,
   isActive = false, isDraftSelected = false, onSelectCategory, onOpenChallengeSheet, onSelectChallenge, onClearChallenge, disabled = false, className = '',
 }: GameCardProps) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [flipped, setFlipped] = useState(false);
-  const canChoose = phase === 'selection' && role !== 'host' && !disabled
-    && (role === 'wolf' ? Boolean(onSelectChallenge) : Boolean(onSelectCategory));
+  const canChoose = phase === 'selection' && viewerRole !== 'host' && !disabled
+    && (viewerRole === 'wolf' ? Boolean(onSelectChallenge) : Boolean(onSelectCategory));
   const canFlip = phase !== 'selection' && Boolean(selectedChallenge);
 
   function activateCard() {
-    if (canChoose && role === 'wolf') { onOpenChallengeSheet?.(); setSheetOpen(true); }
+    if (canChoose && viewerRole === 'wolf') { onOpenChallengeSheet?.(); setSheetOpen(true); }
     else if (canChoose) onSelectCategory?.();
     else if (canFlip) setFlipped((value) => !value);
   }
@@ -68,7 +68,7 @@ export function GameCard({
       type="button"
       aria-label={cardLabel(categoryName, challengeCount, selectedChallenge, flipped)}
       title={canFlip ? flipped ? 'Nhấn để lật lại' : 'Nhấn để xem thử thách' : undefined}
-      aria-haspopup={canChoose && role === 'wolf' ? 'dialog' : undefined}
+      aria-haspopup={canChoose && viewerRole === 'wolf' ? 'dialog' : undefined}
       aria-pressed={phase === 'selection' ? isSelected : canFlip ? flipped : undefined}
       disabled={disabled || (!canChoose && !canFlip)}
       onClick={activateCard}

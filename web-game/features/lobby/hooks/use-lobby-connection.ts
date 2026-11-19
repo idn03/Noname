@@ -30,6 +30,32 @@ export function useLobbyConnection() {
     const connection = io({ auth: { credential: window.localStorage.getItem(CREDENTIAL_KEY) } });
     connectionRef.current = connection;
     setSocket(connection);
+
+    function handleError(issue: LobbyErrorView) {
+      if (issue.code === 'INVALID_CREDENTIAL' || issue.code === 'NO_ACTIVE_SESSION') {
+        window.localStorage.removeItem(CREDENTIAL_KEY);
+        if (connectionRef.current) connectionRef.current.auth = {};
+      }
+      credentialRejected.current = issue.code === 'INVALID_CREDENTIAL';
+      setError(issue.message);
+      setPending(false);
+    }
+
+    function saveCredential(value: string) {
+      window.localStorage.setItem(CREDENTIAL_KEY, value);
+      if (connectionRef.current) connectionRef.current.auth = { credential: value };
+    }
+
+    function clearSession() {
+      setAnimatePageTransitions(hasReceivedState.current && !skipReconnectState.current);
+      window.localStorage.removeItem(CREDENTIAL_KEY);
+      if (connectionRef.current) connectionRef.current.auth = {};
+      setLobby(null);
+      setSelfId('');
+      setPending(false);
+      setError('');
+    }
+
     connection.on('connect', () => {
       if (hasConnectedOnce.current) skipReconnectState.current = true;
       hasConnectedOnce.current = true;
@@ -64,31 +90,6 @@ export function useLobbyConnection() {
     connection.on(LOBBY_EVENTS.ended, clearSession);
     return () => { connection.disconnect(); connectionRef.current = null; };
   }, []);
-
-  function handleError(issue: LobbyErrorView) {
-    if (issue.code === 'INVALID_CREDENTIAL' || issue.code === 'NO_ACTIVE_SESSION') {
-      window.localStorage.removeItem(CREDENTIAL_KEY);
-      if (connectionRef.current) connectionRef.current.auth = {};
-    }
-    credentialRejected.current = issue.code === 'INVALID_CREDENTIAL';
-    setError(issue.message);
-    setPending(false);
-  }
-
-  function saveCredential(value: string) {
-    window.localStorage.setItem(CREDENTIAL_KEY, value);
-    if (connectionRef.current) connectionRef.current.auth = { credential: value };
-  }
-
-  function clearSession() {
-    setAnimatePageTransitions(hasReceivedState.current && !skipReconnectState.current);
-    window.localStorage.removeItem(CREDENTIAL_KEY);
-    if (connectionRef.current) connectionRef.current.auth = {};
-    setLobby(null);
-    setSelfId('');
-    setPending(false);
-    setError('');
-  }
 
   const markFirstStateTransition = () => { animateFirstState.current = true; };
   const clearFirstStateTransition = () => { animateFirstState.current = false; };

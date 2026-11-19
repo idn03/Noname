@@ -18,7 +18,7 @@ export function ManageGameScreen({ game, players, pending, error, onOutcome, onC
       <Team title="Đội Sói" score={game.scores.wolf} team="wolf" game={game} nameOf={nameOf} />
       <section className="text-center max-[640px]:col-span-full max-[640px]:row-start-1" aria-label="Thử thách hiện tại">
         {active ? <>
-          <GameCard categoryId={active.attackCategoryId} categoryName={active.attackCategoryName} challengeCount={1} role="host" phase="turns" selectedChallenge={active.challenge} className="mx-auto mt-[22px] w-full max-w-[200px] max-[640px]:mt-[14px] max-[640px]:!w-36" />
+          <GameCard categoryId={active.attackCategoryId} categoryName={active.attackCategoryName} challengeCount={1} viewerRole="host" phase="turns" selectedChallenge={active.challenge} className="mx-auto mt-[22px] w-full max-w-[200px] max-[640px]:mt-[14px] max-[640px]:!w-36" />
           {active.defenderId && <div className="mt-4 grid gap-4 max-[640px]:grid-cols-2"><Button variant="small" className="border-white/80 font-bold text-white" type="button" disabled={pending} onClick={() => onOutcome(active.round, true)}>Thành Công</Button><Button variant="small" className="border-white/80 font-bold text-white" type="button" disabled={pending} onClick={() => onOutcome(active.round, false)}>Thất Bại</Button></div>}
         </> : <p className="mt-8">Đội Sói đang chọn thẻ để tấn công.</p>}
         {error && <p className="text-center text-[#ffd1d4]" role="alert">{error}</p>}

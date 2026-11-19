@@ -8,12 +8,13 @@ interface LobbyPlayerStageProps {
 }
 
 export function LobbyPlayerStage({ players, started, canSeeAllTeams }: LobbyPlayerStageProps) {
-  const { wolfTeam, sheepTeam, tokens } = useLobbyPlayerStage(players, started, canSeeAllTeams);
+  const { tokens } = useLobbyPlayerStage(players, started, canSeeAllTeams);
   const stageClassName = canSeeAllTeams
     ? 'min-h-[620px] border-0 rounded-[inherit] bg-transparent max-[1550px]:min-h-[540px] max-[700px]:min-h-[440px]'
     : 'min-h-[400px] border border-[var(--gray)] rounded-lg bg-[rgb(0_0_0/.15)] max-[700px]:min-h-[420px]';
 
-  return <div className={`lobby-stage relative overflow-hidden ${stageClassName} ${started ? 'lobby-stage--assigned' : ''}`} role="group" aria-label={started ? 'Người chơi sau khi chia đội' : 'Người chơi đang chờ chia đội'}>
+  return <fieldset className={`lobby-stage relative m-0 min-w-0 overflow-hidden border-0 p-0 ${stageClassName} ${started ? 'lobby-stage--assigned' : ''}`}>
+    <legend className="sr-only">{started ? 'Người chơi sau khi chia đội' : 'Người chơi đang chờ chia đội'}</legend>
     {started && !canSeeAllTeams && <div className="absolute inset-0" aria-hidden="true">
       <section className="absolute inset-y-0 left-0 flex w-1/2 justify-center border-r border-[rgb(141_141_141/.7)] bg-[rgb(0_0_0/.1)] px-[14px] py-[22px] max-[700px]:px-2 max-[700px]:py-[14px]"><h3 className="m-0 flex items-center gap-2 text-white font-type-section-title text-title2 font-bold max-[700px]:gap-[5px] max-[700px]:text-subtitle"><img className="size-9 object-contain max-[700px]:size-7" src="/assets/teams/wolf-icon.svg" alt="" />Đội Sói</h3></section>
       <section className="absolute inset-y-0 right-0 flex w-1/2 justify-center bg-[rgb(255_255_255/.04)] px-[14px] py-[22px] max-[700px]:px-2 max-[700px]:py-[14px]"><h3 className="m-0 flex items-center gap-2 text-white font-type-section-title text-title2 font-bold max-[700px]:gap-[5px] max-[700px]:text-subtitle"><img className="size-9 object-contain max-[700px]:size-7" src="/assets/teams/sheep-icon.svg" alt="" />Đội Cừu</h3></section>
@@ -26,5 +27,5 @@ export function LobbyPlayerStage({ players, started, canSeeAllTeams }: LobbyPlay
         <span>{player.name}</span>
       </li>)}
     </ul>
-  </div>;
+  </fieldset>;
 }
