@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, type KeyboardEvent, type PointerEvent } from 'react';
+import { useCallback, useEffect, useRef, type KeyboardEvent, type PointerEvent } from 'react';
 import { Button } from '../../../../components/shared/Button';
 
 interface HostHomeActionsProps {
@@ -15,10 +15,10 @@ export function HostHomeActions({ connected, pending, error, onCreate, onCreateS
   const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const heldForSandbox = useRef(false);
 
-  const clearHold = () => {
+  const clearHold = useCallback(() => {
     if (holdTimer.current) clearTimeout(holdTimer.current);
     holdTimer.current = null;
-  };
+  }, []);
   const beginHold = () => {
     clearHold();
     heldForSandbox.current = false;
@@ -43,7 +43,7 @@ export function HostHomeActions({ connected, pending, error, onCreate, onCreateS
   useEffect(() => {
     if (!connected || pending) clearHold();
     return clearHold;
-  }, [connected, pending]);
+  }, [clearHold, connected, pending]);
 
   return <div className="grid grid-cols-2 items-start gap-x-[clamp(28px,4vw,72px)] gap-y-[30px] mt-[30px] max-[700px]:grid-cols-1 max-[700px]:gap-[26px] max-[700px]:mt-0">
     <section className="row-start-1 col-start-1 max-[700px]:row-auto" aria-labelledby="rules-heading">

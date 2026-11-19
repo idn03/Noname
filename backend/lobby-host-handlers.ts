@@ -1,4 +1,4 @@
-import type { Server, Socket } from 'socket.io';
+import type { Socket } from 'socket.io';
 import { LOBBY_EVENTS, type HostCreateRequest, type LobbyCommandReply } from '../shared/lobby-contract';
 import { LobbySession, SANDBOX_SELECTION_TO_MANAGE_DELAY_MS, TEAM_ASSIGNMENT_DURATION_MS } from './lobby-session';
 import { bindIdentity, broadcastLobby, endSession, isLoopbackAddress, respond, type LobbyTransportContext } from './lobby-transport-context';
@@ -72,10 +72,19 @@ function finishSession(
 ): void {
   const session = context.getSession();
   const actorId = context.playerBySocket.get(socket.id);
-  if (!actorId) return respond(socket, reply, 'NOT_AUTHORIZED');
-  if (!session) return respond(socket, reply, 'SESSION_NOT_ACTIVE');
+  if (!actorId) {
+    respond(socket, reply, 'NOT_AUTHORIZED');
+    return;
+  }
+  if (!session) {
+    respond(socket, reply, 'SESSION_NOT_ACTIVE');
+    return;
+  }
   const error = session.end(actorId);
-  if (error) return respond(socket, reply, error);
+  if (error) {
+    respond(socket, reply, error);
+    return;
+  }
   endSession(context, reason);
   reply?.({ ok: true });
 }

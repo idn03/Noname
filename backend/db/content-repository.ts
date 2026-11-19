@@ -1,4 +1,4 @@
-import { asc, eq } from 'drizzle-orm';
+import { asc } from 'drizzle-orm';
 import type { LibSQLDatabase } from 'drizzle-orm/libsql';
 import * as schema from './schema';
 import { validateContent, type CategoryContent } from './content-validation';

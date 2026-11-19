@@ -11,7 +11,7 @@ export function HostCardSelection({ selection }: HostCardSelectionProps) {
     <header className="text-center"><h1 id="card-selection-title" className="m-0 font-type-page-title text-[length:clamp(var(--text-heading3),7vw,var(--text-heading1))] leading-none tracking-[-.035em] font-normal max-[760px]:text-[length:clamp(var(--text-heading3),12vw,var(--text-heading2))]">Chọn Thẻ</h1></header>
     <div className="grid grid-cols-[minmax(16rem,1fr)_minmax(14rem,.9fr)_minmax(16rem,1fr)] items-center gap-[clamp(1.3rem,4vw,5rem)] pb-[4vh] max-[760px]:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] max-[760px]:gap-[.6rem] max-[760px]:pb-4">
       <TeamColumn team="wolf" data={selection.teams.wolf} />
-      <time className="col-start-2 row-start-1 self-center text-center text-white font-type-display text-[length:clamp(var(--text-heading2),7.2vw,var(--text-heading1))] leading-none tracking-[-.045em] tabular-nums font-normal max-[760px]:text-[length:clamp(var(--text-heading3),10vw,var(--text-heading2))]" aria-label={`Thời gian chọn thẻ còn ${formatSelectionTime(remainingMs)}`}>
+      <time className="col-start-2 row-start-1 self-center text-center text-white font-type-display text-[length:clamp(var(--text-heading2),7.2vw,var(--text-heading1))] leading-none tracking-[-.045em] tabular-nums font-normal max-[760px]:text-[length:clamp(var(--text-heading3),10vw,var(--text-heading2))]">
         {formatSelectionTime(remainingMs)}
       </time>
       <TeamColumn team="sheep" data={selection.teams.sheep} />
@@ -24,6 +24,12 @@ function TeamColumn({ team, data }: {
   data: HostCardSelectionView['teams']['wolf'];
 }) {
   const label = team === 'wolf' ? 'Sói' : 'Cừu';
+  const categoryOccurrences = new Map<string, number>();
+  const selectedCategories = data.selectedCategories.map((category) => {
+    const occurrence = categoryOccurrences.get(category) ?? 0;
+    categoryOccurrences.set(category, occurrence + 1);
+    return { category, key: `${category}-${occurrence}` };
+  });
   return <section id={`host-team-${team}`} className={`min-w-0 scroll-mt-4 ${team === 'wolf' ? 'col-start-1 row-start-1 text-[#090607]' : 'col-start-3 row-start-1 text-white'}`}
     aria-label={`Đội ${label}, ${data.ready}/${data.total} thẻ đã gửi`}>
     <header className="flex items-center gap-[.7rem] max-[760px]:gap-[.4rem]">
@@ -38,7 +44,7 @@ function TeamColumn({ team, data }: {
     </ol>
     <h3 className={`mt-0 mr-0 mb-3 ml-8 font-type-section-title text-[length:clamp(var(--text-title1),2vw,var(--text-heading6))] leading-[1.15] font-bold max-[760px]:ml-0 max-[760px]:text-subtitle ${team === 'wolf' ? '[text-shadow:0_4px_0_#ffffff50]' : '[text-shadow:0_4px_0_#00000050]'}`}>Thẻ đã chọn:</h3>
     <ul className="ml-8 mt-0 mb-0 flex list-none flex-wrap gap-[.6rem] p-0 max-[760px]:ml-0 max-[760px]:gap-[.35rem]" aria-label={`Thẻ đã chọn của Đội ${label}`}>
-      {data.selectedCategories.map((category, index) => <li className={`min-w-[5.5rem] rounded-full px-[.85rem] py-[.35rem] text-center font-type-body text-content leading-[1.1] max-[760px]:min-w-0 max-[760px]:px-2 max-[760px]:py-[.3rem] max-[760px]:text-content ${team === 'wolf' ? 'bg-[#050405] text-white' : 'bg-white text-[#161113]'}`} key={`${category}-${index}`}>{category}</li>)}
+      {selectedCategories.map(({ category, key }) => <li className={`min-w-[5.5rem] rounded-full px-[.85rem] py-[.35rem] text-center font-type-body text-content leading-[1.1] max-[760px]:min-w-0 max-[760px]:px-2 max-[760px]:py-[.3rem] max-[760px]:text-content ${team === 'wolf' ? 'bg-[#050405] text-white' : 'bg-white text-[#161113]'}`} key={key}>{category}</li>)}
       {!data.selectedCategories.length && <li className="min-w-[5.5rem] rounded-full bg-transparent px-[.85rem] py-[.35rem] text-center font-type-body text-content leading-[1.1] opacity-[.72] max-[760px]:min-w-0 max-[760px]:px-2 max-[760px]:py-[.3rem] max-[760px]:text-content">Chưa có</li>}
     </ul>
   </section>;

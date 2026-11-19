@@ -15,8 +15,51 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quality-gates:
-    name: quality-gates
+  lint-check:
+    name: lint-check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: 2.5.11
+
+      - name: Lint source and tests
+        run: biome lint web-game backend shared tests
+
+  typecheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.32.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check TypeScript types
+        run: pnpm run typecheck
+
+  test-check:
+    name: test-check
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -40,9 +83,6 @@ jobs:
 
       - name: Run unit and integration tests
         run: pnpm test
-
-      - name: Check TypeScript types
-        run: pnpm run typecheck
 
       - name: Build application
         run: pnpm run build

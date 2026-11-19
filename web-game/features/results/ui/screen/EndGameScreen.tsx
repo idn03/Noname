@@ -39,7 +39,7 @@ export function EndGameScreen({ result, audience, onReturnHome, onReplay, pendin
                 <h2 className="m-0 font-type-result-title text-title2 leading-[1.2] font-semibold">{teamLabel(team)}</h2>
                 {result.winner === team && <p className="mt-[7px] mb-0 text-[#f0dfe0] text-content">Đội chiến thắng</p>}
               </div>
-              <strong className="font-type-result-title text-heading6 leading-none font-normal" aria-label={`${result.scores[team]} điểm`}>{result.scores[team]}</strong>
+              <strong className="font-type-result-title text-heading6 leading-none font-normal">{result.scores[team]}<span className="sr-only"> điểm</span></strong>
             </div>
             <ul className="mt-4 mb-0 grid list-none gap-2 border-t border-white/20 pt-3 pl-0 text-content text-[#f1e7e7]" aria-label={`Thành viên ${teamLabel(team)}`}>
               {result.members[team].map((member) => <li key={member.id}>{member.name}</li>)}

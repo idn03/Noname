@@ -48,7 +48,9 @@ export function HostLobbyLayout(props: HostLobbyLayoutProps) {
       animations.push(animation);
     });
 
-    return () => animations.forEach((animation) => animation.cancel());
+    return () => {
+      animations.forEach((animation) => { animation.cancel(); });
+    };
   }, [started]);
 
   const wolfPlayers = joinedPlayers.filter((player) => player.team === 'wolf');

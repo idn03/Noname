@@ -8,7 +8,7 @@ export class LobbySessionPlayers {
   constructor(simulatedPlayers: readonly LobbyPlayerRecord[]) {
     const id = randomUUID();
     this.records.set(id, { id, name: 'Chủ phòng', isHost: true, connected: false, credentialHash: '' });
-    simulatedPlayers.forEach((player) => this.records.set(player.id, player));
+    for (const player of simulatedPlayers) this.records.set(player.id, player);
   }
 
   join(value: unknown, sandbox: boolean, canJoin: boolean): PlayerCredential | LobbyErrorCode {

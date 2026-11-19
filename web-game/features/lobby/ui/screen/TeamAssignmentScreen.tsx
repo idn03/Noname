@@ -17,7 +17,7 @@ export function TeamAssignmentScreen({ team, remainingMs }: TeamAssignmentScreen
       <h1 id="team-assignment-title" className="m-0 text-white font-type-page-title text-[length:clamp(var(--text-heading3),10vw,var(--text-heading1))] leading-none">Đội {teamName}</h1>
     </div>
     <p className="m-0 max-w-[42ch] text-white/80 font-type-body text-subtitle leading-relaxed">Hãy sẵn sàng. Vòng Chọn Thẻ sẽ bắt đầu sau khi mọi người đã chuẩn bị.</p>
-    <time className="text-white font-type-display text-heading2 tabular-nums" aria-label={`Vòng Chọn Thẻ bắt đầu sau ${formatSelectionTime(time)}`}>
+    <time className="text-white font-type-display text-heading2 tabular-nums">
       {formatSelectionTime(time)}
     </time>
   </section>;

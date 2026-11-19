@@ -10,7 +10,7 @@ export function SelectionWaiting({ game }: { game: Extract<LobbyGameView, { phas
     {game.team && <p className="m-0 text-[#c2c2b8] text-subtitle">Bạn thuộc Đội {game.team === 'wolf' ? 'Sói' : 'Cừu'}</p>}
     <section className="relative z-[1] mt-6 grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4" aria-label="Các thẻ đã được chọn">
       {game.revealedCards.map((card) => <GameCard key={card.playerId} categoryId={card.categoryId} categoryName={card.categoryName}
-        challengeCount={card.challengeCount} role={game.team ?? 'sheep'} phase="turns" selectedChallenge={card.challenge} className="max-w-[12rem] justify-self-center" />)}
+        challengeCount={card.challengeCount} viewerRole={game.team ?? 'sheep'} phase="turns" selectedChallenge={card.challenge} className="max-w-[12rem] justify-self-center" />)}
     </section>
   </main>;
 }

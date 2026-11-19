@@ -38,10 +38,14 @@ describe('turn gameplay transport', () => {
     const challenges = category && state.cardSelection.challengeIdsByCategory[category];
     if (!category || !challenges || wolves.length < 2 || sheep.length < 2) throw new Error('Expected matching team categories and card slots');
 
-    wolves.forEach(({ socket }, index) => socket.trigger(LOBBY_EVENTS.selectCard, {
-      categoryId: category, challengeId: challenges[index],
-    }, () => undefined));
-    sheep.forEach(({ socket }) => socket.trigger(LOBBY_EVENTS.selectCard, { categoryId: category }, () => undefined));
+    wolves.forEach(({ socket }, index) => {
+      socket.trigger(LOBBY_EVENTS.selectCard, {
+        categoryId: category, challengeId: challenges[index],
+      }, () => undefined);
+    });
+    sheep.forEach(({ socket }) => {
+      socket.trigger(LOBBY_EVENTS.selectCard, { categoryId: category }, () => undefined);
+    });
     const attacker = wolves[0];
     const defender = sheep[0];
     if (!attacker || !defender) throw new Error('Expected attack and defense players');

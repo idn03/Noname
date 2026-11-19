@@ -60,7 +60,7 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
       <h1 id="card-selection-title" className="m-0 text-white font-type-page-title text-heading6 leading-[1.08] font-bold">Vòng Chọn Thẻ</h1>
       <p className="mt-2 mb-0 text-white font-type-body text-subtitle leading-[1.2] font-bold">Điểm: {selection.score}</p>
     </header>
-      <time className="mt-[3.5vh] mb-[1.2vh] block self-center text-white font-type-display text-heading4 leading-none font-bold tabular-nums [@media(max-height:760px)]:mt-4 [@media(max-height:760px)]:mb-[.6rem] max-[640px]:mt-[3.5vh]" aria-label={`Còn ${formatSelectionTime(remainingMs)}`}>
+      <time className="mt-[3.5vh] mb-[1.2vh] block self-center text-white font-type-display text-heading4 leading-none font-bold tabular-nums [@media(max-height:760px)]:mt-4 [@media(max-height:760px)]:mb-[.6rem] max-[640px]:mt-[3.5vh]">
       {formatSelectionTime(remainingMs)}
     </time>
 
