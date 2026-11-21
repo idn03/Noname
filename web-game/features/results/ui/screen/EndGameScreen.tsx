@@ -3,6 +3,7 @@
 import { Button } from '@/components/shared/Button';
 import { PressableText } from '@/components/shared/PressableText';
 import { useEndGameScreen, type EndGameResult } from '@/features/results/hooks/use-end-game-screen';
+import Image from 'next/image';
 
 export type { EndGameResult } from '@/features/results/hooks/use-end-game-screen';
 
@@ -22,7 +23,7 @@ export function EndGameScreen({ result, audience, onReturnHome, onReplay, pendin
       <header className="relative z-[1] w-full">
         <p className="m-0 mb-[13px] text-[#f0dfe0] font-type-label text-content leading-[1.4] font-bold tracking-[.16em]">TRẬN ĐẤU ĐÃ KẾT THÚC · {result.rounds} LƯỢT</p>
         <h1 id="endgame-title" className="m-0 flex items-center justify-center gap-3 font-type-result-title text-[length:clamp(var(--text-heading5),8vw,var(--text-heading2))] leading-[1.04] font-normal tracking-[-.045em] max-[520px]:gap-2">
-          {result.winner !== 'draw' && <img className="size-[clamp(38px,7vw,72px)] shrink-0 object-contain" src={result.winner === 'wolf' ? '/assets/custom-icons/wolf-icon-white.png' : '/assets/teams/sheep-icon.svg'} alt="" />}
+          {result.winner !== 'draw' && <Image className="size-[clamp(38px,7vw,72px)] shrink-0 object-contain" src={result.winner === 'wolf' ? '/assets/custom-icons/wolf-icon-white.png' : '/assets/teams/sheep-icon.svg'} alt="" width={72} height={72} />}
           <span className="uppercase">{headline}</span>
         </h1>
         <p className="mt-[14px] mb-0 text-[#f1e7e7] font-type-result-title text-subtitle leading-[1.4]" role="status">
@@ -34,7 +35,7 @@ export function EndGameScreen({ result, audience, onReturnHome, onReplay, pendin
         {(['wolf', 'sheep'] as const).map((team) => (
           <article className={`min-w-0 rounded-[14px] border border-[rgb(255_255_255/.42)] bg-[rgb(0_0_0/.24)] p-4 text-left ${result.winner === team ? 'winner-celebration border-white bg-[rgb(255_255_255/.12)]' : ''}`} key={team}>
             <div className="grid grid-cols-[56px_minmax(0,1fr)_auto] items-center gap-[14px]">
-              <img className="h-[78px] w-14 rounded-[7px] object-cover [object-position:center_24%] max-[520px]:h-[66px] max-[520px]:w-12" src={`/assets/teams/${team}-portrait.png`} alt="" />
+              <Image className="h-[78px] w-14 rounded-[7px] object-cover [object-position:center_24%] max-[520px]:h-[66px] max-[520px]:w-12" src={`/assets/teams/${team}-portrait.png`} alt="" width={56} height={78} sizes="56px" />
               <div className="min-w-0">
                 <h2 className="m-0 font-type-result-title text-title2 leading-[1.2] font-semibold">{teamLabel(team)}</h2>
                 {result.winner === team && <p className="mt-[7px] mb-0 text-[#f0dfe0] text-content">Đội chiến thắng</p>}
