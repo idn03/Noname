@@ -46,6 +46,16 @@
   to { opacity: 0; translate: -50% calc(-50% + 20px); }
 }
 
+@keyframes content-enter {
+  from { visibility: hidden; opacity: 0; transform: translate(var(--enter-x, 0), var(--enter-y, 0)); }
+  to { visibility: visible; opacity: 1; transform: translate(0, 0); }
+}
+
+@keyframes frame-enter {
+  from { visibility: hidden; opacity: 0; border-color: transparent; }
+  to { visibility: visible; opacity: 1; border-color: currentColor; }
+}
+
 @keyframes button-enable-bounce {
   0%, 100% { transform: translateY(0); }
   45% { transform: translateY(-5px); }

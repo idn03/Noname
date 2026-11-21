@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { HostHomeActions } from '@/features/lobby/ui/components/HostHomeActions';
 import { HostLobbyLayout } from '@/features/lobby/ui/components/HostLobbyLayout';
 import { PlayerLobbyLayout } from '@/features/lobby/ui/components/PlayerLobbyLayout';
-import LobbyNameForm from '@/features/lobby/ui/components/LobbyNameForm';
+import { PlayerJoinPanel } from '../components/player-join-panel';
 import { PlayerBottomNav } from '@/features/lobby/ui/components/PlayerBottomNav';
 import { PlayerCardSelection } from '@/features/game/ui/components/PlayerCardSelection';
 import { HostCardSelection } from '@/features/game/ui/components/HostCardSelection';
@@ -88,12 +88,9 @@ export default function LobbyScreen() {
     </section>}
     {isLocalHost === false && !currentPlayer && <section className={getHomeContentClassName(false)} aria-labelledby="page-title">
       <h1 id="page-title" className={getHomeTitleClassName(false)}><span>SÓI</span><span>VÀ</span><span>CỪU</span></h1>
-      <div className="min-w-0 self-auto my-0 mt-[clamp(40px,11vh,112px)] max-[700px]:mt-2">
-        <p className="m-0 mb-7 text-white font-type-body text-subtitle font-normal leading-[1.4]">Hãy để màn đêm định đoạt tất cả</p>
-        <LobbyNameForm label="Tên hiển thị" action="Tham gia phòng" pendingAction="Đang tham gia…" name={name} error={error} disabled={!connected || pending || !lobby || isStartedGuest} onNameChange={setName} onSubmit={withPageTransition(pageTransition.beginTransition, join)} />
-        {isStartedGuest && <p className="m-0 mt-1 ml-2 text-[#aaa] font-type-body text-content" role="status">Ván chơi đã bắt đầu và không nhận thêm người chơi mới.</p>}
-        {!lobby && !isStartedGuest && <p className="m-0 mt-1 ml-2 text-[#aaa] font-type-body text-content" role="status">Đang chờ Chủ phòng tạo phòng trên máy chủ.</p>}
-      </div>
+      <PlayerJoinPanel name={name} error={error} disabled={!connected || pending || !lobby || isStartedGuest}
+        waitingForRoom={!lobby && !isStartedGuest} isStartedGuest={isStartedGuest} onNameChange={setName}
+        onSubmit={withPageTransition(pageTransition.beginTransition, join)} />
     </section>}
     {lobby?.phase === 'lobby' && currentPlayer && !host && <PlayerLobbyLayout players={players} error={error} />}
     {lobby && host && <HostLobbyLayout
@@ -108,7 +105,7 @@ export default function LobbyScreen() {
     />}
     {isLocalHost === false && !lobby?.game && <>
       {comingSoon && <p className="fixed z-[11] right-4 bottom-[max(84px,calc(env(safe-area-inset-bottom)+56px))] left-4 m-0 text-white font-type-body text-content leading-[1.4] text-center" role="status">{comingSoon} · Sắp ra mắt</p>}
-      <PlayerBottomNav
+      <PlayerBottomNav enteringHome={!currentPlayer}
         onOpenWolf={() => { setComingSoon(''); router.push('/wolf-team'); }}
         onOpenSheep={() => { setComingSoon(''); router.push('/sheep-team'); }}
         onComingSoon={(item) => setComingSoon(item)}
