@@ -21,7 +21,7 @@ Show the session status, joined-player list, and joined-player count against the
 
 ## Team Assignment and Card Selection
 
-After the Host starts, show the team assignment for 10 seconds before opening card selection. Animate the Host roster into the two teams. Players see their assigned team and a preparation countdown. Refresh or reconnection restores the remaining countdown.
+After the Host starts, show the team assignment for 10 seconds before opening card selection. Animate the Host roster into the two teams. Players see their assigned team, the names of all its members and a preparation countdown. The team heading and roster fade in once on a live assignment. Reduced motion and restored sessions show them immediately. Refresh or reconnection restores the remaining countdown.
 
 Show the player's team and card slot when assigned. A member of the larger team without a slot sees that they do not select a card. Provide category choices, selection submission status, and overall readiness for players with slots. Let players edit their own selection only while the Selection Phase is active. Show the timer and explain that selection remains open after expiry until all slots are submitted. Wolf views include challenge text; Sheep views show only the number of available challenges per category and do not expose challenge text or Wolf selections.
 

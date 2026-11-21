@@ -16,6 +16,20 @@ const game: GameState = {
 };
 
 describe('authorized lobby views', () => {
+  it.each(['wolf', 'sheep'] as const)('sends only the %s roster to an assigned player', (team) => {
+    const teammate = { id: 'ally', name: 'An', isHost: false, team, cardChallengeId: 'private' };
+    const state = { ...game, players: [...game.players, teammate] };
+    const view = createLobbyView('started', players, state, team, [], 0, 10_000);
+    expect(view.game).toEqual({
+      phase: 'team-assignment', role: 'player', team, remainingMs: 10_000,
+      teamMembers: [
+        { id: team, name: team === 'wolf' ? 'Wolf' : 'Sheep' },
+        { id: 'ally', name: 'An' },
+      ],
+    });
+    expect(createLobbyView('started', players, state, undefined, [], 0, 10_000).game).toBeUndefined();
+  });
+
   it('shows the full assignment to the Host and only the viewer team to a player', () => {
     expect(createLobbyView('started', players, game, 'host').players.map((player) => player.team))
       .toEqual([undefined, 'wolf', 'sheep']);
