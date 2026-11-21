@@ -15,6 +15,11 @@ export interface TeamCardReadinessView {
   total: number;
 }
 
+export interface TeamMemberView {
+  id: string;
+  name: string;
+}
+
 export interface PlayerCardSelectionView {
   phase: 'selection';
   team: 'wolf' | 'sheep';
@@ -22,7 +27,7 @@ export interface PlayerCardSelectionView {
   categories: readonly CardCategoryView[];
   ownCard?: { categoryId: string; challengeId?: string; submitted: boolean };
   score: number;
-  teamMembers: readonly { id: string; name: string }[];
+  teamMembers: readonly TeamMemberView[];
   readiness: Readonly<Record<'wolf' | 'sheep', TeamCardReadinessView>>;
   remainingMs: number;
 }
@@ -86,7 +91,7 @@ export interface FinalResultView {
 }
 
 export type LobbyGameView =
-  | { phase: 'team-assignment'; role: 'player'; team: 'wolf' | 'sheep'; remainingMs: number }
+  | { phase: 'team-assignment'; role: 'player'; team: 'wolf' | 'sheep'; teamMembers: readonly TeamMemberView[]; remainingMs: number }
   | { phase: 'team-assignment'; role: 'host'; remainingMs: number }
   | { phase: 'selection'; role: 'player'; selection: PlayerCardSelectionView }
   | { phase: 'selection'; role: 'host'; selection: HostCardSelectionView }

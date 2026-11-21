@@ -54,7 +54,11 @@ function sandboxSelectionView(
 function assignmentView(state: GameState, viewer: LobbyPlayerView, remainingMs: number): LobbyGameView | undefined {
   if (!viewer.isHost) {
     const team = state.players.find(({ id }) => id === viewer.id)?.team;
-    return team ? { phase: 'team-assignment', role: 'player', team, remainingMs } : undefined;
+    if (!team) return undefined;
+    const teamMembers = state.players
+      .filter((player) => !player.isHost && player.team === team)
+      .map(({ id, name }) => ({ id, name }));
+    return { phase: 'team-assignment', role: 'player', team, teamMembers, remainingMs };
   }
   return { phase: 'team-assignment', role: 'host', remainingMs };
 }

@@ -11,7 +11,8 @@ export function attachClientHandlers(context: LobbyTransportContext, socket: Soc
   attachTurnHandlers(context, socket);
   restoreHandshake(context, socket);
   const initialSession = context.getSession();
-  if (initialSession) socket.emit(LOBBY_EVENTS.state, initialSession.view(context.playerBySocket.get(socket.id)));
+  // A successful handshake already broadcast the restored viewer's state.
+  if (initialSession && !context.playerBySocket.has(socket.id)) socket.emit(LOBBY_EVENTS.state, initialSession.view());
 
   socket.on(LOBBY_EVENTS.join, (request: LobbyRequest, reply?: (result: LobbyCommandReply) => void) => {
     if (context.playerBySocket.has(socket.id)) return respond(socket, reply, 'INVALID_REQUEST');

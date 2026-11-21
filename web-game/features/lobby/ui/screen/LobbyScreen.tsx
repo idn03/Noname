@@ -46,7 +46,7 @@ export default function LobbyScreen() {
     </PageTransitionFrame>;
     return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={shellClassName} density="player">
       <main className="relative z-[1] flex min-h-dvh items-center justify-center">
-      <TeamAssignmentScreen team={lobby.game.team} remainingMs={lobby.game.remainingMs} />
+      <TeamAssignmentScreen assignment={lobby.game} animateEntrance={animatePageTransitions} />
       </main>
     </PageTransitionFrame>;
   }
