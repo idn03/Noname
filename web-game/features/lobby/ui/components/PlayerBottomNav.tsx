@@ -1,4 +1,7 @@
+import { flyFromRight } from '../home-entrance';
+
 interface PlayerBottomNavProps {
+  enteringHome?: boolean;
   onOpenWolf: () => void;
   onOpenSheep: () => void;
   onComingSoon: (item: string) => void;
@@ -11,10 +14,10 @@ const tabs = [
   { label: 'Đội Cừu', asset: 'sheep-icon.png', action: 'sheep' },
 ] as const;
 
-export function PlayerBottomNav({ onOpenWolf, onOpenSheep, onComingSoon }: PlayerBottomNavProps) {
+export function PlayerBottomNav({ enteringHome, onOpenWolf, onOpenSheep, onComingSoon }: PlayerBottomNavProps) {
   return <nav className="fixed z-[9999] bottom-[max(34px,env(safe-area-inset-bottom))] left-1/2 grid h-11 w-[min(calc(100vw-40px),360px)] -translate-x-1/2 grid-cols-4 m-0" aria-label="Điều hướng người chơi">
     {tabs.map((tab) => <button
-      className="grid min-h-11 min-w-11 place-items-center border-0 bg-transparent p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-4"
+      className={`${enteringHome ? `${flyFromRight} first:[--enter-delay:1480ms] nth-2:[--enter-delay:1560ms] nth-3:[--enter-delay:1640ms] last:[--enter-delay:1720ms]` : ''} grid min-h-11 min-w-11 place-items-center border-0 bg-transparent p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-4`}
       type="button"
       key={tab.label}
       aria-label={tab.action === 'soon' ? `${tab.label}, sắp ra mắt` : tab.label}

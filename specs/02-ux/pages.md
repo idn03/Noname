@@ -7,9 +7,13 @@ Visual frame links and shared presentation guidance are in
 
 Provide a display-name field and a clear join action. Include a concise overview of the game rules and two clearly labeled options to open the Wolf rules and Sheep rules. Each team rules page explains that team's objective, actions, and relevant scoring at a player-friendly level, without exposing session-specific private game information. Browser back returns to Join from either rules page. Explain validation errors inline or in an accessible status message. A returning player with a valid session proceeds to their current game view without joining twice.
 
+After one second on Home, introduce the title from the left. On player Join, reveal the prompt, form and navigation from the right in order. Reduced motion shows the final presentation immediately.
+
 ## Host Setup
 
 On the server machine's local browser page, let the Host press TẠO to create the room; no Host display-name entry is required. A three-second press-and-hold on TẠO creates a Sandbox room. LAN clients cannot see or use Host session-creation controls.
+
+On Host Home, reveal the rule headings and then their descriptions from below after the title. Reveal the create button from its disabled ghost appearance over one second, then bounce once when enabled. Reduced motion skips the introduction. Connection and pending state still govern availability.
 
 ## Lobby
 
