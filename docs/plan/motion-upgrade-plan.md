@@ -63,7 +63,7 @@ PLAYER: Thêm hiệu ứng xuất hiện fade cho ĐỘI SÓI hoặc ĐỘI CỪ
 ### Chọn card
 HOST: Không cần nâng cấp
 
-PLAYER: Thêm hiệu ứng sau khi người chơi bấm CHỌN cho GameCard. Tôi muốn hiệu ứng giống như hiệu ứng khóa Tướng trong các tựa game khác. **Phương án:** `motion/react` nếu cần chuỗi lock-in/stagger; nếu chỉ là một lần scale/outline/settle thì Tailwind utilities. Trigger sau khi lựa chọn được chấp nhận; cần thống nhất động tác cụ thể trước triển khai.
+PLAYER: Khi máy chủ xác nhận CHỌN, GameCard của Sói hoặc Cừu nâng lên 12px trong 400ms và giữ ở đó. Khi máy chủ xác nhận BỎ CHỌN, thẻ hạ về vị trí ban đầu trong 400ms. Thẻ dùng vị trí tuyệt đối trong ô carousel để các thành phần khác đứng yên. Không thêm viền. Với reduced motion, thẻ đổi vị trí tức thì.
 
 ### Gameplay
 PLAYER: Thêm hiệu ứng cho tính năng Lật Thẻ cho GameCard khi người chơi bấm vào thẻ (Áp dụng cho thẻ đang được đem ra tấn công) — **Tailwind utilities** (flip 3D đơn giản; hiện đã có nền tảng).

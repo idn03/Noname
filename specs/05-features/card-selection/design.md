@@ -8,6 +8,8 @@ Let each player choose and manage the card in their personal team slot before tu
 
 Each card slot belongs to one player. The larger team in an uneven assignment has one designated member without a slot. The browser may hold an editable draft locally. The Host server owns submitted selections and slot readiness. A submitted slot may be replaced or removed only while selection remains active.
 
+The player sees their confirmed card raised within its carousel slot until removal is confirmed or selection ends. Surrounding controls stay in place. Reduced motion applies the position change immediately.
+
 ## Visibility
 
 Wolf players may inspect challenge text during selection. Sheep players may see only the number of available challenges per category, not their text, and must not receive Wolf selections before reveal. The server filters game views; UI hiding alone is not privacy protection.
