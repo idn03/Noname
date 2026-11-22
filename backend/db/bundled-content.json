@@ -54,7 +54,7 @@
       { "id": "films-4", "categoryId": "films", "text": "Đội Cừu sẽ chọn ra các thành viên để đóng các vai: Chằn Tinh, Người Nhện, Thủy Thủ Mặt Trăng." },
       { "id": "films-5", "categoryId": "films", "text": "Kể tên 5 bộ phim Việt có doanh thu trên 100 tỷ." },
       { "id": "films-6", "categoryId": "films", "text": "Một thành viên Đội Cừu diễn tả 3 nhân vật điện ảnh Việt (Đội Sói chọn). Đồng đội có 30 giây để đoán." },
-      { "id": "films-7", "categoryId": "films", "text": "Đội Sói đưa ra 3 từ khóa. Đội Cừu có 30 giây để nghĩ ra kịch bản cho một bộ phim có chứa cả ba yếu tố đó." }
+      { "id": "films-7", "categoryId": "films", "text": "Đội Sói đưa ra 3 từ khóa. Đội Cừu có 30 giây để nghĩ ra kịch bản tổng thể cho một bộ phim có chứa cả ba yếu tố đó." }
     ]
   },
   {
@@ -65,11 +65,12 @@
       { "id": "healthcare-1", "categoryId": "healthcare", "text": "Thực hiện 60 - 100 cái chống đẩy (nữ có thể thay thế bằng Squat)." },
       { "id": "healthcare-2", "categoryId": "healthcare", "text": "Cả 2 đội cùng tìm một món đồ mà Quản Trò cần. Đội Cừu cần mang về trước để hoàn thành thử thách." },
       { "id": "healthcare-3", "categoryId": "healthcare", "text": "Làm kiệu và chở các thành viên Đội Sói đi qua sông." },
-      { "id": "healthcare-4", "categoryId": "healthcare", "text": "Cả Đội Cừu sếp thành hình cái thang." },
+      { "id": "healthcare-4", "categoryId": "healthcare", "text": "Từng người trong Đội Cừu sẽ đấu vật ngón tay với Đội Sói." },
       { "id": "healthcare-5", "categoryId": "healthcare", "text": "Cả Đội Cừu (Quản trò đếm) thực hiện đồng thời 15 lần squat. Nếu một thành viên dừng hoặc mất nhịp, đội phải bắt đầu lại." },
       { "id": "healthcare-6", "categoryId": "healthcare", "text": "Mỗi thành viên Đội Cừu phải đứng bằng một tư thế Yoga trong 20 giây." },
       { "id": "healthcare-7", "categoryId": "healthcare", "text": "Đội Cừu cử một thành viên thực hiện động tác plank trong 30 giây trong khi Đội Sói cố làm người đó cười nhưng không được chạm vào." },
-      { "id": "healthcare-8", "categoryId": "healthcare", "text": "Trong 20 giây, kể tên 15 loại thực phẩm thường được xem là nguồn cung cấp protein." }
+      { "id": "healthcare-8", "categoryId": "healthcare", "text": "Trong 20 giây, kể tên 15 loại thực phẩm thường được xem là nguồn cung cấp protein." },
+      { "id": "healthcare-9", "categoryId": "healthcare", "text": "Cử một thành viên của Đội Cừu đấu vật tay với một thành viên của Đội Sói." }
     ]
   },
   {
@@ -80,8 +81,8 @@
       { "id": "folklore-1", "categoryId": "folklore", "text": "Đóng vai và diễn lại một phân đoạn trong truyện Tấm Cám." },
       { "id": "folklore-2", "categoryId": "folklore", "text": "Kể ngắn gọn 3 truyền thuyết đô thị tại Việt Nam." },
       { "id": "folklore-3", "categoryId": "folklore", "text": "Trong 15 giây, kể tên 5 trò chơi dân gian Việt Nam." },
-      { "id": "folklore-7", "categoryId": "folklore", "text": "Đội Sói đọc nửa đầu của một câu tục ngữ hoặc thành ngữ quen thuộc. Đội Cừu phải hoàn thành phần còn lại. Thực hiện đúng 5 câu để hoàn thành." },
-      { "id": "folklore-8", "categoryId": "folklore", "text": "Đội Cừu có 30 giây để kể lại truyện Thánh Gióng nhưng mỗi thành viên chỉ được nói một câu rồi phải chuyển lượt cho người tiếp theo." }
+      { "id": "folklore-4", "categoryId": "folklore", "text": "Đội Sói đọc nửa đầu của một câu tục ngữ hoặc thành ngữ quen thuộc. Đội Cừu phải hoàn thành phần còn lại. Thực hiện đúng 5 câu để hoàn thành." },
+      { "id": "folklore-5", "categoryId": "folklore", "text": "Đội Cừu có 30 giây để kể lại truyện Thánh Gióng nhưng mỗi thành viên chỉ được nói một câu rồi phải chuyển lượt cho người tiếp theo." }
     ]
   }
 ]
