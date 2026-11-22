@@ -68,6 +68,7 @@ export function PlayerCardSelection({ selection, connected, pending, error, onSu
       <h2 className="font-type-result-title text-title1 font-medium">Bạn không có thẻ cá nhân trong vòng này</h2><p className="text-[#c2c2b8] text-subtitle">Hãy chờ các thành viên có thẻ hoàn tất lựa chọn.</p>
     </section> : <>
       <PlayerCardCarousel categories={selection.categories} role={selection.team} activeCategoryId={activeCategoryId} initialCategoryId={selection.ownCard?.categoryId}
+        confirmedCategoryId={selection.ownCard?.submitted ? selection.ownCard.categoryId : undefined}
         draftCategoryId={draft?.categoryId} draftChallengeId={draft?.challengeId} locked={selectionLocked} disabled={!connected || pending}
         onFocusCategory={focusCategory} onSelectCategory={selectCategory} onSelectChallenge={selectChallenge}
         onClearChallenge={() => setDraft(undefined)} />
