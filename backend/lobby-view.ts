@@ -78,12 +78,15 @@ function authorizedGameView(
     const selection = createPlayerCardSelectionView(state, pools, viewer.id, now);
     return selection.ok ? { phase: 'selection', role: 'player', selection: selection.value } : undefined;
   }
+  const roundHistory = (state.roundHistory ?? []).map((entry) => ({
+    ...entry, attackCategoryName: pools.find((pool) => pool.categoryId === entry.attackCategoryId)?.categoryName,
+  }));
   if (state.phase === 'results' && state.winner) {
     const members = {
       wolf: state.players.filter((player) => player.team === 'wolf').map(({ id, name }) => ({ id, name })),
       sheep: state.players.filter((player) => player.team === 'sheep').map(({ id, name }) => ({ id, name })),
     };
-    return { phase: 'results', role: viewer.isHost ? 'host' : 'player', scores: state.scores, winner: state.winner, rounds: state.rounds, members };
+    return { phase: 'results', role: viewer.isHost ? 'host' : 'player', scores: state.scores, winner: state.winner, rounds: state.rounds, roundHistory, members };
   }
   if (state.phase === 'turns') {
     if (viewer.isHost) {
@@ -91,7 +94,7 @@ function authorizedGameView(
       return selection.ok ? {
         phase: 'turns', role: 'host', round: state.round, rounds: state.rounds, scores: state.scores,
         ...(activeTurnView(state, pools) ? { activeTurn: activeTurnView(state, pools) } : {}),
-        roundHistory: state.roundHistory ?? [], selection: selection.value,
+        roundHistory, selection: selection.value,
       } : undefined;
     }
     const team = teamsForViewer(state, viewer.id);
@@ -101,7 +104,7 @@ function authorizedGameView(
       ...(team ? { team } : {}),
       round: state.round, rounds: state.rounds, scores: state.scores,
       ...(activeTurnView(state, pools) ? { activeTurn: activeTurnView(state, pools) } : {}),
-      ...(ownCard ? { ownCard } : {}), roundHistory: state.roundHistory ?? [],
+      ...(ownCard ? { ownCard } : {}), roundHistory,
       revealedCards: revealedCards(state, pools),
     };
   }

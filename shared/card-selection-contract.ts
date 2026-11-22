@@ -76,6 +76,7 @@ export interface CompletedRoundView {
   round: number;
   attackerId: string;
   attackCategoryId: string;
+  attackCategoryName?: string;
   attackChallengeId: string;
   defenderId?: string;
   defenseCategoryId?: string;
@@ -84,6 +85,7 @@ export interface CompletedRoundView {
 }
 
 export interface FinalResultView {
+  roundHistory?: readonly CompletedRoundView[];
   scores: Readonly<Record<'wolf' | 'sheep', number>>;
   winner: 'wolf' | 'sheep' | 'draw';
   rounds: number;
