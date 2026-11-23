@@ -41,7 +41,7 @@ export function useRoundPresentation(live: LobbyGameView | undefined, enabled: b
     setPrevious(turns);
     setNextRound(turns?.round ?? 1);
     setCreditedRound(0);
-  }, [live, enabled, round]);
+  }, [live, round]);
 
   useEffect(() => {
     if (!credited || round === undefined) return;
