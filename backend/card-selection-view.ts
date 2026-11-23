@@ -1,5 +1,5 @@
-import { gameError, type GameResult } from '../web-game/game/game-error';
-import type { GamePlayer, GameState, Team } from '../web-game/game/game-types';
+import { gameError, type GameResult } from '../game-engine/game-error';
+import type { GamePlayer, GameState, Team } from '../game-engine/game-types';
 import type { SessionCategoryPool } from './db/session-pool';
 import type { CardCategoryView, HostCardSelectionView, PlayerCardSelectionView } from '../shared/card-selection-contract';
 

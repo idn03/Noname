@@ -1,6 +1,6 @@
 import type { CategoryContent } from './content-validation';
 import { validateContent } from './content-validation';
-import { shuffled, type RandomSource } from '../../web-game/game/randomness';
+import { shuffled, type RandomSource } from '../../game-engine/randomness';
 
 export interface SessionCategoryPool {
   categoryId: string;

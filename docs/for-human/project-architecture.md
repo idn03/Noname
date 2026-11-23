@@ -50,7 +50,7 @@ The diagram shows code responsibilities, not separate deployed services. The bro
 | Client/server contract | Serializable lobby and card-selection views and event names in root `shared/`. |
 | Realtime transport | One Socket.IO server attached to the HTTP server; lobby, Host, card, and turn handlers under `backend/`. |
 | Session/application behavior | `backend/lobby-session.ts` and focused session modules maintain the active room, players, timers, and game state in process memory. Handler modules authenticate socket identity and delegate operations. |
-| Game rules | Pure TypeScript state and commands under `web-game/game/`; team assignment, card-selection transitions, turn resolution, scoring, and results are kept independent of React and Socket.IO. Backend setup calls this engine. |
+| Game rules | Pure TypeScript state and commands under `game-engine/`; team assignment, card-selection transitions, turn resolution, scoring, and results are kept independent of React and Socket.IO. Backend setup calls this engine. |
 | Persistent data | `backend/db/` uses Drizzle with `@libsql/client` and SQLite. It migrates, seeds, validates, and loads category/challenge content. The active lobby and match are not persisted. |
 | Verification | Vitest tests cover engine, sessions, transport, views, and content; Playwright covers browser flows. |
 
@@ -69,7 +69,7 @@ The package has Zustand as a dependency, but the current source contains no Zust
 
 - `web-game/app/` owns route entry and page composition. The home route renders the lobby screen; team and game phases are selected from the current server view.
 - `web-game/features/` owns browser workflows. `lobby/` coordinates connection, identity, lobby actions, and phase rendering; `game/` renders card selection and turn views; `results/` renders the end-game view.
-- `web-game/game/` owns domain types, commands, validation, randomness abstraction, and transitions. It must not depend on browser, transport, or persistence code.
+- `game-engine/` owns domain types, commands, validation, randomness abstraction, and transitions. It must not depend on browser, transport, or persistence code.
 - `backend/` owns Host runtime, Socket.IO handlers, the in-memory session, view shaping, and orchestration around engine commands.
 - `backend/db/` owns schema, migrations, content validation, seed, and repository access. Database code does not implement game rules.
 - Root `shared/` holds contracts shared by browser and backend. Keep feature-specific behavior in its feature or domain module.

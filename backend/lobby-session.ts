@@ -1,5 +1,5 @@
-import type { GameState } from '../web-game/game/game-types';
-import { systemRandom, type RandomSource } from '../web-game/game/randomness';
+import type { GameState } from '../game-engine/game-types';
+import { systemRandom, type RandomSource } from '../game-engine/randomness';
 import { bundledContent } from './db/bundled-content';
 import type { CategoryContent } from './db/content-validation';
 import { prepareGameSetup } from './game-setup';

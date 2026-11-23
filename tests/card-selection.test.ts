@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { applyGameCommand } from '../web-game/game/game-engine';
-import type { GameState } from '../web-game/game/game-types';
-import { prepareBalancedTeams } from '../web-game/game/team-assignment';
+import { applyGameCommand } from '../game-engine/game-engine';
+import type { GameState } from '../game-engine/game-types';
+import { prepareBalancedTeams } from '../game-engine/team-assignment';
 import { createSelectionState, selectionRandom, submitSelection } from './card-selection-fixture';
 
 describe('card selection logic', () => {

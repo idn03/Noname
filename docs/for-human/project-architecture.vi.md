@@ -50,7 +50,7 @@ Sơ đồ thể hiện trách nhiệm của mã nguồn, không phải các dị
 | Hợp đồng client/server | Kiểu snapshot lobby và chọn thẻ, cùng tên sự kiện trong `shared/` ở root. |
 | Truyền thông thời gian thực | Một Socket.IO server gắn với HTTP server; handler lobby, Host, thẻ và lượt chơi trong `backend/`. |
 | Phiên và điều phối ứng dụng | `backend/lobby-session.ts` cùng các module phiên chuyên biệt giữ phòng đang chạy, người chơi, bộ đếm thời gian và trạng thái trận trong bộ nhớ tiến trình. Handler xác thực identity của socket rồi ủy quyền thao tác. |
-| Luật game | State và command TypeScript thuần trong `web-game/game/`; chia đội, chuyển trạng thái chọn thẻ, xử lý lượt, tính điểm và kết quả không phụ thuộc React hay Socket.IO. Backend gọi engine để thiết lập trận. |
+| Luật game | State và command TypeScript thuần trong `game-engine/`; chia đội, chuyển trạng thái chọn thẻ, xử lý lượt, tính điểm và kết quả không phụ thuộc React hay Socket.IO. Backend gọi engine để thiết lập trận. |
 | Dữ liệu lưu trữ | `backend/db/` dùng Drizzle với `@libsql/client` và SQLite để migrate, seed, kiểm tra và đọc nội dung danh mục/thử thách. Lobby và trận đang hoạt động không được lưu xuống DB. |
 | Kiểm chứng | Vitest kiểm tra engine, phiên, transport, view và nội dung; Playwright kiểm tra luồng trình duyệt. |
 
@@ -69,7 +69,7 @@ Package có Zustand nhưng mã nguồn hiện chưa có store Zustand nào đư�
 
 - `web-game/app/` phụ trách điểm vào route và ghép trang. Trang chủ hiển thị lobby; các giai đoạn đội, game được chọn theo view từ máy chủ.
 - `web-game/features/` phụ trách luồng trình duyệt. `lobby/` điều phối kết nối, identity, thao tác phòng và chọn màn hình; `game/` hiển thị chọn thẻ và lượt; `results/` hiển thị kết quả cuối.
-- `web-game/game/` chứa kiểu domain, command, kiểm tra luật, trừu tượng ngẫu nhiên và chuyển trạng thái. Không phụ thuộc browser, transport hay persistence.
+- `game-engine/` chứa kiểu domain, command, kiểm tra luật, trừu tượng ngẫu nhiên và chuyển trạng thái. Không phụ thuộc browser, transport hay persistence.
 - `backend/` phụ trách Host runtime, Socket.IO handler, session trong bộ nhớ, tạo view và điều phối gọi engine.
 - `backend/db/` phụ trách schema, migration, kiểm tra nội dung, seed và truy cập repository. Mã DB không chứa luật game.
 - `shared/` ở root chứa hợp đồng dùng chung giữa browser và backend. Logic riêng của tính năng nằm trong feature hoặc domain tương ứng.

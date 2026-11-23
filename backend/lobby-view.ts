@@ -1,5 +1,5 @@
 import type { LobbyPlayerView, LobbyView } from '../shared/lobby-contract';
-import type { GameState } from '../web-game/game/game-types';
+import type { GameState } from '../game-engine/game-types';
 import type { LobbyGameView } from '../shared/card-selection-contract';
 import type { SessionCategoryPool } from './db/session-pool';
 import { createHostCardSelectionView, createPlayerCardSelectionView } from './card-selection-view';

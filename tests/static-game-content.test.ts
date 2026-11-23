@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { bundledContent } from '../backend/db/bundled-content';
 import { validateContent, type CategoryContent } from '../backend/db/content-validation';
 import { prepareSessionPools } from '../backend/db/session-pool';
-import type { RandomSource } from '../web-game/game/randomness';
+import type { RandomSource } from '../game-engine/randomness';
 
 const makeCategory = (count = 2): CategoryContent => ({
   id: 'animals',

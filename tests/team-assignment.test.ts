@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { prepareBalancedTeams } from '../web-game/game/team-assignment';
-import type { GamePlayer } from '../web-game/game/game-types';
+import { prepareBalancedTeams } from '../game-engine/team-assignment';
+import type { GamePlayer } from '../game-engine/game-types';
 
 function players(count: number): GamePlayer[] {
   return [

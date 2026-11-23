@@ -1,5 +1,5 @@
 import type { ActiveTurnView, OwnTurnCardView, RevealedGameCardView } from '../shared/card-selection-contract';
-import type { GameState } from '../web-game/game/game-types';
+import type { GameState } from '../game-engine/game-types';
 import type { SessionCategoryPool } from './db/session-pool';
 
 export function revealedCards(state: GameState, pools: readonly SessionCategoryPool[]): RevealedGameCardView[] {

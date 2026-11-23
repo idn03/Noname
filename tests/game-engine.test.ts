@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { applyGameCommand, type TeamPreparation } from '../web-game/game/game-engine';
-import { gameError } from '../web-game/game/game-error';
-import { createGameState, type GamePlayer, type GameState } from '../web-game/game/game-types';
-import { shuffled, type RandomSource } from '../web-game/game/randomness';
+import { applyGameCommand, type TeamPreparation } from '../game-engine/game-engine';
+import { gameError } from '../game-engine/game-error';
+import { createGameState, type GamePlayer, type GameState } from '../game-engine/game-types';
+import { shuffled, type RandomSource } from '../game-engine/randomness';
 
 const players: GamePlayer[] = [
   { id: 'host', name: 'Host', isHost: true },
