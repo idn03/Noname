@@ -15,6 +15,7 @@ import { ManageGameScreen } from '@/features/game/ui/screen/ManageGameScreen';
 import { EndGameScreen } from '@/features/results/ui/screen/EndGameScreen';
 import { TeamAssignmentScreen } from './TeamAssignmentScreen';
 import { PageTransitionFrame } from '@/features/lobby/ui/components/PageTransitionFrame';
+import { useRoundPresentation } from '@/features/game/hooks/use-round-presentation';
 import { useLobbyScreen } from '@/features/lobby/hooks/use-lobby-screen';
 import { getHomeContentClassName, getHomeTitleClassName, getLobbyShellClassName } from './lobby-screen-classes';
 import { getLobbyScreenKey } from './lobby-screen-key';
@@ -33,7 +34,8 @@ export default function LobbyScreen() {
   const isStartedGuest = lobby?.phase === 'started' && !currentPlayer && isLocalHost !== true;
   const shellClassName = getLobbyShellClassName(isPlayerView, Boolean(lobby));
   const hostCardShellClassName = `${shellClassName} relative isolate overflow-hidden bg-scroll px-[clamp(1rem,4.2vw,5rem)] !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`;
-  const screenKey = getLobbyScreenKey(lobby?.game?.phase, lobby?.game?.role, host, Boolean(currentPlayer));
+  const { game, award } = useRoundPresentation(lobby?.game, connected && animatePageTransitions);
+  const screenKey = getLobbyScreenKey(game?.phase, game?.role, host, Boolean(currentPlayer));
   const pageTransition = usePageTransition(screenKey, animatePageTransitions, error, () => setError('Máy chủ chưa phản hồi trong 3 giây. Hãy kiểm tra trạng thái phòng rồi thử lại.'));
   if (pageTransition.isLoading) return <PageTransitionFrame screenKey="loading" animateTransitions={animatePageTransitions} className={shellClassName} density={isPlayerView ? 'player' : 'default'}><LoadingScreen audience={isLocalHost === true ? 'host' : 'player'} /></PageTransitionFrame>;
 
@@ -65,17 +67,17 @@ export default function LobbyScreen() {
       </main>
     </PageTransitionFrame>;
   }
-  if (lobby?.game?.phase === 'turns') {
-    if (lobby.game.role === 'host') return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={hostCardShellClassName}>
-      <ManageGameScreen game={lobby.game} players={players} pending={pending} error={error} onOutcome={recordOutcome} onCancel={withPageTransition(pageTransition.beginTransition, cancel)} onReplay={withPageTransition(pageTransition.beginTransition, replay)} />
+  if (game?.phase === 'turns') {
+    if (game.role === 'host') return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={hostCardShellClassName}>
+      <ManageGameScreen game={game} award={award} players={players} pending={pending} error={error} onOutcome={recordOutcome} onCancel={withPageTransition(pageTransition.beginTransition, cancel)} onReplay={withPageTransition(pageTransition.beginTransition, replay)} />
     </PageTransitionFrame>;
     return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={`${shellClassName} !min-h-svh !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`} density="player">
-      <PlayerGameScreen game={lobby.game} selfId={screen.selfId} players={players} pending={pending} error={error} onAttack={attack} onDefend={defend} />
+      <PlayerGameScreen game={game} award={award} selfId={screen.selfId} players={players} pending={pending} error={error} onAttack={attack} onDefend={defend} />
     </PageTransitionFrame>;
   }
-  if (lobby?.game?.phase === 'results') {
-    return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={`${shellClassName} !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`} density={lobby.game.role === 'player' ? 'player' : 'default'}>
-      <EndGameScreen result={lobby.game} audience={lobby.game.role} onReturnHome={host ? withPageTransition(pageTransition.beginTransition, cancel) : undefined} onReplay={host ? withPageTransition(pageTransition.beginTransition, replay) : undefined} pending={pending} />
+  if (game?.phase === 'results') {
+    return <PageTransitionFrame screenKey={screenKey} animateTransitions={animatePageTransitions} className={`${shellClassName} !bg-[linear-gradient(180deg,#722f37_0%,#57272d_54%,#080607_100%)]`} density={game.role === 'player' ? 'player' : 'default'}>
+      <EndGameScreen result={game} audience={game.role} onReturnHome={host ? withPageTransition(pageTransition.beginTransition, cancel) : undefined} onReplay={host ? withPageTransition(pageTransition.beginTransition, replay) : undefined} pending={pending} />
     </PageTransitionFrame>;
   }
 

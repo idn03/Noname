@@ -69,7 +69,7 @@ PLAYER: Khi máy chủ xác nhận CHỌN, GameCard của Sói hoặc Cừu nân
 PLAYER: Thêm hiệu ứng cho tính năng Lật Thẻ cho GameCard khi người chơi bấm vào thẻ (Áp dụng cho thẻ đang được đem ra tấn công) — **Tailwind utilities** (flip 3D đơn giản; hiện đã có nền tảng).
 - Khi tấn công thất bại, thêm hiệu ứng phá hủy thẻ tấn công — **`motion/react`** nếu cần chuỗi nhiều nhịp; nếu chỉ fade/scale thì Tailwind utilities.
 - Sau khi tấn công thành công, thêm hiệu ứng slash và rung trên Đội Cừu như vừa chịu sát thương — **Tailwind utilities/CSS keyframes dùng chung**; `motion/react` nếu cần đồng bộ slash và rung thành chuỗi.
-- Sau khi tấn công/phòng thủ mới đến hiệu ứng cho việc cộng điểm. Thêm hiệu ứng cộng điểm — **Tailwind utilities** cho nhấn mạnh điểm; `motion/react` nếu cần điều phối sau hiệu ứng combat. Chỉ chạy sau kết quả server xác nhận.
+- Khi server chốt lượt, giữ màn giao đấu để thẻ tấn công mờ dần, rồi hiện số điểm của lượt ở cỡ 120px cùng tên đội nhận điểm. Số điểm bay lên trước khi bảng điểm cập nhật. Dùng chung trình tự này cho Host và Player, kể cả lượt cuối trước khi chuyển trang kết quả. Khi giảm chuyển động, hiển thị điểm tĩnh trong chốc lát.
 
 ### Quản lý trận của Host
 HOST:

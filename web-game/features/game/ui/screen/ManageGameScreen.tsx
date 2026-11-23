@@ -5,10 +5,13 @@ import { Button } from '@/components/shared/Button';
 import { GameCard } from '@/features/game/ui/components/GameCard';
 import { HostSelectionActions } from '@/features/game/ui/components/HostSelectionActions';
 
-type Game = Extract<LobbyGameView, { phase: 'turns'; role: 'host' }>;
-interface Props { game: Game; players: readonly LobbyPlayerView[]; pending: boolean; error: string; onOutcome: (round: number, succeeded: boolean) => void; onCancel: () => void; onReplay: () => void }
+import type { RoundAward } from '../../hooks/use-round-presentation';
+import { RoundAwardCard, SheepImpact } from '../components/round-award-card';
 
-export function ManageGameScreen({ game, players, pending, error, onOutcome, onCancel, onReplay }: Props) {
+type Game = Extract<LobbyGameView, { phase: 'turns'; role: 'host' }>;
+interface Props { award?: RoundAward; game: Game; players: readonly LobbyPlayerView[]; pending: boolean; error: string; onOutcome: (round: number, succeeded: boolean) => void; onCancel: () => void; onReplay: () => void }
+
+export function ManageGameScreen({ award, game, players, pending, error, onOutcome, onCancel, onReplay }: Props) {
   const historyRef = useRef<HTMLDetailsElement>(null);
   const active = game.activeTurn;
   const nameOf = (id?: string) => players.find((player) => player.id === id)?.name ?? 'Đang chờ';
@@ -17,13 +20,13 @@ export function ManageGameScreen({ game, players, pending, error, onOutcome, onC
     <div className="mt-[clamp(18px,6vh,66px)] grid grid-cols-[minmax(0,1fr)_minmax(180px,220px)_minmax(0,1fr)] items-start gap-[clamp(14px,4vw,58px)] max-[640px]:mt-7 max-[640px]:grid-cols-2 max-[640px]:gap-x-4 max-[640px]:gap-y-2">
       <Team title="Đội Sói" score={game.scores.wolf} team="wolf" game={game} nameOf={nameOf} />
       <section className="text-center max-[640px]:col-span-full max-[640px]:row-start-1" aria-label="Thử thách hiện tại">
-        {active ? <>
+        {award ? <div className="mx-auto mt-[22px] max-w-[200px] max-[640px]:mt-[14px] max-[640px]:w-36"><RoundAwardCard key={award.entry.round} award={award} /></div> : active ? <>
           <GameCard categoryId={active.attackCategoryId} categoryName={active.attackCategoryName} challengeCount={1} viewerRole="host" phase="turns" selectedChallenge={active.challenge} className="mx-auto mt-[22px] w-full max-w-[200px] max-[640px]:mt-[14px] max-[640px]:!w-36" />
           {active.defenderId && <div className="mt-4 grid gap-4 max-[640px]:grid-cols-2"><Button variant="small" className="border-white/80 font-bold text-white" type="button" disabled={pending} onClick={() => onOutcome(active.round, true)}>Thành Công</Button><Button variant="small" className="border-white/80 font-bold text-white" type="button" disabled={pending} onClick={() => onOutcome(active.round, false)}>Thất Bại</Button></div>}
         </> : <p className="mt-8">Đội Sói đang chọn thẻ để tấn công.</p>}
         {error && <p className="text-center text-[#ffd1d4]" role="alert">{error}</p>}
       </section>
-      <Team title="Đội Cừu" score={game.scores.sheep} team="sheep" game={game} nameOf={nameOf} />
+      <SheepImpact award={award}><Team title="Đội Cừu" score={game.scores.sheep} team="sheep" game={game} nameOf={nameOf} /></SheepImpact>
     </div>
     <details ref={historyRef} className="fixed bottom-[calc(env(safe-area-inset-bottom)+8rem)] left-[clamp(18px,3vw,50px)] z-[30] max-h-[45dvh] max-w-[min(420px,65vw)] overflow-auto text-content max-[640px]:bottom-[calc(env(safe-area-inset-bottom)+7rem)] max-[640px]:left-3 max-[640px]:max-w-[calc(100vw-92px)] max-[640px]:text-content open:rounded-lg open:border open:border-white/45 open:bg-[#351519] open:p-3"><summary className="sr-only">Lịch sử giao đấu</summary>{game.roundHistory.length ? game.roundHistory.map((round) => <p className="my-2" key={`${round.round}-${round.attackerId}`}>Lượt {round.round}: {nameOf(round.attackerId)} tấn công · {round.defenderId ? `${nameOf(round.defenderId)} phòng thủ` : 'không phòng thủ'} · Sói +{round.scoreChange.wolf}, Cừu +{round.scoreChange.sheep}</p>) : <p className="my-2">Chưa có lượt nào hoàn thành.</p>}</details>
     <HostSelectionActions playerCount={players.filter((player) => !player.isHost && player.connected).length} pending={pending} onCancel={onCancel} onReplay={onReplay} onStart={() => undefined} onDelete={() => undefined} onHistory={() => { if (historyRef.current) historyRef.current.open = !historyRef.current.open; }} />

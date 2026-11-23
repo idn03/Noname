@@ -47,6 +47,8 @@ Keep the current round, team scores, active attack or waiting state, and availab
 
 When a Sheep player is handling a challenge, the Host sees the active challenge and can record its outcome using the Thành Công and Thất Bại buttons. Only one outcome may be recorded for an active challenge.
 
+For each newly confirmed completed round, Host and players see the attack card fade into the awarded points at 120px with the scoring team identified. After the points float upward, update the displayed team total and release the next round or results transition. Keep incoming state current during playback. Reduced motion uses a brief static award. Restored sessions display current totals immediately.
+
 ## Results
 
 Show both final team scores and team rosters, the winning team or draw, and that the session is complete. Highlight and celebrate the winning team consistently for all connected players.
