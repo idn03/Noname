@@ -9,9 +9,9 @@
     "build": "next build web-game",
     "start": "node --import tsx backend/server.ts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test": "vitest run --config tests/vitest.config.ts",
+    "test:watch": "vitest --config tests/vitest.config.ts",
+    "test:e2e": "playwright test --config tests/playwright.config.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
