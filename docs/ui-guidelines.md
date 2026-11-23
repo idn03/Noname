@@ -4,6 +4,7 @@ Use these rules for every screen in `web-game`. The product visual direction and
 
 ## Components
 
+- Run shadcn from `web-game/` (e.g. `pnpm dlx shadcn info`) so it reads the app configuration and TypeScript aliases.
 - Check `web-game/components/ui/` for a shadcn/ui component before building a common interaction from scratch.
 - Keep shadcn component source in `web-game/components/ui/`; customize its variants with Tailwind utilities to match Noname instead of accepting default colors, radii, or spacing.
 - Put project-wide composed controls in `web-game/components/shared/`. Keep feature-specific composition beside its feature.
