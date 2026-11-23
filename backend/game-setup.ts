@@ -1,8 +1,8 @@
-import { applyGameCommand } from '../web-game/game/game-engine';
-import { createGameState, type GamePlayer, type GameState } from '../web-game/game/game-types';
-import { prepareBalancedTeams } from '../web-game/game/team-assignment';
-import type { RandomSource } from '../web-game/game/randomness';
-import { initializeCardSelection } from '../web-game/game/initialize-card-selection';
+import { applyGameCommand } from '../game-engine/game-engine';
+import { createGameState, type GamePlayer, type GameState } from '../game-engine/game-types';
+import { prepareBalancedTeams } from '../game-engine/team-assignment';
+import type { RandomSource } from '../game-engine/randomness';
+import { initializeCardSelection } from '../game-engine/initialize-card-selection';
 import { prepareSessionPools, type SessionCategoryPool } from './db/session-pool';
 import type { CategoryContent } from './db/content-validation';
 

@@ -1,4 +1,4 @@
-import type { Team } from '../../../game/game-types';
+import type { Team } from '../../../../game-engine/game-types';
 
 export interface EndGameResult {
   scores: Readonly<Record<Team, number>>;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createLobbyView } from '../backend/lobby-view';
-import type { GameState } from '../web-game/game/game-types';
+import type { GameState } from '../game-engine/game-types';
 import type { LobbyPlayerView } from '../shared/lobby-contract';
 
 const players: LobbyPlayerView[] = [

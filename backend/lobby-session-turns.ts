@@ -1,7 +1,7 @@
-import { applyGameCommand } from '../web-game/game/game-engine';
-import type { GameCommand, GameState } from '../web-game/game/game-types';
-import type { RandomSource } from '../web-game/game/randomness';
-import { prepareBalancedTeams } from '../web-game/game/team-assignment';
+import { applyGameCommand } from '../game-engine/game-engine';
+import type { GameCommand, GameState } from '../game-engine/game-types';
+import type { RandomSource } from '../game-engine/randomness';
+import { prepareBalancedTeams } from '../game-engine/team-assignment';
 import type { LobbyErrorCode } from '../shared/lobby-contract';
 
 type TurnCommand = Extract<GameCommand, { type: 'attack' | 'defend' | 'record-challenge-outcome' }>;

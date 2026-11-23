@@ -1,8 +1,8 @@
-import { applyGameCommand } from '../web-game/game/game-engine';
-import type { GameErrorCode } from '../web-game/game/game-error';
-import type { GameState } from '../web-game/game/game-types';
-import { prepareBalancedTeams } from '../web-game/game/team-assignment';
-import type { RandomSource } from '../web-game/game/randomness';
+import { applyGameCommand } from '../game-engine/game-engine';
+import type { GameErrorCode } from '../game-engine/game-error';
+import type { GameState } from '../game-engine/game-types';
+import { prepareBalancedTeams } from '../game-engine/team-assignment';
+import type { RandomSource } from '../game-engine/randomness';
 import type { LobbyErrorCode } from '../shared/lobby-contract';
 
 type CardCommand =

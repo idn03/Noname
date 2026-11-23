@@ -1,7 +1,7 @@
-import { applyGameCommand } from '../web-game/game/game-engine';
-import { initializeCardSelection } from '../web-game/game/initialize-card-selection';
-import { createGameState, type GamePlayer, type GameState } from '../web-game/game/game-types';
-import { prepareBalancedTeams } from '../web-game/game/team-assignment';
+import { applyGameCommand } from '../game-engine/game-engine';
+import { initializeCardSelection } from '../game-engine/initialize-card-selection';
+import { createGameState, type GamePlayer, type GameState } from '../game-engine/game-types';
+import { prepareBalancedTeams } from '../game-engine/team-assignment';
 
 export const selectionRandom = { nextInt: () => 0 };
 export const selectionPlayers: GamePlayer[] = [
