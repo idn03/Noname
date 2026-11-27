@@ -23,7 +23,7 @@ it('renders exactly the printed URL in an interactive terminal', async () => {
   await printPlayerInvitation(url, true);
   expect(log.mock.calls).toEqual([
     [`LAN players: ${url}`],
-    [await QRCode.toString(url, { type: 'terminal', small: true })],
+    ['\n' + await QRCode.toString(url, { type: 'terminal', small: true })],
   ]);
 });
 

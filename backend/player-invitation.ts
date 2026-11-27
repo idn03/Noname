@@ -28,7 +28,8 @@ export async function printPlayerInvitation(url: string | undefined, interactive
   if (!interactive) return;
 
   try {
-    console.info(await QRCode.toString(url, { type: 'terminal', small: true }));
+    const qr = await QRCode.toString(url, { type: 'terminal', small: true });
+    console.info(`\n${qr}`);
   } catch (error) {
     console.error('Could not render player QR code', error);
   }
