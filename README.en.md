@@ -43,9 +43,8 @@ pnpm install
 pnpm dev
 ```
 
-On the Host computer, open `http://127.0.0.1:3000` to create a room. Other
-players should open the LAN address printed by the server in the terminal, or
-the Host computer's private IP address on port `3000`. If players cannot
+On the Host computer, open `http://127.0.0.1:3000` to create a room. Players on the same Wi-Fi can scan the QR code in the Host terminal or open
+the printed LAN address in a browser. If players cannot
 connect, allow Node.js to accept connections through the local network firewall.
 
 ## Development
