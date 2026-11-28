@@ -40,7 +40,9 @@
       { "id": "geography-2", "categoryId": "geography", "text": "So sánh và giải thích sự khác nhau về trồng trọt cây ăn quả giữa miền bắc và miền nam Việt Nam." },
       { "id": "geography-3", "categoryId": "geography", "text": "Kể tên 10 địa danh nổi tiếng tại Việt Nam trong 15 giây." },
       { "id": "geography-4", "categoryId": "geography", "text": "Đội Sói chọn một châu lục. Đội Cừu phải kể tên 8 quốc gia thuộc châu lục đó trong 20 giây." },
-      { "id": "geography-5", "categoryId": "geography", "text": "Sắp xếp 10 địa điểm Đội Sói chọn theo thứ tự từ Bắc xuống Nam trong 20 giây." }
+      { "id": "geography-5", "categoryId": "geography", "text": "Sắp xếp 10 địa điểm Đội Sói chọn theo thứ tự từ Bắc xuống Nam trong 20 giây." },
+      { "id": "geography-7", "categoryId": "geography", "text": "Kể tên 10 quốc gia có tên bắt đầu bằng 10 chữ cái khác nhau trong 30 giây." },
+      { "id": "geography-8", "categoryId": "geography", "text": "Đội Sói chọn một quốc gia nổi tiếng. Đội Cừu phải sử dụng tối đa 5 câu hỏi chỉ được trả lời Có hoặc Không để xác định quốc gia đó." }
     ]
   },
   {
@@ -70,7 +72,8 @@
       { "id": "healthcare-6", "categoryId": "healthcare", "text": "Mỗi thành viên Đội Cừu phải đứng bằng một tư thế Yoga trong 20 giây." },
       { "id": "healthcare-7", "categoryId": "healthcare", "text": "Đội Cừu cử một thành viên thực hiện động tác plank trong 30 giây trong khi Đội Sói cố làm người đó cười nhưng không được chạm vào." },
       { "id": "healthcare-8", "categoryId": "healthcare", "text": "Trong 20 giây, kể tên 15 loại thực phẩm thường được xem là nguồn cung cấp protein." },
-      { "id": "healthcare-9", "categoryId": "healthcare", "text": "Cử một thành viên của Đội Cừu đấu vật tay với một thành viên của Đội Sói." }
+      { "id": "healthcare-9", "categoryId": "healthcare", "text": "Cử một thành viên của Đội Cừu đấu vật tay với một thành viên của Đội Sói." },
+      { "id": "healthcare-10", "categoryId": "healthcare", "text": "Đội Cừu thực hiện đi sát nhau trong 1 vòng." }
     ]
   },
   {
@@ -82,7 +85,8 @@
       { "id": "folklore-2", "categoryId": "folklore", "text": "Kể ngắn gọn 3 truyền thuyết đô thị tại Việt Nam." },
       { "id": "folklore-3", "categoryId": "folklore", "text": "Trong 15 giây, kể tên 5 trò chơi dân gian Việt Nam." },
       { "id": "folklore-4", "categoryId": "folklore", "text": "Đội Sói đọc nửa đầu của một câu tục ngữ hoặc thành ngữ quen thuộc. Đội Cừu phải hoàn thành phần còn lại. Thực hiện đúng 5 câu để hoàn thành." },
-      { "id": "folklore-5", "categoryId": "folklore", "text": "Đội Cừu có 30 giây để kể lại truyện Thánh Gióng nhưng mỗi thành viên chỉ được nói một câu rồi phải chuyển lượt cho người tiếp theo." }
+      { "id": "folklore-5", "categoryId": "folklore", "text": "Đội Cừu có 30 giây để kể lại truyện Thánh Gióng nhưng mỗi thành viên chỉ được nói một câu rồi phải chuyển lượt cho người tiếp theo." },
+      { "id": "folklore-6", "categoryId": "folklore", "text": "Đội Cừu phải sáng tạo một sự tích về nguồn gốc của một đồ vật đang có trong phòng. Có 30 giây chuẩn bị và 30 giây kể chuyện." }
     ]
   }
 ]
