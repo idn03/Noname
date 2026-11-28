@@ -1,25 +1,10 @@
 import { createServer } from 'node:http';
-import { networkInterfaces } from 'node:os';
+import { playerJoinUrl, printPlayerInvitation } from './player-invitation';
 import next from 'next';
 import { Server } from 'socket.io';
 import { openContentDatabase } from './db/database';
 import { attachLobbyTransport } from './lobby-transport';
 import type { LobbySession } from './lobby-session';
-
-function isPrivateIpv4(address: string): boolean {
-  const [first, second] = address.split('.').map(Number);
-  return first === 10 ||
-    (first === 172 && second >= 16 && second <= 31) ||
-    (first === 192 && second === 168);
-}
-
-function findPrivateIpv4(): string | undefined {
-  return Object.values(networkInterfaces())
-    .flatMap((interfaces) => interfaces ?? [])
-    .filter((entry) => entry.family === 'IPv4' && !entry.internal && isPrivateIpv4(entry.address))
-    .map((entry) => entry.address)
-    .sort()[0];
-}
 
 const port = Number(process.env.PORT ?? 3000);
 const contentStore = await openContentDatabase();
@@ -46,7 +31,8 @@ export function setActiveLobby(session: LobbySession | undefined): void {
 }
 
 httpServer.listen(port, hostname, () => {
-  const localAddress = findPrivateIpv4();
-  console.info(`Host control: http://127.0.0.1:${port}`);
-  if (localAddress) console.info(`LAN players: http://${localAddress}:${port}`);
+  const listener = httpServer.address();
+  if (!listener || typeof listener === 'string') return;
+  console.info(`Host control: http://127.0.0.1:${listener.port}`);
+  void printPlayerInvitation(playerJoinUrl(listener.address, listener.port), Boolean(process.stdout.isTTY));
 });

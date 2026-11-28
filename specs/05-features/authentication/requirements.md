@@ -14,3 +14,4 @@ This feature defines V0 session identity and joining. It does not provide accoun
 - **ID-010 — Safe Feedback:** Report rejected joins and invalid sessions with stable error codes and safe messages; do not expose credentials or implementation details.
 - **ID-011 — No Accounts:** Do not require passwords, accounts, OAuth, account recovery, or external identity services in V0.
 - **ID-012 — Host Bootstrap:** The person running the server opens its local browser page and presses TẠO to create the single active session. The server creates a Host observer identity and credential separately from joining-player capacity; LAN clients cannot create or claim Host sessions.
+- **ID-013 — Player Invitation:** At startup, print the available private LAN player URL and display a QR code for that URL in the Host’s interactive terminal. Scanning opens the existing player entry page.

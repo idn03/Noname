@@ -44,9 +44,8 @@ pnpm install
 pnpm dev
 ```
 
-Mở `http://127.0.0.1:3000` trên máy Host để tạo phòng. Người chơi khác mở địa
-chỉ LAN mà máy chủ hiển thị trong terminal, hoặc địa chỉ IP nội bộ của máy Host
-kèm cổng `3000`. Nếu không kết nối được, hãy cho phép Node.js nhận kết nối qua
+Mở `http://127.0.0.1:3000` trên máy Host để tạo phòng. Người chơi trên cùng mạng Wi-Fi có thể quét mã QR trong terminal của Host
+hoặc mở địa chỉ LAN hiển thị ở đó bằng trình duyệt. Nếu không kết nối được, hãy cho phép Node.js nhận kết nối qua
 tường lửa của mạng nội bộ.
 
 ## Phát triển
